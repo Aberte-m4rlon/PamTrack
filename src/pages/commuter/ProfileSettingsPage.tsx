@@ -69,15 +69,15 @@ export function ProfileSettingsPage() {
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">Account</p>
-        <h1 className="font-display text-2xl font-extrabold text-[#183329]">Profile Settings</h1>
+        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">Account</p>
+        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">Profile Settings</h1>
       </GlassCard>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <GlassCard variant="strong" className="p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-lg font-bold text-[#183329]">Personal Information</h2>
-            <span className="inline-flex items-center gap-1 rounded-full bg-[#DFF7E8] px-3 py-1 text-xs font-bold uppercase text-[#176B4B]">
+            <h2 className="font-display text-lg font-bold text-[#24191D]">Personal Information</h2>
+            <span className="inline-flex items-center gap-1 rounded-full bg-[#FFE4E6] px-3 py-1 text-xs font-bold uppercase text-[#DC2626]">
               <Shield className="h-3.5 w-3.5" />
               {role.replace('_', ' ')}
             </span>
@@ -85,7 +85,7 @@ export function ProfileSettingsPage() {
 
           <form onSubmit={handleSaveProfile} className="space-y-3.5">
             <div>
-              <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#183329]/75">
+              <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
                 Email (Read-only)
               </label>
               <input
@@ -97,7 +97,7 @@ export function ProfileSettingsPage() {
             </div>
 
             <div>
-              <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#183329]/75">
+              <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
                 Full Name
               </label>
               <input
@@ -110,7 +110,7 @@ export function ProfileSettingsPage() {
             </div>
 
             <div>
-              <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#183329]/75">
+              <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
                 Contact Number (Optional)
               </label>
               <input
@@ -123,7 +123,7 @@ export function ProfileSettingsPage() {
             </div>
 
             <div>
-              <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#183329]/75">
+              <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
                 Home Municipality
               </label>
               <select
@@ -148,10 +148,10 @@ export function ProfileSettingsPage() {
         </GlassCard>
 
         <GlassCard variant="strong" className="p-6 space-y-4 h-fit">
-          <h2 className="font-display text-lg font-bold text-[#183329]">Security &amp; Password</h2>
+          <h2 className="font-display text-lg font-bold text-[#24191D]">Security &amp; Password</h2>
           <form onSubmit={handleChangePassword} className="space-y-3.5">
             <div>
-              <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#183329]/75">
+              <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
                 New Password
               </label>
               <input

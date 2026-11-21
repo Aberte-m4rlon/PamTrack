@@ -44,16 +44,16 @@ export function AdminNotificationsPage() {
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">Communications</p>
-        <h1 className="font-display text-2xl font-extrabold text-[#183329]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">Communications</p>
+        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
           Broadcast Official Fare Announcements
         </h1>
       </GlassCard>
 
       <GlassCard variant="strong" className="max-w-2xl p-6 space-y-4">
-        <div className="flex items-center gap-2 text-[#176B4B]">
+        <div className="flex items-center gap-2 text-[#DC2626]">
           <Bell className="h-5 w-5" />
-          <h2 className="font-display text-lg font-bold text-[#183329]">
+          <h2 className="font-display text-lg font-bold text-[#24191D]">
             Province-Wide Commuter Alert
           </h2>
         </div>

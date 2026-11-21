@@ -36,9 +36,9 @@ export function FavoritesPage() {
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">Commuter Portal</p>
-        <h1 className="font-display text-2xl font-extrabold text-[#183329]">Favorite Routes</h1>
-        <p className="text-sm text-[#183329]/80">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">Commuter Portal</p>
+        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">Favorite Routes</h1>
+        <p className="text-sm text-[#78716C]">
           Saved corridors automatically trigger deduplicated notifications when administrators
           publish official fare updates.
         </p>
@@ -63,17 +63,17 @@ export function FavoritesPage() {
             <GlassCard key={fav.id} variant="strong" hoverable className="p-5 space-y-3">
               <div className="flex items-start justify-between">
                 <div>
-                  <h2 className="font-display text-lg font-bold text-[#183329]">
+                  <h2 className="font-display text-lg font-bold text-[#24191D]">
                     {fav.origin?.name} → {fav.destination?.name}
                   </h2>
-                  <p className="text-xs text-[#24966A] font-semibold">
+                  <p className="text-xs text-[#B91C1C] font-semibold">
                     {fav.transport_type?.name || 'All Transportation Modes'}
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setDeleteTarget(fav.id)}
-                  className="rounded-xl p-1.5 text-red-600 hover:bg-red-50"
+                  className="rounded-xl p-1.5 text-[#DC2626] hover:bg-[#FEE2E2]"
                   aria-label="Remove favorite"
                 >
                   <Trash2 className="h-4 w-4" />

@@ -129,13 +129,13 @@ export function FareVerificationPage() {
       <GlassCard variant="strong" className="p-6 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
               Core Verification Engine
             </p>
-            <h1 className="font-display text-2xl font-extrabold text-[#183329]">
+            <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
               Fare Verification Workbench
             </h1>
-            <p className="text-sm text-[#183329]/80">
+            <p className="text-sm text-[#78716C]">
               Inspect evidence, compare against existing records, approve community estimates, or
               verify official fares with mandatory LTFRB/LGU document references.
             </p>
@@ -179,16 +179,16 @@ export function FareVerificationPage() {
                 }}
                 className={`w-full text-left glass-card-strong rounded-3xl p-4 transition border ${
                   selectedReport?.id === rep.id
-                    ? 'border-[#176B4B] ring-2 ring-[#10B981]/40'
-                    : 'border-white/70 hover:bg-white/90'
+                    ? 'border-[#DC2626] ring-2 ring-[#FCA5A5]/65'
+                    : 'border-white/80 hover:bg-white/95'
                 }`}
               >
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <p className="font-bold text-sm text-[#183329]">
+                    <p className="font-bold text-sm text-[#24191D]">
                       {rep.origin?.name} → {rep.destination?.name}
                     </p>
-                    <p className="text-xs text-[#183329]/75">
+                    <p className="text-xs text-[#78716C]">
                       {rep.transport_type?.name} •{' '}
                       {PASSENGER_CATEGORY_LABELS[rep.passenger_category]}
                     </p>
@@ -196,10 +196,10 @@ export function FareVerificationPage() {
                   <ReportStatusBadge status={rep.status} />
                 </div>
                 <div className="mt-2 flex items-center justify-between text-xs">
-                  <span className="font-display text-lg font-extrabold text-[#176B4B]">
+                  <span className="font-display text-lg font-extrabold text-[#DC2626]">
                     {formatPhp(rep.fare_paid)}
                   </span>
-                  <span className="text-[#183329]/65">
+                  <span className="text-[#A8A29E]">
                     {rep.reporter?.full_name || rep.reporter?.email || 'Commuter'} •{' '}
                     {formatDateSafe(rep.travel_date)}
                   </span>
@@ -219,27 +219,27 @@ export function FareVerificationPage() {
             />
           ) : (
             <GlassCard variant="strong" className="p-6 space-y-5">
-              <div className="flex flex-wrap items-start justify-between gap-2 border-b border-[#176B4B]/15 pb-4">
+              <div className="flex flex-wrap items-start justify-between gap-2 border-b border-[#FCA5A5]/35 pb-4">
                 <div>
                   <ReportStatusBadge status={selectedReport.status} />
-                  <h2 className="mt-2 font-display text-xl font-extrabold text-[#183329]">
+                  <h2 className="mt-2 font-display text-xl font-extrabold text-[#24191D]">
                     {selectedReport.origin?.name} → {selectedReport.destination?.name}
                   </h2>
-                  <p className="text-xs text-[#183329]/75">
+                  <p className="text-xs text-[#78716C]">
                     Reported by {selectedReport.reporter?.full_name} ({selectedReport.reporter?.email})
                     • Travel Date: {formatDateSafe(selectedReport.travel_date)}
                   </p>
                 </div>
-                <div className="rounded-2xl bg-[#DFF7E8] px-4 py-2 text-right">
-                  <p className="text-[10px] font-bold uppercase text-[#176B4B]">Reported Paid</p>
-                  <p className="font-display text-2xl font-extrabold text-[#176B4B]">
+                <div className="rounded-2xl bg-[#FFE4E6] px-4 py-2 text-right border border-[#FCA5A5]/50">
+                  <p className="text-[10px] font-bold uppercase text-[#B91C1C]">Reported Paid</p>
+                  <p className="font-display text-2xl font-extrabold text-[#DC2626]">
                     {formatPhp(selectedReport.fare_paid)}
                   </p>
                 </div>
               </div>
 
               {/* Details & Supporting Evidence */}
-              <div className="space-y-2 text-xs">
+              <div className="space-y-2 text-xs text-[#24191D]">
                 <p>
                   <strong>Mode &amp; Passenger:</strong> {selectedReport.transport_type?.name} •{' '}
                   {PASSENGER_CATEGORY_LABELS[selectedReport.passenger_category]}
@@ -253,9 +253,9 @@ export function FareVerificationPage() {
                 </p>
 
                 <div className="pt-2">
-                  <p className="font-bold text-[#183329] mb-1.5">Supporting Evidence Files:</p>
+                  <p className="font-bold text-[#24191D] mb-1.5">Supporting Evidence Files:</p>
                   {(selectedReport.evidence ?? []).length === 0 ? (
-                    <p className="italic text-[#183329]/65">
+                    <p className="italic text-[#A8A29E]">
                       No supporting files attached by reporter.
                     </p>
                   ) : (
@@ -264,11 +264,11 @@ export function FareVerificationPage() {
                         <GlassButton
                           key={ev.id}
                           type="button"
-                          variant="glass"
+                          variant="secondary"
                           size="sm"
                           onClick={() => handleOpenEvidence(ev.storage_path)}
                         >
-                          <Eye className="h-3.5 w-3.5 text-[#176B4B]" />
+                          <Eye className="h-3.5 w-3.5" />
                           Inspect {ev.file_name}
                         </GlassButton>
                       ))}
@@ -278,12 +278,12 @@ export function FareVerificationPage() {
               </div>
 
               {/* Comparison Against Existing Records */}
-              <div className="rounded-2xl border border-white bg-white/75 p-4 space-y-2">
-                <p className="text-xs font-bold uppercase tracking-wider text-[#176B4B]">
+              <div className="rounded-2xl border border-[#FFE4E6] bg-[#FFF1F2]/75 p-4 space-y-2">
+                <p className="text-xs font-bold uppercase tracking-wider text-[#DC2626]">
                   Existing Records for Same Corridor &amp; Mode ({comparableFares.length})
                 </p>
                 {comparableFares.length === 0 ? (
-                  <p className="text-xs text-[#183329]/70">
+                  <p className="text-xs text-[#78716C]">
                     No existing official or community fare records exist for this corridor yet.
                   </p>
                 ) : (
@@ -305,9 +305,9 @@ export function FareVerificationPage() {
               </div>
 
               {/* Verification Form Controls */}
-              <div className="space-y-3 border-t border-[#176B4B]/15 pt-4">
+              <div className="space-y-3 border-t border-[#FCA5A5]/35 pt-4">
                 <div>
-                  <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#183329]/80">
+                  <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
                     Administrator Feedback / Notes
                   </label>
                   <textarea
@@ -319,18 +319,19 @@ export function FareVerificationPage() {
                   />
                 </div>
 
-                <label className="flex items-center gap-2 text-xs font-semibold text-rose-700">
+                <label className="flex items-center gap-2 text-xs font-semibold text-[#B91C1C]">
                   <input
                     type="checkbox"
                     checked={flagSuspicious}
                     onChange={(e) => setFlagSuspicious(e.target.checked)}
+                    className="accent-[#DC2626]"
                   />
                   Flag submission as suspicious / potential duplicate or anomaly
                 </label>
 
                 {/* Official Source Block (Required ONLY for Verified Official Fare) */}
-                <div className="rounded-2xl border border-emerald-300/80 bg-emerald-50/75 p-4 space-y-3">
-                  <p className="text-xs font-bold uppercase tracking-wider text-[#176B4B]">
+                <div className="rounded-2xl border border-green-300/80 bg-green-50/75 p-4 space-y-3">
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#16A34A]">
                     Official Source Verification (Required to Publish Official Fare)
                   </p>
                   <div className="grid gap-2.5 sm:grid-cols-2">

@@ -26,15 +26,15 @@ export function GpsConsentCard({ compact = false }: { compact?: boolean }) {
             <span
               className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase ${
                 trackingActive
-                  ? 'bg-emerald-600 text-white'
+                  ? 'bg-[#16A34A] text-white'
                   : permissionState === 'denied' || permissionState === 'unsupported'
-                    ? 'bg-red-100 text-red-800'
-                    : 'bg-[#DFF7E8] text-[#176B4B]'
+                    ? 'bg-red-100 text-[#B91C1C]'
+                    : 'bg-[#FFE4E6] text-[#B91C1C]'
               }`}
             >
               <span
                 className={`h-2 w-2 rounded-full ${
-                  trackingActive ? 'bg-white animate-pulse' : 'bg-[#176B4B]'
+                  trackingActive ? 'bg-white animate-pulse' : 'bg-[#DC2626]'
                 }`}
               />
               {trackingActive
@@ -42,16 +42,16 @@ export function GpsConsentCard({ compact = false }: { compact?: boolean }) {
                 : `Permission: ${permissionState}`}
             </span>
             {consentGranted && (
-              <span className="text-[11px] font-semibold text-[#24966A]">
+              <span className="text-[11px] font-semibold text-[#16A34A]">
                 Consent granted
               </span>
             )}
           </div>
-          <h2 className="font-display text-base font-bold text-[#183329]">
+          <h2 className="font-display text-base font-bold text-[#24191D]">
             Browser GPS Location Control
           </h2>
           {!compact && (
-            <p className="text-xs text-[#183329]/80 max-w-2xl">
+            <p className="text-xs text-[#78716C] max-w-2xl">
               Location access is used strictly when you request it to detect your Oriental Mindoro
               municipality, find nearby verified transport terminals, and monitor active trips. We
               never track silently.
@@ -64,12 +64,12 @@ export function GpsConsentCard({ compact = false }: { compact?: boolean }) {
             <>
               <GlassButton
                 type="button"
-                variant="glass"
+                variant="secondary"
                 size="sm"
                 disabled={requesting || permissionState === 'unsupported'}
                 onClick={() => requestSingleFix(true)}
               >
-                <LocateFixed className="h-3.5 w-3.5 text-[#176B4B]" />
+                <LocateFixed className="h-3.5 w-3.5" />
                 {requesting ? 'Locating...' : 'Detect Location'}
               </GlassButton>
               <GlassButton
@@ -99,8 +99,8 @@ export function GpsConsentCard({ compact = false }: { compact?: boolean }) {
       </div>
 
       {gpsError && (
-        <div className="flex items-start gap-2 rounded-2xl border border-red-300 bg-red-50/90 p-3 text-xs text-red-900">
-          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
+        <div className="flex items-start gap-2 rounded-2xl border border-red-300 bg-red-50/90 p-3 text-xs text-[#B91C1C]">
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#DC2626]" />
           <span>{gpsError}</span>
         </div>
       )}
@@ -116,23 +116,23 @@ export function GpsConsentCard({ compact = false }: { compact?: boolean }) {
       )}
 
       {currentPosition ? (
-        <div className="grid gap-3 sm:grid-cols-3 rounded-2xl border border-white/80 bg-white/75 p-3 text-xs">
+        <div className="grid gap-3 sm:grid-cols-3 rounded-2xl border border-[#FFE4E6] bg-white/85 p-3 text-xs">
           <div>
-            <p className="font-bold uppercase text-[10px] text-[#183329]/60">Coordinates</p>
-            <p className="font-mono font-bold text-[#183329]">
+            <p className="font-bold uppercase text-[10px] text-[#78716C]">Coordinates</p>
+            <p className="font-mono font-bold text-[#24191D]">
               {currentPosition.latitude.toFixed(5)}°N, {currentPosition.longitude.toFixed(5)}°E
             </p>
           </div>
           <div>
-            <p className="font-bold uppercase text-[10px] text-[#183329]/60">GPS Accuracy</p>
-            <p className="font-bold text-[#176B4B]">±{currentPosition.accuracyMeters} meters</p>
+            <p className="font-bold uppercase text-[10px] text-[#78716C]">GPS Accuracy</p>
+            <p className="font-bold text-[#DC2626]">±{currentPosition.accuracyMeters} meters</p>
           </div>
           <div>
-            <p className="font-bold uppercase text-[10px] text-[#183329]/60">
+            <p className="font-bold uppercase text-[10px] text-[#78716C]">
               Detected Municipality
             </p>
-            <p className="flex items-center gap-1 font-bold text-[#183329]">
-              <MapPin className="h-3.5 w-3.5 text-[#10B981]" />
+            <p className="flex items-center gap-1 font-bold text-[#24191D]">
+              <MapPin className="h-3.5 w-3.5 text-[#DC2626]" />
               {nearestMunicipality
                 ? nearestMunicipality.withinOrientalMindoro
                   ? `${nearestMunicipality.municipality.name} (~${nearestMunicipality.distanceKm} km from center)`
@@ -142,8 +142,8 @@ export function GpsConsentCard({ compact = false }: { compact?: boolean }) {
           </div>
         </div>
       ) : (
-        <p className="flex items-center gap-1.5 text-[11px] text-[#183329]/70">
-          <ShieldCheck className="h-3.5 w-3.5 text-[#24966A]" />
+        <p className="flex items-center gap-1.5 text-[11px] text-[#78716C]">
+          <ShieldCheck className="h-3.5 w-3.5 text-[#DC2626]" />
           Continuous browser GPS tracking runs only while this app tab remains open and tracking is
           active.
         </p>

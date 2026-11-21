@@ -141,29 +141,29 @@ export function VehicleComplaintDetailsPage() {
     <div className="space-y-6">
       <Link
         to="/dashboard/vehicle-reports"
-        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#176B4B] hover:underline"
+        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#DC2626] hover:underline"
       >
         <ArrowLeft className="h-4 w-4" />
         Back to My Vehicle Reports
       </Link>
 
       <GlassCard variant="strong" className="p-6 space-y-5">
-        <div className="flex flex-wrap items-start justify-between gap-4 border-b border-[#176B4B]/15 pb-4">
+        <div className="flex flex-wrap items-start justify-between gap-4 border-b border-[#FCA5A5]/35 pb-4">
           <div className="space-y-1">
-            <p className="font-mono text-sm font-extrabold text-[#176B4B]">
+            <p className="font-mono text-sm font-extrabold text-[#DC2626]">
               {report.reference_number}
             </p>
-            <h1 className="font-display text-2xl font-extrabold text-[#183329]">
+            <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
               Reported {report.vehicle_type} Incident
             </h1>
-            <p className="text-xs text-[#183329]/75">
+            <p className="text-xs text-[#78716C]">
               Plate:{' '}
-              <strong>
+              <strong className="text-[#24191D]">
                 {report.plate_not_available
                   ? 'Plate Number Not Available'
                   : report.plate_number || 'Unlisted'}
               </strong>{' '}
-              • Municipality: <strong>{report.municipality?.name}</strong> • Date:{' '}
+              • Municipality: <strong className="text-[#24191D]">{report.municipality?.name}</strong> • Date:{' '}
               {formatDateSafe(report.incident_date)}
             </p>
           </div>
@@ -177,7 +177,7 @@ export function VehicleComplaintDetailsPage() {
             <div>
               <GlassButton
                 type="button"
-                variant="glass"
+                variant="secondary"
                 size="sm"
                 onClick={() => downloadComplaintSummary(report, recommendedAgencies)}
               >
@@ -188,7 +188,7 @@ export function VehicleComplaintDetailsPage() {
           </div>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 text-xs">
+        <div className="grid gap-4 sm:grid-cols-2 text-xs text-[#24191D]">
           <div className="space-y-1.5">
             <p>
               <strong>Specific Location:</strong> {report.incident_location}
@@ -222,14 +222,14 @@ export function VehicleComplaintDetailsPage() {
         </div>
 
         <div className="space-y-1.5">
-          <p className="text-xs font-bold uppercase text-[#176B4B]">
+          <p className="text-xs font-bold uppercase text-[#DC2626]">
             Alleged Violation Categories
           </p>
           <div className="flex flex-wrap gap-1.5">
             {(report.categories ?? []).map((c) => (
               <span
                 key={c.id}
-                className="rounded-full bg-[#DFF7E8] px-3 py-1 text-xs font-bold text-[#176B4B]"
+                className="rounded-full bg-[#FFE4E6] px-3 py-1 text-xs font-bold text-[#B91C1C]"
               >
                 {c.category}
               </span>
@@ -237,23 +237,23 @@ export function VehicleComplaintDetailsPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl bg-white/75 p-4 text-xs space-y-1.5">
-          <p className="font-bold text-[#183329]">Reported Incident Description</p>
-          <p className="whitespace-pre-line text-[#183329]/85">{report.description}</p>
+        <div className="rounded-2xl bg-[#FFF1F2]/75 border border-[#FFE4E6] p-4 text-xs space-y-1.5">
+          <p className="font-bold text-[#24191D]">Reported Incident Description</p>
+          <p className="whitespace-pre-line text-[#24191D]/90">{report.description}</p>
           {report.additional_remarks && (
-            <p className="pt-2 text-[#183329]/75 whitespace-pre-line">
-              <strong>Remarks:</strong> {report.additional_remarks}
+            <p className="pt-2 text-[#78716C] whitespace-pre-line">
+              <strong className="text-[#24191D]">Remarks:</strong> {report.additional_remarks}
             </p>
           )}
         </div>
 
         {/* Private Evidence Viewer */}
         <div className="space-y-2">
-          <p className="text-xs font-bold uppercase text-[#176B4B]">
+          <p className="text-xs font-bold uppercase text-[#DC2626]">
             Uploaded Supporting Evidence ({report.evidence?.length ?? 0})
           </p>
           {(report.evidence ?? []).length === 0 ? (
-            <p className="text-xs text-[#183329]/70">No media attached.</p>
+            <p className="text-xs text-[#78716C]">No media attached.</p>
           ) : (
             <div className="flex flex-wrap gap-2">
               {report.evidence?.map((ev) => (
@@ -266,7 +266,7 @@ export function VehicleComplaintDetailsPage() {
                     handleOpenEvidence(ev.storage_path, ev.file_type, ev.original_filename)
                   }
                 >
-                  <Eye className="h-3.5 w-3.5 text-[#176B4B]" />
+                  <Eye className="h-3.5 w-3.5 text-[#DC2626]" />
                   {ev.original_filename} ({VEHICLE_EVIDENCE_TYPE_LABELS[ev.evidence_type]})
                 </GlassButton>
               ))}
@@ -274,13 +274,13 @@ export function VehicleComplaintDetailsPage() {
           )}
 
           {signedPreview && (
-            <div className="rounded-2xl border border-white bg-white/90 p-3 space-y-2">
-              <div className="flex items-center justify-between text-xs font-bold">
+            <div className="rounded-2xl border border-[#FCA5A5]/60 bg-white/95 p-3 space-y-2">
+              <div className="flex items-center justify-between text-xs font-bold text-[#24191D]">
                 <span>{signedPreview.name}</span>
                 <button
                   type="button"
                   onClick={() => setSignedPreview(null)}
-                  className="text-red-600 hover:underline"
+                  className="text-[#DC2626] hover:underline"
                 >
                   Close Preview
                 </button>
@@ -304,8 +304,8 @@ export function VehicleComplaintDetailsPage() {
 
         {/* Supplement Evidence / Info if still eligible */}
         {canSupplement && (
-          <div className="rounded-2xl border border-white bg-white/75 p-4 space-y-3 text-xs">
-            <p className="font-bold text-[#176B4B]">
+          <div className="rounded-2xl border border-[#FFE4E6] bg-white/85 p-4 space-y-3 text-xs">
+            <p className="font-bold text-[#DC2626]">
               Add Additional Information or Supporting Evidence
             </p>
             <textarea
@@ -349,7 +349,7 @@ export function VehicleComplaintDetailsPage() {
 
       {/* Recommended Authorities & Manual Submission Instructions */}
       <GlassCard variant="surface" className="p-6 space-y-3">
-        <h2 className="font-display text-lg font-bold text-[#183329]">
+        <h2 className="font-display text-lg font-bold text-[#24191D]">
           Recommended Authorities &amp; Agency Referral Status
         </h2>
         {(report.referrals ?? []).length > 0 && (
@@ -357,9 +357,9 @@ export function VehicleComplaintDetailsPage() {
             {report.referrals?.map((ref) => (
               <div
                 key={ref.id}
-                className="rounded-2xl border border-emerald-300 bg-emerald-50/85 p-3 text-xs space-y-1"
+                className="rounded-2xl border border-[#FCA5A5] bg-[#FFF1F2] p-3 text-xs space-y-1"
               >
-                <div className="flex justify-between font-bold text-[#176B4B]">
+                <div className="flex justify-between font-bold text-[#B91C1C]">
                   <span>{ref.agency?.agency_name}</span>
                   <span>{ref.referral_status}</span>
                 </div>
@@ -374,17 +374,17 @@ export function VehicleComplaintDetailsPage() {
 
         <div className="grid gap-3 md:grid-cols-2">
           {recommendedAgencies.map((rec) => (
-            <div key={rec.agency.id} className="rounded-2xl bg-white/80 p-4 text-xs space-y-1.5">
-              <p className="font-bold text-sm text-[#183329]">{rec.agency.agency_name}</p>
-              <p className="text-[#183329]/80">{rec.agency.submission_instructions}</p>
-              <p className="font-semibold text-[#176B4B]">
+            <div key={rec.agency.id} className="rounded-2xl border border-[#FFE4E6] bg-white/85 p-4 text-xs space-y-1.5">
+              <p className="font-bold text-sm text-[#24191D]">{rec.agency.agency_name}</p>
+              <p className="text-[#78716C]">{rec.agency.submission_instructions}</p>
+              <p className="font-semibold text-[#DC2626]">
                 {rec.agency.verified_contact_information}
               </p>
               <a
                 href={rec.agency.official_complaint_url || rec.agency.official_website}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 font-bold text-[#24966A] hover:underline"
+                className="inline-flex items-center gap-1 font-bold text-[#B91C1C] hover:underline"
               >
                 Official Portal <ExternalLink className="h-3 w-3" />
               </a>
@@ -395,24 +395,24 @@ export function VehicleComplaintDetailsPage() {
 
       {/* Status Timeline */}
       <GlassCard variant="strong" className="p-6 space-y-3">
-        <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#183329]">
-          <History className="h-4 w-4 text-[#176B4B]" />
+        <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
+          <History className="h-4 w-4 text-[#DC2626]" />
           Complaint Status History
         </h2>
         <div className="space-y-2">
           {(report.status_logs ?? []).map((log) => (
             <div
               key={log.id}
-              className="flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-white/75 p-3 text-xs"
+              className="flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-white/85 border border-[#FFE4E6] p-3 text-xs"
             >
               <div>
-                <p className="font-bold text-[#183329]">
+                <p className="font-bold text-[#24191D]">
                   {log.previous_status ? `${log.previous_status} → ` : ''}
                   {log.new_status}
                 </p>
-                {log.remarks && <p className="text-[#183329]/75">{log.remarks}</p>}
+                {log.remarks && <p className="text-[#78716C]">{log.remarks}</p>}
               </div>
-              <span className="font-semibold text-[#176B4B]">
+              <span className="font-semibold text-[#DC2626]">
                 {formatDateTimeSafe(log.created_at)}
               </span>
             </div>

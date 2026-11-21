@@ -271,18 +271,18 @@ export function ReportVehiclePage({
   if (submittedReport) {
     return (
       <GlassCard variant="strong" className="mx-auto max-w-2xl p-6 sm:p-8 space-y-5 text-center">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#DFF7E8] text-[#176B4B]">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-green-100 text-[#16A34A]">
           <CheckCircle2 className="h-8 w-8" />
         </div>
-        <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
           Reported Incident Logged
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#183329]">
+        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
           Reference: {submittedReport.reference_number}
         </h1>
-        <p className="text-sm text-[#183329]/85">
+        <p className="text-sm text-[#78716C]">
           Internal Pamasahe Tracker Status:{' '}
-          <strong>{submittedReport.complaint_status}</strong>. Submitting this report records an
+          <strong className="text-[#24191D]">{submittedReport.complaint_status}</strong>. Submitting this report records an
           alleged violation for review and does <strong>not</strong> automatically file an official
           case with LTFRB, LTO, PNP, or an LGU.
         </p>
@@ -330,14 +330,14 @@ export function ReportVehiclePage({
       <GlassCard variant="strong" className="p-5 sm:p-6 space-y-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
               {focusMode === 'driver'
                 ? 'Report a Driver'
                 : focusMode === 'violation'
                   ? 'Report Transportation Violation'
                   : 'Vehicle & Violation Reporting'}
             </p>
-            <h1 className="font-display text-2xl font-extrabold text-[#183329] sm:text-3xl">
+            <h1 className="font-display text-2xl font-extrabold text-[#24191D] sm:text-3xl">
               {focusMode === 'driver'
                 ? 'Report a Driver Incident'
                 : focusMode === 'violation'
@@ -347,8 +347,8 @@ export function ReportVehiclePage({
           </div>
           <div className="flex flex-wrap gap-2">
             <Link to="/authorities">
-              <GlassButton variant="glass" size="sm">
-                <Building className="h-3.5 w-3.5 text-[#176B4B]" />
+              <GlassButton variant="secondary" size="sm">
+                <Building className="h-3.5 w-3.5" />
                 Agency Directory
               </GlassButton>
             </Link>
@@ -359,7 +359,7 @@ export function ReportVehiclePage({
             </Link>
           </div>
         </div>
-        <p className="text-xs sm:text-sm text-[#183329]/80">
+        <p className="text-xs sm:text-sm text-[#78716C]">
           Submit a Reported Incident / Alleged Violation privately for administrator review and
           guided agency routing. Plate number or vehicle details help verify duplicate reports, and
           unreviewed allegations are never published as a public blacklist.
@@ -368,7 +368,7 @@ export function ReportVehiclePage({
 
       {!user && (
         <GlassCard variant="strong" className="p-5 border-amber-300 bg-amber-50/90 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-xs sm:text-sm font-semibold text-[#183329]">
+          <p className="text-xs sm:text-sm font-semibold text-[#24191D]">
             Sign in with your commuter account to submit protected vehicle reports and track status
             updates.
           </p>
@@ -388,23 +388,23 @@ export function ReportVehiclePage({
       >
         {/* 1. VEHICLE INFORMATION */}
         <GlassCard variant="strong" className="p-5 sm:p-6 space-y-4">
-          <h2 className="font-display text-lg font-bold text-[#183329]">
+          <h2 className="font-display text-lg font-bold text-[#24191D]">
             1. Vehicle Identification
           </h2>
 
           <div className="space-y-3">
-            <label className="flex items-center gap-2.5 text-sm font-semibold text-[#183329]">
+            <label className="flex items-center gap-2.5 text-sm font-semibold text-[#24191D]">
               <input
                 type="checkbox"
                 {...register('plateNotAvailable')}
-                className="h-4 w-4 rounded"
+                className="h-4 w-4 rounded accent-[#DC2626]"
               />
               Plate Number Not Available (missing, obscured, or unreadable)
             </label>
 
             {!plateNotAvailable && (
               <div>
-                <label className="mb-1 block text-xs font-bold uppercase text-[#183329]/80">
+                <label className="mb-1 block text-xs font-bold uppercase text-[#78716C]">
                   Vehicle Plate Number
                 </label>
                 <input
@@ -414,7 +414,7 @@ export function ReportVehiclePage({
                   className="glass-input w-full rounded-2xl px-4 py-3 text-base font-bold uppercase tracking-wider"
                 />
                 {errors.plateNumber && (
-                  <p className="mt-1 text-xs font-semibold text-red-600">
+                  <p className="mt-1 text-xs font-semibold text-[#DC2626]">
                     {errors.plateNumber.message}
                   </p>
                 )}
@@ -422,7 +422,7 @@ export function ReportVehiclePage({
             )}
 
             <div>
-              <label className="mb-1 block text-xs font-bold uppercase text-[#183329]/80">
+              <label className="mb-1 block text-xs font-bold uppercase text-[#78716C]">
                 Vehicle Type
               </label>
               <select
@@ -438,7 +438,7 @@ export function ReportVehiclePage({
             </div>
 
             <div>
-              <label className="mb-1 block text-xs font-bold uppercase text-[#183329]/80">
+              <label className="mb-1 block text-xs font-bold uppercase text-[#78716C]">
                 Municipality / City Where Spotted
               </label>
               <select
@@ -453,7 +453,7 @@ export function ReportVehiclePage({
                 ))}
               </select>
               {errors.municipalityId && (
-                <p className="mt-1 text-xs font-semibold text-red-600">
+                <p className="mt-1 text-xs font-semibold text-[#DC2626]">
                   {errors.municipalityId.message}
                 </p>
               )}
@@ -498,10 +498,10 @@ export function ReportVehiclePage({
         {/* 2. ALLEGED VIOLATIONS */}
         <GlassCard variant="strong" className="p-5 sm:p-6 space-y-4">
           <div>
-            <h2 className="font-display text-lg font-bold text-[#183329]">
+            <h2 className="font-display text-lg font-bold text-[#24191D]">
               2. Alleged Violation Categories (Select All That Apply)
             </h2>
-            <p className="text-xs text-[#183329]/75">
+            <p className="text-xs text-[#78716C]">
               Selecting categories logs an alleged violation for investigation; it does not declare
               guilt automatically.
             </p>
@@ -511,9 +511,9 @@ export function ReportVehiclePage({
             {VIOLATION_CATEGORIES.map((grp) => (
               <div
                 key={grp.group}
-                className="rounded-2xl border border-white/80 bg-white/65 p-3.5 space-y-2"
+                className="rounded-2xl border border-[#FFE4E6] bg-[#FFF1F2]/55 p-3.5 space-y-2"
               >
-                <p className="text-xs font-extrabold uppercase tracking-wider text-[#176B4B]">
+                <p className="text-xs font-extrabold uppercase tracking-wider text-[#DC2626]">
                   {grp.group}
                 </p>
                 <div className="grid gap-2 sm:grid-cols-2">
@@ -524,15 +524,15 @@ export function ReportVehiclePage({
                         key={cat}
                         className={`flex cursor-pointer items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-semibold transition ${
                           checked
-                            ? 'bg-[#176B4B] text-white'
-                            : 'bg-white/75 text-[#183329] hover:bg-white'
+                            ? 'bg-gradient-to-r from-[#DC2626] to-[#B91C1C] text-white shadow-sm'
+                            : 'bg-white/90 text-[#24191D] border border-white hover:bg-[#FFE4E6]/75'
                         }`}
                       >
                         <input
                           type="checkbox"
                           checked={checked}
                           onChange={() => toggleCategory(grp.group, cat)}
-                          className="h-4 w-4 shrink-0"
+                          className="h-4 w-4 shrink-0 accent-[#DC2626]"
                         />
                         <span>{cat}</span>
                       </label>
@@ -546,13 +546,13 @@ export function ReportVehiclePage({
 
         {/* 3. INCIDENT DETAILS */}
         <GlassCard variant="strong" className="p-5 sm:p-6 space-y-4">
-          <h2 className="font-display text-lg font-bold text-[#183329]">
+          <h2 className="font-display text-lg font-bold text-[#24191D]">
             3. Reported Incident Details
           </h2>
 
           <div className="grid gap-3 sm:grid-cols-2">
             <div>
-              <label className="mb-1 block text-xs font-bold uppercase text-[#183329]/80">
+              <label className="mb-1 block text-xs font-bold uppercase text-[#78716C]">
                 Incident Date
               </label>
               <input
@@ -561,11 +561,11 @@ export function ReportVehiclePage({
                 className="glass-input w-full rounded-2xl px-3.5 py-2.5 text-sm"
               />
               {errors.incidentDate && (
-                <p className="mt-1 text-xs text-red-600">{errors.incidentDate.message}</p>
+                <p className="mt-1 text-xs text-[#DC2626]">{errors.incidentDate.message}</p>
               )}
             </div>
             <div>
-              <label className="mb-1 block text-xs font-bold uppercase text-[#183329]/80">
+              <label className="mb-1 block text-xs font-bold uppercase text-[#78716C]">
                 Incident Time (Optional)
               </label>
               <input
@@ -577,7 +577,7 @@ export function ReportVehiclePage({
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-bold uppercase text-[#183329]/80">
+            <label className="mb-1 block text-xs font-bold uppercase text-[#78716C]">
               Specific Location / Street / Terminal
             </label>
             <input
@@ -587,14 +587,14 @@ export function ReportVehiclePage({
               className="glass-input w-full rounded-2xl px-3.5 py-2.5 text-sm"
             />
             {errors.incidentLocation && (
-              <p className="mt-1 text-xs text-red-600">{errors.incidentLocation.message}</p>
+              <p className="mt-1 text-xs text-[#DC2626]">{errors.incidentLocation.message}</p>
             )}
           </div>
 
           {/* Optional GPS Attachment with Explicit Consent */}
-          <div className="rounded-2xl border border-white/80 bg-white/65 p-3.5 space-y-2 text-xs">
+          <div className="rounded-2xl border border-[#FFE4E6] bg-white/80 p-3.5 space-y-2 text-xs">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <label className="flex items-center gap-2 font-semibold">
+              <label className="flex items-center gap-2 font-semibold text-[#24191D]">
                 <input
                   type="checkbox"
                   checked={attachGps}
@@ -605,21 +605,22 @@ export function ReportVehiclePage({
                       await requestSingleFix(true);
                     }
                   }}
+                  className="accent-[#DC2626]"
                 />
                 Attach current GPS coordinates (with explicit location permission)
               </label>
               <GlassButton
                 type="button"
-                variant="glass"
+                variant="secondary"
                 size="sm"
                 onClick={() => requestSingleFix(true)}
               >
-                <LocateFixed className="h-3.5 w-3.5 text-[#176B4B]" />
+                <LocateFixed className="h-3.5 w-3.5" />
                 Refresh GPS
               </GlassButton>
             </div>
             {attachGps && currentPosition && (
-              <p className="font-mono text-[#176B4B]">
+              <p className="font-mono text-[#DC2626]">
                 Attached: {currentPosition.latitude.toFixed(5)}°N,{' '}
                 {currentPosition.longitude.toFixed(5)}°E (±{currentPosition.accuracyMeters} m)
               </p>
@@ -654,7 +655,7 @@ export function ReportVehiclePage({
 
           <div className="grid gap-3 sm:grid-cols-2 items-center">
             <div>
-              <label className="mb-1 block text-xs font-bold uppercase text-[#183329]/80">
+              <label className="mb-1 block text-xs font-bold uppercase text-[#78716C]">
                 Actual Fare Paid (PHP, optional)
               </label>
               <input
@@ -666,9 +667,9 @@ export function ReportVehiclePage({
               />
             </div>
 
-            <div className="rounded-2xl bg-[#DFF7E8]/80 p-3 text-xs">
-              <p className="font-bold text-[#176B4B]">Verified Expected Fare Reference:</p>
-              <p className="font-semibold text-[#183329]">
+            <div className="rounded-2xl bg-[#FFE4E6]/80 border border-[#FCA5A5]/45 p-3 text-xs">
+              <p className="font-bold text-[#B91C1C]">Verified Expected Fare Reference:</p>
+              <p className="font-semibold text-[#24191D]">
                 {matchingOfficialFare
                   ? `${formatPhp(matchingOfficialFare.fare_amount)} (${matchingOfficialFare.official_document_reference})`
                   : 'No verified official fare record linked for this selection.'}
@@ -677,7 +678,7 @@ export function ReportVehiclePage({
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-bold uppercase text-[#183329]/80">
+            <label className="mb-1 block text-xs font-bold uppercase text-[#78716C]">
               Detailed Incident Description
             </label>
             <textarea
@@ -687,7 +688,7 @@ export function ReportVehiclePage({
               className="glass-input w-full rounded-2xl px-3.5 py-2.5 text-sm"
             />
             {errors.description && (
-              <p className="mt-1 text-xs text-red-600">{errors.description.message}</p>
+              <p className="mt-1 text-xs text-[#DC2626]">{errors.description.message}</p>
             )}
           </div>
 
@@ -701,10 +702,10 @@ export function ReportVehiclePage({
 
         {/* 4. PHOTO & VIDEO EVIDENCE */}
         <GlassCard variant="strong" className="p-5 sm:p-6 space-y-4">
-          <h2 className="font-display text-lg font-bold text-[#183329]">
+          <h2 className="font-display text-lg font-bold text-[#24191D]">
             4. Photo &amp; Video Evidence (Private Storage)
           </h2>
-          <p className="text-xs text-[#183329]/75">
+          <p className="text-xs text-[#78716C]">
             Supported: JPG, JPEG, PNG, WEBP (max 5 MB) and MP4 videos (max 25 MB). Uploaded media
             is stored privately and never published automatically.
           </p>
@@ -722,7 +723,7 @@ export function ReportVehiclePage({
               ))}
             </select>
 
-            <label className="flex cursor-pointer items-center justify-center gap-2 rounded-2xl border border-dashed border-[#176B4B]/50 bg-white/75 px-4 py-3 text-xs font-bold text-[#176B4B] hover:bg-white transition">
+            <label className="flex cursor-pointer items-center justify-center gap-2 rounded-2xl border border-dashed border-[#DC2626]/45 bg-[#FFF1F2]/75 px-4 py-3 text-xs font-bold text-[#DC2626] hover:bg-[#FFE4E6]/80 transition">
               <Camera className="h-4 w-4" />
               <span>Choose Photo or MP4 Video</span>
               <input
@@ -758,7 +759,7 @@ export function ReportVehiclePage({
                   <div className="flex items-center justify-between gap-2 text-xs">
                     <div className="truncate">
                       <p className="font-bold truncate">{item.file.name}</p>
-                      <p className="text-[#183329]/70">
+                      <p className="text-[#78716C]">
                         {VEHICLE_EVIDENCE_TYPE_LABELS[item.evidenceType]}
                       </p>
                     </div>
@@ -777,7 +778,7 @@ export function ReportVehiclePage({
           )}
 
           {uploadProgress && (
-            <div className="rounded-2xl bg-[#DFF7E8] p-3 text-xs font-bold text-[#176B4B]">
+            <div className="rounded-2xl bg-[#FFE4E6] p-3 text-xs font-bold text-[#DC2626]">
               Uploading evidence {uploadProgress.done} / {uploadProgress.total}...
             </div>
           )}
@@ -785,8 +786,8 @@ export function ReportVehiclePage({
 
         {/* 5. SMART AGENCY ROUTING & PRIVACY CONSENT */}
         <GlassCard variant="strong" className="p-5 sm:p-6 space-y-4">
-          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#183329]">
-            <ShieldAlert className="h-5 w-5 text-[#176B4B]" />
+          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
+            <ShieldAlert className="h-5 w-5 text-[#DC2626]" />
             5. Recommended Reporting Authorities &amp; Consent
           </h2>
 
@@ -800,32 +801,32 @@ export function ReportVehiclePage({
             {recommendedAgencies.map((rec) => (
               <div
                 key={rec.agency.id}
-                className="rounded-2xl border border-white bg-white/80 p-3.5 text-xs space-y-1"
+                className="rounded-2xl border border-[#FFE4E6] bg-white/85 p-3.5 text-xs space-y-1"
               >
                 <div className="flex items-center justify-between gap-2">
-                  <p className="font-bold text-sm text-[#183329]">{rec.agency.agency_name}</p>
-                  <span className="rounded-full bg-[#DFF7E8] px-2.5 py-0.5 text-[10px] font-bold uppercase text-[#176B4B]">
+                  <p className="font-bold text-sm text-[#24191D]">{rec.agency.agency_name}</p>
+                  <span className="rounded-full bg-[#FFE4E6] px-2.5 py-0.5 text-[10px] font-bold uppercase text-[#B91C1C]">
                     {rec.priority} match
                   </span>
                 </div>
-                <p className="text-[#183329]/80">{rec.reasons.join(' ')}</p>
-                <p className="text-[#176B4B] font-semibold">
+                <p className="text-[#78716C]">{rec.reasons.join(' ')}</p>
+                <p className="text-[#DC2626] font-semibold">
                   {rec.agency.verified_contact_information}
                 </p>
               </div>
             ))}
           </div>
 
-          <div className="space-y-2.5 pt-2 text-xs font-semibold">
+          <div className="space-y-2.5 pt-2 text-xs font-semibold text-[#24191D]">
             <label className="flex items-start gap-2.5">
-              <input type="checkbox" {...register('isConfidentialIdentity')} className="mt-0.5" />
+              <input type="checkbox" {...register('isConfidentialIdentity')} className="mt-0.5 accent-[#DC2626]" />
               <span>
                 Keep my reporter identity confidential during administrative correspondence where
                 legally and operationally permitted.
               </span>
             </label>
             <label className="flex items-start gap-2.5">
-              <input type="checkbox" {...register('externalShareConsent')} className="mt-0.5" />
+              <input type="checkbox" {...register('externalShareConsent')} className="mt-0.5 accent-[#DC2626]" />
               <span>
                 I explicitly consent for administrators to prepare referral documentation toward the
                 recommended government authority listed above if confirmed upon review.

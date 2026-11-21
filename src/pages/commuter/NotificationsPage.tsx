@@ -47,10 +47,10 @@ export function NotificationsPage() {
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
             Realtime Updates
           </p>
-          <h1 className="font-display text-2xl font-extrabold text-[#183329]">Notifications</h1>
+          <h1 className="font-display text-2xl font-extrabold text-[#24191D]">Notifications</h1>
         </div>
         <div className="flex flex-wrap gap-2">
           <GlassButton
@@ -89,26 +89,26 @@ export function NotificationsPage() {
               key={n.id}
               variant="strong"
               className={`p-4 flex flex-wrap items-center justify-between gap-3 ${
-                !n.is_read ? 'border-[#10B981] bg-[#DFF7E8]/70' : ''
+                !n.is_read ? 'border-[#FCA5A5] bg-[#FFF1F2]/90' : ''
               }`}
             >
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  {!n.is_read && <span className="h-2.5 w-2.5 rounded-full bg-[#10B981]" />}
-                  <h2 className="font-bold text-sm text-[#183329]">{n.title}</h2>
-                  <span className="text-[11px] font-semibold uppercase text-[#24966A]">
+                  {!n.is_read && <span className="h-2.5 w-2.5 rounded-full bg-[#DC2626]" />}
+                  <h2 className="font-bold text-sm text-[#24191D]">{n.title}</h2>
+                  <span className="text-[11px] font-semibold uppercase text-[#B91C1C]">
                     {n.type.replace(/_/g, ' ')}
                   </span>
                 </div>
-                <p className="text-xs text-[#183329]/85">{n.message}</p>
-                <p className="text-[11px] text-[#183329]/60">
+                <p className="text-xs text-[#78716C]">{n.message}</p>
+                <p className="text-[11px] text-[#A8A29E]">
                   {formatDateTimeSafe(n.created_at)}
                 </p>
               </div>
               {!n.is_read && (
                 <GlassButton
                   type="button"
-                  variant="glass"
+                  variant="secondary"
                   size="sm"
                   onClick={() => markOneMutation.mutate(n.id)}
                 >

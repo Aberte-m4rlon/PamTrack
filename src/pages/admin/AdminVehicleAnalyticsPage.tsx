@@ -51,13 +51,13 @@ export function AdminVehicleAnalyticsPage() {
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
           Internal Compliance Metrics
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#183329]">
+        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
           Vehicle Report Analytics
         </h1>
-        <p className="text-xs text-[#183329]/80">
+        <p className="text-xs text-[#78716C]">
           Aggregated internal analytics only. Individual reports and unverified allegations are
           never exposed as a public driver or vehicle blacklist.
         </p>
@@ -69,20 +69,20 @@ export function AdminVehicleAnalyticsPage() {
         <>
           <div className="grid gap-4 sm:grid-cols-3">
             <GlassCard variant="strong" className="p-4">
-              <p className="text-xs font-bold uppercase text-[#183329]/65">Total Reports</p>
-              <p className="mt-1 font-display text-2xl font-extrabold text-[#176B4B]">
+              <p className="text-xs font-bold uppercase text-[#78716C]">Total Reports</p>
+              <p className="mt-1 font-display text-2xl font-extrabold text-[#DC2626]">
                 {stats.total}
               </p>
             </GlassCard>
             <GlassCard variant="strong" className="p-4">
-              <p className="text-xs font-bold uppercase text-[#183329]/65">Active Review Queue</p>
-              <p className="mt-1 font-display text-2xl font-extrabold text-amber-700">
+              <p className="text-xs font-bold uppercase text-[#78716C]">Active Review Queue</p>
+              <p className="mt-1 font-display text-2xl font-extrabold text-amber-600">
                 {stats.openCount}
               </p>
             </GlassCard>
             <GlassCard variant="strong" className="p-4">
-              <p className="text-xs font-bold uppercase text-[#183329]/65">Agency Referrals</p>
-              <p className="mt-1 font-display text-2xl font-extrabold text-[#10B981]">
+              <p className="text-xs font-bold uppercase text-[#78716C]">Agency Referrals</p>
+              <p className="mt-1 font-display text-2xl font-extrabold text-[#2563EB]">
                 {stats.referredCount}
               </p>
             </GlassCard>
@@ -90,35 +90,35 @@ export function AdminVehicleAnalyticsPage() {
 
           <div className="grid gap-6 lg:grid-cols-2">
             <GlassCard variant="strong" className="p-5 space-y-3">
-              <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#183329]">
-                <BarChart3 className="h-4 w-4 text-[#176B4B]" />
+              <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
+                <BarChart3 className="h-4 w-4 text-[#DC2626]" />
                 Reports by Vehicle Category
               </h2>
               <div className="h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={stats.typeChart}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(24,51,41,0.12)" />
-                    <XAxis dataKey="name" tick={{ fill: '#183329', fontSize: 10 }} />
-                    <YAxis allowDecimals={false} tick={{ fill: '#183329', fontSize: 11 }} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(120,113,108,0.16)" />
+                    <XAxis dataKey="name" tick={{ fill: '#24191D', fontSize: 10 }} />
+                    <YAxis allowDecimals={false} tick={{ fill: '#24191D', fontSize: 11 }} />
                     <Tooltip />
-                    <Bar dataKey="count" fill="#176B4B" radius={[8, 8, 0, 0]} />
+                    <Bar dataKey="count" fill="#DC2626" radius={[8, 8, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
             </GlassCard>
 
             <GlassCard variant="strong" className="p-5 space-y-3">
-              <h2 className="font-display text-lg font-bold text-[#183329]">
+              <h2 className="font-display text-lg font-bold text-[#24191D]">
                 Reports by Alleged Violation Group
               </h2>
               <div className="h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={stats.groupChart}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(24,51,41,0.12)" />
-                    <XAxis dataKey="name" tick={{ fill: '#183329', fontSize: 9 }} />
-                    <YAxis allowDecimals={false} tick={{ fill: '#183329', fontSize: 11 }} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(120,113,108,0.16)" />
+                    <XAxis dataKey="name" tick={{ fill: '#24191D', fontSize: 9 }} />
+                    <YAxis allowDecimals={false} tick={{ fill: '#24191D', fontSize: 11 }} />
                     <Tooltip />
-                    <Bar dataKey="count" fill="#24966A" radius={[8, 8, 0, 0]} />
+                    <Bar dataKey="count" fill="#EF4444" radius={[8, 8, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>

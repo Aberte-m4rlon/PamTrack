@@ -6,11 +6,15 @@ export default {
     extend: {
       colors: {
         brand: {
-          primary: '#176B4B',
-          secondary: '#24966A',
-          emerald: '#10B981',
-          mint: '#DFF7E8',
-          ink: '#183329',
+          primary: '#DC2626',
+          deep: '#B91C1C',
+          secondary: '#EF4444',
+          soft: '#FCA5A5',
+          rose: '#FFE4E6',
+          blush: '#FFF1F2',
+          ink: '#24191D',
+          muted: '#78716C',
+          subtle: '#A8A29E',
         },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -18,16 +22,16 @@ export default {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
-          DEFAULT: '#176B4B',
+          DEFAULT: '#DC2626',
           foreground: '#FFFFFF',
         },
         secondary: {
-          DEFAULT: '#24966A',
+          DEFAULT: '#EF4444',
           foreground: '#FFFFFF',
         },
         accent: {
-          DEFAULT: '#DFF7E8',
-          foreground: '#183329',
+          DEFAULT: '#FFE4E6',
+          foreground: '#24191D',
         },
         destructive: {
           DEFAULT: '#DC2626',
@@ -44,8 +48,9 @@ export default {
         '3xl': '1.5rem',
       },
       boxShadow: {
-        glass: '0 10px 35px -5px rgba(23, 107, 75, 0.16), 0 4px 12px rgba(24, 51, 41, 0.08)',
-        'glass-lg': '0 20px 50px -10px rgba(23, 107, 75, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.55)',
+        glass: '0 10px 32px -6px rgba(185, 28, 28, 0.10), 0 4px 12px rgba(36, 25, 29, 0.05)',
+        'glass-lg':
+          '0 20px 48px -10px rgba(185, 28, 28, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.85)',
       },
       backdropBlur: {
         glass: '18px',

@@ -140,9 +140,9 @@ export function ProfileHubPage() {
 
   return (
     <div className="space-y-6">
-      <GlassCard variant="green" className="p-6 flex flex-wrap items-center justify-between gap-4">
+      <GlassCard variant="rose" className="p-6 flex flex-wrap items-center justify-between gap-4">
         <div className="space-y-1">
-          <p className="text-xs font-bold uppercase tracking-widest text-[#DFF7E8]">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#FFE4E6]">
             Account &amp; More Menu
           </p>
           <h1 className="font-display text-2xl font-extrabold">
@@ -150,7 +150,7 @@ export function ProfileHubPage() {
               ? profile?.full_name || user.email?.split('@')[0]
               : 'Guest Commuter'}
           </h1>
-          <p className="text-xs text-[#DFF7E8]/90">
+          <p className="text-xs text-[#FFE4E6]/90">
             {user
               ? `${user.email} • Role: ${role.replace('_', ' ').toUpperCase()}`
               : 'Sign in or register to unlock trip saving, fare reporting, favorites, and safety sharing.'}
@@ -160,14 +160,14 @@ export function ProfileHubPage() {
         <div className="flex flex-wrap gap-2">
           {user ? (
             <GlassButton type="button" variant="glass" size="sm" onClick={signOut}>
-              <LogOut className="h-4 w-4 text-[#176B4B]" />
+              <LogOut className="h-4 w-4 text-[#DC2626]" />
               Sign Out
             </GlassButton>
           ) : (
             <>
               <Link to="/login">
                 <GlassButton variant="glass" size="sm">
-                  <LogIn className="h-4 w-4 text-[#176B4B]" />
+                  <LogIn className="h-4 w-4 text-[#DC2626]" />
                   Sign In
                 </GlassButton>
               </Link>
@@ -192,12 +192,12 @@ export function ProfileHubPage() {
               hoverable
               className="p-4 flex items-center gap-3.5 h-full"
             >
-              <div className="rounded-2xl bg-[#DFF7E8] p-2.5 text-[#176B4B] shrink-0">
+              <div className="rounded-2xl bg-[#FFE4E6] p-2.5 text-[#DC2626] shrink-0">
                 <item.icon className="h-5 w-5" />
               </div>
               <div>
-                <h2 className="font-bold text-sm text-[#183329]">{item.label}</h2>
-                <p className="text-xs text-[#183329]/75">{item.desc}</p>
+                <h2 className="font-bold text-sm text-[#24191D]">{item.label}</h2>
+                <p className="text-xs text-[#78716C]">{item.desc}</p>
               </div>
             </GlassCard>
           </Link>
@@ -205,12 +205,12 @@ export function ProfileHubPage() {
 
         <Link to="/live-map">
           <GlassCard variant="strong" hoverable className="p-4 flex items-center gap-3.5 h-full">
-            <div className="rounded-2xl bg-[#DFF7E8] p-2.5 text-[#176B4B] shrink-0">
+            <div className="rounded-2xl bg-[#FFE4E6] p-2.5 text-[#DC2626] shrink-0">
               <LocateFixed className="h-5 w-5" />
             </div>
             <div>
-              <h2 className="font-bold text-sm text-[#183329]">Live GPS Map</h2>
-              <p className="text-xs text-[#183329]/75">Open real-time map &amp; stops</p>
+              <h2 className="font-bold text-sm text-[#24191D]">Live GPS Map</h2>
+              <p className="text-xs text-[#78716C]">Open real-time map &amp; stops</p>
             </div>
           </GlassCard>
         </Link>

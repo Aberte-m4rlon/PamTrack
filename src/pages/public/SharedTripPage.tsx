@@ -38,7 +38,7 @@ export function SharedTripPage() {
 
   return (
     <div className="space-y-6">
-      <GlassCard variant="green" className="p-6 space-y-2">
+      <GlassCard variant="rose" className="p-6 space-y-2">
         <div className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase">
           <Radio className="h-3.5 w-3.5 animate-pulse" />
           Temporary Trusted Trip Share
@@ -46,7 +46,7 @@ export function SharedTripPage() {
         <h1 className="font-display text-2xl font-extrabold">
           {data.commuter_name}&apos;s Trip: {data.origin_name} → {data.destination_name}
         </h1>
-        <p className="text-xs text-[#DFF7E8]/90">
+        <p className="text-xs text-[#FFE4E6]/90">
           Mode: {data.transport_mode ?? 'Public Transport'} • Status: {data.trip_status} • Link
           expires {formatDateTimeSafe(data.expires_at ?? null)}
         </p>
@@ -54,23 +54,23 @@ export function SharedTripPage() {
 
       <div className="grid gap-4 sm:grid-cols-3">
         <GlassCard variant="strong" className="p-4">
-          <p className="text-xs font-bold uppercase text-[#183329]/65">Distance Covered</p>
-          <p className="font-display text-2xl font-extrabold text-[#176B4B]">
+          <p className="text-xs font-bold uppercase text-[#78716C]">Distance Covered</p>
+          <p className="font-display text-2xl font-extrabold text-[#DC2626]">
             {(data.distance_km ?? 0).toFixed(2)} km
           </p>
         </GlassCard>
         <GlassCard variant="strong" className="p-4">
-          <p className="text-xs font-bold uppercase text-[#183329]/65">Elapsed Time</p>
-          <p className="font-display text-2xl font-extrabold text-[#176B4B] flex items-center gap-1.5">
+          <p className="text-xs font-bold uppercase text-[#78716C]">Elapsed Time</p>
+          <p className="font-display text-2xl font-extrabold text-[#DC2626] flex items-center gap-1.5">
             <Clock className="h-5 w-5" />
             {formatDurationSeconds(data.duration_seconds ?? 0)}
           </p>
         </GlassCard>
         <GlassCard variant="strong" className="p-4">
-          <p className="text-xs font-bold uppercase text-[#183329]/65">Route Check</p>
-          <p className="font-bold text-sm text-[#183329]">
+          <p className="text-xs font-bold uppercase text-[#78716C]">Route Check</p>
+          <p className="font-bold text-sm text-[#24191D]">
             {data.deviation_detected ? (
-              <span className="inline-flex items-center gap-1 text-red-700">
+              <span className="inline-flex items-center gap-1 text-[#DC2626]">
                 <AlertTriangle className="h-4 w-4" /> Route Deviation Flagged
               </span>
             ) : (

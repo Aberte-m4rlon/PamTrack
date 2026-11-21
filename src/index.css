@@ -6,27 +6,33 @@
 
 @layer base {
   :root {
-    --background: 145 62% 94%;
-    --foreground: 158 36% 15%;
-    --border: 154 28% 82%;
-    --input: 154 32% 86%;
-    --ring: 157 65% 26%;
-    --brand-primary: #176b4b;
-    --brand-secondary: #24966a;
-    --brand-emerald: #10b981;
-    --brand-mint: #dff7e8;
-    --brand-ink: #183329;
+    --background: 355 100% 97%;
+    --foreground: 338 18% 12%;
+    --border: 353 80% 92%;
+    --input: 353 82% 88%;
+    --ring: 0 72% 51%;
+    --brand-primary: #dc2626;
+    --brand-deep: #b91c1c;
+    --brand-secondary: #ef4444;
+    --brand-soft-rose: #fca5a5;
+    --brand-light-rose: #ffe4e6;
+    --brand-blush: #fff1f2;
+    --brand-ink: #24191d;
+    --brand-muted: #78716c;
   }
 
   html {
     scroll-behavior: smooth;
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-    color: #183329;
+    color: #24191d;
+    background-color: #fff1f2;
     overflow-x: clip;
   }
 
   body {
     overflow-x: clip;
+    background-color: #fff1f2;
+    color: #24191d;
   }
 
   h1,
@@ -38,77 +44,78 @@
 }
 
 /* ============================================================================
-   PAMASAHE TRACKER – GREEN GLASSMORPHISM VISUAL SYSTEM
+   PAMASAHE TRACKER – LIGHT RED / ROSE GLASSMORPHISM VISUAL SYSTEM
    ============================================================================ */
 
 .pamasahe-scenic-bg {
+  background-color: #fff1f2;
   background-image:
-    linear-gradient(
-      145deg,
-      rgba(223, 247, 232, 0.42) 0%,
-      rgba(255, 255, 255, 0.24) 45%,
-      rgba(23, 107, 75, 0.28) 100%
-    ),
-    url('/assets/oriental-mindoro-bg.png');
-  background-size: cover;
-  background-position: center;
+    radial-gradient(circle at 12% 8%, rgba(254, 205, 211, 0.58) 0%, transparent 46%),
+    radial-gradient(circle at 88% 14%, rgba(252, 165, 165, 0.34) 0%, transparent 44%),
+    radial-gradient(circle at 75% 88%, rgba(255, 228, 230, 0.72) 0%, transparent 50%),
+    linear-gradient(150deg, #fff1f2 0%, #ffe4e6 50%, #fff5f6 100%);
   background-attachment: fixed;
 }
 
 .glass-panel {
-  background: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.58);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.38);
+  border: 1px solid rgba(255, 255, 255, 0.85);
   box-shadow:
-    0 12px 36px -6px rgba(23, 107, 75, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.52);
+    0 12px 32px -8px rgba(185, 28, 28, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .glass-surface {
-  background: rgba(255, 255, 255, 0.62);
+  background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.85);
   box-shadow:
-    0 10px 30px -6px rgba(24, 51, 41, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    0 10px 30px -6px rgba(185, 28, 28, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
 }
 
 .glass-card-strong {
-  background: rgba(255, 255, 255, 0.76);
+  background: rgba(255, 255, 255, 0.86);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.92);
   box-shadow:
-    0 12px 32px -8px rgba(23, 107, 75, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    0 12px 34px -8px rgba(185, 28, 28, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
 }
 
+.glass-rose-tint,
 .glass-green-tint {
-  background: linear-gradient(135deg, rgba(23, 107, 75, 0.88), rgba(36, 150, 106, 0.82));
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.36);
   box-shadow:
-    0 14px 36px -8px rgba(23, 107, 75, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+    0 16px 38px -10px rgba(220, 38, 38, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .glass-input {
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.84);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.78);
-  color: #183329;
+  border: 1px solid rgba(252, 165, 165, 0.65);
+  color: #24191d;
   transition: all 180ms ease;
+}
+
+.glass-input::placeholder {
+  color: #a8a29e;
 }
 
 .glass-input:focus {
   outline: none;
-  background: rgba(255, 255, 255, 0.92);
-  border-color: #10b981;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.22);
+  background: #ffffff;
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.16);
 }
 
 /* Custom subtle scrollbars */
@@ -117,14 +124,14 @@
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(223, 247, 232, 0.4);
+  background: rgba(255, 228, 230, 0.55);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(23, 107, 75, 0.35);
+  background: rgba(220, 38, 38, 0.32);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(23, 107, 75, 0.55);
+  background: rgba(185, 28, 28, 0.55);
 }
 
 /* Leaflet custom glass styling */
@@ -134,16 +141,27 @@
 }
 
 .leaflet-popup-content-wrapper {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(252, 165, 165, 0.55);
   border-radius: 1rem;
-  color: #183329;
-  box-shadow: 0 12px 30px rgba(23, 107, 75, 0.18);
+  color: #24191d;
+  box-shadow: 0 12px 30px rgba(185, 28, 28, 0.16);
 }
 
 .leaflet-popup-tip {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.94);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ============================================================================
@@ -171,12 +189,12 @@
     left: 0;
     right: 0;
     z-index: 60;
-    background: linear-gradient(135deg, rgba(23, 107, 75, 0.90), rgba(36, 150, 106, 0.88));
+    background: rgba(255, 255, 255, 0.88);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-    border-top: 1px solid rgba(255, 255, 255, 0.35);
-    box-shadow: 0 -8px 32px rgba(24, 51, 41, 0.22);
-    padding: 0.35rem 0.4rem calc(0.45rem + env(safe-area-inset-bottom));
+    border-top: 1px solid rgba(255, 255, 255, 0.94);
+    box-shadow: 0 -8px 28px rgba(185, 28, 28, 0.1);
+    padding: 0.35rem 0.45rem calc(0.45rem + env(safe-area-inset-bottom));
     gap: 0.25rem;
   }
 

@@ -112,13 +112,13 @@ export function FareMatrixPage() {
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
             Province-Wide Transparent Fare Table
           </p>
-          <h1 className="font-display text-2xl font-extrabold text-[#183329] sm:text-3xl">
+          <h1 className="font-display text-2xl font-extrabold text-[#24191D] sm:text-3xl">
             Oriental Mindoro Fare Matrix
           </h1>
-          <p className="text-sm text-[#183329]/80">
+          <p className="text-sm text-[#78716C]">
             Strictly separates Official Verified Fares (Green) from Community Estimates (Yellow),
             Pending Records (Gray), and Disputed/Rejected entries (Red).
           </p>
@@ -126,18 +126,18 @@ export function FareMatrixPage() {
 
         <GlassButton
           type="button"
-          variant="glass"
+          variant="secondary"
           onClick={handleExportCsv}
           disabled={filteredRows.length === 0}
         >
-          <Download className="h-4 w-4 text-[#176B4B]" />
+          <Download className="h-4 w-4" />
           Export CSV
         </GlassButton>
       </GlassCard>
 
       {/* Filter Bar */}
       <GlassCard variant="surface" className="p-4 sm:p-5 space-y-3">
-        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#176B4B]">
+        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#DC2626]">
           <Filter className="h-3.5 w-3.5" />
           Filter Fare Matrix
         </div>
@@ -223,7 +223,7 @@ export function FareMatrixPage() {
 
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
           <div className="flex items-center gap-2">
-            <label className="font-semibold text-[#183329]/75">Updated since:</label>
+            <label className="font-semibold text-[#78716C]">Updated since:</label>
             <input
               type="date"
               value={updatedAfter}
@@ -243,14 +243,14 @@ export function FareMatrixPage() {
               setUpdatedAfter('');
               setSearchText('');
             }}
-            className="font-bold text-[#176B4B] hover:underline"
+            className="font-bold text-[#DC2626] hover:underline"
           >
             Reset All Filters
           </button>
         </div>
       </GlassCard>
 
-      {/* Matrix Table */}
+      {/* Matrix Table + Mobile Cards */}
       {isLoading ? (
         <GlassSkeleton className="h-64" />
       ) : filteredRows.length === 0 ? (
@@ -268,9 +268,59 @@ export function FareMatrixPage() {
         />
       ) : (
         <GlassCard variant="strong" className="overflow-hidden">
-          <div className="overflow-x-auto">
+          {/* Mobile Card Layout (<= 767px) */}
+          <div className="grid gap-3 p-3.5 md:hidden">
+            {filteredRows.map((row) => (
+              <div
+                key={row.key}
+                className="rounded-2xl border border-[#FCA5A5]/45 bg-white/90 p-4 space-y-2.5 shadow-sm"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <p className="font-display text-sm font-extrabold text-[#24191D]">
+                      {row.originName} → {row.destinationName}
+                    </p>
+                    <p className="text-xs font-semibold text-[#78716C]">{row.transportTypeName}</p>
+                  </div>
+                  <FareStatusBadge status={row.status} compact />
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 rounded-xl bg-[#FFF1F2] p-2.5 text-xs">
+                  <div>
+                    <span className="text-[#78716C]">Regular:</span>{' '}
+                    <strong className="text-[#DC2626]">{formatPhp(row.regularFare)}</strong>
+                  </div>
+                  <div>
+                    <span className="text-[#78716C]">Student:</span>{' '}
+                    <strong className="text-[#24191D]">{formatPhp(row.studentFare)}</strong>
+                  </div>
+                  <div>
+                    <span className="text-[#78716C]">Senior:</span>{' '}
+                    <strong className="text-[#24191D]">{formatPhp(row.seniorFare)}</strong>
+                  </div>
+                  <div>
+                    <span className="text-[#78716C]">PWD:</span>{' '}
+                    <strong className="text-[#24191D]">{formatPhp(row.pwdFare)}</strong>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between text-[11px] text-[#78716C]">
+                  <span className="truncate">{row.issuingAuthority || 'Unverified'}</span>
+                  <Link
+                    to={`/fares/${row.primaryRecordId}`}
+                    className="font-bold text-[#DC2626] hover:underline shrink-0"
+                  >
+                    Details ({formatDateSafe(row.lastVerifiedAt)}) →
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop/Tablet Table */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full min-w-[980px] text-left text-sm">
-              <thead className="border-b border-[#176B4B]/15 bg-[#DFF7E8]/70 text-[11px] font-bold uppercase tracking-wider text-[#183329]">
+              <thead className="border-b border-[#FCA5A5]/45 bg-[#FFE4E6]/85 text-[11px] font-bold uppercase tracking-wider text-[#24191D]">
                 <tr>
                   <th className="px-4 py-3.5">Origin</th>
                   <th className="px-4 py-3.5">Destination</th>
@@ -284,41 +334,43 @@ export function FareMatrixPage() {
                   <th className="px-4 py-3.5">Last Verified</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#176B4B]/10">
+              <tbody className="divide-y divide-[#FCA5A5]/25">
                 {filteredRows.map((row) => (
-                  <tr key={row.key} className="hover:bg-white/60 transition">
-                    <td className="px-4 py-3 font-bold text-[#183329]">{row.originName}</td>
-                    <td className="px-4 py-3 font-bold text-[#183329]">{row.destinationName}</td>
-                    <td className="px-4 py-3 font-medium">{row.transportTypeName}</td>
-                    <td className="px-4 py-3 font-bold text-[#176B4B]">
+                  <tr key={row.key} className="hover:bg-[#FFF1F2]/75 transition">
+                    <td className="px-4 py-3 font-bold text-[#24191D]">{row.originName}</td>
+                    <td className="px-4 py-3 font-bold text-[#24191D]">{row.destinationName}</td>
+                    <td className="px-4 py-3 font-medium text-[#78716C]">{row.transportTypeName}</td>
+                    <td className="px-4 py-3 font-bold text-[#DC2626]">
                       {formatPhp(row.regularFare)}
                     </td>
-                    <td className="px-4 py-3">{formatPhp(row.studentFare)}</td>
-                    <td className="px-4 py-3">{formatPhp(row.seniorFare)}</td>
-                    <td className="px-4 py-3">{formatPhp(row.pwdFare)}</td>
+                    <td className="px-4 py-3 text-[#24191D]">{formatPhp(row.studentFare)}</td>
+                    <td className="px-4 py-3 text-[#24191D]">{formatPhp(row.seniorFare)}</td>
+                    <td className="px-4 py-3 text-[#24191D]">{formatPhp(row.pwdFare)}</td>
                     <td className="px-4 py-3">
                       <FareStatusBadge status={row.status} compact />
                     </td>
                     <td className="px-4 py-3 text-xs">
-                      <p className="font-semibold">{row.issuingAuthority || 'Unverified'}</p>
+                      <p className="font-semibold text-[#24191D]">
+                        {row.issuingAuthority || 'Unverified'}
+                      </p>
                       {row.officialDocumentReference && (
-                        <p className="text-[#183329]/70">{row.officialDocumentReference}</p>
+                        <p className="text-[#78716C]">{row.officialDocumentReference}</p>
                       )}
                       {row.sourceUrl && (
                         <a
                           href={row.sourceUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1 text-[#176B4B] hover:underline"
+                          className="inline-flex items-center gap-1 text-[#DC2626] hover:underline"
                         >
                           Source <ExternalLink className="h-3 w-3" />
                         </a>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-xs text-[#183329]/80">
+                    <td className="px-4 py-3 text-xs text-[#78716C]">
                       <Link
                         to={`/fares/${row.primaryRecordId}`}
-                        className="font-semibold text-[#176B4B] hover:underline"
+                        className="font-semibold text-[#DC2626] hover:underline"
                       >
                         {formatDateSafe(row.lastVerifiedAt)}
                       </Link>

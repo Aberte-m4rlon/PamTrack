@@ -38,37 +38,38 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       {children}
       <div
         aria-live="polite"
-        className="fixed bottom-4 right-4 z-[100] flex max-w-sm flex-col gap-2.5 pointer-events-none"
+        className="fixed bottom-20 sm:bottom-4 right-4 z-[100] flex max-w-sm flex-col gap-2.5 pointer-events-none"
       >
         {toasts.map((t) => (
           <div
             key={t.id}
             className={cn(
               'pointer-events-auto glass-card-strong flex items-start gap-3 rounded-2xl p-4 shadow-glass-lg transition-all',
-              t.variant === 'error' && 'border-red-400/70 bg-red-50/90',
-              t.variant === 'success' && 'border-emerald-400/70 bg-emerald-50/90'
+              t.variant === 'error' && 'border-red-300 bg-red-50/95',
+              t.variant === 'success' && 'border-green-300 bg-green-50/95',
+              t.variant === 'info' && 'border-[#FCA5A5] bg-white/95'
             )}
           >
             {t.variant === 'success' && (
-              <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#176B4B]" />
+              <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#16A34A]" />
             )}
             {t.variant === 'error' && (
-              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
+              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-[#DC2626]" />
             )}
             {t.variant === 'info' && (
-              <Info className="mt-0.5 h-5 w-5 shrink-0 text-[#24966A]" />
+              <Info className="mt-0.5 h-5 w-5 shrink-0 text-[#2563EB]" />
             )}
             <div className="flex-1 text-sm">
-              <p className="font-semibold text-[#183329]">{t.title}</p>
+              <p className="font-semibold text-[#24191D]">{t.title}</p>
               {t.description && (
-                <p className="mt-0.5 text-xs text-[#183329]/80">{t.description}</p>
+                <p className="mt-0.5 text-xs text-[#78716C]">{t.description}</p>
               )}
             </div>
             <button
               type="button"
               onClick={() => dismiss(t.id)}
-              className="rounded-lg p-1 text-[#183329]/60 hover:bg-black/5 hover:text-[#183329]"
-              aria-label="Dismiss notification"
+              className="rounded-lg p-1 text-[#78716C] hover:bg-[#FFE4E6] hover:text-[#DC2626]"
+              aria-label="Close notification"
             >
               <X className="h-4 w-4" />
             </button>
@@ -81,6 +82,8 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 
 export function useToast() {
   const ctx = useContext(ToastContext);
-  if (!ctx) throw new Error('useToast must be used within ToastProvider');
+  if (!ctx) {
+    throw new Error('useToast must be used within ToastProvider');
+  }
   return ctx;
 }

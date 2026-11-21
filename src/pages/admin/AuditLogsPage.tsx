@@ -22,18 +22,18 @@ export function AuditLogsPage() {
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
           Compliance &amp; Security
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#183329]">
+        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
           Audit &amp; Verification Logs
         </h1>
       </GlassCard>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <GlassCard variant="strong" className="p-5 space-y-3">
-          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#183329]">
-            <History className="h-4 w-4 text-[#176B4B]" />
+          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
+            <History className="h-4 w-4 text-[#DC2626]" />
             Fare Verification Trail
           </h2>
           {verifLoading ? (
@@ -41,16 +41,16 @@ export function AuditLogsPage() {
           ) : (
             <div className="space-y-2 max-h-[500px] overflow-y-auto pr-1">
               {(verificationLogs ?? []).map((v) => (
-                <div key={v.id} className="rounded-2xl bg-white/75 p-3 text-xs space-y-0.5">
-                  <div className="flex justify-between font-bold text-[#176B4B]">
+                <div key={v.id} className="rounded-2xl bg-white/85 border border-[#FFE4E6] p-3 text-xs space-y-0.5">
+                  <div className="flex justify-between font-bold text-[#DC2626]">
                     <span>{v.action}</span>
                     <span>{formatDateTimeSafe(v.created_at)}</span>
                   </div>
-                  <p>
+                  <p className="text-[#24191D]">
                     {v.previous_status ?? 'none'} → <strong>{v.new_status}</strong>
                   </p>
-                  {v.source_reference && <p>Doc Ref: {v.source_reference}</p>}
-                  {v.reason && <p className="text-[#183329]/75">{v.reason}</p>}
+                  {v.source_reference && <p className="text-[#78716C]">Doc Ref: {v.source_reference}</p>}
+                  {v.reason && <p className="text-[#78716C]">{v.reason}</p>}
                 </div>
               ))}
             </div>
@@ -58,8 +58,8 @@ export function AuditLogsPage() {
         </GlassCard>
 
         <GlassCard variant="strong" className="p-5 space-y-3">
-          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#183329]">
-            <FileText className="h-4 w-4 text-[#176B4B]" />
+          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
+            <FileText className="h-4 w-4 text-[#DC2626]" />
             System Audit Logs
           </h2>
           {auditLoading ? (
@@ -67,12 +67,12 @@ export function AuditLogsPage() {
           ) : (
             <div className="space-y-2 max-h-[500px] overflow-y-auto pr-1">
               {(auditLogs ?? []).map((a) => (
-                <div key={a.id} className="rounded-2xl bg-white/75 p-3 text-xs space-y-0.5">
-                  <div className="flex justify-between font-bold text-[#183329]">
+                <div key={a.id} className="rounded-2xl bg-white/85 border border-[#FFE4E6] p-3 text-xs space-y-0.5">
+                  <div className="flex justify-between font-bold text-[#24191D]">
                     <span>{a.action}</span>
-                    <span className="text-[#176B4B]">{formatDateTimeSafe(a.created_at)}</span>
+                    <span className="text-[#DC2626]">{formatDateTimeSafe(a.created_at)}</span>
                   </div>
-                  <p className="text-[#183329]/75">
+                  <p className="text-[#78716C]">
                     Role: {a.actor_role ?? 'system'} • {a.entity_type} ({a.entity_id ?? 'N/A'})
                   </p>
                 </div>

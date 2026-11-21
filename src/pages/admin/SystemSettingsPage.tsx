@@ -36,10 +36,10 @@ export function SystemSettingsPage() {
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
           Super Administrator Configuration
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#183329]">
+        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
           System Settings
         </h1>
         {!isSuperAdmin && (
@@ -55,10 +55,10 @@ export function SystemSettingsPage() {
           return (
             <GlassCard key={s.key} variant="strong" className="p-5 space-y-3">
               <div className="flex items-center gap-2">
-                <SlidersHorizontal className="h-4 w-4 text-[#176B4B]" />
-                <h2 className="font-display text-base font-bold text-[#183329]">{s.key}</h2>
+                <SlidersHorizontal className="h-4 w-4 text-[#DC2626]" />
+                <h2 className="font-display text-base font-bold text-[#24191D]">{s.key}</h2>
               </div>
-              {s.description && <p className="text-xs text-[#183329]/75">{s.description}</p>}
+              {s.description && <p className="text-xs text-[#78716C]">{s.description}</p>}
               <textarea
                 rows={4}
                 disabled={!isSuperAdmin}

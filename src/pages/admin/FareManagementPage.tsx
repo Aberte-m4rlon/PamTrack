@@ -96,13 +96,13 @@ export function FareManagementPage() {
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
           Official Tariff Registry
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#183329]">
+        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
           Fare Management
         </h1>
-        <p className="text-sm text-[#183329]/80">
+        <p className="text-sm text-[#78716C]">
           Publish verified official fare records backed by authentic LTFRB orders, LGU ordinances,
           or authorized operator tariffs, and archive outdated entries.
         </p>
@@ -110,8 +110,8 @@ export function FareManagementPage() {
 
       <div className="grid gap-6 lg:grid-cols-12">
         <GlassCard variant="strong" className="p-6 lg:col-span-5 space-y-4 h-fit">
-          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#183329]">
-            <PlusCircle className="h-5 w-5 text-[#176B4B]" />
+          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
+            <PlusCircle className="h-5 w-5 text-[#DC2626]" />
             Publish Official Fare Record
           </h2>
 
@@ -266,25 +266,25 @@ export function FareManagementPage() {
         </GlassCard>
 
         <GlassCard variant="strong" className="p-6 lg:col-span-7 space-y-4">
-          <h2 className="font-display text-lg font-bold text-[#183329]">
+          <h2 className="font-display text-lg font-bold text-[#24191D]">
             All Fare Records ({fareRecords?.length ?? 0})
           </h2>
           <div className="space-y-2.5 max-h-[600px] overflow-y-auto pr-1">
             {(fareRecords ?? []).map((rec) => (
               <div
                 key={rec.id}
-                className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white bg-white/75 p-3.5 text-xs"
+                className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#FFE4E6] bg-white/85 p-3.5 text-xs"
               >
                 <div className="space-y-0.5">
-                  <p className="font-bold text-sm text-[#183329]">
+                  <p className="font-bold text-sm text-[#24191D]">
                     {rec.origin?.name} → {rec.destination?.name}
                   </p>
-                  <p className="text-[#183329]/75">
+                  <p className="text-[#78716C]">
                     {rec.transport_type?.name} •{' '}
                     {PASSENGER_CATEGORY_LABELS[rec.passenger_category]} •{' '}
-                    <strong>{formatPhp(rec.fare_amount)}</strong>
+                    <strong className="text-[#DC2626]">{formatPhp(rec.fare_amount)}</strong>
                   </p>
-                  <p className="text-[#183329]/65">
+                  <p className="text-[#A8A29E]">
                     {rec.issuing_authority} ({rec.official_document_reference || 'Community'}) •{' '}
                     {formatDateSafe(rec.last_verified_at || rec.updated_at)}
                   </p>
@@ -295,7 +295,7 @@ export function FareManagementPage() {
                   {!rec.is_archived && (
                     <GlassButton
                       type="button"
-                      variant="glass"
+                      variant="secondary"
                       size="sm"
                       onClick={() => setArchiveTargetId(rec.id)}
                     >

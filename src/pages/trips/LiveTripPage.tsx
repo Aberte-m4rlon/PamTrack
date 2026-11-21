@@ -56,7 +56,7 @@ const DEVIATION_THRESHOLD_KM = 2.0;
 
 const liveIcon = L.divIcon({
   className: 'trip-live-pin',
-  html: `<div style="width:18px;height:18px;border-radius:9999px;background:#0ea5e9;border:3px solid #fff;box-shadow:0 0 0 6px rgba(14,165,233,0.35);"></div>`,
+  html: `<div style="width:18px;height:18px;border-radius:9999px;background:#2563EB;border:3px solid #fff;box-shadow:0 0 0 6px rgba(37,99,235,0.28);"></div>`,
   iconSize: [18, 18],
   iconAnchor: [9, 9],
 });
@@ -360,13 +360,13 @@ export function LiveTripPage() {
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-5 sm:p-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
             GPS Trip Monitoring
           </p>
-          <h1 className="font-display text-2xl font-extrabold text-[#183329] sm:text-3xl">
+          <h1 className="font-display text-2xl font-extrabold text-[#24191D] sm:text-3xl">
             Live Trip Monitor
           </h1>
-          <p className="text-xs sm:text-sm text-[#183329]/80">
+          <p className="text-xs sm:text-sm text-[#78716C]">
             Select your route and transport mode, view verified fares, monitor elapsed time and
             GPS distance, detect route deviations, and save trips to your history.
           </p>
@@ -390,7 +390,7 @@ export function LiveTripPage() {
 
       {!user && (
         <GlassCard variant="strong" className="p-5 border-amber-300 bg-amber-50/90 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-xs sm:text-sm font-semibold text-[#183329]">
+          <p className="text-xs sm:text-sm font-semibold text-[#24191D]">
             Sign in to save live trips, record breadcrumbs, and share active trips with trusted
             contacts.
           </p>
@@ -407,14 +407,14 @@ export function LiveTripPage() {
         <GlassCard variant="strong" className="p-5 lg:col-span-5 space-y-4 h-fit">
           {!activeTrip ? (
             <>
-              <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#183329]">
-                <Navigation className="h-5 w-5 text-[#176B4B]" />
+              <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
+                <Navigation className="h-5 w-5 text-[#DC2626]" />
                 Configure New Trip
               </h2>
 
               <div className="space-y-3">
                 <div>
-                  <label className="mb-1 block text-xs font-bold uppercase text-[#183329]/75">
+                  <label className="mb-1 block text-xs font-bold uppercase text-[#78716C]">
                     1. Origin Municipality / City
                   </label>
                   <select
@@ -432,7 +432,7 @@ export function LiveTripPage() {
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-xs font-bold uppercase text-[#183329]/75">
+                  <label className="mb-1 block text-xs font-bold uppercase text-[#78716C]">
                     2. Destination Municipality / City
                   </label>
                   <select
@@ -450,7 +450,7 @@ export function LiveTripPage() {
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-xs font-bold uppercase text-[#183329]/75">
+                  <label className="mb-1 block text-xs font-bold uppercase text-[#78716C]">
                     3. Transportation Type
                   </label>
                   <select
@@ -469,8 +469,8 @@ export function LiveTripPage() {
 
                 {/* Available Fare Preview */}
                 {originId && destinationId && (
-                  <div className="rounded-2xl border border-white bg-white/80 p-3.5 space-y-2 text-xs">
-                    <p className="font-bold uppercase text-[#176B4B]">
+                  <div className="rounded-2xl border border-[#FFE4E6] bg-white/85 p-3.5 space-y-2 text-xs">
+                    <p className="font-bold uppercase text-[#DC2626]">
                       4. Available Fare Records
                     </p>
                     {officialFares.length > 0 ? (
@@ -494,7 +494,7 @@ export function LiveTripPage() {
                         </div>
                       ))
                     ) : (
-                      <p className="text-[#183329]/75">
+                      <p className="text-[#78716C]">
                         No verified official fare is currently available for this route.
                       </p>
                     )}
@@ -512,8 +512,8 @@ export function LiveTripPage() {
                   {startMutation.isPending ? 'Starting Trip...' : 'Start Live Trip'}
                 </GlassButton>
 
-                <p className="text-[11px] leading-snug text-[#183329]/70">
-                  <strong>Important:</strong> GPS cannot automatically identify which specific
+                <p className="text-[11px] leading-snug text-[#78716C]">
+                  <strong className="text-[#24191D]">Important:</strong> GPS cannot automatically identify which specific
                   vehicle you are riding, and browser location tracking requires this tab to stay
                   open.
                 </p>
@@ -522,29 +522,29 @@ export function LiveTripPage() {
           ) : (
             <>
               <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-3 py-1 text-xs font-bold text-white">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#16A34A] px-3 py-1 text-xs font-bold text-white">
                   <Radio className="h-3.5 w-3.5 animate-pulse" />
                   Active Trip Running
                 </span>
-                <span className="text-xs font-semibold text-[#176B4B]">
+                <span className="text-xs font-semibold text-[#DC2626]">
                   Started {formatDateSafe(activeTrip.started_at, 'h:mm a')}
                 </span>
               </div>
 
-              <h2 className="font-display text-xl font-extrabold text-[#183329]">
+              <h2 className="font-display text-xl font-extrabold text-[#24191D]">
                 {originMuni?.name ?? 'Origin'} → {destMuni?.name ?? 'Destination'}
               </h2>
 
               <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-2xl bg-[#DFF7E8] p-3 text-center">
-                  <p className="text-[10px] font-bold uppercase text-[#176B4B]">Distance</p>
-                  <p className="font-display text-2xl font-extrabold text-[#176B4B]">
+                <div className="rounded-2xl bg-[#FFE4E6] p-3 text-center">
+                  <p className="text-[10px] font-bold uppercase text-[#B91C1C]">Distance</p>
+                  <p className="font-display text-2xl font-extrabold text-[#DC2626]">
                     {distanceTraveledKm.toFixed(2)} km
                   </p>
                 </div>
-                <div className="rounded-2xl bg-[#DFF7E8] p-3 text-center">
-                  <p className="text-[10px] font-bold uppercase text-[#176B4B]">Elapsed</p>
-                  <p className="font-display text-2xl font-extrabold text-[#176B4B] flex items-center justify-center gap-1">
+                <div className="rounded-2xl bg-[#FFE4E6] p-3 text-center">
+                  <p className="text-[10px] font-bold uppercase text-[#B91C1C]">Elapsed</p>
+                  <p className="font-display text-2xl font-extrabold text-[#DC2626] flex items-center justify-center gap-1">
                     <Clock className="h-4 w-4" />
                     {formatDurationSeconds(elapsedSeconds)}
                   </p>
@@ -552,8 +552,8 @@ export function LiveTripPage() {
               </div>
 
               {deviationDetected && (
-                <div className="flex items-start gap-2 rounded-2xl border border-red-300 bg-red-50/90 p-3 text-xs text-red-900">
-                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
+                <div className="flex items-start gap-2 rounded-2xl border border-red-300 bg-red-50/90 p-3 text-xs text-[#B91C1C]">
+                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#DC2626]" />
                   <span>
                     <strong>Route Deviation Alert:</strong> Max recorded offset from planned
                     corridor is {deviationKm.toFixed(2)} km.
@@ -562,7 +562,7 @@ export function LiveTripPage() {
               )}
 
               <div>
-                <label className="mb-1 block text-xs font-bold uppercase text-[#183329]/75">
+                <label className="mb-1 block text-xs font-bold uppercase text-[#78716C]">
                   Actual Fare Paid (PHP, optional override)
                 </label>
                 <input
@@ -576,8 +576,8 @@ export function LiveTripPage() {
               </div>
 
               {/* Quick Trusted Contact Share */}
-              <div className="rounded-2xl border border-white bg-white/75 p-3.5 space-y-2.5">
-                <p className="flex items-center gap-1.5 text-xs font-bold text-[#176B4B]">
+              <div className="rounded-2xl border border-[#FFE4E6] bg-white/85 p-3.5 space-y-2.5">
+                <p className="flex items-center gap-1.5 text-xs font-bold text-[#DC2626]">
                   <Share2 className="h-3.5 w-3.5" />
                   Share Active Trip (60-Min Consent Link)
                 </p>
@@ -596,7 +596,7 @@ export function LiveTripPage() {
                   </select>
                   <GlassButton
                     type="button"
-                    variant="glass"
+                    variant="secondary"
                     size="sm"
                     disabled={shareMutation.isPending}
                     onClick={() => shareMutation.mutate()}
@@ -605,9 +605,9 @@ export function LiveTripPage() {
                   </GlassButton>
                 </div>
                 {shareUrl && (
-                  <div className="rounded-xl bg-[#DFF7E8] p-2 text-[11px] break-all">
-                    <p className="font-bold text-[#176B4B]">Shareable URL:</p>
-                    <a href={shareUrl} target="_blank" rel="noreferrer" className="underline">
+                  <div className="rounded-xl bg-[#FFE4E6] p-2 text-[11px] break-all">
+                    <p className="font-bold text-[#B91C1C]">Shareable URL:</p>
+                    <a href={shareUrl} target="_blank" rel="noreferrer" className="underline text-[#24191D]">
                       {shareUrl}
                     </a>
                   </div>
@@ -648,10 +648,10 @@ export function LiveTripPage() {
 
         {/* Live Map View */}
         <GlassCard variant="surface" className="p-4 lg:col-span-7 space-y-3">
-          <h2 className="font-display text-lg font-bold text-[#183329]">
+          <h2 className="font-display text-lg font-bold text-[#24191D]">
             Live Trip &amp; Corridor Map
           </h2>
-          <div className="h-[440px] overflow-hidden rounded-3xl border border-white/60 shadow-glass">
+          <div className="h-[340px] sm:h-[440px] overflow-hidden rounded-3xl border border-white/80 shadow-glass">
             <MapContainer
               center={
                 currentPosition
@@ -669,13 +669,13 @@ export function LiveTripPage() {
               {plannedPolyline.length >= 2 && (
                 <Polyline
                   positions={plannedPolyline}
-                  pathOptions={{ color: '#24966A', weight: 4, dashArray: '8 6' }}
+                  pathOptions={{ color: '#DC2626', weight: 4, dashArray: '8 6' }}
                 />
               )}
               {trail.length >= 2 && (
                 <Polyline
                   positions={trail}
-                  pathOptions={{ color: '#0ea5e9', weight: 5 }}
+                  pathOptions={{ color: '#2563EB', weight: 5 }}
                 />
               )}
               {currentPosition && (

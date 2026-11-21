@@ -49,11 +49,11 @@ export function UserManagementPage() {
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
             Identity &amp; Role-Based Access Control
           </p>
-          <h1 className="font-display text-2xl font-extrabold text-[#183329]">User Management</h1>
-          <p className="text-sm text-[#183329]/80">
+          <h1 className="font-display text-2xl font-extrabold text-[#24191D]">User Management</h1>
+          <p className="text-sm text-[#78716C]">
             Role modifications are exclusively permitted for Super Administrators and enforced by
             PostgreSQL security functions.
           </p>
@@ -77,7 +77,7 @@ export function UserManagementPage() {
         <GlassCard variant="strong" className="overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[760px] text-left text-xs">
-              <thead className="border-b border-[#176B4B]/15 bg-[#DFF7E8]/70 font-bold uppercase tracking-wider text-[#183329]">
+              <thead className="border-b border-[#FCA5A5]/45 bg-[#FFE4E6]/85 font-bold uppercase tracking-wider text-[#24191D]">
                 <tr>
                   <th className="px-4 py-3">User</th>
                   <th className="px-4 py-3">Email</th>
@@ -85,15 +85,17 @@ export function UserManagementPage() {
                   <th className="px-4 py-3">Assign Role</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#176B4B]/10">
+              <tbody className="divide-y divide-[#FCA5A5]/25">
                 {users.map((u) => {
                   const nextRole = selectedRoleMap[u.id] ?? u.role;
                   return (
-                    <tr key={u.id} className="hover:bg-white/60">
-                      <td className="px-4 py-3 font-bold text-sm">{u.full_name || 'Unnamed'}</td>
-                      <td className="px-4 py-3">{u.email}</td>
+                    <tr key={u.id} className="hover:bg-[#FFF1F2]/75 transition">
+                      <td className="px-4 py-3 font-bold text-sm text-[#24191D]">
+                        {u.full_name || 'Unnamed'}
+                      </td>
+                      <td className="px-4 py-3 text-[#78716C]">{u.email}</td>
                       <td className="px-4 py-3">
-                        <span className="rounded-full bg-[#DFF7E8] px-2.5 py-0.5 font-bold uppercase text-[#176B4B]">
+                        <span className="rounded-full bg-[#FFE4E6] px-2.5 py-0.5 font-bold uppercase text-[#DC2626]">
                           {u.role.replace('_', ' ')}
                         </span>
                       </td>

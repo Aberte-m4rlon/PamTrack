@@ -77,13 +77,13 @@ export function MyVehicleReportsPage() {
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
             Private Complaint Tracker
           </p>
-          <h1 className="font-display text-2xl font-extrabold text-[#183329]">
+          <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
             My Vehicle &amp; Violation Reports
           </h1>
-          <p className="text-xs sm:text-sm text-[#183329]/80">
+          <p className="text-xs sm:text-sm text-[#78716C]">
             Track your reference numbers, view administrator remarks, add requested evidence, or
             download your complaint summary packet.
           </p>
@@ -99,7 +99,7 @@ export function MyVehicleReportsPage() {
       {/* Filters */}
       <GlassCard variant="surface" className="p-4 grid gap-3 sm:grid-cols-3">
         <div className="relative">
-          <Search className="absolute left-3 top-3 h-4 w-4 text-[#183329]/50" />
+          <Search className="absolute left-3 top-3 h-4 w-4 text-[#A8A29E]" />
           <input
             type="text"
             value={searchQuery}
@@ -170,16 +170,16 @@ export function MyVehicleReportsPage() {
               <GlassCard key={rep.id} variant="strong" className="p-5 space-y-3">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
-                    <p className="font-mono text-xs font-extrabold text-[#176B4B]">
+                    <p className="font-mono text-xs font-extrabold text-[#DC2626]">
                       {rep.reference_number}
                     </p>
-                    <h2 className="font-display text-lg font-extrabold text-[#183329]">
+                    <h2 className="font-display text-lg font-extrabold text-[#24191D]">
                       {rep.vehicle_type} •{' '}
                       {rep.plate_not_available
                         ? 'Plate Not Available'
                         : rep.plate_number || 'Unlisted'}
                     </h2>
-                    <p className="text-xs text-[#183329]/75">
+                    <p className="text-xs text-[#78716C]">
                       {rep.municipality?.name} • Incident Date: {formatDateSafe(rep.incident_date)}
                     </p>
                   </div>
@@ -189,7 +189,7 @@ export function MyVehicleReportsPage() {
                     >
                       {rep.complaint_status}
                     </span>
-                    <p className="text-[10px] font-semibold text-[#183329]/60">
+                    <p className="text-[10px] font-semibold text-[#A8A29E]">
                       {meta.isExternalAgencyStage
                         ? 'External Agency Stage'
                         : 'Internal Pamasahe Tracker Status'}
@@ -201,7 +201,7 @@ export function MyVehicleReportsPage() {
                   {(rep.categories ?? []).map((c) => (
                     <span
                       key={c.id}
-                      className="rounded-full bg-[#DFF7E8] px-2.5 py-0.5 text-[11px] font-semibold text-[#176B4B]"
+                      className="rounded-full bg-[#FFE4E6] px-2.5 py-0.5 text-[11px] font-semibold text-[#B91C1C]"
                     >
                       Alleged: {c.category}
                     </span>
@@ -209,7 +209,7 @@ export function MyVehicleReportsPage() {
                 </div>
 
                 {rep.admin_remarks && (
-                  <div className="rounded-2xl bg-white/80 p-3 text-xs">
+                  <div className="rounded-2xl bg-[#FFF1F2] border border-[#FCA5A5]/45 p-3 text-xs text-[#24191D]">
                     <strong>Administrator Remarks:</strong> {rep.admin_remarks}
                   </div>
                 )}
@@ -223,7 +223,7 @@ export function MyVehicleReportsPage() {
                   </Link>
                   <GlassButton
                     type="button"
-                    variant="glass"
+                    variant="secondary"
                     size="sm"
                     onClick={() => downloadComplaintSummary(rep, recs)}
                   >

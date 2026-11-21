@@ -81,13 +81,13 @@ export function OperatorPortalPage() {
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
             Transport Operator Portal
           </p>
-          <h1 className="font-display text-2xl font-extrabold text-[#183329]">
+          <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
             Authorized Operator &amp; Tariff Documentation
           </h1>
-          <p className="text-sm text-[#183329]/80">
+          <p className="text-sm text-[#78716C]">
             Manage authorized fleet registration, submit supporting fare order documentation, and
             monitor commuter reports tied to your organization.
           </p>
@@ -101,8 +101,8 @@ export function OperatorPortalPage() {
 
       <div className="grid gap-6 lg:grid-cols-12">
         <GlassCard variant="strong" className="p-6 lg:col-span-5 space-y-4 h-fit">
-          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#183329]">
-            <Truck className="h-5 w-5 text-[#176B4B]" />
+          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
+            <Truck className="h-5 w-5 text-[#DC2626]" />
             Register / Update Operator Record
           </h2>
 
@@ -183,11 +183,11 @@ export function OperatorPortalPage() {
 
         <div className="lg:col-span-7 space-y-5">
           <GlassCard variant="strong" className="p-5 space-y-3">
-            <h2 className="font-display text-lg font-bold text-[#183329]">
+            <h2 className="font-display text-lg font-bold text-[#24191D]">
               My Authorized Operator Records ({myOperators.length})
             </h2>
             {myOperators.length === 0 ? (
-              <p className="text-xs text-[#183329]/75">
+              <p className="text-xs text-[#78716C]">
                 No operator profiles registered under your account yet.
               </p>
             ) : (
@@ -195,16 +195,16 @@ export function OperatorPortalPage() {
                 {myOperators.map((op) => (
                   <div
                     key={op.id}
-                    className="flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-white/75 p-3.5 text-xs"
+                    className="flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-white/85 border border-[#FFE4E6] p-3.5 text-xs"
                   >
                     <div>
-                      <p className="font-bold text-sm text-[#183329]">{op.operator_name}</p>
-                      <p className="text-[#183329]/75">
+                      <p className="font-bold text-sm text-[#24191D]">{op.operator_name}</p>
+                      <p className="text-[#78716C]">
                         Franchise: {op.franchise_or_permit_number || 'Pending'} •{' '}
                         {op.office_address || 'No terminal address'}
                       </p>
                     </div>
-                    <span className="rounded-full bg-[#DFF7E8] px-3 py-1 font-bold uppercase text-[#176B4B]">
+                    <span className="rounded-full bg-[#FFE4E6] px-3 py-1 font-bold uppercase text-[#DC2626]">
                       {op.verification_status}
                     </span>
                   </div>
@@ -214,7 +214,7 @@ export function OperatorPortalPage() {
           </GlassCard>
 
           <GlassCard variant="strong" className="p-5 space-y-3">
-            <h2 className="font-display text-lg font-bold text-[#183329]">
+            <h2 className="font-display text-lg font-bold text-[#24191D]">
               Relevant Commuter Reports ({relevantReports.length})
             </h2>
             {relevantReports.length === 0 ? (
@@ -228,13 +228,13 @@ export function OperatorPortalPage() {
                 {relevantReports.map((rep) => (
                   <div
                     key={rep.id}
-                    className="flex items-center justify-between rounded-2xl bg-white/75 p-3 text-xs"
+                    className="flex items-center justify-between rounded-2xl bg-white/85 border border-[#FFE4E6] p-3 text-xs"
                   >
                     <div>
-                      <p className="font-bold">
+                      <p className="font-bold text-[#24191D]">
                         {rep.origin?.name} → {rep.destination?.name} • {formatPhp(rep.fare_paid)}
                       </p>
-                      <p className="text-[#183329]/70">{formatDateSafe(rep.travel_date)}</p>
+                      <p className="text-[#78716C]">{formatDateSafe(rep.travel_date)}</p>
                     </div>
                     <ReportStatusBadge status={rep.status} />
                   </div>

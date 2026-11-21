@@ -21,17 +21,17 @@ import { GlassButton, GlassCard } from '@/components/glass/GlassPrimitives';
 function createPinIcon(variant: 'default' | 'capital' | 'origin' | 'destination') {
   const bg =
     variant === 'origin'
-      ? '#10B981'
+      ? '#EF4444'
       : variant === 'destination'
-        ? '#176B4B'
+        ? '#B91C1C'
         : variant === 'capital'
-          ? '#0F766E'
-          : '#24966A';
+          ? '#991B1B'
+          : '#DC2626';
 
   const ring =
     variant === 'origin' || variant === 'destination'
-      ? '0 0 0 5px rgba(223, 247, 232, 0.88)'
-      : '0 0 0 3px rgba(255, 255, 255, 0.85)';
+      ? '0 0 0 5px rgba(255, 228, 230, 0.92)'
+      : '0 0 0 3px rgba(255, 255, 255, 0.88)';
 
   return L.divIcon({
     className: 'pamasahe-map-marker',
@@ -178,10 +178,10 @@ export function OrientalMindoroMap({
               key={dist}
               type="button"
               onClick={() => setDistrictFilter(dist)}
-              className={`rounded-full px-3 py-1 text-xs font-semibold transition ${
+              className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                 districtFilter === dist
-                  ? 'bg-[#176B4B] text-white shadow-sm'
-                  : 'bg-white/60 text-[#183329] hover:bg-white/90'
+                  ? 'bg-gradient-to-r from-[#DC2626] to-[#B91C1C] text-white shadow-sm'
+                  : 'bg-white/80 text-[#24191D] border border-white hover:bg-[#FFE4E6]/80 hover:text-[#DC2626]'
               }`}
             >
               {dist === 'all' ? `All 15 LGUs (${municipalities.length})` : dist}
@@ -241,22 +241,22 @@ export function OrientalMindoroMap({
                 icon={createPinIcon(variant)}
               >
                 <Popup>
-                  <div className="min-w-[190px] space-y-2 p-0.5 text-[#183329]">
+                  <div className="min-w-[190px] space-y-2 p-0.5 text-[#24191D]">
                     <div>
                       <div className="flex items-center justify-between gap-2">
                         <h4 className="font-bold text-sm">{muni.name}</h4>
                         {muni.is_capital && (
-                          <span className="rounded-full bg-[#DFF7E8] px-2 py-0.5 text-[10px] font-bold text-[#176B4B]">
+                          <span className="rounded-full bg-[#FFE4E6] px-2 py-0.5 text-[10px] font-bold text-[#DC2626]">
                             Capital
                           </span>
                         )}
                       </div>
-                      <p className="text-[11px] text-[#183329]/70">
+                      <p className="text-[11px] text-[#78716C]">
                         {muni.district} • {muni.latitude.toFixed(4)}°N, {muni.longitude.toFixed(4)}°E
                       </p>
                     </div>
                     {muni.description && (
-                      <p className="text-xs leading-snug text-[#183329]/85">{muni.description}</p>
+                      <p className="text-xs leading-snug text-[#78716C]">{muni.description}</p>
                     )}
                     {(onSelectOrigin || onSelectDestination) && (
                       <div className="flex gap-1.5 pt-1">
@@ -264,7 +264,7 @@ export function OrientalMindoroMap({
                           <button
                             type="button"
                             onClick={() => onSelectOrigin(muni.id)}
-                            className="flex-1 rounded-xl bg-[#10B981] px-2.5 py-1.5 text-[11px] font-bold text-white hover:bg-[#0ea271]"
+                            className="flex-1 rounded-xl bg-[#EF4444] px-2.5 py-1.5 text-[11px] font-bold text-white hover:bg-[#DC2626]"
                           >
                             Set Origin
                           </button>
@@ -273,7 +273,7 @@ export function OrientalMindoroMap({
                           <button
                             type="button"
                             onClick={() => onSelectDestination(muni.id)}
-                            className="flex-1 rounded-xl bg-[#176B4B] px-2.5 py-1.5 text-[11px] font-bold text-white hover:bg-[#13593e]"
+                            className="flex-1 rounded-xl bg-[#B91C1C] px-2.5 py-1.5 text-[11px] font-bold text-white hover:bg-[#991B1B]"
                           >
                             Set Destination
                           </button>
@@ -290,7 +290,7 @@ export function OrientalMindoroMap({
             <Polyline
               positions={polylinePositions}
               pathOptions={{
-                color: '#176B4B',
+                color: '#DC2626',
                 weight: 5,
                 opacity: 0.88,
               }}
@@ -300,15 +300,15 @@ export function OrientalMindoroMap({
 
         {/* Legend Overlay */}
         <div className="pointer-events-none absolute bottom-3 left-3 z-[400] hidden sm:block">
-          <div className="glass-card-strong flex items-center gap-3 rounded-2xl px-3 py-2 text-[11px] font-semibold text-[#183329]">
+          <div className="glass-card-strong flex items-center gap-3 rounded-2xl px-3 py-2 text-[11px] font-semibold text-[#24191D]">
             <span className="inline-flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#10B981]" /> Origin
+              <span className="h-2.5 w-2.5 rounded-full bg-[#EF4444]" /> Origin
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#176B4B]" /> Destination
+              <span className="h-2.5 w-2.5 rounded-full bg-[#B91C1C]" /> Destination
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#0F766E]" /> Calapan Capital
+              <span className="h-2.5 w-2.5 rounded-full bg-[#991B1B]" /> Calapan Capital
             </span>
           </div>
         </div>
@@ -319,19 +319,19 @@ export function OrientalMindoroMap({
         <GlassCard variant="strong" className="p-3.5">
           <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
             <div className="flex items-center gap-2.5">
-              <div className="rounded-xl bg-[#DFF7E8] p-2 text-[#176B4B]">
+              <div className="rounded-xl bg-[#FFE4E6] p-2 text-[#DC2626]">
                 <RouteIcon className="h-4 w-4" />
               </div>
               <div>
-                <p className="font-bold text-[#183329]">
+                <p className="font-bold text-[#24191D]">
                   {origin.name} → {destination.name}
                 </p>
                 {routingLoading ? (
-                  <p className="text-xs text-[#183329]/70">
+                  <p className="text-xs text-[#78716C]">
                     Calculating road geometry via OpenStreetMap / OSRM...
                   </p>
                 ) : osrmRoute?.available ? (
-                  <p className="text-xs text-[#176B4B] font-semibold">
+                  <p className="text-xs text-[#DC2626] font-semibold">
                     Verified OSRM road distance: {osrmRoute.distanceKm} km (approx.{' '}
                     {osrmRoute.durationMin} mins driving)
                   </p>
@@ -343,8 +343,8 @@ export function OrientalMindoroMap({
                 )}
               </div>
             </div>
-            <div className="flex items-center gap-1.5 rounded-xl bg-white/70 px-3 py-1.5 text-[11px] font-semibold text-[#183329]/80">
-              <Compass className="h-3.5 w-3.5 text-[#24966A]" />
+            <div className="flex items-center gap-1.5 rounded-xl bg-[#FFF1F2] border border-[#FCA5A5]/45 px-3 py-1.5 text-[11px] font-semibold text-[#78716C]">
+              <Compass className="h-3.5 w-3.5 text-[#DC2626]" />
               <span>Distance is never used to invent an official fare</span>
             </div>
           </div>
@@ -352,8 +352,8 @@ export function OrientalMindoroMap({
       )}
 
       {(!origin || !destination) && (
-        <div className="flex items-center gap-2 text-xs text-[#183329]/80 px-1">
-          <Navigation className="h-3.5 w-3.5 text-[#176B4B]" />
+        <div className="flex items-center gap-2 text-xs text-[#78716C] px-1">
+          <Navigation className="h-3.5 w-3.5 text-[#DC2626]" />
           <span>
             Click any municipality marker on the map to inspect details or choose Origin &amp;
             Destination.

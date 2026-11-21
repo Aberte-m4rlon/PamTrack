@@ -41,8 +41,8 @@ export function OperatorManagementPage() {
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">Fleet Directory</p>
-        <h1 className="font-display text-2xl font-extrabold text-[#183329]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">Fleet Directory</p>
+        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
           Transport Operators
         </h1>
       </GlassCard>
@@ -59,15 +59,15 @@ export function OperatorManagementPage() {
             <GlassCard key={op.id} variant="strong" className="p-5 space-y-3">
               <div className="flex items-start justify-between">
                 <div>
-                  <h2 className="font-display text-lg font-bold text-[#183329]">
+                  <h2 className="font-display text-lg font-bold text-[#24191D]">
                     {op.operator_name}
                   </h2>
-                  <p className="text-xs text-[#183329]/75">
+                  <p className="text-xs text-[#78716C]">
                     Franchise: {op.franchise_or_permit_number || 'None'} •{' '}
                     {op.contact_phone || 'No phone'}
                   </p>
                 </div>
-                <span className="rounded-full bg-[#DFF7E8] px-3 py-1 text-[11px] font-bold uppercase text-[#176B4B]">
+                <span className="rounded-full bg-[#FFE4E6] px-3 py-1 text-[11px] font-bold uppercase text-[#DC2626]">
                   {op.verification_status}
                 </span>
               </div>

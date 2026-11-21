@@ -26,21 +26,21 @@ import { GlassButton, GlassCard } from '@/components/glass/GlassPrimitives';
 
 const userGpsIcon = L.divIcon({
   className: 'user-gps-marker',
-  html: `<div style="width:20px;height:20px;border-radius:9999px;background:#0ea5e9;border:3px solid #fff;box-shadow:0 0 0 6px rgba(14,165,233,0.32);"></div>`,
+  html: `<div style="width:20px;height:20px;border-radius:9999px;background:#2563EB;border:3px solid #fff;box-shadow:0 0 0 6px rgba(37,99,235,0.28);"></div>`,
   iconSize: [20, 20],
   iconAnchor: [10, 10],
 });
 
 const stopPinIcon = L.divIcon({
   className: 'stop-pin-marker',
-  html: `<div style="width:16px;height:16px;border-radius:6px;background:#176B4B;border:2px solid #DFF7E8;box-shadow:0 3px 8px rgba(0,0,0,0.3);"></div>`,
+  html: `<div style="width:16px;height:16px;border-radius:6px;background:#DC2626;border:2px solid #FFE4E6;box-shadow:0 3px 8px rgba(0,0,0,0.3);"></div>`,
   iconSize: [16, 16],
   iconAnchor: [8, 8],
 });
 
 const destPinIcon = L.divIcon({
   className: 'dest-pin-marker',
-  html: `<div style="width:18px;height:18px;border-radius:9999px;background:#10B981;border:2px solid #fff;box-shadow:0 0 0 4px rgba(16,185,129,0.3);"></div>`,
+  html: `<div style="width:18px;height:18px;border-radius:9999px;background:#B91C1C;border:2px solid #fff;box-shadow:0 0 0 4px rgba(252,165,165,0.65);"></div>`,
   iconSize: [18, 18],
   iconAnchor: [9, 9],
 });
@@ -118,21 +118,21 @@ export function LiveMapPage() {
       <GlassCard variant="strong" className="p-5 sm:p-6 space-y-2">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
               Real-Time Geospatial View
             </p>
-            <h1 className="font-display text-2xl font-extrabold text-[#183329] sm:text-3xl">
+            <h1 className="font-display text-2xl font-extrabold text-[#24191D] sm:text-3xl">
               Live GPS Location &amp; Verified Terminals Map
             </h1>
-            <p className="text-xs sm:text-sm text-[#183329]/80">
+            <p className="text-xs sm:text-sm text-[#78716C]">
               View your live browser GPS position, accuracy circle, verified Oriental Mindoro ports
               &amp; terminals, and OSRM directions to any selected destination.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
             <Link to="/nearby">
-              <GlassButton variant="glass" size="sm">
-                <Navigation className="h-3.5 w-3.5 text-[#176B4B]" />
+              <GlassButton variant="secondary" size="sm">
+                <Navigation className="h-3.5 w-3.5" />
                 Nearby Stops List
               </GlassButton>
             </Link>
@@ -156,10 +156,10 @@ export function LiveMapPage() {
                   key={cat}
                   type="button"
                   onClick={() => setCategoryFilter(cat)}
-                  className={`rounded-full px-3 py-1 text-xs font-semibold transition ${
+                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                     categoryFilter === cat
-                      ? 'bg-[#176B4B] text-white'
-                      : 'bg-white/70 text-[#183329] hover:bg-white'
+                      ? 'bg-gradient-to-r from-[#DC2626] to-[#B91C1C] text-white shadow-sm'
+                      : 'bg-white/80 text-[#24191D] border border-white hover:bg-[#FFE4E6]/80 hover:text-[#DC2626]'
                   }`}
                 >
                   {cat === 'all'
@@ -210,7 +210,7 @@ export function LiveMapPage() {
           </div>
         </div>
 
-        <div className="h-[440px] overflow-hidden rounded-3xl border border-white/60 shadow-glass">
+        <div className="h-[340px] sm:h-[440px] overflow-hidden rounded-3xl border border-white/80 shadow-glass">
           <MapContainer
             center={ORIENTAL_MINDORO_MAP_CENTER}
             zoom={ORIENTAL_MINDORO_DEFAULT_ZOOM}
@@ -231,8 +231,8 @@ export function LiveMapPage() {
                   icon={userGpsIcon}
                 >
                   <Popup>
-                    <div className="text-xs space-y-1">
-                      <p className="font-bold text-[#176B4B]">Your Current GPS Position</p>
+                    <div className="text-xs space-y-1 text-[#24191D]">
+                      <p className="font-bold text-[#2563EB]">Your Current GPS Position</p>
                       <p>
                         {currentPosition.latitude.toFixed(5)}°N,{' '}
                         {currentPosition.longitude.toFixed(5)}°E
@@ -245,8 +245,8 @@ export function LiveMapPage() {
                   center={[currentPosition.latitude, currentPosition.longitude]}
                   radius={Math.min(currentPosition.accuracyMeters, 2000)}
                   pathOptions={{
-                    color: '#0ea5e9',
-                    fillColor: '#38bdf8',
+                    color: '#2563EB',
+                    fillColor: '#60A5FA',
                     fillOpacity: 0.18,
                     weight: 1.5,
                   }}
@@ -263,18 +263,18 @@ export function LiveMapPage() {
               >
                 <Popup>
                   <div className="min-w-[200px] space-y-1.5 text-xs">
-                    <span className="inline-block rounded-full bg-[#DFF7E8] px-2 py-0.5 text-[10px] font-bold text-[#176B4B]">
+                    <span className="inline-block rounded-full bg-[#FFE4E6] px-2 py-0.5 text-[10px] font-bold text-[#DC2626]">
                       {STOP_CATEGORY_LABELS[stop.stop_category]}
                     </span>
-                    <h3 className="font-bold text-sm text-[#183329]">{stop.stop_name}</h3>
+                    <h3 className="font-bold text-sm text-[#24191D]">{stop.stop_name}</h3>
                     {stop.address_or_landmark && (
-                      <p className="text-[#183329]/75">{stop.address_or_landmark}</p>
+                      <p className="text-[#78716C]">{stop.address_or_landmark}</p>
                     )}
                     {stop.operating_notes && (
-                      <p className="text-[#183329]/80">{stop.operating_notes}</p>
+                      <p className="text-[#78716C]">{stop.operating_notes}</p>
                     )}
                     {currentPosition && (
-                      <p className="font-bold text-[#176B4B]">
+                      <p className="font-bold text-[#DC2626]">
                         ~
                         {haversineDistanceKm(
                           currentPosition.latitude,
@@ -295,7 +295,7 @@ export function LiveMapPage() {
                           municipalityId: stop.municipality_id,
                         })
                       }
-                      className="w-full rounded-xl bg-[#176B4B] px-2.5 py-1.5 text-[11px] font-bold text-white"
+                      className="w-full rounded-xl bg-gradient-to-r from-[#DC2626] to-[#B91C1C] px-2.5 py-1.5 text-[11px] font-bold text-white"
                     >
                       Route to This Stop
                     </button>
@@ -311,7 +311,7 @@ export function LiveMapPage() {
                 icon={destPinIcon}
               >
                 <Popup>
-                  <div className="text-xs font-bold text-[#183329]">
+                  <div className="text-xs font-bold text-[#24191D]">
                     Destination: {selectedDest.name}
                   </div>
                 </Popup>
@@ -321,7 +321,7 @@ export function LiveMapPage() {
             {polyline && (
               <Polyline
                 positions={polyline}
-                pathOptions={{ color: '#176B4B', weight: 5, opacity: 0.85 }}
+                pathOptions={{ color: '#DC2626', weight: 5, opacity: 0.88 }}
               />
             )}
           </MapContainer>
@@ -330,14 +330,14 @@ export function LiveMapPage() {
         {selectedDest && (
           <GlassCard variant="strong" className="p-3.5 flex flex-wrap items-center justify-between gap-2 text-xs">
             <div className="flex items-center gap-2">
-              <RouteIcon className="h-4 w-4 text-[#176B4B]" />
+              <RouteIcon className="h-4 w-4 text-[#DC2626]" />
               <span>
                 Selected Destination: <strong>{selectedDest.name}</strong>
               </span>
             </div>
             {currentPosition ? (
               osrmRoute?.available ? (
-                <span className="font-bold text-[#176B4B]">
+                <span className="font-bold text-[#DC2626]">
                   OSRM Route from your location: {osrmRoute.distanceKm} km (~{osrmRoute.durationMin}{' '}
                   mins)
                 </span>
@@ -354,7 +354,7 @@ export function LiveMapPage() {
                 </span>
               )
             ) : (
-              <span className="inline-flex items-center gap-1 text-[#183329]/75">
+              <span className="inline-flex items-center gap-1 text-[#78716C]">
                 <Compass className="h-3.5 w-3.5" />
                 Enable GPS above to calculate driving directions from your location.
               </span>

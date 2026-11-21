@@ -42,10 +42,10 @@ export function AdminAgencyReferralsPage() {
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
           External Coordination Tracking
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#183329]">
+        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
           Agency Referrals
         </h1>
       </GlassCard>
@@ -64,18 +64,18 @@ export function AdminAgencyReferralsPage() {
             <GlassCard key={r.id} variant="strong" className="p-5 space-y-3 text-xs">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
-                  <p className="font-mono font-extrabold text-[#176B4B]">
+                  <p className="font-mono font-extrabold text-[#DC2626]">
                     {r.report?.reference_number ?? r.report_id}
                   </p>
-                  <p className="font-bold text-sm text-[#183329]">
+                  <p className="font-bold text-sm text-[#24191D]">
                     {r.agency?.agency_name}
                   </p>
-                  <p className="text-[#183329]/70">
+                  <p className="text-[#78716C]">
                     Vehicle: {r.report?.vehicle_type} ({r.report?.plate_number || 'Plate N/A'}) •
                     Created: {formatDateSafe(r.created_at)}
                   </p>
                 </div>
-                <span className="rounded-full bg-[#DFF7E8] px-3 py-1 font-bold text-[#176B4B]">
+                <span className="rounded-full bg-[#FFE4E6] px-3 py-1 font-bold text-[#B91C1C]">
                   {r.referral_status}
                 </span>
               </div>

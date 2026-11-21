@@ -64,13 +64,13 @@ export function AdminLocationAnalyticsPage() {
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
           Location Analytics &amp; Verified Terminal Registry
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#183329]">
+        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
           Location Analytics &amp; Verified Stops
         </h1>
-        <p className="text-sm text-[#183329]/80">
+        <p className="text-sm text-[#78716C]">
           View non-personal municipality destination volume and publish verified real-world Oriental
           Mindoro terminals for Nearby Finder and Live Map.
         </p>
@@ -78,8 +78,8 @@ export function AdminLocationAnalyticsPage() {
 
       <div className="grid gap-6 lg:grid-cols-12">
         <GlassCard variant="strong" className="p-6 lg:col-span-5 space-y-3 h-fit">
-          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#183329]">
-            <PlusCircle className="h-5 w-5 text-[#176B4B]" />
+          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
+            <PlusCircle className="h-5 w-5 text-[#DC2626]" />
             Add Verified Terminal / Stop
           </h2>
           <form
@@ -183,11 +183,11 @@ export function AdminLocationAnalyticsPage() {
 
         <div className="lg:col-span-7 space-y-5">
           <GlassCard variant="strong" className="p-5 space-y-3">
-            <h2 className="font-display text-lg font-bold text-[#183329]">
+            <h2 className="font-display text-lg font-bold text-[#24191D]">
               Aggregated Destination Volume by Municipality
             </h2>
             {!analytics || analytics.municipality_destinations.length === 0 ? (
-              <p className="text-xs text-[#183329]/75">
+              <p className="text-xs text-[#78716C]">
                 No destination counts aggregated yet.
               </p>
             ) : (
@@ -195,10 +195,10 @@ export function AdminLocationAnalyticsPage() {
                 {analytics.municipality_destinations.map((m) => (
                   <div
                     key={m.municipality_name}
-                    className="flex items-center justify-between rounded-2xl bg-white/75 px-3.5 py-2 text-xs font-bold"
+                    className="flex items-center justify-between rounded-2xl bg-white/85 border border-[#FFE4E6] px-3.5 py-2 text-xs font-bold"
                   >
-                    <span>{m.municipality_name}</span>
-                    <span className="text-[#176B4B]">{m.trip_count} trip(s)</span>
+                    <span className="text-[#24191D]">{m.municipality_name}</span>
+                    <span className="text-[#DC2626]">{m.trip_count} trip(s)</span>
                   </div>
                 ))}
               </div>
@@ -206,15 +206,15 @@ export function AdminLocationAnalyticsPage() {
           </GlassCard>
 
           <GlassCard variant="strong" className="p-5 space-y-3">
-            <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#183329]">
-              <LocateFixed className="h-4 w-4 text-[#176B4B]" />
+            <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
+              <LocateFixed className="h-4 w-4 text-[#DC2626]" />
               Verified Transport Stops ({stops?.length ?? 0})
             </h2>
             <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
               {(stops ?? []).map((s) => (
-                <div key={s.id} className="rounded-2xl bg-white/75 p-3 text-xs">
-                  <p className="font-bold text-[#183329]">{s.stop_name}</p>
-                  <p className="text-[#183329]/75">
+                <div key={s.id} className="rounded-2xl bg-white/85 border border-[#FFE4E6] p-3 text-xs">
+                  <p className="font-bold text-[#24191D]">{s.stop_name}</p>
+                  <p className="text-[#78716C]">
                     {STOP_CATEGORY_LABELS[s.stop_category]} • {s.latitude.toFixed(4)}°N,{' '}
                     {s.longitude.toFixed(4)}°E
                   </p>

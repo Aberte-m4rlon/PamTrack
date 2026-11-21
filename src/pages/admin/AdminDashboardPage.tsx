@@ -124,15 +124,15 @@ export function AdminDashboardPage() {
 
   return (
     <div className="space-y-6">
-      <GlassCard variant="green" className="p-6 flex flex-wrap items-center justify-between gap-4">
+      <GlassCard variant="rose" className="p-6 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#DFF7E8]">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#FFE4E6]">
             Protected Administrator Portal
           </p>
           <h1 className="font-display text-2xl font-extrabold sm:text-3xl">
             Pamasahe Tracker Operations Center
           </h1>
-          <p className="text-xs text-[#DFF7E8]/90 sm:text-sm">
+          <p className="text-xs text-[#FFE4E6]/95 sm:text-sm">
             Verify official LTFRB &amp; LGU tariffs, audit community reports, and manage all 15
             Oriental Mindoro transport corridors.
           </p>
@@ -159,14 +159,14 @@ export function AdminDashboardPage() {
           <Link key={s.label} to={s.to}>
             <GlassCard variant="strong" hoverable className="p-4 flex items-center justify-between">
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-wider text-[#183329]/65">
+                <p className="text-[11px] font-bold uppercase tracking-wider text-[#78716C]">
                   {s.label}
                 </p>
-                <p className="mt-1 font-display text-2xl font-extrabold text-[#176B4B]">
+                <p className="mt-1 font-display text-2xl font-extrabold text-[#DC2626]">
                   {s.value}
                 </p>
               </div>
-              <div className="rounded-2xl bg-[#DFF7E8] p-2.5 text-[#176B4B]">
+              <div className="rounded-2xl bg-[#FFE4E6] p-2.5 text-[#DC2626]">
                 <s.icon className="h-5 w-5" />
               </div>
             </GlassCard>
@@ -177,17 +177,17 @@ export function AdminDashboardPage() {
       {/* Analytics + Recent Activity */}
       <div className="grid gap-6 lg:grid-cols-12">
         <GlassCard variant="strong" className="p-5 lg:col-span-6 space-y-4">
-          <h2 className="font-display text-lg font-bold text-[#183329]">
+          <h2 className="font-display text-lg font-bold text-[#24191D]">
             Fare Verification Distribution
           </h2>
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(24,51,41,0.12)" />
-                <XAxis dataKey="name" tick={{ fill: '#183329', fontSize: 11 }} />
-                <YAxis allowDecimals={false} tick={{ fill: '#183329', fontSize: 11 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(120,113,108,0.16)" />
+                <XAxis dataKey="name" tick={{ fill: '#24191D', fontSize: 11 }} />
+                <YAxis allowDecimals={false} tick={{ fill: '#24191D', fontSize: 11 }} />
                 <Tooltip />
-                <Bar dataKey="count" fill="#176B4B" radius={[10, 10, 0, 0]} />
+                <Bar dataKey="count" fill="#DC2626" radius={[10, 10, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -195,17 +195,17 @@ export function AdminDashboardPage() {
 
         <GlassCard variant="strong" className="p-5 lg:col-span-6 space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-lg font-bold text-[#183329]">
+            <h2 className="font-display text-lg font-bold text-[#24191D]">
               Recent Administrative Activities
             </h2>
-            <Link to="/admin/audit-logs" className="text-xs font-bold text-[#176B4B] hover:underline">
+            <Link to="/admin/audit-logs" className="text-xs font-bold text-[#DC2626] hover:underline">
               Full Audit Logs →
             </Link>
           </div>
           {!auditLogs ? (
             <GlassSkeleton className="h-44" />
           ) : auditLogs.length === 0 ? (
-            <p className="text-xs text-[#183329]/75">
+            <p className="text-xs text-[#78716C]">
               No administrative audit events logged yet. Every verification, official fare update,
               and role change is automatically recorded here.
             </p>
@@ -214,17 +214,17 @@ export function AdminDashboardPage() {
               {auditLogs.slice(0, 8).map((log) => (
                 <div
                   key={log.id}
-                  className="rounded-2xl border border-white bg-white/75 p-3 text-xs"
+                  className="rounded-2xl border border-[#FFE4E6] bg-white/85 p-3 text-xs"
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-bold text-[#176B4B]">
+                    <span className="font-bold text-[#DC2626]">
                       {log.action.replace(/_/g, ' ')}
                     </span>
-                    <span className="text-[11px] text-[#183329]/65">
+                    <span className="text-[11px] text-[#A8A29E]">
                       {formatDateTimeSafe(log.created_at)}
                     </span>
                   </div>
-                  <p className="text-[#183329]/75">
+                  <p className="text-[#78716C]">
                     Entity: {log.entity_type} ({log.entity_id ?? 'N/A'})
                   </p>
                 </div>

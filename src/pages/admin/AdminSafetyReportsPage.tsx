@@ -41,10 +41,10 @@ export function AdminSafetyReportsPage() {
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
           Commuter Safety Moderation
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#183329]">
+        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
           Safety Incident Reports
         </h1>
       </GlassCard>
@@ -63,20 +63,20 @@ export function AdminSafetyReportsPage() {
             <GlassCard key={rep.id} variant="strong" className="p-5 space-y-3 text-xs">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
-                  <span className="rounded-full bg-red-100 px-2.5 py-0.5 font-bold uppercase text-red-800 mr-2">
+                  <span className="rounded-full bg-[#FEE2E2] px-2.5 py-0.5 font-bold uppercase text-[#B91C1C] mr-2">
                     {rep.severity}
                   </span>
-                  <span className="font-display text-base font-bold text-[#183329]">
+                  <span className="font-display text-base font-bold text-[#24191D]">
                     {rep.incident_type}
                   </span>
                 </div>
-                <span className="rounded-full bg-[#DFF7E8] px-3 py-1 font-bold uppercase text-[#176B4B]">
+                <span className="rounded-full bg-[#FFE4E6] px-3 py-1 font-bold uppercase text-[#DC2626]">
                   {rep.status}
                 </span>
               </div>
 
-              <p className="text-sm text-[#183329]/85">{rep.description}</p>
-              <p className="text-[#183329]/70">
+              <p className="text-sm text-[#24191D]/85">{rep.description}</p>
+              <p className="text-[#78716C]">
                 Submitted {formatDateTimeSafe(rep.created_at)}
                 {rep.vehicle_or_operator_details
                   ? ` • Vehicle: ${rep.vehicle_or_operator_details}`
@@ -98,7 +98,7 @@ export function AdminSafetyReportsPage() {
                     <GlassButton
                       key={nextStatus}
                       type="button"
-                      variant={nextStatus === 'resolved' ? 'primary' : 'glass'}
+                      variant={nextStatus === 'resolved' ? 'primary' : 'secondary'}
                       size="sm"
                       disabled={updateMut.isPending}
                       onClick={() => updateMut.mutate({ id: rep.id, status: nextStatus })}

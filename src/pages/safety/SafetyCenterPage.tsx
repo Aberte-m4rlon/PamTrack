@@ -176,15 +176,15 @@ export function SafetyCenterPage() {
 
   return (
     <div className="space-y-6">
-      <GlassCard variant="green" className="p-6 flex flex-wrap items-center justify-between gap-4">
+      <GlassCard variant="rose" className="p-6 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#DFF7E8]">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#FFE4E6]">
             Commuter Protection &amp; Consent Controls
           </p>
           <h1 className="font-display text-2xl font-extrabold sm:text-3xl">
             Trusted Contacts &amp; Safety Center
           </h1>
-          <p className="text-xs sm:text-sm text-[#DFF7E8]/90">
+          <p className="text-xs sm:text-sm text-[#FFE4E6]/95">
             Manage emergency contacts, share active trips via revocable expiring links, and submit
             transport safety reports.
           </p>
@@ -199,7 +199,7 @@ export function SafetyCenterPage() {
           </a>
           <a href="tel:1342">
             <GlassButton variant="glass" size="sm">
-              <PhoneCall className="h-3.5 w-3.5 text-[#176B4B]" />
+              <PhoneCall className="h-3.5 w-3.5 text-[#DC2626]" />
               LTFRB Hotline 1342
             </GlassButton>
           </a>
@@ -223,8 +223,8 @@ export function SafetyCenterPage() {
           {/* Trusted Contacts & Time-Limited Sharing */}
           <div className="lg:col-span-6 space-y-5">
             <GlassCard variant="strong" className="p-5 space-y-4">
-              <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#183329]">
-                <UserPlus className="h-4 w-4 text-[#176B4B]" />
+              <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
+                <UserPlus className="h-4 w-4 text-[#DC2626]" />
                 Trusted Contacts ({contacts?.length ?? 0})
               </h2>
 
@@ -279,23 +279,23 @@ export function SafetyCenterPage() {
                 {(contacts ?? []).map((c) => (
                   <div
                     key={c.id}
-                    className="flex items-center justify-between rounded-2xl bg-white/75 p-3 text-xs"
+                    className="flex items-center justify-between rounded-2xl bg-white/85 border border-[#FFE4E6] p-3 text-xs"
                   >
                     <div>
-                      <p className="font-bold text-[#183329]">
+                      <p className="font-bold text-[#24191D]">
                         {c.contact_name}{' '}
                         {c.relationship && (
-                          <span className="text-[#24966A]">({c.relationship})</span>
+                          <span className="text-[#B91C1C]">({c.relationship})</span>
                         )}
                       </p>
-                      <p className="text-[#183329]/70">
+                      <p className="text-[#78716C]">
                         {c.phone_number || 'No phone'} • {c.email || 'No email'}
                       </p>
                     </div>
                     <button
                       type="button"
                       onClick={() => removeContactMut.mutate(c.id)}
-                      className="rounded-lg p-1.5 text-red-600 hover:bg-red-50"
+                      className="rounded-lg p-1.5 text-[#DC2626] hover:bg-[#FEE2E2]"
                       aria-label="Remove contact"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
@@ -306,11 +306,11 @@ export function SafetyCenterPage() {
             </GlassCard>
 
             <GlassCard variant="strong" className="p-5 space-y-4">
-              <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#183329]">
-                <Share2 className="h-4 w-4 text-[#176B4B]" />
+              <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
+                <Share2 className="h-4 w-4 text-[#DC2626]" />
                 Time-Limited Trip Location Sharing
               </h2>
-              <p className="text-xs text-[#183329]/80">
+              <p className="text-xs text-[#78716C]">
                 Your exact location is never public. Only holders of an active, unexpired,
                 unrevoked token can view your active trip status.
               </p>
@@ -341,11 +341,12 @@ export function SafetyCenterPage() {
                   </select>
                 </div>
 
-                <label className="flex items-center gap-2 font-semibold">
+                <label className="flex items-center gap-2 font-semibold text-[#24191D]">
                   <input
                     type="checkbox"
                     checked={consentChecked}
                     onChange={(e) => setConsentChecked(e.target.checked)}
+                    className="accent-[#DC2626]"
                   />
                   I explicitly consent to share my active trip GPS position until expiry or
                   revocation.
@@ -371,14 +372,14 @@ export function SafetyCenterPage() {
                   return (
                     <div
                       key={s.id}
-                      className="rounded-2xl bg-white/75 p-3 text-xs space-y-1.5"
+                      className="rounded-2xl bg-white/85 border border-[#FFE4E6] p-3 text-xs space-y-1.5"
                     >
                       <div className="flex items-center justify-between gap-2">
                         <span
                           className={`rounded-full px-2 py-0.5 font-bold uppercase text-[10px] ${
                             active
-                              ? 'bg-emerald-100 text-[#176B4B]'
-                              : 'bg-slate-200 text-slate-700'
+                              ? 'bg-green-100 text-[#16A34A]'
+                              : 'bg-stone-200 text-[#78716C]'
                           }`}
                         >
                           {active ? 'Active Share' : s.revoked_at ? 'Revoked' : 'Expired'}
@@ -394,7 +395,7 @@ export function SafetyCenterPage() {
                           </GlassButton>
                         )}
                       </div>
-                      <p className="text-[11px] text-[#183329]/75">
+                      <p className="text-[11px] text-[#78716C]">
                         Expires: {formatDateTimeSafe(s.expires_at)}
                       </p>
                       {active && (
@@ -402,7 +403,7 @@ export function SafetyCenterPage() {
                           href={link}
                           target="_blank"
                           rel="noreferrer"
-                          className="block truncate font-mono text-[11px] text-[#176B4B] underline"
+                          className="block truncate font-mono text-[11px] text-[#DC2626] underline"
                         >
                           {link}
                         </a>
@@ -416,8 +417,8 @@ export function SafetyCenterPage() {
 
           {/* Safety Incident Reports */}
           <GlassCard variant="strong" className="p-5 lg:col-span-6 space-y-4 h-fit">
-            <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#183329]">
-              <ShieldAlert className="h-4 w-4 text-red-600" />
+            <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
+              <ShieldAlert className="h-4 w-4 text-[#DC2626]" />
               Report a Safety Incident
             </h2>
 
@@ -498,11 +499,12 @@ export function SafetyCenterPage() {
               />
 
               {currentPosition && (
-                <label className="flex items-center gap-2 font-semibold">
+                <label className="flex items-center gap-2 font-semibold text-[#24191D]">
                   <input
                     type="checkbox"
                     checked={attachGps}
                     onChange={(e) => setAttachGps(e.target.checked)}
+                    className="accent-[#DC2626]"
                   />
                   Include my current GPS fix ({currentPosition.latitude.toFixed(4)}°N,{' '}
                   {currentPosition.longitude.toFixed(4)}°E) with this report
@@ -518,21 +520,21 @@ export function SafetyCenterPage() {
               </GlassButton>
             </form>
 
-            <div className="space-y-2 border-t border-[#176B4B]/15 pt-4">
-              <p className="text-xs font-bold text-[#183329]">
+            <div className="space-y-2 border-t border-[#FCA5A5]/40 pt-4">
+              <p className="text-xs font-bold text-[#24191D]">
                 My Safety Reports ({safetyReports?.length ?? 0})
               </p>
               {(safetyReports ?? []).map((sr) => (
-                <div key={sr.id} className="rounded-2xl bg-white/75 p-3 text-xs space-y-1">
+                <div key={sr.id} className="rounded-2xl bg-white/85 border border-[#FFE4E6] p-3 text-xs space-y-1">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold">{sr.incident_type}</span>
-                    <span className="rounded-full bg-[#DFF7E8] px-2 py-0.5 text-[10px] font-bold uppercase text-[#176B4B]">
+                    <span className="font-bold text-[#24191D]">{sr.incident_type}</span>
+                    <span className="rounded-full bg-[#FFE4E6] px-2 py-0.5 text-[10px] font-bold uppercase text-[#DC2626]">
                       {sr.status}
                     </span>
                   </div>
-                  <p className="text-[#183329]/80">{sr.description}</p>
+                  <p className="text-[#78716C]">{sr.description}</p>
                   {sr.admin_notes && (
-                    <p className="text-[11px] font-semibold text-[#176B4B]">
+                    <p className="text-[11px] font-semibold text-[#B91C1C]">
                       Admin response: {sr.admin_notes}
                     </p>
                   )}

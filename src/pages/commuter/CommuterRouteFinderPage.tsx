@@ -13,13 +13,13 @@ export function CommuterRouteFinderPage() {
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6 space-y-1.5">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
           Commuter Portal
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#183329]">
+        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
           Interactive Route Finder
         </h1>
-        <p className="text-sm text-[#183329]/80">
+        <p className="text-sm text-[#78716C]">
           Pick origin and destination via form or map pins, inspect OSRM driving route distance,
           and save favorite trips.
         </p>
@@ -35,7 +35,7 @@ export function CommuterRouteFinderPage() {
       />
 
       <GlassCard variant="surface" className="p-5 space-y-3">
-        <h2 className="font-display text-lg font-bold text-[#183329]">
+        <h2 className="font-display text-lg font-bold text-[#24191D]">
           Oriental Mindoro Map Selector
         </h2>
         <OrientalMindoroMap
@@ -44,6 +44,7 @@ export function CommuterRouteFinderPage() {
           destinationId={destinationId}
           onSelectOrigin={setOriginId}
           onSelectDestination={setDestinationId}
+          heightClassName="h-[340px] sm:h-[430px]"
         />
       </GlassCard>
     </div>

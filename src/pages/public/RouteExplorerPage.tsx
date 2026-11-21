@@ -24,13 +24,13 @@ export function RouteExplorerPage() {
       <GlassCard variant="strong" className="p-6 space-y-2">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
               Interactive OpenStreetMap Explorer
             </p>
-            <h1 className="font-display text-2xl font-extrabold text-[#183329] sm:text-3xl">
+            <h1 className="font-display text-2xl font-extrabold text-[#24191D] sm:text-3xl">
               Oriental Mindoro Route Map
             </h1>
-            <p className="text-sm text-[#183329]/80">
+            <p className="text-sm text-[#78716C]">
               Select any two of the 15 municipalities/city to visualize real OSRM road geometry and
               search available fares.
             </p>
@@ -51,7 +51,7 @@ export function RouteExplorerPage() {
       <GlassCard variant="surface" className="p-4 sm:p-5 space-y-4">
         <div className="grid gap-3 sm:grid-cols-2">
           <div>
-            <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#183329]/75">
+            <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
               Map Origin
             </label>
             <select
@@ -68,7 +68,7 @@ export function RouteExplorerPage() {
             </select>
           </div>
           <div>
-            <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#183329]/75">
+            <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
               Map Destination
             </label>
             <select
@@ -87,7 +87,7 @@ export function RouteExplorerPage() {
         </div>
 
         {muniLoading ? (
-          <GlassSkeleton className="h-[430px]" />
+          <GlassSkeleton className="h-[340px] sm:h-[430px]" />
         ) : (
           <OrientalMindoroMap
             municipalities={municipalities}
@@ -95,7 +95,7 @@ export function RouteExplorerPage() {
             destinationId={destinationId}
             onSelectOrigin={setOriginId}
             onSelectDestination={setDestinationId}
-            heightClassName="h-[460px]"
+            heightClassName="h-[340px] sm:h-[460px]"
           />
         )}
       </GlassCard>
@@ -103,8 +103,8 @@ export function RouteExplorerPage() {
       {/* Registered Route Catalog */}
       <div className="space-y-3">
         <div className="flex items-center gap-2 px-1">
-          <RouteIcon className="h-4 w-4 text-[#176B4B]" />
-          <h2 className="font-display text-xl font-extrabold text-[#183329]">
+          <RouteIcon className="h-4 w-4 text-[#DC2626]" />
+          <h2 className="font-display text-xl font-extrabold text-[#24191D]">
             Registered Transport Corridors
           </h2>
         </div>
@@ -125,21 +125,21 @@ export function RouteExplorerPage() {
             {routes.map((route) => (
               <GlassCard key={route.id} variant="strong" hoverable className="p-4 space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#DFF7E8] px-2.5 py-1 text-[11px] font-bold text-[#176B4B]">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFE4E6] px-2.5 py-1 text-[11px] font-bold text-[#DC2626]">
                     <TransportModeIcon code={route.transport_type?.code} className="h-3.5 w-3.5" />
                     {route.transport_type?.name}
                   </span>
-                  <span className="text-[11px] font-mono text-[#183329]/70">
+                  <span className="text-[11px] font-mono text-[#78716C]">
                     {route.route_code}
                   </span>
                 </div>
-                <h3 className="font-bold text-sm text-[#183329]">{route.route_name}</h3>
-                <p className="flex items-center gap-1.5 text-xs text-[#183329]/80">
-                  <MapPin className="h-3.5 w-3.5 text-[#24966A]" />
+                <h3 className="font-bold text-sm text-[#24191D]">{route.route_name}</h3>
+                <p className="flex items-center gap-1.5 text-xs text-[#78716C]">
+                  <MapPin className="h-3.5 w-3.5 text-[#DC2626]" />
                   {route.origin?.name} → {route.destination?.name}
                 </p>
                 {route.distance_km && (
-                  <p className="text-xs font-semibold text-[#176B4B]">
+                  <p className="text-xs font-semibold text-[#B91C1C]">
                     Distance: {route.distance_km} km ({route.distance_source ?? 'survey'})
                   </p>
                 )}
@@ -150,13 +150,13 @@ export function RouteExplorerPage() {
                       setOriginId(route.origin_municipality_id);
                       setDestinationId(route.destination_municipality_id);
                     }}
-                    className="text-xs font-bold text-[#24966A] hover:underline"
+                    className="text-xs font-bold text-[#B91C1C] hover:underline"
                   >
                     Show on Map
                   </button>
                   <Link
                     to={`/fare-search?origin=${route.origin_municipality_id}&destination=${route.destination_municipality_id}`}
-                    className="text-xs font-bold text-[#176B4B] hover:underline"
+                    className="text-xs font-bold text-[#DC2626] hover:underline"
                   >
                     Check Fares →
                   </Link>

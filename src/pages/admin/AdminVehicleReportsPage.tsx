@@ -167,11 +167,11 @@ export function AdminVehicleReportsPage({
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6 space-y-2">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#176B4B]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
           Administrator Complaint Review
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#183329]">{pageTitle}</h1>
-        <p className="text-xs sm:text-sm text-[#183329]/80">
+        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">{pageTitle}</h1>
+        <p className="text-xs sm:text-sm text-[#78716C]">
           Search by plate number or reference ID, inspect private photo/video evidence, detect
           duplicates, and prepare agency referrals. Alleged violations remain confidential until
           formally adjudicated.
@@ -181,7 +181,7 @@ export function AdminVehicleReportsPage({
       {/* Filter Bar */}
       <GlassCard variant="surface" className="p-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         <div className="relative">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-[#183329]/50" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-[#A8A29E]" />
           <input
             type="text"
             value={plateSearch}
@@ -270,16 +270,16 @@ export function AdminVehicleReportsPage({
                   }}
                   className={`w-full text-left glass-card-strong rounded-3xl p-4 space-y-2 border transition ${
                     selected?.id === rep.id
-                      ? 'border-[#176B4B] ring-2 ring-[#10B981]/40'
-                      : 'border-white/70 hover:bg-white/90'
+                      ? 'border-[#DC2626] ring-2 ring-[#FCA5A5]/65'
+                      : 'border-white/80 hover:bg-white/95'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <p className="font-mono text-[11px] font-extrabold text-[#176B4B]">
+                      <p className="font-mono text-[11px] font-extrabold text-[#DC2626]">
                         {rep.reference_number}
                       </p>
-                      <p className="font-bold text-sm text-[#183329]">
+                      <p className="font-bold text-sm text-[#24191D]">
                         {rep.vehicle_type} •{' '}
                         {rep.plate_not_available
                           ? 'Plate N/A'
@@ -293,7 +293,7 @@ export function AdminVehicleReportsPage({
                     </span>
                   </div>
 
-                  <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-[#183329]/75">
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-[#78716C]">
                     <span>
                       {rep.municipality?.name} • {formatDateSafe(rep.incident_date)}
                     </span>
@@ -320,19 +320,19 @@ export function AdminVehicleReportsPage({
             />
           ) : (
             <GlassCard variant="strong" className="p-6 space-y-5 text-xs">
-              <div className="flex flex-wrap items-start justify-between gap-3 border-b border-[#176B4B]/15 pb-3">
+              <div className="flex flex-wrap items-start justify-between gap-3 border-b border-[#FCA5A5]/35 pb-3">
                 <div>
-                  <p className="font-mono text-sm font-extrabold text-[#176B4B]">
+                  <p className="font-mono text-sm font-extrabold text-[#DC2626]">
                     {selected.reference_number}
                   </p>
-                  <h2 className="font-display text-xl font-extrabold text-[#183329]">
+                  <h2 className="font-display text-xl font-extrabold text-[#24191D]">
                     Reported {selected.vehicle_type} (
                     {selected.plate_not_available
                       ? 'Plate Not Available'
                       : selected.plate_number}
                     )
                   </h2>
-                  <p className="text-[#183329]/75">
+                  <p className="text-[#78716C]">
                     {selected.municipality?.name} • {selected.incident_location} •{' '}
                     {formatDateSafe(selected.incident_date)} {selected.incident_time ?? ''}
                   </p>
@@ -340,7 +340,7 @@ export function AdminVehicleReportsPage({
 
                 <GlassButton
                   type="button"
-                  variant="glass"
+                  variant="secondary"
                   size="sm"
                   onClick={() =>
                     downloadComplaintSummary(selected, selectedRecommendations)
@@ -351,7 +351,7 @@ export function AdminVehicleReportsPage({
                 </GlassButton>
               </div>
 
-              <div className="grid gap-2 sm:grid-cols-2">
+              <div className="grid gap-2 sm:grid-cols-2 text-[#24191D]">
                 <p>
                   <strong>Body / Color / Model:</strong>{' '}
                   {[selected.body_number, selected.vehicle_color, selected.vehicle_model]
@@ -378,45 +378,45 @@ export function AdminVehicleReportsPage({
                 {(selected.categories ?? []).map((c) => (
                   <span
                     key={c.id}
-                    className="rounded-full bg-[#DFF7E8] px-2.5 py-0.5 font-bold text-[#176B4B]"
+                    className="rounded-full bg-[#FFE4E6] px-2.5 py-0.5 font-bold text-[#B91C1C]"
                   >
                     [{c.category_group}] {c.category}
                   </span>
                 ))}
               </div>
 
-              <div className="rounded-2xl bg-white/80 p-3.5 space-y-1">
-                <p className="font-bold">Reported Incident Narrative</p>
-                <p className="whitespace-pre-line text-[#183329]/85">{selected.description}</p>
+              <div className="rounded-2xl bg-[#FFF1F2]/75 border border-[#FFE4E6] p-3.5 space-y-1">
+                <p className="font-bold text-[#24191D]">Reported Incident Narrative</p>
+                <p className="whitespace-pre-line text-[#24191D]/90">{selected.description}</p>
               </div>
 
               {/* Evidence Inspection */}
               <div className="space-y-2">
-                <p className="font-bold">Supporting Evidence ({selected.evidence?.length ?? 0})</p>
+                <p className="font-bold text-[#24191D]">Supporting Evidence ({selected.evidence?.length ?? 0})</p>
                 <div className="flex flex-wrap gap-2">
                   {(selected.evidence ?? []).map((ev) => (
                     <GlassButton
                       key={ev.id}
                       type="button"
-                      variant="glass"
+                      variant="secondary"
                       size="sm"
                       onClick={() =>
                         handleViewMedia(ev.storage_path, ev.file_type, ev.original_filename)
                       }
                     >
-                      <Eye className="h-3.5 w-3.5 text-[#176B4B]" />
+                      <Eye className="h-3.5 w-3.5" />
                       Inspect {ev.original_filename}
                     </GlassButton>
                   ))}
                 </div>
                 {previewMedia && (
-                  <div className="rounded-2xl border border-white bg-white/95 p-3 space-y-2">
-                    <div className="flex justify-between font-bold">
+                  <div className="rounded-2xl border border-[#FCA5A5]/60 bg-white/95 p-3 space-y-2">
+                    <div className="flex justify-between font-bold text-[#24191D]">
                       <span>{previewMedia.name}</span>
                       <button
                         type="button"
                         onClick={() => setPreviewMedia(null)}
-                        className="text-red-600"
+                        className="text-[#DC2626] hover:underline"
                       >
                         Close
                       </button>
@@ -439,8 +439,8 @@ export function AdminVehicleReportsPage({
               </div>
 
               {/* Admin Decision & Agency Referral Controls */}
-              <div className="space-y-3 border-t border-[#176B4B]/15 pt-4">
-                <p className="font-bold uppercase text-[#176B4B]">
+              <div className="space-y-3 border-t border-[#FCA5A5]/35 pt-4">
+                <p className="font-bold uppercase text-[#DC2626]">
                   Update Internal / Agency Status &amp; Referral
                 </p>
 
@@ -472,7 +472,7 @@ export function AdminVehicleReportsPage({
                 </div>
 
                 {selectedAgencyId && (
-                  <div className="grid gap-2 sm:grid-cols-2 rounded-2xl bg-emerald-50/80 p-3">
+                  <div className="grid gap-2 sm:grid-cols-2 rounded-2xl border border-[#FCA5A5]/50 bg-[#FFF1F2] p-3">
                     <select
                       value={referralStatus}
                       onChange={(e) => setReferralStatus(e.target.value as ReferralStatus)}
