@@ -1,9 +1,35 @@
 import { defineConfig } from 'vitest/config';
+import type { Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
+function offlinePrecacheManifestPlugin(): Plugin {
+  return {
+    name: 'pamtrack-offline-precache-manifest',
+    apply: 'build',
+    generateBundle(_options, bundle) {
+      const assets = Object.keys(bundle)
+        .filter((fileName) => /\.(js|css|png|jpg|svg|webp|woff2?)$/i.test(fileName))
+        .map((fileName) => `/${fileName}`);
+
+      this.emitFile({
+        type: 'asset',
+        fileName: 'precache-manifest.json',
+        source: JSON.stringify(
+          {
+            generatedAt: new Date().toISOString(),
+            assets,
+          },
+          null,
+          2
+        ),
+      });
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), offlinePrecacheManifestPlugin()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

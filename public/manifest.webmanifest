@@ -1,0 +1,25 @@
+{
+  "name": "Pamasahe Tracker – Oriental Mindoro",
+  "short_name": "Pamasahe Tracker",
+  "description": "Transparent transportation fare monitoring and commuter safety platform for Oriental Mindoro.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FFF1F2",
+  "theme_color": "#DC2626",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/pamasahe-tracker-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/pamasahe-tracker-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

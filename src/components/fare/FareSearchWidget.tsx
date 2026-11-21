@@ -11,14 +11,16 @@ import {
   Info,
   Search,
   ShieldAlert,
+  WifiOff,
 } from 'lucide-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/contexts/AuthContext';
+import { useNetwork } from '@/contexts/NetworkContext';
 import { useToast } from '@/contexts/ToastContext';
 import { useFareRecords, useMunicipalities, useRoutes, useTransportTypes } from '@/hooks/useReferenceData';
 import { partitionFareRecords, PASSENGER_CATEGORY_LABELS } from '@/lib/fareIntegrity';
 import { fetchOsrmDrivingRoute, type OsrmRouteResult } from '@/lib/osrm';
-import { formatDateSafe, formatPhp } from '@/lib/utils';
+import { formatDateSafe, formatPhp, haversineDistanceKm } from '@/lib/utils';
 import { addFavoriteRoute } from '@/services/pamasaheApi';
 import type { PassengerCategory } from '@/types/database';
 import {
@@ -80,6 +82,7 @@ export function FareSearchWidget({
   compact?: boolean;
 }) {
   const { user, isConfigured } = useAuth();
+  const { isOffline } = useNetwork();
   const { pushToast } = useToast();
   const queryClient = useQueryClient();
 
@@ -108,6 +111,17 @@ export function FareSearchWidget({
 
   const originMuni = municipalities.find((m) => m.id === originId);
   const destMuni = municipalities.find((m) => m.id === destinationId);
+  const offlineGeodesicKm = useMemo(() => {
+    if (!originMuni || !destMuni || originMuni.id === destMuni.id) return null;
+    return Number(
+      haversineDistanceKm(
+        originMuni.latitude,
+        originMuni.longitude,
+        destMuni.latitude,
+        destMuni.longitude
+      ).toFixed(1)
+    );
+  }, [originMuni, destMuni]);
 
   const favoriteMutation = useMutation({
     mutationFn: async () => {
@@ -388,19 +402,35 @@ export function FareSearchWidget({
           <GlassCard variant="surface" className="p-4 sm:p-5">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-[#DC2626]">
-                  Route Inquiry • {PASSENGER_CATEGORY_LABELS[passengerCategory]}
-                </p>
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#DC2626]">
+                    Route Inquiry • {PASSENGER_CATEGORY_LABELS[passengerCategory]}
+                  </p>
+                  {isOffline && (
+                    <span className="inline-flex items-center gap-1 rounded-full border border-[#FCA5A5]/80 bg-[#FFE4E6]/85 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#B91C1C]">
+                      <WifiOff className="h-3 w-3" />
+                      Offline Cached Lookup
+                    </span>
+                  )}
+                </div>
                 <h3 className="font-display text-xl font-extrabold text-[#24191D]">
                   {originMuni.id === destMuni.id
                     ? `${originMuni.name} (Local / Intra-Municipality Fare)`
                     : `${originMuni.name} → ${destMuni.name}`}
                 </h3>
-                {osrmInfo?.available && (
+                {osrmInfo?.available ? (
                   <p className="text-xs font-semibold text-[#78716C]">
                     OSRM Road Distance: {osrmInfo.distanceKm} km • Est. {osrmInfo.durationMin} mins
                     driving
                   </p>
+                ) : (
+                  offlineGeodesicKm !== null && (
+                    <p className="text-xs font-semibold text-[#78716C]">
+                      {isOffline
+                        ? `Offline Reference Distance: ~${offlineGeodesicKm} km straight-line (live OSRM road route updates online)`
+                        : `Straight-line reference: ~${offlineGeodesicKm} km`}
+                    </p>
+                  )
                 )}
                 {matchingRoutes.length > 0 && (
                   <p className="mt-1 text-xs text-[#DC2626] font-semibold">
@@ -417,17 +447,31 @@ export function FareSearchWidget({
                     variant="glass"
                     size="sm"
                     onClick={() => favoriteMutation.mutate()}
-                    disabled={favoriteMutation.isPending}
+                    disabled={isOffline || favoriteMutation.isPending}
+                    title={isOffline ? 'Reconnect to save favorite routes' : undefined}
                   >
                     <Heart className="h-4 w-4 text-[#DC2626]" />
-                    Save Favorite
+                    {isOffline ? 'Save Offline Disabled' : 'Save Favorite'}
                   </GlassButton>
                 )}
-                <Link to={user ? '/dashboard/reports' : '/register'}>
-                  <GlassButton variant="secondary" size="sm">
-                    Report Observed Fare
+                {isOffline ? (
+                  <GlassButton
+                    type="button"
+                    variant="secondary"
+                    size="sm"
+                    disabled
+                    title="Internet connection required to submit fare reports"
+                  >
+                    <WifiOff className="h-3.5 w-3.5" />
+                    Reporting Offline Paused
                   </GlassButton>
-                </Link>
+                ) : (
+                  <Link to={user ? '/dashboard/reports' : '/login'}>
+                    <GlassButton variant="secondary" size="sm">
+                      {user ? 'Report Observed Fare' : 'Sign In to Report Fare'}
+                    </GlassButton>
+                  </Link>
+                )}
               </div>
             </div>
           </GlassCard>

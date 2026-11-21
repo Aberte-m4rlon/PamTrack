@@ -6,6 +6,20 @@ import {
   VERIFIED_TRANSPORT_STOPS_FALLBACK,
 } from '@/data/orientalMindoro';
 import { normalizePlateNumber } from '@/lib/vehicleReporting';
+import {
+  isBrowserOnline,
+  isNetworkUnavailableError,
+  readOfflineFareRecords,
+  readOfflineFareSources,
+  readOfflineMunicipalities,
+  readOfflineRoutes,
+  readOfflineTransportTypes,
+  saveOfflineFareRecords,
+  saveOfflineFareSources,
+  saveOfflineMunicipalities,
+  saveOfflineRoutes,
+  saveOfflineTransportTypes,
+} from '@/lib/offlineCache';
 import { validateEvidenceFile, validateVehicleEvidenceFile } from '@/lib/validation';
 import type {
   AdminAggregatedAnalytics,
@@ -46,61 +60,130 @@ import type {
   ViolationCategoryGroup,
 } from '@/types/database';
 
+function filterFareRecordsOffline(
+  records: FareRecord[],
+  options?: {
+    includeArchived?: boolean;
+    originId?: string;
+    destinationId?: string;
+    transportTypeId?: string;
+    passengerCategory?: PassengerCategory;
+  }
+): FareRecord[] {
+  return records.filter((row) => {
+    if (row.is_test_fixture) return false;
+    if (!options?.includeArchived && row.is_archived) return false;
+    if (options?.originId && row.origin_municipality_id !== options.originId) return false;
+    if (options?.destinationId && row.destination_municipality_id !== options.destinationId)
+      return false;
+    if (options?.transportTypeId && row.transport_type_id !== options.transportTypeId) return false;
+    if (options?.passengerCategory && row.passenger_category !== options.passengerCategory)
+      return false;
+    return true;
+  });
+}
+
 export async function fetchMunicipalities(includeInactive = false): Promise<{
   data: Municipality[];
   fromDatabase: boolean;
 }> {
-  if (!isSupabaseConfigured || !supabase) {
-    return { data: ORIENTAL_MINDORO_MUNICIPALITIES, fromDatabase: false };
+  const cached = readOfflineMunicipalities();
+  const offlineFallback =
+    cached.length > 0
+      ? includeInactive
+        ? cached
+        : cached.filter((m) => m.is_active)
+      : ORIENTAL_MINDORO_MUNICIPALITIES;
+
+  if (!isSupabaseConfigured || !supabase || !isBrowserOnline()) {
+    return { data: offlineFallback, fromDatabase: false };
   }
 
-  let query = supabase
-    .from('municipalities')
-    .select('*')
-    .order('sort_order', { ascending: true });
+  try {
+    let query = supabase
+      .from('municipalities')
+      .select('*')
+      .order('sort_order', { ascending: true });
 
-  if (!includeInactive) {
-    query = query.eq('is_active', true);
-  }
+    if (!includeInactive) {
+      query = query.eq('is_active', true);
+    }
 
-  const { data, error } = await query;
-  if (error) throw new Error(error.message);
-  if (!data || data.length === 0) {
-    return { data: ORIENTAL_MINDORO_MUNICIPALITIES, fromDatabase: false };
-  }
-  return {
-    data: data.map((row) => ({
+    const { data, error } = await query;
+    if (error) {
+      if (isNetworkUnavailableError(new Error(error.message))) {
+        return { data: offlineFallback, fromDatabase: false };
+      }
+      throw new Error(error.message);
+    }
+    if (!data || data.length === 0) {
+      return { data: offlineFallback, fromDatabase: false };
+    }
+
+    const normalized = data.map((row) => ({
       ...row,
       latitude: Number(row.latitude),
       longitude: Number(row.longitude),
-    })) as Municipality[],
-    fromDatabase: true,
-  };
+    })) as Municipality[];
+    if (!includeInactive) {
+      saveOfflineMunicipalities(normalized);
+    }
+    return { data: normalized, fromDatabase: true };
+  } catch (err) {
+    if (isNetworkUnavailableError(err)) {
+      return { data: offlineFallback, fromDatabase: false };
+    }
+    throw err;
+  }
 }
 
 export async function fetchTransportTypes(includeInactive = false): Promise<{
   data: TransportType[];
   fromDatabase: boolean;
 }> {
-  if (!isSupabaseConfigured || !supabase) {
-    return { data: DEFAULT_TRANSPORT_TYPES, fromDatabase: false };
+  const cached = readOfflineTransportTypes();
+  const offlineFallback =
+    cached.length > 0
+      ? includeInactive
+        ? cached
+        : cached.filter((t) => t.is_active)
+      : DEFAULT_TRANSPORT_TYPES;
+
+  if (!isSupabaseConfigured || !supabase || !isBrowserOnline()) {
+    return { data: offlineFallback, fromDatabase: false };
   }
 
-  let query = supabase
-    .from('transport_types')
-    .select('*')
-    .order('sort_order', { ascending: true });
+  try {
+    let query = supabase
+      .from('transport_types')
+      .select('*')
+      .order('sort_order', { ascending: true });
 
-  if (!includeInactive) {
-    query = query.eq('is_active', true);
-  }
+    if (!includeInactive) {
+      query = query.eq('is_active', true);
+    }
 
-  const { data, error } = await query;
-  if (error) throw new Error(error.message);
-  if (!data || data.length === 0) {
-    return { data: DEFAULT_TRANSPORT_TYPES, fromDatabase: false };
+    const { data, error } = await query;
+    if (error) {
+      if (isNetworkUnavailableError(new Error(error.message))) {
+        return { data: offlineFallback, fromDatabase: false };
+      }
+      throw new Error(error.message);
+    }
+    if (!data || data.length === 0) {
+      return { data: offlineFallback, fromDatabase: false };
+    }
+    const normalized = data as TransportType[];
+    if (!includeInactive) {
+      saveOfflineTransportTypes(normalized);
+    }
+    return { data: normalized, fromDatabase: true };
+  } catch (err) {
+    if (isNetworkUnavailableError(err)) {
+      return { data: offlineFallback, fromDatabase: false };
+    }
+    throw err;
   }
-  return { data: data as TransportType[], fromDatabase: true };
 }
 
 export async function fetchFareRecords(options?: {
@@ -110,107 +193,180 @@ export async function fetchFareRecords(options?: {
   transportTypeId?: string;
   passengerCategory?: PassengerCategory;
 }): Promise<FareRecord[]> {
-  if (!isSupabaseConfigured || !supabase) return [];
+  const offlineRecords = filterFareRecordsOffline(readOfflineFareRecords(), options);
 
-  let query = supabase
-    .from('fare_records')
-    .select(
-      `
+  if (!isSupabaseConfigured || !supabase || !isBrowserOnline()) {
+    return offlineRecords;
+  }
+
+  try {
+    let query = supabase
+      .from('fare_records')
+      .select(
+        `
       *,
       origin:municipalities!fare_records_origin_municipality_id_fkey(*),
       destination:municipalities!fare_records_destination_municipality_id_fkey(*),
       transport_type:transport_types!fare_records_transport_type_id_fkey(*),
       fare_source:fare_sources(*)
     `
-    )
-    .eq('is_test_fixture', false)
-    .order('updated_at', { ascending: false });
+      )
+      .eq('is_test_fixture', false)
+      .order('updated_at', { ascending: false });
 
-  if (!options?.includeArchived) {
-    query = query.eq('is_archived', false);
-  }
-  if (options?.originId) {
-    query = query.eq('origin_municipality_id', options.originId);
-  }
-  if (options?.destinationId) {
-    query = query.eq('destination_municipality_id', options.destinationId);
-  }
-  if (options?.transportTypeId) {
-    query = query.eq('transport_type_id', options.transportTypeId);
-  }
-  if (options?.passengerCategory) {
-    query = query.eq('passenger_category', options.passengerCategory);
-  }
+    if (!options?.includeArchived) {
+      query = query.eq('is_archived', false);
+    }
+    if (options?.originId) {
+      query = query.eq('origin_municipality_id', options.originId);
+    }
+    if (options?.destinationId) {
+      query = query.eq('destination_municipality_id', options.destinationId);
+    }
+    if (options?.transportTypeId) {
+      query = query.eq('transport_type_id', options.transportTypeId);
+    }
+    if (options?.passengerCategory) {
+      query = query.eq('passenger_category', options.passengerCategory);
+    }
 
-  const { data, error } = await query;
-  if (error) throw new Error(error.message);
+    const { data, error } = await query;
+    if (error) {
+      if (isNetworkUnavailableError(new Error(error.message))) {
+        return offlineRecords;
+      }
+      throw new Error(error.message);
+    }
 
-  return (data ?? []).map((row) => ({
-    ...row,
-    fare_amount: Number(row.fare_amount),
-  })) as FareRecord[];
+    const normalized = (data ?? []).map((row) => ({
+      ...row,
+      fare_amount: Number(row.fare_amount),
+    })) as FareRecord[];
+
+    // Save unfiltered snapshot so Fare Search and Fare Matrix work offline
+    if (
+      !options?.includeArchived &&
+      !options?.originId &&
+      !options?.destinationId &&
+      !options?.transportTypeId &&
+      !options?.passengerCategory
+    ) {
+      saveOfflineFareRecords(normalized);
+    }
+
+    return normalized;
+  } catch (err) {
+    if (isNetworkUnavailableError(err)) {
+      return offlineRecords;
+    }
+    throw err;
+  }
 }
 
 export async function fetchFareRecordById(id: string): Promise<FareRecord | null> {
-  if (!isSupabaseConfigured || !supabase) return null;
+  const cachedMatch = readOfflineFareRecords().find((r) => r.id === id) ?? null;
+  if (!isSupabaseConfigured || !supabase || !isBrowserOnline()) {
+    return cachedMatch;
+  }
 
-  const { data, error } = await supabase
-    .from('fare_records')
-    .select(
-      `
+  try {
+    const { data, error } = await supabase
+      .from('fare_records')
+      .select(
+        `
       *,
       origin:municipalities!fare_records_origin_municipality_id_fkey(*),
       destination:municipalities!fare_records_destination_municipality_id_fkey(*),
       transport_type:transport_types!fare_records_transport_type_id_fkey(*),
       fare_source:fare_sources(*)
     `
-    )
-    .eq('id', id)
-    .maybeSingle();
+      )
+      .eq('id', id)
+      .maybeSingle();
 
-  if (error) throw new Error(error.message);
-  if (!data) return null;
-  return { ...data, fare_amount: Number(data.fare_amount) } as FareRecord;
+    if (error) {
+      if (isNetworkUnavailableError(new Error(error.message))) return cachedMatch;
+      throw new Error(error.message);
+    }
+    if (!data) return cachedMatch;
+    return { ...data, fare_amount: Number(data.fare_amount) } as FareRecord;
+  } catch (err) {
+    if (isNetworkUnavailableError(err)) return cachedMatch;
+    throw err;
+  }
 }
 
 export async function fetchRoutes(includeInactive = false): Promise<RouteRecord[]> {
-  if (!isSupabaseConfigured || !supabase) return [];
+  const cachedRoutes = readOfflineRoutes();
+  const offlineFallback = includeInactive
+    ? cachedRoutes
+    : cachedRoutes.filter((r) => r.is_active);
 
-  let query = supabase
-    .from('routes')
-    .select(
-      `
+  if (!isSupabaseConfigured || !supabase || !isBrowserOnline()) {
+    return offlineFallback;
+  }
+
+  try {
+    let query = supabase
+      .from('routes')
+      .select(
+        `
       *,
       origin:municipalities!routes_origin_municipality_id_fkey(*),
       destination:municipalities!routes_destination_municipality_id_fkey(*),
       transport_type:transport_types(*),
       operator:transport_operators(*)
     `
-    )
-    .order('route_name', { ascending: true });
+      )
+      .order('route_name', { ascending: true });
 
-  if (!includeInactive) {
-    query = query.eq('is_active', true);
+    if (!includeInactive) {
+      query = query.eq('is_active', true);
+    }
+
+    const { data, error } = await query;
+    if (error) {
+      if (isNetworkUnavailableError(new Error(error.message))) return offlineFallback;
+      throw new Error(error.message);
+    }
+    const normalized = (data ?? []).map((row) => ({
+      ...row,
+      distance_km: row.distance_km !== null ? Number(row.distance_km) : null,
+    })) as RouteRecord[];
+
+    if (!includeInactive) {
+      saveOfflineRoutes(normalized);
+    }
+    return normalized;
+  } catch (err) {
+    if (isNetworkUnavailableError(err)) return offlineFallback;
+    throw err;
   }
-
-  const { data, error } = await query;
-  if (error) throw new Error(error.message);
-  return (data ?? []).map((row) => ({
-    ...row,
-    distance_km: row.distance_km !== null ? Number(row.distance_km) : null,
-  })) as RouteRecord[];
 }
 
 export async function fetchFareSources(): Promise<FareSource[]> {
-  if (!isSupabaseConfigured || !supabase) return [];
+  const offlineFallback = readOfflineFareSources();
+  if (!isSupabaseConfigured || !supabase || !isBrowserOnline()) {
+    return offlineFallback;
+  }
 
-  const { data, error } = await supabase
-    .from('fare_sources')
-    .select('*')
-    .order('effective_date', { ascending: false });
+  try {
+    const { data, error } = await supabase
+      .from('fare_sources')
+      .select('*')
+      .order('effective_date', { ascending: false });
 
-  if (error) throw new Error(error.message);
-  return (data ?? []) as FareSource[];
+    if (error) {
+      if (isNetworkUnavailableError(new Error(error.message))) return offlineFallback;
+      throw new Error(error.message);
+    }
+    const normalized = (data ?? []) as FareSource[];
+    saveOfflineFareSources(normalized);
+    return normalized;
+  } catch (err) {
+    if (isNetworkUnavailableError(err)) return offlineFallback;
+    throw err;
+  }
 }
 
 export async function fetchMyFavorites(userId: string): Promise<FavoriteRoute[]> {

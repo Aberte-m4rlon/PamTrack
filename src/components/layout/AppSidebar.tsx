@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import {
   Activity,
   BarChart3,
@@ -14,6 +14,7 @@ import {
   Info,
   LayoutDashboard,
   LocateFixed,
+  Lock,
   Map as MapIcon,
   MapPin,
   MessageSquarePlus,
@@ -29,8 +30,10 @@ import {
   Truck,
   User,
   Users,
+  WifiOff,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useNetwork } from '@/contexts/NetworkContext';
 import { useNotifications } from '@/hooks/useReferenceData';
 import { cn } from '@/lib/utils';
 
@@ -39,19 +42,31 @@ export interface SidebarNavItem {
   label: string;
   icon: React.ComponentType<{ className?: string }>;
   end?: boolean;
+  offlineReady?: boolean;
 }
 
-const PUBLIC_NAV: SidebarNavItem[] = [
-  { to: '/', label: 'Home', icon: Home, end: true },
-  { to: '/fare-search', label: 'Fare Finder', icon: Search },
-  { to: '/fare-matrix', label: 'Fare Matrix', icon: Table2 },
-  { to: '/live-map', label: 'Live GPS Map', icon: LocateFixed },
-  { to: '/nearby', label: 'Nearby Stops', icon: Navigation },
-  { to: '/routes', label: 'Route Map', icon: MapIcon },
-  { to: '/municipalities', label: '15 LGUs', icon: MapPin },
-  { to: '/report-vehicle', label: 'Report a Vehicle', icon: Car },
-  { to: '/authorities', label: 'Authority Directory', icon: Building },
-  { to: '/about', label: 'About & Sources', icon: Info },
+const GUEST_PUBLIC_NAV: SidebarNavItem[] = [
+  { to: '/', label: 'Home', icon: Home, end: true, offlineReady: true },
+  { to: '/fare-search', label: 'Fare Finder', icon: Search, offlineReady: true },
+  { to: '/fare-matrix', label: 'Fare Matrix', icon: Table2, offlineReady: true },
+  { to: '/routes', label: 'Route Map', icon: MapIcon, offlineReady: false },
+  { to: '/municipalities', label: '15 LGUs', icon: MapPin, offlineReady: true },
+  { to: '/about', label: 'About & Sources', icon: Info, offlineReady: true },
+];
+
+const MEMBER_EXPLORER_EXTRA: SidebarNavItem[] = [
+  { to: '/live-map', label: 'Live GPS Map', icon: LocateFixed, offlineReady: false },
+  { to: '/nearby', label: 'Nearby Stops', icon: Navigation, offlineReady: false },
+  { to: '/report-vehicle', label: 'Report a Vehicle', icon: Car, offlineReady: false },
+  { to: '/authorities', label: 'Authority Directory', icon: Building, offlineReady: false },
+];
+
+const AUTH_PUBLIC_NAV: SidebarNavItem[] = [
+  ...GUEST_PUBLIC_NAV.slice(0, 3),
+  ...MEMBER_EXPLORER_EXTRA.slice(0, 2),
+  ...GUEST_PUBLIC_NAV.slice(3, 5),
+  ...MEMBER_EXPLORER_EXTRA.slice(2),
+  GUEST_PUBLIC_NAV[5],
 ];
 
 const COMMUTER_NAV: SidebarNavItem[] = [
@@ -96,6 +111,7 @@ const ADMIN_NAV: SidebarNavItem[] = [
 
 export function AppSidebar({ collapsed }: { collapsed: boolean }) {
   const { user, profile, role, isAdmin, isOperator } = useAuth();
+  const { isOffline } = useNetwork();
   const { data: notifications } = useNotifications();
   const unreadCount = (notifications ?? []).filter((n) => !n.is_read).length;
 
@@ -106,33 +122,47 @@ export function AppSidebar({ collapsed }: { collapsed: boolean }) {
           {title}
         </p>
       )}
-      {items.map((item) => (
-        <NavLink
-          key={item.to}
-          to={item.to}
-          end={item.end}
-          title={collapsed ? item.label : undefined}
-          className={({ isActive }) =>
-            cn(
-              'flex items-center justify-between rounded-2xl px-3 py-2.5 text-sm font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626]',
-              collapsed && 'justify-center px-2',
-              isActive
-                ? 'bg-gradient-to-r from-[#DC2626] to-[#B91C1C] text-white shadow-md shadow-[#DC2626]/25'
-                : 'text-[#24191D]/85 hover:bg-[#FFE4E6]/75 hover:text-[#DC2626]'
-            )
-          }
-        >
-          <span className="flex items-center gap-2.5 min-w-0">
-            <item.icon className="h-4 w-4 shrink-0" />
-            {!collapsed && <span className="truncate">{item.label}</span>}
-          </span>
-          {!collapsed && item.to === '/dashboard/notifications' && unreadCount > 0 && (
-            <span className="rounded-full bg-[#DC2626] px-2 py-0.5 text-[10px] font-bold text-white ring-1 ring-white/80">
-              {unreadCount}
+      {items.map((item) => {
+        const offlineLocked = isOffline && !item.offlineReady;
+        return (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            end={item.end}
+            title={
+              offlineLocked
+                ? `${item.label} (Requires Internet)`
+                : collapsed
+                  ? item.label
+                  : undefined
+            }
+            className={({ isActive }) =>
+              cn(
+                'flex items-center justify-between rounded-2xl px-3 py-2.5 text-sm font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626]',
+                collapsed && 'justify-center px-2',
+                isActive
+                  ? 'bg-gradient-to-r from-[#DC2626] to-[#B91C1C] text-white shadow-md shadow-[#DC2626]/25'
+                  : offlineLocked
+                    ? 'text-[#78716C]/70 hover:bg-white/45 hover:text-[#DC2626]'
+                    : 'text-[#24191D]/90 hover:bg-white/65 hover:text-[#DC2626]'
+              )
+            }
+          >
+            <span className="flex items-center gap-2.5 min-w-0">
+              <item.icon className="h-4 w-4 shrink-0" />
+              {!collapsed && <span className="truncate">{item.label}</span>}
             </span>
-          )}
-        </NavLink>
-      ))}
+            {!collapsed && offlineLocked && (
+              <WifiOff className="h-3.5 w-3.5 shrink-0 opacity-70" aria-label="Requires internet" />
+            )}
+            {!collapsed && !offlineLocked && item.to === '/dashboard/notifications' && unreadCount > 0 && (
+              <span className="rounded-full bg-[#DC2626] px-2 py-0.5 text-[10px] font-bold text-white ring-1 ring-white/80">
+                {unreadCount}
+              </span>
+            )}
+          </NavLink>
+        );
+      })}
     </div>
   );
 
@@ -146,14 +176,37 @@ export function AppSidebar({ collapsed }: { collapsed: boolean }) {
     >
       <div className="sticky top-20 flex max-h-[calc(100vh-6rem)] flex-col justify-between gap-4 glass-surface rounded-3xl p-3.5">
         <div className="space-y-5 overflow-y-auto pr-0.5">
-          {renderNavSection('Public Explorer', PUBLIC_NAV)}
+          {renderNavSection(
+            user ? 'Public & Explorer' : 'Public Guest Access',
+            user ? AUTH_PUBLIC_NAV : GUEST_PUBLIC_NAV
+          )}
+
+          {!user && !collapsed && (
+            <div className="rounded-2xl border border-white/80 bg-white/45 backdrop-blur-lg p-3 space-y-2">
+              <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#B91C1C]">
+                <Lock className="h-3.5 w-3.5" />
+                <span>Sign In to Unlock More</span>
+              </div>
+              <p className="text-[11px] leading-snug text-[#78716C]">
+                Live GPS Map, Nearby Stops, Trip Monitor, Safety Contacts, Vehicle &amp; Fare
+                Reporting.
+              </p>
+              <Link
+                to="/login"
+                className="inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#DC2626] to-[#B91C1C] px-3 py-1.5 text-xs font-bold text-white shadow-sm hover:opacity-95 transition"
+              >
+                Sign In Now
+              </Link>
+            </div>
+          )}
+
           {user && renderNavSection('Commuter & GPS', COMMUTER_NAV)}
           {isOperator && renderNavSection('Transport Operator', OPERATOR_NAV)}
           {isAdmin && renderNavSection('Administrator Portal', ADMIN_NAV)}
         </div>
 
         {!collapsed && (
-          <div className="rounded-2xl border border-[#FCA5A5]/45 bg-gradient-to-br from-[#FFF1F2] to-[#FFE4E6]/75 p-3">
+          <div className="rounded-2xl border border-white/85 bg-white/55 backdrop-blur-md p-3">
             {user ? (
               <div className="space-y-0.5">
                 <p className="truncate text-xs font-bold text-[#24191D]">

@@ -22,6 +22,7 @@ import {
   fetchVehicleReports,
 } from '@/services/pamasaheApi';
 import { useAuth } from '@/contexts/AuthContext';
+import { useNetwork } from '@/contexts/NetworkContext';
 
 export function useMunicipalities(includeInactive = false) {
   return useQuery({
@@ -41,9 +42,10 @@ export function useTransportTypes(includeInactive = false) {
 
 export function useFareRecords(includeArchived = false) {
   const queryClient = useQueryClient();
+  const { isOnline } = useNetwork();
 
   useEffect(() => {
-    if (!isSupabaseConfigured || !supabase) return;
+    if (!isOnline || !isSupabaseConfigured || !supabase) return;
     const channel = supabase
       .channel('public:fare_records')
       .on(
@@ -58,7 +60,15 @@ export function useFareRecords(includeArchived = false) {
     return () => {
       supabase?.removeChannel(channel);
     };
-  }, [queryClient]);
+  }, [isOnline, queryClient]);
+
+  useEffect(() => {
+    if (isOnline) {
+      queryClient.invalidateQueries({ queryKey: ['fareRecords'] });
+      queryClient.invalidateQueries({ queryKey: ['municipalities'] });
+      queryClient.invalidateQueries({ queryKey: ['routes'] });
+    }
+  }, [isOnline, queryClient]);
 
   return useQuery({
     queryKey: ['fareRecords', includeArchived],
@@ -91,10 +101,11 @@ export function useMyFavorites() {
 
 export function useMyFareReports() {
   const { user } = useAuth();
+  const { isOnline } = useNetwork();
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (!user || !isSupabaseConfigured || !supabase) return;
+    if (!user || !isOnline || !isSupabaseConfigured || !supabase) return;
     const channel = supabase
       .channel(`fare_reports:${user.id}`)
       .on(
@@ -114,21 +125,22 @@ export function useMyFareReports() {
     return () => {
       supabase?.removeChannel(channel);
     };
-  }, [user, queryClient]);
+  }, [user, isOnline, queryClient]);
 
   return useQuery({
     queryKey: ['myReports', user?.id],
     queryFn: () => fetchFareReports({ reporterId: user!.id }),
-    enabled: Boolean(user && isSupabaseConfigured),
+    enabled: Boolean(user && isOnline && isSupabaseConfigured),
   });
 }
 
 export function useAdminFareReports() {
   const { isAdmin } = useAuth();
+  const { isOnline } = useNetwork();
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (!isAdmin || !isSupabaseConfigured || !supabase) return;
+    if (!isAdmin || !isOnline || !isSupabaseConfigured || !supabase) return;
     const channel = supabase
       .channel('admin:fare_reports')
       .on(
@@ -143,21 +155,22 @@ export function useAdminFareReports() {
     return () => {
       supabase?.removeChannel(channel);
     };
-  }, [isAdmin, queryClient]);
+  }, [isAdmin, isOnline, queryClient]);
 
   return useQuery({
     queryKey: ['adminReports'],
     queryFn: () => fetchFareReports(),
-    enabled: Boolean(isAdmin && isSupabaseConfigured),
+    enabled: Boolean(isAdmin && isOnline && isSupabaseConfigured),
   });
 }
 
 export function useNotifications() {
   const { user } = useAuth();
+  const { isOnline } = useNetwork();
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (!user || !isSupabaseConfigured || !supabase) return;
+    if (!user || !isOnline || !isSupabaseConfigured || !supabase) return;
     const channel = supabase
       .channel(`notifications:${user.id}`)
       .on(
@@ -177,12 +190,12 @@ export function useNotifications() {
     return () => {
       supabase?.removeChannel(channel);
     };
-  }, [user, queryClient]);
+  }, [user, isOnline, queryClient]);
 
   return useQuery({
     queryKey: ['notifications', user?.id],
     queryFn: () => fetchNotifications(user!.id),
-    enabled: Boolean(user && isSupabaseConfigured),
+    enabled: Boolean(user && isOnline && isSupabaseConfigured),
   });
 }
 

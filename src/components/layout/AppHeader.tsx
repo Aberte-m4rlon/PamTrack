@@ -15,9 +15,11 @@ import {
   Square,
   Truck,
   UserCheck,
+  WifiOff,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useGps } from '@/contexts/GpsContext';
+import { useNetwork } from '@/contexts/NetworkContext';
 import { useNotifications } from '@/hooks/useReferenceData';
 import { formatDateTimeSafe } from '@/lib/utils';
 import { GlassButton } from '@/components/glass/GlassPrimitives';
@@ -31,6 +33,7 @@ export function AppHeader({
 }) {
   const { user, profile, role, isAdmin, isOperator, signOut } = useAuth();
   const { trackingActive, nearestMunicipality, stopTracking } = useGps();
+  const { isOffline } = useNetwork();
   const { data: notifications } = useNotifications();
   const navigate = useNavigate();
 
@@ -61,13 +64,13 @@ export function AppHeader({
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/85 bg-white/75 backdrop-blur-xl shadow-sm shadow-[#DC2626]/5">
+    <header className="glass-header sticky top-0 z-40">
       <div className="mx-auto flex max-w-[1480px] items-center justify-between gap-2 px-3 py-2.5 sm:px-6">
         <div className="flex items-center gap-2.5 min-w-0">
           <button
             type="button"
             onClick={onToggleSidebar}
-            className="desktop-sidebar-shell rounded-xl border border-[#FCA5A5]/45 bg-white/85 p-2 text-[#DC2626] hover:bg-[#FFE4E6] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626]"
+            className="desktop-sidebar-shell rounded-xl border border-white/85 bg-white/60 backdrop-blur-md p-2 text-[#DC2626] hover:bg-white/90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626]"
             aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             title={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
@@ -97,6 +100,16 @@ export function AppHeader({
         </div>
 
         <div ref={menuContainerRef} className="relative flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+          {isOffline && (
+            <div
+              role="status"
+              className="inline-flex items-center gap-1.5 rounded-full border border-[#FCA5A5]/80 bg-[#FFE4E6]/85 backdrop-blur-md px-2.5 py-1 text-[11px] font-bold text-[#B91C1C] shadow-sm"
+              title="Offline Mode: showing cached fare tools only"
+            >
+              <WifiOff className="h-3.5 w-3.5 shrink-0" />
+              <span>Offline</span>
+            </div>
+          )}
           {trackingActive && (
             <div className="flex items-center gap-1.5 rounded-full border border-green-400/70 bg-[#16A34A] px-2.5 py-1 text-[11px] font-bold text-white shadow-sm">
               <span className="h-2 w-2 rounded-full bg-white animate-pulse" />

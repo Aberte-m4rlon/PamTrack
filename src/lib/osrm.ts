@@ -22,6 +22,16 @@ export async function fetchOsrmDrivingRoute(
   destLng: number,
   signal?: AbortSignal
 ): Promise<OsrmRouteResult> {
+  if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+    return {
+      available: false,
+      distanceKm: null,
+      durationMin: null,
+      geometry: null,
+      error: 'Offline Mode: road routing paused until internet connection returns.',
+    };
+  }
+
   if (originLat === destLat && originLng === destLng) {
     return {
       available: false,

@@ -70,16 +70,16 @@ export function GlassButton({
 }: GlassButtonProps) {
   const variantStyles: Record<NonNullable<GlassButtonProps['variant']>, string> = {
     primary:
-      'bg-gradient-to-r from-[#DC2626] to-[#B91C1C] hover:from-[#B91C1C] hover:to-[#991B1B] text-white shadow-md shadow-[#DC2626]/25 border border-white/25',
+      'bg-gradient-to-r from-[#DC2626] to-[#B91C1C] hover:from-[#B91C1C] hover:to-[#991B1B] text-white shadow-md shadow-[#DC2626]/25 border border-white/30 backdrop-blur-md',
     secondary:
-      'bg-white/90 hover:bg-[#FFE4E6] text-[#DC2626] border border-[#FCA5A5]/70 shadow-sm',
+      'bg-white/65 hover:bg-white/85 text-[#DC2626] border border-white/85 backdrop-blur-xl shadow-sm',
     emerald:
-      'bg-white hover:bg-[#FFE4E6] text-[#B91C1C] border border-white/90 shadow-md',
+      'bg-white/85 hover:bg-white text-[#B91C1C] border border-white/95 backdrop-blur-xl shadow-md',
     glass:
-      'bg-white/75 hover:bg-white text-[#24191D] border border-white/90 backdrop-blur-md shadow-sm',
+      'bg-white/55 hover:bg-white/80 text-[#24191D] border border-white/85 backdrop-blur-xl shadow-sm',
     danger:
-      'bg-[#FEE2E2] hover:bg-[#FECACA] text-[#B91C1C] border border-[#FCA5A5] shadow-sm',
-    ghost: 'bg-transparent hover:bg-[#FFE4E6]/65 text-[#24191D]',
+      'bg-[#FEE2E2]/80 hover:bg-[#FECACA]/90 text-[#B91C1C] border border-[#FCA5A5]/80 backdrop-blur-md shadow-sm',
+    ghost: 'bg-transparent hover:bg-white/45 text-[#24191D]',
   };
 
   const sizeStyles: Record<NonNullable<GlassButtonProps['size']>, string> = {
@@ -384,7 +384,7 @@ export function GlassSkeleton({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        'animate-pulse rounded-2xl bg-white/65 backdrop-blur-md border border-[#FFE4E6]',
+        'animate-pulse rounded-2xl bg-white/45 backdrop-blur-xl border border-white/75',
         className
       )}
     />
