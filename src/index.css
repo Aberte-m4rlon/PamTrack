@@ -1,0 +1,186 @@
+@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 145 62% 94%;
+    --foreground: 158 36% 15%;
+    --border: 154 28% 82%;
+    --input: 154 32% 86%;
+    --ring: 157 65% 26%;
+    --brand-primary: #176b4b;
+    --brand-secondary: #24966a;
+    --brand-emerald: #10b981;
+    --brand-mint: #dff7e8;
+    --brand-ink: #183329;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    color: #183329;
+    overflow-x: clip;
+  }
+
+  body {
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+}
+
+/* ============================================================================
+   PAMASAHE TRACKER – GREEN GLASSMORPHISM VISUAL SYSTEM
+   ============================================================================ */
+
+.pamasahe-scenic-bg {
+  background-image:
+    linear-gradient(
+      145deg,
+      rgba(223, 247, 232, 0.42) 0%,
+      rgba(255, 255, 255, 0.24) 45%,
+      rgba(23, 107, 75, 0.28) 100%
+    ),
+    url('/assets/oriental-mindoro-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  box-shadow:
+    0 12px 36px -6px rgba(23, 107, 75, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.52);
+}
+
+.glass-surface {
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 10px 30px -6px rgba(24, 51, 41, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.glass-card-strong {
+  background: rgba(255, 255, 255, 0.76);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.68);
+  box-shadow:
+    0 12px 32px -8px rgba(23, 107, 75, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.glass-green-tint {
+  background: linear-gradient(135deg, rgba(23, 107, 75, 0.88), rgba(36, 150, 106, 0.82));
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow:
+    0 14px 36px -8px rgba(23, 107, 75, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+}
+
+.glass-input {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  color: #183329;
+  transition: all 180ms ease;
+}
+
+.glass-input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.92);
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.22);
+}
+
+/* Custom subtle scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(223, 247, 232, 0.4);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(23, 107, 75, 0.35);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(23, 107, 75, 0.55);
+}
+
+/* Leaflet custom glass styling */
+.leaflet-container {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  border-radius: 1.25rem;
+}
+
+.leaflet-popup-content-wrapper {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 1rem;
+  color: #183329;
+  box-shadow: 0 12px 30px rgba(23, 107, 75, 0.18);
+}
+
+.leaflet-popup-tip {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* ============================================================================
+   RESPONSIVE NAVIGATION – DESKTOP/TABLET SIDEBAR & MOBILE BOTTOM NAV (<= 768px)
+   ============================================================================ */
+
+.desktop-sidebar-shell {
+  display: block;
+}
+
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-sidebar-shell {
+    display: none !important;
+  }
+
+  .mobile-bottom-nav {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 60;
+    background: linear-gradient(135deg, rgba(23, 107, 75, 0.90), rgba(36, 150, 106, 0.88));
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-top: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 -8px 32px rgba(24, 51, 41, 0.22);
+    padding: 0.35rem 0.4rem calc(0.45rem + env(safe-area-inset-bottom));
+    gap: 0.25rem;
+  }
+
+  .mobile-safe-content-pad {
+    padding-bottom: calc(5.75rem + env(safe-area-inset-bottom));
+  }
+}
