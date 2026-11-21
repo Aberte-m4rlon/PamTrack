@@ -12,6 +12,7 @@ import { GpsProvider } from '@/contexts/GpsContext';
 import { NetworkProvider } from '@/contexts/NetworkContext';
 import { ToastProvider } from '@/contexts/ToastContext';
 import { AppRoutes } from '@/App';
+import { RouteExplorerPage } from '@/pages/public/RouteExplorerPage';
 import {
   readOfflineFareRecords,
   saveOfflineFareRecords,
@@ -182,5 +183,50 @@ describe('Offline Mode & Logged-Out Feature Access Restrictions', () => {
     expect(
       screen.getByText(/Internet Connection Required for Account Sign In/i)
     ).toBeInTheDocument();
+  });
+
+  it('displays route fare prices directly on RouteExplorerPage (/routes)', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(JSON.stringify({ routes: [] }), { status: 404 })
+    );
+    saveOfflineFareRecords([SAMPLE_OFFICIAL_FARE]);
+
+    const user = userEvent.setup();
+    const qc = new QueryClient({
+      defaultOptions: { queries: { retry: false, networkMode: 'offlineFirst' } },
+    });
+    render(
+      <QueryClientProvider client={qc}>
+        <NetworkProvider>
+          <ToastProvider>
+            <AuthProvider>
+              <GpsProvider>
+                <MemoryRouter initialEntries={['/routes']}>
+                  <RouteExplorerPage />
+                </MemoryRouter>
+              </GpsProvider>
+            </AuthProvider>
+          </ToastProvider>
+        </NetworkProvider>
+      </QueryClientProvider>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByLabelText('Route map origin municipality')).toHaveTextContent(
+        'Calapan City'
+      );
+    });
+
+    await user.selectOptions(screen.getByLabelText('Route map origin municipality'), 'lgu-calapan-city');
+    await user.selectOptions(
+      screen.getByLabelText('Route map destination municipality'),
+      'lgu-puerto-galera'
+    );
+
+    await waitFor(() => {
+      expect(screen.getByLabelText('Selected route fare prices')).toBeInTheDocument();
+      expect(screen.getAllByText(/₱120\.00/).length).toBeGreaterThanOrEqual(1);
+      expect(screen.getByText(/MC-2026-041/)).toBeInTheDocument();
+    });
   });
 });
