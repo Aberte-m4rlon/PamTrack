@@ -5,6 +5,7 @@ import { GpsProvider } from '@/contexts/GpsContext';
 import { NetworkProvider } from '@/contexts/NetworkContext';
 import { ToastProvider } from '@/contexts/ToastContext';
 import { AppShell } from '@/components/layout/AppShell';
+import { GlassErrorBoundary } from '@/components/ErrorBoundary';
 import {
   OfflineFeatureGate,
   RequireAccountAccess,
@@ -441,18 +442,20 @@ export function AppRoutes() {
 
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <NetworkProvider>
-        <ToastProvider>
-          <AuthProvider>
-            <GpsProvider>
-              <BrowserRouter>
-                <AppRoutes />
-              </BrowserRouter>
-            </GpsProvider>
-          </AuthProvider>
-        </ToastProvider>
-      </NetworkProvider>
-    </QueryClientProvider>
+    <GlassErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <NetworkProvider>
+          <ToastProvider>
+            <AuthProvider>
+              <GpsProvider>
+                <BrowserRouter>
+                  <AppRoutes />
+                </BrowserRouter>
+              </GpsProvider>
+            </AuthProvider>
+          </ToastProvider>
+        </NetworkProvider>
+      </QueryClientProvider>
+    </GlassErrorBoundary>
   );
 }

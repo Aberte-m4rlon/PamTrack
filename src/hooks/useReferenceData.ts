@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import type { RealtimeChannel } from '@supabase/supabase-js';
 import { isSupabaseConfigured, supabase } from '@/lib/supabase';
 import {
   fetchAdminAggregatedAnalytics,
@@ -24,6 +25,81 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 import { useNetwork } from '@/contexts/NetworkContext';
 
+interface ActiveChannelEntry {
+  channel: RealtimeChannel;
+  listeners: Set<() => void>;
+}
+
+const activeRealtimeChannels = new Map<string, ActiveChannelEntry>();
+let realtimeChannelSeq = 0;
+
+/**
+ * Shares a single Supabase Realtime subscription per logical resource key across
+ * all concurrently mounted hooks/components and React StrictMode cycles.
+ * Unique monotonic topic names prevent "cannot add postgres_changes callbacks
+ * after subscribe()" crashes caused by async channel teardown or duplicate calls.
+ */
+function useRealtimeInvalidation(
+  channelKey: string,
+  enabled: boolean,
+  config: { table: string; filter?: string },
+  onEvent: () => void
+) {
+  const onEventRef = useRef(onEvent);
+  onEventRef.current = onEvent;
+
+  useEffect(() => {
+    if (!enabled || !isSupabaseConfigured || !supabase) return;
+
+    const listener = () => onEventRef.current();
+    let entry = activeRealtimeChannels.get(channelKey);
+
+    if (!entry) {
+      realtimeChannelSeq += 1;
+      const topic = `${channelKey}::${realtimeChannelSeq}`;
+      const listeners = new Set<() => void>([listener]);
+      try {
+        const channel = supabase
+          .channel(topic)
+          .on(
+            'postgres_changes',
+            {
+              event: '*',
+              schema: 'public',
+              table: config.table,
+              ...(config.filter ? { filter: config.filter } : {}),
+            },
+            () => {
+              const current = activeRealtimeChannels.get(channelKey);
+              current?.listeners.forEach((fn) => fn());
+            }
+          )
+          .subscribe();
+        entry = { channel, listeners };
+        activeRealtimeChannels.set(channelKey, entry);
+      } catch {
+        return;
+      }
+    } else {
+      entry.listeners.add(listener);
+    }
+
+    return () => {
+      const current = activeRealtimeChannels.get(channelKey);
+      if (!current) return;
+      current.listeners.delete(listener);
+      if (current.listeners.size === 0) {
+        activeRealtimeChannels.delete(channelKey);
+        try {
+          void supabase?.removeChannel(current.channel);
+        } catch {
+          // Ignore teardown errors
+        }
+      }
+    };
+  }, [channelKey, enabled, config.table, config.filter]);
+}
+
 export function useMunicipalities(includeInactive = false) {
   return useQuery({
     queryKey: ['municipalities', includeInactive],
@@ -43,31 +119,19 @@ export function useTransportTypes(includeInactive = false) {
 export function useFareRecords(includeArchived = false) {
   const queryClient = useQueryClient();
   const { isOnline } = useNetwork();
+  const wasOfflineRef = useRef(!isOnline);
+
+  useRealtimeInvalidation('public:fare_records', isOnline, { table: 'fare_records' }, () => {
+    queryClient.invalidateQueries({ queryKey: ['fareRecords'] });
+  });
 
   useEffect(() => {
-    if (!isOnline || !isSupabaseConfigured || !supabase) return;
-    const channel = supabase
-      .channel('public:fare_records')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'fare_records' },
-        () => {
-          queryClient.invalidateQueries({ queryKey: ['fareRecords'] });
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase?.removeChannel(channel);
-    };
-  }, [isOnline, queryClient]);
-
-  useEffect(() => {
-    if (isOnline) {
+    if (wasOfflineRef.current && isOnline) {
       queryClient.invalidateQueries({ queryKey: ['fareRecords'] });
       queryClient.invalidateQueries({ queryKey: ['municipalities'] });
       queryClient.invalidateQueries({ queryKey: ['routes'] });
     }
+    wasOfflineRef.current = !isOnline;
   }, [isOnline, queryClient]);
 
   return useQuery({
@@ -104,28 +168,16 @@ export function useMyFareReports() {
   const { isOnline } = useNetwork();
   const queryClient = useQueryClient();
 
-  useEffect(() => {
-    if (!user || !isOnline || !isSupabaseConfigured || !supabase) return;
-    const channel = supabase
-      .channel(`fare_reports:${user.id}`)
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'fare_reports',
-          filter: `reporter_id=eq.${user.id}`,
-        },
-        () => {
-          queryClient.invalidateQueries({ queryKey: ['myReports', user.id] });
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase?.removeChannel(channel);
-    };
-  }, [user, isOnline, queryClient]);
+  useRealtimeInvalidation(
+    user ? `fare_reports:${user.id}` : 'fare_reports:none',
+    Boolean(user && isOnline),
+    { table: 'fare_reports', filter: user ? `reporter_id=eq.${user.id}` : undefined },
+    () => {
+      if (user) {
+        queryClient.invalidateQueries({ queryKey: ['myReports', user.id] });
+      }
+    }
+  );
 
   return useQuery({
     queryKey: ['myReports', user?.id],
@@ -139,23 +191,14 @@ export function useAdminFareReports() {
   const { isOnline } = useNetwork();
   const queryClient = useQueryClient();
 
-  useEffect(() => {
-    if (!isAdmin || !isOnline || !isSupabaseConfigured || !supabase) return;
-    const channel = supabase
-      .channel('admin:fare_reports')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'fare_reports' },
-        () => {
-          queryClient.invalidateQueries({ queryKey: ['adminReports'] });
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase?.removeChannel(channel);
-    };
-  }, [isAdmin, isOnline, queryClient]);
+  useRealtimeInvalidation(
+    'admin:fare_reports',
+    Boolean(isAdmin && isOnline),
+    { table: 'fare_reports' },
+    () => {
+      queryClient.invalidateQueries({ queryKey: ['adminReports'] });
+    }
+  );
 
   return useQuery({
     queryKey: ['adminReports'],
@@ -169,28 +212,16 @@ export function useNotifications() {
   const { isOnline } = useNetwork();
   const queryClient = useQueryClient();
 
-  useEffect(() => {
-    if (!user || !isOnline || !isSupabaseConfigured || !supabase) return;
-    const channel = supabase
-      .channel(`notifications:${user.id}`)
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'notifications',
-          filter: `user_id=eq.${user.id}`,
-        },
-        () => {
-          queryClient.invalidateQueries({ queryKey: ['notifications', user.id] });
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase?.removeChannel(channel);
-    };
-  }, [user, isOnline, queryClient]);
+  useRealtimeInvalidation(
+    user ? `notifications:${user.id}` : 'notifications:none',
+    Boolean(user && isOnline),
+    { table: 'notifications', filter: user ? `user_id=eq.${user.id}` : undefined },
+    () => {
+      if (user) {
+        queryClient.invalidateQueries({ queryKey: ['notifications', user.id] });
+      }
+    }
+  );
 
   return useQuery({
     queryKey: ['notifications', user?.id],
