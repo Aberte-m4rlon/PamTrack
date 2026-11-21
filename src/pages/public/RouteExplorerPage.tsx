@@ -84,7 +84,7 @@ export function RouteExplorerPage() {
         });
       }
     }
-    return Array.from(seen.values()).slice(0, 8);
+    return Array.from(seen.values()).slice(0, 16);
   }, [allFares]);
 
   const selectedCorridorFares = useMemo(() => {
