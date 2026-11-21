@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import {
   BarChart3,
   Bell,
+  Building,
+  Car,
   Heart,
   LayoutDashboard,
   LocateFixed,
@@ -50,6 +52,18 @@ export function ProfileHubPage() {
       desc: 'Calapan City & 14 municipalities',
       icon: MapPin,
     },
+    {
+      to: '/report-vehicle',
+      label: 'Report a Vehicle',
+      desc: 'Report plate, driver, or violation',
+      icon: Car,
+    },
+    {
+      to: '/authorities',
+      label: 'Authority Directory',
+      desc: 'LTFRB, LTO, LGU & PNP HPG channels',
+      icon: Building,
+    },
     ...(user
       ? [
           {
@@ -57,6 +71,12 @@ export function ProfileHubPage() {
             label: 'Commuter Dashboard',
             desc: 'Personalized summary & quick search',
             icon: LayoutDashboard,
+          },
+          {
+            to: '/dashboard/vehicle-reports',
+            label: 'My Vehicle Reports',
+            desc: 'Track PT-OM complaint status & referrals',
+            icon: Car,
           },
           {
             to: '/trips/analytics',

@@ -1,4 +1,9 @@
-import type { Municipality, TransportStop, TransportType } from '@/types/database';
+import type {
+  GovernmentAgency,
+  Municipality,
+  TransportStop,
+  TransportType,
+} from '@/types/database';
 
 /**
  * Verified PhilAtlas / OpenStreetMap geospatial coordinates for all 15
@@ -400,5 +405,97 @@ export const VERIFIED_TRANSPORT_STOPS_FALLBACK: TransportStop[] = [
     source_reference: 'MarineLink / VesselTracker verified port coordinates',
     is_verified: true,
     is_active: true,
+  },
+];
+
+export const VERIFIED_GOVERNMENT_AGENCIES_FALLBACK: GovernmentAgency[] = [
+  {
+    id: 'agency-ltfrb',
+    agency_code: 'ltfrb',
+    agency_name: 'LTFRB – Land Transportation Franchising and Regulatory Board',
+    jurisdiction: 'National & Region IV-B (MIMAROPA) – PUJ, PUB, UV Express & Multicab Franchises',
+    categories_handled: [
+      'Overcharging',
+      'Charging an incorrect fare',
+      'Refusal to honor applicable passenger discounts',
+      'Unreasonable additional charges',
+      'Suspected unauthorized route',
+      'Suspected unauthorized operation',
+      'Route violations',
+      'Refusal to provide service',
+    ],
+    official_website: 'https://ltfrb.gov.ph',
+    official_complaint_url: 'https://ltfrb.gov.ph',
+    verified_contact_information:
+      '24/7 Hotline: 1342 | Globe/TM: 0917-550-1342 | Smart/TNT/Sun: 0998-550-1342 | Email: complaints@ltfrb.gov.ph',
+    submission_instructions:
+      'Download your complaint summary packet and submit with evidence via LTFRB Hotline 1342 or complaints@ltfrb.gov.ph.',
+    last_verified_at: '2026-11-21',
+    is_active: true,
+    created_at: '2026-11-21T00:00:00Z',
+    updated_at: '2026-11-21T00:00:00Z',
+  },
+  {
+    id: 'agency-lto',
+    agency_code: 'lto',
+    agency_name: 'LTO – Land Transportation Office',
+    jurisdiction: 'National & Region IV-B (MIMAROPA) – Driver Licensing & Vehicle Roadworthiness',
+    categories_handled: [
+      'Reckless driving',
+      'Dangerous overtaking',
+      'Distracted driving',
+      'Unsafe vehicle condition',
+      'Defective vehicle equipment',
+      'Overloading',
+    ],
+    official_website: 'https://lto.gov.ph',
+    official_complaint_url: 'https://portal.lto.gov.ph',
+    verified_contact_information:
+      'Aksyon on the Spot: (0929) 292-0865 | Trunkline: (02) 8542-4600 | Email: servicecenter@lto.gov.ph',
+    submission_instructions:
+      'Send plate number, incident date/time, location, and photo/video evidence to LTO Aksyon on the Spot (0929) 292-0865.',
+    last_verified_at: '2026-11-21',
+    is_active: true,
+    created_at: '2026-11-21T00:00:00Z',
+    updated_at: '2026-11-21T00:00:00Z',
+  },
+  {
+    id: 'agency-lgu',
+    agency_code: 'lgu_ormindoro',
+    agency_name: 'Oriental Mindoro Municipal / City LGU (Tricycle Regulatory Boards)',
+    jurisdiction: 'Calapan City & 14 Municipalities – Tricycle Ordinances & Local Franchises',
+    categories_handled: [
+      'Overcharging',
+      'Refusal to honor applicable passenger discounts',
+      'Refusal to provide service',
+      'Lost belongings',
+    ],
+    official_website: 'https://ormindoro.gov.ph',
+    official_complaint_url: 'https://cityofcalapan.gov.ph',
+    verified_contact_information:
+      'Respective Municipal Hall Tricycle Regulatory Board (MTFRB) or Calapan City Public Safety Dept. (CPSD)',
+    submission_instructions:
+      'Coordinate directly with the Municipal or City Public Safety / Tricycle Regulatory office where the tricycle operates.',
+    last_verified_at: '2026-11-21',
+    is_active: true,
+    created_at: '2026-11-21T00:00:00Z',
+    updated_at: '2026-11-21T00:00:00Z',
+  },
+  {
+    id: 'agency-pnp-hpg',
+    agency_code: 'pnp_hpg',
+    agency_name: 'PNP – Highway Patrol Group (PNP HPG)',
+    jurisdiction: 'National & Provincial Highways – Traffic Crimes & Urgent Safety Incidents',
+    categories_handled: ['Verbal harassment', 'Passenger discrimination', 'Reckless driving'],
+    official_website: 'https://pnp.gov.ph',
+    official_complaint_url: 'https://hpgims-mvcd.pnp.gov.ph/',
+    verified_contact_information:
+      'Emergency: 911 | PNP HPG: (02) 8723-0401 | 0998-598-6626 | Email: hpg@pnp.gov.ph',
+    submission_instructions:
+      'Call 911 immediately for active emergencies or coordinate with the nearest Oriental Mindoro Municipal Police Station.',
+    last_verified_at: '2026-11-21',
+    is_active: true,
+    created_at: '2026-11-21T00:00:00Z',
+    updated_at: '2026-11-21T00:00:00Z',
   },
 ];

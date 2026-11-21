@@ -3,9 +3,11 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { isSupabaseConfigured, supabase } from '@/lib/supabase';
 import {
   fetchAdminAggregatedAnalytics,
+  fetchAllAgencyReferrals,
   fetchFareRecords,
   fetchFareReports,
   fetchFareSources,
+  fetchGovernmentAgencies,
   fetchLocationSharingSessions,
   fetchMunicipalities,
   fetchMyFavorites,
@@ -17,6 +19,7 @@ import {
   fetchTransportStops,
   fetchTransportTypes,
   fetchTrustedContacts,
+  fetchVehicleReports,
 } from '@/services/pamasaheApi';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -248,6 +251,41 @@ export function useAdminAggregatedAnalytics() {
   return useQuery({
     queryKey: ['adminAggregatedAnalytics'],
     queryFn: fetchAdminAggregatedAnalytics,
+    enabled: Boolean(isAdmin && isSupabaseConfigured),
+  });
+}
+
+export function useGovernmentAgencies(includeInactive = false) {
+  return useQuery({
+    queryKey: ['governmentAgencies', includeInactive],
+    queryFn: () => fetchGovernmentAgencies(includeInactive),
+    staleTime: 1000 * 60 * 10,
+  });
+}
+
+export function useMyVehicleReports() {
+  const { user } = useAuth();
+  return useQuery({
+    queryKey: ['myVehicleReports', user?.id],
+    queryFn: () => fetchVehicleReports({ userId: user!.id }),
+    enabled: Boolean(user && isSupabaseConfigured),
+  });
+}
+
+export function useAdminVehicleReports() {
+  const { isAdmin } = useAuth();
+  return useQuery({
+    queryKey: ['adminVehicleReports'],
+    queryFn: () => fetchVehicleReports(),
+    enabled: Boolean(isAdmin && isSupabaseConfigured),
+  });
+}
+
+export function useAdminAgencyReferrals() {
+  const { isAdmin } = useAuth();
+  return useQuery({
+    queryKey: ['adminAgencyReferrals'],
+    queryFn: fetchAllAgencyReferrals,
     enabled: Boolean(isAdmin && isSupabaseConfigured),
   });
 }

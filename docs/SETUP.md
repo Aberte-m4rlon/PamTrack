@@ -42,6 +42,9 @@ Execute the SQL migration files in strict numerical order in the Supabase **SQL 
 9. `supabase/migrations/009_gps_trips_safety_tables.sql` (adds `transport_stops`, `user_location_preferences`, `user_location_sessions`, `trip_records`, `trip_location_points`, `trusted_contacts`, `location_sharing_sessions`, `safety_reports`, and trip/safety notification types)
 10. `supabase/migrations/010_gps_rls_and_functions.sql` (enforces strict owner-only GPS/location RLS, `delete_my_location_history()`, `get_shared_trip_status()`, and privacy-preserving `get_admin_aggregated_analytics()`)
 11. `supabase/migrations/011_seed_verified_transport_stops.sql` (seeds 5 verified real-world Oriental Mindoro port and terminal coordinates)
+12. `supabase/migrations/012_vehicle_reporting_tables.sql` (creates `vehicle_reports`, `vehicle_report_categories`, `vehicle_report_evidence`, `government_agencies`, `agency_referrals`, `vehicle_report_status_logs`, rate limits, idempotency protection, and reference generation `PT-OM-YYYY-NNNNNN`)
+13. `supabase/migrations/013_vehicle_rls_and_storage.sql` (enables strict owner/admin RLS across all Phase 3 tables, creates private 25MB `vehicle-evidence` Storage bucket, status audit trigger, and verified agency status RPC `admin_update_vehicle_report`)
+14. `supabase/migrations/014_seed_government_agencies.sql` (seeds verified Oriental Mindoro reporting destinations: LTFRB, LTO, Oriental Mindoro LGU / Tricycle Regulatory Boards, and PNP HPG)
 
 ### Optional Staging / QA Test Fixtures
 - Do **NOT** execute `supabase/seed_test_fixtures.sql` in production. It contains synthetic `[TEST FIXTURE]` data flagged with `is_test_fixture = true` for isolated staging checks only.

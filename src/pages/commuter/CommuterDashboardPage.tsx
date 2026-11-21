@@ -111,6 +111,11 @@ export function CommuterDashboardPage() {
                 Live Trip Monitor
               </GlassButton>
             </Link>
+            <Link to="/report-vehicle">
+              <GlassButton variant="glass" size="sm">
+                Report Vehicle
+              </GlassButton>
+            </Link>
             <Link to="/dashboard/reports">
               <GlassButton variant="glass" size="sm">
                 <MessageSquarePlus className="h-4 w-4 text-[#176B4B]" />

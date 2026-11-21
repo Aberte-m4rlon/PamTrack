@@ -12,7 +12,7 @@
 | **Frontend** | React 18, TypeScript, Vite, Tailwind CSS, Radix UI primitives, Lucide React, Framer Motion |
 | **State & Validation** | TanStack Query, React Hook Form, Zod, Recharts, date-fns |
 | **Maps & Routing** | OpenStreetMap tiles, Leaflet + React Leaflet, OSRM (`router.project-osrm.org` or custom) |
-| **Backend & Security** | Supabase (PostgreSQL, Auth, Storage private `fare-evidence` bucket, Realtime, RLS, Edge Functions) |
+| **Backend & Security** | Supabase (PostgreSQL, Auth, private `fare-evidence` and `vehicle-evidence` Storage buckets, Realtime, RLS, Edge Functions) |
 | **Visual System** | Green Glassmorphism (`#176B4B`, `#24966A`, `#10B981`, `#DFF7E8`, `#183329`, `backdrop-filter: blur(18px)`) with custom Oriental Mindoro background and emblem |
 
 ---
@@ -25,7 +25,9 @@
    - Commuter Dashboard, Integrated Route Finder, Community Fare Reporting with private evidence upload + pending edit capability, Favorite Routes, Realtime Notifications, Profile Settings.
 3. **Transport Operator Portal** (`/operator`):
    - Operator/Franchise registration, relevant report visibility, documentation upload linkage.
-4. **Protected Administrator & Super Administrator Portal** (`/admin/*`):
+4. **Vehicle, Driver & Violation Reporting + Agency Directory**:
+   - Report a Vehicle / Driver / Transportation Violation (`/report-vehicle`, `/report-driver`, `/report-violation`), Private My Vehicle Reports & Complaint Summary Packet Export (`/dashboard/vehicle-reports`), Verified Government Agency Directory (`/authorities`), and Admin Vehicle/Driver Triage, Referrals & Analytics (`/admin/vehicle-reports`, `/admin/agencies`, `/admin/agency-referrals`, `/admin/vehicle-analytics`).
+5. **Protected Administrator & Super Administrator Portal** (`/admin/*`):
    - Analytics Dashboard, Fare Verification Workbench (side-by-side comparison, signed evidence inspection, Community Estimate approval vs Official Fare verification), Fare Management & Archiving, Route Management with OSRM distance fetch, Municipality Management, Operator Verification, User Role Management, Broadcast Notifications, Audit & Verification Logs, System Settings.
 
 ---
@@ -56,7 +58,7 @@
    cp .env.example .env
    ```
    Fill in `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`.
-3. Apply SQL migrations in `supabase/migrations/` (`001` through `011`) in order inside your Supabase project.
+3. Apply SQL migrations in `supabase/migrations/` (`001` through `014`) in order inside your Supabase project.
 4. Run locally:
    ```bash
    npm run dev

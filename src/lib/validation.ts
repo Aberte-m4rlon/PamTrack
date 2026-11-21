@@ -107,3 +107,96 @@ export function validateEvidenceFile(file: File): string | null {
   }
   return null;
 }
+
+export const ALLOWED_VEHICLE_EVIDENCE_MIME_TYPES = [
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'video/mp4',
+] as const;
+
+export const MAX_VEHICLE_IMAGE_BYTES = 5 * 1024 * 1024; // 5 MB
+export const MAX_VEHICLE_VIDEO_BYTES = 25 * 1024 * 1024; // 25 MB
+
+export function validateVehicleEvidenceFile(file: File): string | null {
+  if (
+    !ALLOWED_VEHICLE_EVIDENCE_MIME_TYPES.includes(
+      file.type as (typeof ALLOWED_VEHICLE_EVIDENCE_MIME_TYPES)[number]
+    )
+  ) {
+    return `Unsupported file type "${file.type}". Allowed: JPG, JPEG, PNG, WEBP, or MP4.`;
+  }
+  const maxBytes =
+    file.type === 'video/mp4' ? MAX_VEHICLE_VIDEO_BYTES : MAX_VEHICLE_IMAGE_BYTES;
+  if (file.size > maxBytes) {
+    return `File "${file.name}" exceeds the ${
+      file.type === 'video/mp4' ? '25 MB video' : '5 MB image'
+    } upload limit.`;
+  }
+  return null;
+}
+
+export const vehicleReportSchema = z
+  .object({
+    plateNotAvailable: z.boolean().default(false),
+    plateNumber: z.string().trim().max(24).optional(),
+    vehicleType: z.enum([
+      'Jeepney',
+      'Modern Jeepney',
+      'Tricycle',
+      'Bus',
+      'UV Express',
+      'Multicab',
+      'Taxi',
+      'Other Public Utility Vehicle',
+    ]),
+    bodyNumber: z.string().trim().max(40).optional(),
+    vehicleColor: z.string().trim().max(40).optional(),
+    vehicleModel: z.string().trim().max(80).optional(),
+    operatorName: z.string().trim().max(120).optional(),
+    routeInfo: z.string().trim().max(160).optional(),
+    originMunicipalityId: z.string().optional(),
+    destinationMunicipalityId: z.string().optional(),
+    municipalityId: z.string().min(1, 'Select the municipality where the incident occurred.'),
+    incidentLocation: z
+      .string()
+      .trim()
+      .min(3, 'Provide the specific street, barangay, terminal, or landmark.'),
+    incidentDate: z
+      .string()
+      .min(1, 'Incident date is required.')
+      .refine((dateStr) => {
+        const chosen = new Date(dateStr);
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        return !Number.isNaN(chosen.getTime()) && chosen <= tomorrow;
+      }, 'Incident date cannot be in the future.'),
+    incidentTime: z.string().optional(),
+    description: z
+      .string()
+      .trim()
+      .min(15, 'Describe the reported incident in at least 15 characters.')
+      .max(2500),
+    actualFare: z.coerce
+      .number()
+      .nonnegative('Actual fare cannot be negative.')
+      .max(50000)
+      .optional()
+      .or(z.literal('')),
+    additionalRemarks: z.string().trim().max(1000).optional(),
+    isConfidentialIdentity: z.boolean().default(false),
+    externalShareConsent: z.boolean().default(false),
+  })
+  .superRefine((data, ctx) => {
+    if (!data.plateNotAvailable) {
+      const cleaned = (data.plateNumber ?? '').trim();
+      if (cleaned.length < 2 || !/^[A-Za-z0-9\-\s]+$/.test(cleaned)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['plateNumber'],
+          message:
+            'Enter a valid vehicle plate number (letters/numbers) or check "Plate Number Not Available".',
+        });
+      }
+    }
+  });

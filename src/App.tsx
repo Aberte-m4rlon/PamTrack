@@ -56,6 +56,16 @@ import { SystemSettingsPage } from '@/pages/admin/SystemSettingsPage';
 import { AdminTripAnalyticsPage } from '@/pages/admin/AdminTripAnalyticsPage';
 import { AdminLocationAnalyticsPage } from '@/pages/admin/AdminLocationAnalyticsPage';
 import { AdminSafetyReportsPage } from '@/pages/admin/AdminSafetyReportsPage';
+import { AdminVehicleReportsPage } from '@/pages/admin/AdminVehicleReportsPage';
+import { AdminAgenciesPage } from '@/pages/admin/AdminAgenciesPage';
+import { AdminAgencyReferralsPage } from '@/pages/admin/AdminAgencyReferralsPage';
+import { AdminVehicleAnalyticsPage } from '@/pages/admin/AdminVehicleAnalyticsPage';
+
+// Phase 3: Vehicle, Driver & Violation Reporting Pages
+import { ReportVehiclePage } from '@/pages/vehicle/ReportVehiclePage';
+import { MyVehicleReportsPage } from '@/pages/vehicle/MyVehicleReportsPage';
+import { VehicleComplaintDetailsPage } from '@/pages/vehicle/VehicleComplaintDetailsPage';
+import { AuthoritiesDirectoryPage } from '@/pages/vehicle/AuthoritiesDirectoryPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -82,6 +92,10 @@ export function AppRoutes() {
         <Route path="/nearby" element={<NearbyTransportPage />} />
         <Route path="/trips" element={<LiveTripPage />} />
         <Route path="/safety" element={<SafetyCenterPage />} />
+        <Route path="/report-vehicle" element={<ReportVehiclePage focusMode="vehicle" />} />
+        <Route path="/report-driver" element={<ReportVehiclePage focusMode="driver" />} />
+        <Route path="/report-violation" element={<ReportVehiclePage focusMode="violation" />} />
+        <Route path="/authorities" element={<AuthoritiesDirectoryPage />} />
         <Route path="/profile" element={<ProfileHubPage />} />
         <Route path="/shared-trip/:token" element={<SharedTripPage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -129,6 +143,22 @@ export function AppRoutes() {
           element={
             <RequireAuth>
               <MyReportsPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/dashboard/vehicle-reports"
+          element={
+            <RequireAuth>
+              <MyVehicleReportsPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/dashboard/vehicle-reports/:id"
+          element={
+            <RequireAuth>
+              <VehicleComplaintDetailsPage />
             </RequireAuth>
           }
         />
@@ -277,6 +307,71 @@ export function AppRoutes() {
           element={
             <RequireAdmin>
               <AdminSafetyReportsPage />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/vehicle-reports"
+          element={
+            <RequireAdmin>
+              <AdminVehicleReportsPage presetGroup="ALL" pageTitle="Vehicle Reports" />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/driver-complaints"
+          element={
+            <RequireAdmin>
+              <AdminVehicleReportsPage
+                presetGroup="DRIVER BEHAVIOR"
+                pageTitle="Driver Complaints"
+              />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/fare-violations"
+          element={
+            <RequireAdmin>
+              <AdminVehicleReportsPage
+                presetGroup="FARE VIOLATIONS"
+                pageTitle="Fare Violations"
+              />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/vehicle-safety-incidents"
+          element={
+            <RequireAdmin>
+              <AdminVehicleReportsPage
+                presetGroup="VEHICLE SAFETY"
+                pageTitle="Vehicle Safety Incidents"
+              />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/agencies"
+          element={
+            <RequireAdmin>
+              <AdminAgenciesPage />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/agency-referrals"
+          element={
+            <RequireAdmin>
+              <AdminAgencyReferralsPage />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/vehicle-analytics"
+          element={
+            <RequireAdmin>
+              <AdminVehicleAnalyticsPage />
             </RequireAdmin>
           }
         />

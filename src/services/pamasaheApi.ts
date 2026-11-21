@@ -2,24 +2,30 @@ import { getSupabaseClientOrThrow, isSupabaseConfigured, supabase } from '@/lib/
 import {
   DEFAULT_TRANSPORT_TYPES,
   ORIENTAL_MINDORO_MUNICIPALITIES,
+  VERIFIED_GOVERNMENT_AGENCIES_FALLBACK,
   VERIFIED_TRANSPORT_STOPS_FALLBACK,
 } from '@/data/orientalMindoro';
-import { validateEvidenceFile } from '@/lib/validation';
+import { normalizePlateNumber } from '@/lib/vehicleReporting';
+import { validateEvidenceFile, validateVehicleEvidenceFile } from '@/lib/validation';
 import type {
   AdminAggregatedAnalytics,
+  AgencyReferral,
   AppRole,
   AuditLog,
+  ComplaintStatus,
   FareExpenseType,
   FareRecord,
   FareReport,
   FareSource,
   FareVerificationLog,
   FavoriteRoute,
+  GovernmentAgency,
   LocationSharingSession,
   Municipality,
   NotificationItem,
   PassengerCategory,
   Profile,
+  ReferralStatus,
   ReportStatus,
   RouteRecord,
   SafetyReport,
@@ -34,6 +40,10 @@ import type {
   TripLocationPoint,
   TripRecord,
   TrustedContact,
+  VehicleEvidenceType,
+  VehicleReport,
+  VehicleTypeOption,
+  ViolationCategoryGroup,
 } from '@/types/database';
 
 export async function fetchMunicipalities(includeInactive = false): Promise<{
@@ -1074,4 +1084,382 @@ export async function fetchAdminAggregatedAnalytics(): Promise<AdminAggregatedAn
   const { data, error } = await client.rpc('get_admin_aggregated_analytics');
   if (error) throw new Error(error.message);
   return data as AdminAggregatedAnalytics;
+}
+
+// ============================================================================
+// Phase 3: Vehicle, Driver & Violation Reporting + Agency Routing APIs
+// ============================================================================
+
+export async function fetchGovernmentAgencies(
+  includeInactive = false
+): Promise<GovernmentAgency[]> {
+  if (!isSupabaseConfigured || !supabase) {
+    return VERIFIED_GOVERNMENT_AGENCIES_FALLBACK;
+  }
+
+  let query = supabase
+    .from('government_agencies')
+    .select('*')
+    .order('agency_name', { ascending: true });
+
+  if (!includeInactive) {
+    query = query.eq('is_active', true);
+  }
+
+  const { data, error } = await query;
+  if (error) throw new Error(error.message);
+  if (!data || data.length === 0) return VERIFIED_GOVERNMENT_AGENCIES_FALLBACK;
+  return data as GovernmentAgency[];
+}
+
+export async function upsertGovernmentAgency(
+  payload: Partial<GovernmentAgency> & {
+    agency_code: string;
+    agency_name: string;
+    jurisdiction: string;
+    official_website: string;
+    verified_contact_information: string;
+    submission_instructions: string;
+    last_verified_at: string;
+  }
+): Promise<GovernmentAgency> {
+  const client = getSupabaseClientOrThrow();
+  const { data, error } = await client
+    .from('government_agencies')
+    .upsert(payload)
+    .select()
+    .single();
+  if (error) throw new Error(error.message);
+  return data as GovernmentAgency;
+}
+
+export async function fetchVehicleReports(options?: {
+  userId?: string;
+}): Promise<VehicleReport[]> {
+  if (!isSupabaseConfigured || !supabase) return [];
+
+  let query = supabase
+    .from('vehicle_reports')
+    .select(
+      `
+      *,
+      municipality:municipalities!vehicle_reports_municipality_id_fkey(*),
+      origin:municipalities!vehicle_reports_origin_municipality_id_fkey(*),
+      destination:municipalities!vehicle_reports_destination_municipality_id_fkey(*),
+      categories:vehicle_report_categories(*),
+      evidence:vehicle_report_evidence(*),
+      referrals:agency_referrals(*, agency:government_agencies(*)),
+      status_logs:vehicle_report_status_logs(*)
+    `
+    )
+    .order('created_at', { ascending: false });
+
+  if (options?.userId) {
+    query = query.eq('user_id', options.userId);
+  }
+
+  const { data, error } = await query;
+  if (error) throw new Error(error.message);
+  return (data ?? []).map((row) => ({
+    ...row,
+    actual_fare: row.actual_fare !== null ? Number(row.actual_fare) : null,
+    expected_fare: row.expected_fare !== null ? Number(row.expected_fare) : null,
+  })) as VehicleReport[];
+}
+
+export async function fetchVehicleReportById(id: string): Promise<VehicleReport | null> {
+  if (!isSupabaseConfigured || !supabase) return null;
+
+  const { data, error } = await supabase
+    .from('vehicle_reports')
+    .select(
+      `
+      *,
+      municipality:municipalities!vehicle_reports_municipality_id_fkey(*),
+      origin:municipalities!vehicle_reports_origin_municipality_id_fkey(*),
+      destination:municipalities!vehicle_reports_destination_municipality_id_fkey(*),
+      categories:vehicle_report_categories(*),
+      evidence:vehicle_report_evidence(*),
+      referrals:agency_referrals(*, agency:government_agencies(*)),
+      status_logs:vehicle_report_status_logs(*)
+    `
+    )
+    .eq('id', id)
+    .maybeSingle();
+
+  if (error) throw new Error(error.message);
+  if (!data) return null;
+  return {
+    ...data,
+    actual_fare: data.actual_fare !== null ? Number(data.actual_fare) : null,
+    expected_fare: data.expected_fare !== null ? Number(data.expected_fare) : null,
+  } as VehicleReport;
+}
+
+export async function submitVehicleReport(payload: {
+  userId: string;
+  plateNumber?: string;
+  plateNotAvailable: boolean;
+  vehicleType: VehicleTypeOption;
+  bodyNumber?: string;
+  vehicleColor?: string;
+  vehicleModel?: string;
+  operatorName?: string;
+  routeInfo?: string;
+  originMunicipalityId?: string;
+  destinationMunicipalityId?: string;
+  municipalityId: string;
+  incidentLocation: string;
+  incidentLatitude?: number | null;
+  incidentLongitude?: number | null;
+  incidentDate: string;
+  incidentTime?: string;
+  description: string;
+  actualFare?: number | null;
+  expectedFare?: number | null;
+  additionalRemarks?: string;
+  isConfidentialIdentity: boolean;
+  externalShareConsent: boolean;
+  submissionIdempotencyKey: string;
+  asDraft?: boolean;
+  selectedCategories: Array<{ group: ViolationCategoryGroup; category: string }>;
+  evidenceItems?: Array<{ file: File; evidenceType: VehicleEvidenceType }>;
+  recommendedAgencyIds?: string[];
+  onUploadProgress?: (completed: number, total: number) => void;
+}): Promise<VehicleReport> {
+  const client = getSupabaseClientOrThrow();
+
+  if (payload.selectedCategories.length === 0) {
+    throw new Error('Select at least one alleged violation category.');
+  }
+
+  for (const item of payload.evidenceItems ?? []) {
+    const err = validateVehicleEvidenceFile(item.file);
+    if (err) throw new Error(err);
+  }
+
+  const normalizedPlate =
+    !payload.plateNotAvailable && payload.plateNumber
+      ? normalizePlateNumber(payload.plateNumber)
+      : null;
+
+  const { data: created, error } = await client
+    .from('vehicle_reports')
+    .insert({
+      user_id: payload.userId,
+      reference_number: '', // Auto-generated via prepare_vehicle_report_before_insert trigger
+      plate_number: normalizedPlate,
+      plate_not_available: payload.plateNotAvailable,
+      vehicle_type: payload.vehicleType,
+      body_number: payload.bodyNumber?.trim() || null,
+      vehicle_color: payload.vehicleColor?.trim() || null,
+      vehicle_model: payload.vehicleModel?.trim() || null,
+      operator_name: payload.operatorName?.trim() || null,
+      route_info: payload.routeInfo?.trim() || null,
+      origin_municipality_id: payload.originMunicipalityId || null,
+      destination_municipality_id: payload.destinationMunicipalityId || null,
+      municipality_id: payload.municipalityId,
+      incident_location: payload.incidentLocation.trim(),
+      incident_latitude: payload.incidentLatitude ?? null,
+      incident_longitude: payload.incidentLongitude ?? null,
+      incident_date: payload.incidentDate,
+      incident_time: payload.incidentTime || null,
+      description: payload.description.trim(),
+      actual_fare: payload.actualFare ?? null,
+      expected_fare: payload.expectedFare ?? null,
+      additional_remarks: payload.additionalRemarks?.trim() || null,
+      is_confidential_identity: payload.isConfidentialIdentity,
+      external_share_consent: payload.externalShareConsent,
+      submission_idempotency_key: payload.submissionIdempotencyKey,
+      complaint_status: payload.asDraft ? 'Draft' : 'Submitted to Pamasahe Tracker',
+    })
+    .select()
+    .single();
+
+  if (error) throw new Error(error.message);
+
+  // Insert categories
+  const catRows = payload.selectedCategories.map((c) => ({
+    report_id: created.id,
+    category_group: c.group,
+    category: c.category,
+  }));
+  const { error: catErr } = await client.from('vehicle_report_categories').insert(catRows);
+  if (catErr) throw new Error(catErr.message);
+
+  // Upload evidence files privately to 'vehicle-evidence' bucket
+  const items = payload.evidenceItems ?? [];
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    const safeName = item.file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const storagePath = `${payload.userId}/${created.id}/${Date.now()}-${safeName}`;
+
+    const { error: upErr } = await client.storage
+      .from('vehicle-evidence')
+      .upload(storagePath, item.file, {
+        cacheControl: '3600',
+        upsert: false,
+        contentType: item.file.type,
+      });
+
+    if (upErr) {
+      throw new Error(`Report ${created.reference_number} created, but evidence upload failed: ${upErr.message}`);
+    }
+
+    const { error: metaErr } = await client.from('vehicle_report_evidence').insert({
+      report_id: created.id,
+      storage_path: storagePath,
+      evidence_type: item.evidenceType,
+      file_type: item.file.type,
+      file_size_bytes: item.file.size,
+      original_filename: item.file.name,
+      uploaded_by: payload.userId,
+    });
+    if (metaErr) throw new Error(metaErr.message);
+    payload.onUploadProgress?.(i + 1, items.length);
+  }
+
+  // Record manual referral preparations ONLY if user explicitly consented
+  if (payload.externalShareConsent && (payload.recommendedAgencyIds ?? []).length > 0) {
+    const refRows = (payload.recommendedAgencyIds ?? []).map((agencyId) => ({
+      report_id: created.id,
+      agency_id: agencyId,
+      referral_status: 'Prepared for Manual Submission',
+      referral_notes: 'User consented and selected authority recommendation during submission.',
+      created_by: payload.userId,
+    }));
+    await client.from('agency_referrals').insert(refRows);
+  }
+
+  return created as VehicleReport;
+}
+
+export async function addEvidenceToVehicleReport(payload: {
+  reportId: string;
+  userId: string;
+  file: File;
+  evidenceType: VehicleEvidenceType;
+}): Promise<void> {
+  const client = getSupabaseClientOrThrow();
+  const err = validateVehicleEvidenceFile(payload.file);
+  if (err) throw new Error(err);
+
+  const safeName = payload.file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+  const storagePath = `${payload.userId}/${payload.reportId}/${Date.now()}-${safeName}`;
+
+  const { error: upErr } = await client.storage
+    .from('vehicle-evidence')
+    .upload(storagePath, payload.file, { contentType: payload.file.type });
+  if (upErr) throw new Error(upErr.message);
+
+  const { error: metaErr } = await client.from('vehicle_report_evidence').insert({
+    report_id: payload.reportId,
+    storage_path: storagePath,
+    evidence_type: payload.evidenceType,
+    file_type: payload.file.type,
+    file_size_bytes: payload.file.size,
+    original_filename: payload.file.name,
+    uploaded_by: payload.userId,
+  });
+  if (metaErr) throw new Error(metaErr.message);
+}
+
+export async function updateMyVehicleReport(
+  reportId: string,
+  updates: {
+    additionalRemarks?: string;
+    complaintStatus?: 'Submitted to Pamasahe Tracker' | 'Withdrawn';
+  }
+): Promise<VehicleReport> {
+  const client = getSupabaseClientOrThrow();
+  const { data, error } = await client
+    .from('vehicle_reports')
+    .update({
+      ...(updates.additionalRemarks !== undefined
+        ? { additional_remarks: updates.additionalRemarks }
+        : {}),
+      ...(updates.complaintStatus !== undefined
+        ? { complaint_status: updates.complaintStatus }
+        : {}),
+    })
+    .eq('id', reportId)
+    .select()
+    .single();
+  if (error) throw new Error(error.message);
+  return data as VehicleReport;
+}
+
+export async function getVehicleEvidenceSignedUrl(storagePath: string): Promise<string> {
+  const client = getSupabaseClientOrThrow();
+  const { data, error } = await client.storage
+    .from('vehicle-evidence')
+    .createSignedUrl(storagePath, 240);
+  if (error || !data?.signedUrl) {
+    throw new Error(error?.message || 'Unable to generate secure vehicle evidence URL.');
+  }
+  return data.signedUrl;
+}
+
+export async function adminUpdateVehicleReport(payload: {
+  reportId: string;
+  newStatus: ComplaintStatus;
+  adminRemarks?: string;
+  assignToMe?: boolean;
+  agencyId?: string | null;
+  referralStatus?: ReferralStatus;
+  externalReference?: string;
+  referralNotes?: string;
+}): Promise<VehicleReport> {
+  const client = getSupabaseClientOrThrow();
+  const { data, error } = await client.rpc('admin_update_vehicle_report', {
+    p_report_id: payload.reportId,
+    p_new_status: payload.newStatus,
+    p_admin_remarks: payload.adminRemarks ?? null,
+    p_assign_to_me: payload.assignToMe ?? true,
+    p_agency_id: payload.agencyId ?? null,
+    p_referral_status: payload.referralStatus ?? null,
+    p_external_reference: payload.externalReference ?? null,
+    p_referral_notes: payload.referralNotes ?? null,
+  });
+  if (error) throw new Error(error.message);
+  return data as VehicleReport;
+}
+
+export async function fetchAllAgencyReferrals(): Promise<AgencyReferral[]> {
+  const client = getSupabaseClientOrThrow();
+  const { data, error } = await client
+    .from('agency_referrals')
+    .select(
+      `
+      *,
+      agency:government_agencies(*),
+      report:vehicle_reports(id, reference_number, vehicle_type, plate_number, complaint_status)
+    `
+    )
+    .order('created_at', { ascending: false });
+  if (error) throw new Error(error.message);
+  return (data ?? []) as AgencyReferral[];
+}
+
+export async function updateAgencyReferralRecord(payload: {
+  referralId: string;
+  referralStatus: ReferralStatus;
+  externalReferenceNumber?: string;
+  referralNotes?: string;
+}): Promise<void> {
+  const client = getSupabaseClientOrThrow();
+  const { error } = await client
+    .from('agency_referrals')
+    .update({
+      referral_status: payload.referralStatus,
+      external_reference_number: payload.externalReferenceNumber?.trim() || null,
+      acknowledgment_date:
+        payload.referralStatus === 'Acknowledged by Agency' ||
+        payload.referralStatus === 'Under Agency Investigation'
+          ? new Date().toISOString()
+          : null,
+      referral_notes: payload.referralNotes?.trim() || null,
+    })
+    .eq('id', payload.referralId);
+  if (error) throw new Error(error.message);
 }

@@ -482,3 +482,153 @@ export interface AdminAggregatedAnalytics {
   mode_usage: Array<{ mode_name: string; trip_count: number }>;
   municipality_destinations: Array<{ municipality_name: string; trip_count: number }>;
 }
+
+export type VehicleTypeOption =
+  | 'Jeepney'
+  | 'Modern Jeepney'
+  | 'Tricycle'
+  | 'Bus'
+  | 'UV Express'
+  | 'Multicab'
+  | 'Taxi'
+  | 'Other Public Utility Vehicle';
+
+export type ViolationCategoryGroup =
+  | 'FARE VIOLATIONS'
+  | 'DRIVER BEHAVIOR'
+  | 'VEHICLE SAFETY'
+  | 'TRANSPORTATION REGULATIONS'
+  | 'OTHER';
+
+export type VehicleEvidenceType =
+  | 'vehicle_photo'
+  | 'license_plate_photo'
+  | 'video_recording'
+  | 'receipt'
+  | 'other_document';
+
+export type ComplaintStatus =
+  | 'Draft'
+  | 'Submitted to Pamasahe Tracker'
+  | 'Pending Initial Review'
+  | 'Under Review'
+  | 'Additional Information Required'
+  | 'Referred to Appropriate Agency'
+  | 'Acknowledged by Agency'
+  | 'Under Agency Investigation'
+  | 'Resolved'
+  | 'Closed'
+  | 'Rejected'
+  | 'Withdrawn';
+
+export type ReferralStatus =
+  | 'Recommended'
+  | 'Prepared for Manual Submission'
+  | 'Submitted Externally by Reporter'
+  | 'Referred by Administrator'
+  | 'Acknowledged by Agency'
+  | 'Under Agency Investigation'
+  | 'Closed';
+
+export interface VehicleReportCategory {
+  id: string;
+  report_id: string;
+  category_group: ViolationCategoryGroup;
+  category: string;
+  created_at: string;
+}
+
+export interface VehicleReportEvidence {
+  id: string;
+  report_id: string;
+  storage_path: string;
+  evidence_type: VehicleEvidenceType;
+  file_type: string;
+  file_size_bytes: number;
+  original_filename: string;
+  uploaded_by: string;
+  created_at: string;
+}
+
+export interface GovernmentAgency {
+  id: string;
+  agency_code: string;
+  agency_name: string;
+  jurisdiction: string;
+  categories_handled: string[];
+  official_website: string;
+  official_complaint_url: string | null;
+  verified_contact_information: string;
+  submission_instructions: string;
+  last_verified_at: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AgencyReferral {
+  id: string;
+  report_id: string;
+  agency_id: string;
+  referral_status: ReferralStatus;
+  referral_date: string | null;
+  external_reference_number: string | null;
+  acknowledgment_date: string | null;
+  referral_notes: string | null;
+  created_by: string;
+  created_at: string;
+  updated_at: string;
+  agency?: GovernmentAgency | null;
+}
+
+export interface VehicleReportStatusLog {
+  id: string;
+  report_id: string;
+  previous_status: string | null;
+  new_status: string;
+  remarks: string | null;
+  changed_by: string;
+  created_at: string;
+}
+
+export interface VehicleReport {
+  id: string;
+  reference_number: string;
+  user_id: string;
+  plate_number: string | null;
+  plate_not_available: boolean;
+  vehicle_type: VehicleTypeOption;
+  body_number: string | null;
+  vehicle_color: string | null;
+  vehicle_model: string | null;
+  operator_name: string | null;
+  route_info: string | null;
+  origin_municipality_id: string | null;
+  destination_municipality_id: string | null;
+  municipality_id: string;
+  incident_location: string;
+  incident_latitude: number | null;
+  incident_longitude: number | null;
+  incident_date: string;
+  incident_time: string | null;
+  description: string;
+  actual_fare: number | null;
+  expected_fare: number | null;
+  additional_remarks: string | null;
+  is_confidential_identity: boolean;
+  external_share_consent: boolean;
+  submission_idempotency_key: string | null;
+  is_duplicate_flagged: boolean;
+  complaint_status: ComplaintStatus;
+  assigned_admin_id: string | null;
+  admin_remarks: string | null;
+  created_at: string;
+  updated_at: string;
+  municipality?: Municipality | null;
+  origin?: Municipality | null;
+  destination?: Municipality | null;
+  categories?: VehicleReportCategory[];
+  evidence?: VehicleReportEvidence[];
+  referrals?: AgencyReferral[];
+  status_logs?: VehicleReportStatusLog[];
+}
