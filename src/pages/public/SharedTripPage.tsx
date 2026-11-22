@@ -38,15 +38,15 @@ export function SharedTripPage() {
 
   return (
     <div className="space-y-6">
-      <GlassCard variant="rose" className="p-6 space-y-2">
-        <div className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase">
+      <GlassCard variant="rose" className="p-4 sm:p-6 space-y-2">
+        <div className="glass-pill-tile inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold uppercase text-[#C9182B]">
           <Radio className="h-3.5 w-3.5 animate-pulse" />
           Temporary Trusted Trip Share
         </div>
-        <h1 className="font-display text-2xl font-extrabold">
+        <h1 className="font-display text-xl sm:text-2xl font-extrabold text-[#29262B]">
           {data.commuter_name}&apos;s Trip: {data.origin_name} → {data.destination_name}
         </h1>
-        <p className="text-xs text-[#F8E7EA]/90">
+        <p className="text-xs text-[#343039] font-medium">
           Mode: {data.transport_mode ?? 'Public Transport'} • Status: {data.trip_status} • Link
           expires {formatDateTimeSafe(data.expires_at ?? null)}
         </p>

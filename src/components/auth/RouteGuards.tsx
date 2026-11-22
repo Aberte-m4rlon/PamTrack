@@ -158,19 +158,19 @@ export function RequireAccountAccess({
         breadcrumbs={[{ label: 'Home', to: '/' }, { label: featureTitle }]}
       />
 
-      <GlassCard variant="strong" className="p-4 sm:p-8 space-y-4 sm:space-y-5">
+      <GlassCard variant="rose" className="p-4 sm:p-8 space-y-4 sm:space-y-5">
         <div className="flex items-start gap-3.5 sm:gap-4">
-          <div className="flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#C9182B] to-[#B51224] text-white shadow-md shadow-[#C9182B]/25">
+          <div className="liquid-icon-ring flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full text-[#C9182B]">
             <Lock className="h-5 w-5" />
           </div>
           <div className="space-y-1.5 sm:space-y-2 flex-1 min-w-0">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F8E7EA]/90 px-3 py-0.5 text-[11px] font-bold uppercase tracking-wider text-[#B51224] border border-[#E9E5E8]/60">
+            <div className="glass-pill-tile inline-flex items-center gap-1.5 rounded-full px-3 py-0.5 text-[11px] font-bold uppercase tracking-wider text-[#B51224]">
               Sign In Required
             </div>
             <h2 className="font-display text-lg sm:text-xl font-extrabold text-[#29262B] leading-snug">
               Account Access Locked While Logged Out
             </h2>
-            <p className="text-xs sm:text-sm text-[#343039] max-w-2xl leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#343039] max-w-2xl leading-relaxed font-medium">
               Sign in to unlock <strong className="text-[#29262B]">{featureTitle}</strong>. Public
               fare lookup and matrix remain open to guests.
             </p>
@@ -178,7 +178,7 @@ export function RequireAccountAccess({
         </div>
 
         {unlocks && unlocks.length > 0 && (
-          <div className="rounded-2xl border border-white/85 bg-white/50 backdrop-blur-md p-3.5 sm:p-4">
+          <div className="glass-pill-tile rounded-2xl p-3.5 sm:p-4">
             <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[#C9182B]">
               Unlocked With Your Commuter Account
             </p>

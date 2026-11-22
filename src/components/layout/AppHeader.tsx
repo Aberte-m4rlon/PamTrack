@@ -64,8 +64,8 @@ export function AppHeader({
   };
 
   return (
-    <header className="sticky top-2 sm:top-3.5 z-40 px-2 sm:px-5 lg:px-6">
-      <div className="glass-header liquid-glass-sheen mx-auto flex max-w-[1480px] items-center justify-between gap-1.5 sm:gap-2 rounded-[24px] sm:rounded-full px-2.5 py-1.5 sm:px-4 sm:py-2">
+    <header className="sticky top-2.5 sm:top-3.5 z-40 px-2.5 sm:px-5 lg:px-6">
+      <div className="glass-header liquid-glass-sheen mx-auto flex max-w-[1480px] items-center justify-between gap-1.5 sm:gap-2 rounded-full px-2.5 py-1.5 sm:px-4 sm:py-2">
         <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0">
           <button
             type="button"
@@ -82,7 +82,7 @@ export function AppHeader({
           </button>
 
           <Link to="/" className="flex items-center gap-2 sm:gap-2.5 group min-w-0">
-            <div className="relative flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full border border-white/95 bg-[#F7F3EF]/85 p-0.5 shadow-sm transition-transform group-hover:scale-105">
+            <div className="relative flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full border border-white/95 bg-white/60 p-0.5 shadow-sm transition-transform duration-200 group-hover:scale-105">
               <img
                 src="/assets/pamasahe-tracker-icon.png"
                 alt="Pamasahe Tracker Logo"
@@ -90,10 +90,10 @@ export function AppHeader({
               />
             </div>
             <div className="min-w-0">
-              <span className="block truncate font-display text-[13px] sm:text-base font-extrabold tracking-tight text-[#29262B]">
+              <span className="block truncate font-display text-[13px] sm:text-base font-extrabold tracking-tight text-[#29262B] leading-tight">
                 Pamasahe Tracker
               </span>
-              <span className="hidden truncate text-[11px] font-semibold text-[#777078] sm:block">
+              <span className="hidden min-[360px]:block truncate text-[8.5px] min-[400px]:text-[9.5px] sm:text-[11px] font-semibold text-[#343039] tracking-tight sm:tracking-normal leading-tight">
                 Oriental Mindoro •{' '}
                 <span className="text-[#C9182B]">Tamang Pamasahe. Ligtas na Biyahe.</span>
               </span>

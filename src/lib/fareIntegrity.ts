@@ -38,7 +38,7 @@ export const FARE_STATUS_META: Record<
     label: 'PENDING VERIFICATION',
     shortLabel: 'Pending Verification',
     badgeClass:
-      'bg-[#F8E7EA]/88 text-[#343039] border border-white/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.88)]',
+      'bg-[#F8E7EA]/90 text-[#343039] border border-white/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.88)]',
     dotClass: 'bg-[#B51224]',
     description:
       'Awaiting review against transport documents.',
@@ -47,7 +47,7 @@ export const FARE_STATUS_META: Record<
     label: 'REJECTED OR DISPUTED',
     shortLabel: 'Rejected / Disputed',
     badgeClass:
-      'bg-[#B51224]/92 text-white border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_4px_12px_rgba(181,18,36,0.24)]',
+      'liquid-nav-active text-white border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_4px_12px_rgba(181,18,36,0.24)]',
     dotClass: 'bg-[#B51224]',
     description:
       'Flagged or rejected due to conflicting proof.',
@@ -89,12 +89,12 @@ export const REPORT_STATUS_META: Record<
   rejected: {
     label: 'Rejected',
     badgeClass:
-      'bg-[#B51224]/90 text-white border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]',
+      'liquid-nav-active text-white border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]',
   },
   disputed: {
     label: 'Disputed',
     badgeClass:
-      'bg-[#B51224]/88 text-white border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]',
+      'liquid-nav-active text-white border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]',
   },
 };
 

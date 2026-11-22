@@ -197,36 +197,42 @@ export function SafetyCenterPage() {
 
   return (
     <div className="space-y-6">
-      <GlassCard variant="rose" className="p-6 flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#F8E7EA]">
+      <GlassCard variant="rose" className="p-4 sm:p-6 flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-4">
+        <div className="min-w-0 space-y-1">
+          <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
             Commuter Protection &amp; Consent Controls
           </p>
-          <h1 className="font-display text-2xl font-extrabold sm:text-3xl">
+          <h1 className="font-display text-xl sm:text-3xl font-extrabold text-[#29262B]">
             Trusted Contacts &amp; Safety Center
           </h1>
-          <p className="text-xs sm:text-sm text-[#F8E7EA]/95">
+          <p className="text-xs sm:text-sm text-[#343039] font-medium">
             Manage emergency contacts, share active trips via revocable expiring links, and submit
             transport safety reports.
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          <a href="tel:911">
-            <GlassButton variant="danger" size="sm">
+        <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+          <a href="tel:911" className="flex-1 sm:flex-initial">
+            <GlassButton variant="primary" size="sm" className="w-full">
               <PhoneCall className="h-3.5 w-3.5" />
               Emergency 911
             </GlassButton>
           </a>
-          <a href="tel:1342">
-            <GlassButton variant="glass" size="sm">
+          <a href="tel:1342" className="flex-1 sm:flex-initial">
+            <GlassButton variant="secondary" size="sm" className="w-full">
               <PhoneCall className="h-3.5 w-3.5 text-[#C9182B]" />
-              LTFRB Hotline 1342
+              LTFRB 1342
             </GlassButton>
           </a>
           {user && (
-            <GlassButton type="button" variant="secondary" size="sm" onClick={handleArrivalAlert}>
-              <CheckCircle2 className="h-3.5 w-3.5" />
+            <GlassButton
+              type="button"
+              variant="glass"
+              size="sm"
+              className="w-full sm:w-auto"
+              onClick={handleArrivalAlert}
+            >
+              <CheckCircle2 className="h-3.5 w-3.5 text-[#C9182B]" />
               Safe Arrival Check-In
             </GlassButton>
           )}

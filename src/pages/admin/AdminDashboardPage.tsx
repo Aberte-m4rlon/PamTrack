@@ -125,29 +125,29 @@ export function AdminDashboardPage() {
 
   return (
     <div className="space-y-6">
-      <GlassCard variant="rose" className="p-6 flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#F8E7EA]">
+      <GlassCard variant="rose" className="p-4 sm:p-6 flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-4">
+        <div className="min-w-0 space-y-1">
+          <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
             Protected Administrator Portal
           </p>
-          <h1 className="font-display text-2xl font-extrabold sm:text-3xl">
+          <h1 className="font-display text-xl sm:text-3xl font-extrabold text-[#29262B]">
             Pamasahe Tracker Operations Center
           </h1>
-          <p className="text-xs text-[#F8E7EA]/95 sm:text-sm">
+          <p className="text-xs text-[#343039] sm:text-sm font-medium">
             Verify official LTFRB &amp; LGU tariffs, audit community reports, and manage all 15
             Oriental Mindoro transport corridors.
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          <Link to="/admin/verification">
-            <GlassButton variant="secondary" size="sm">
+        <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+          <Link to="/admin/verification" className="w-full sm:w-auto">
+            <GlassButton variant="primary" size="sm" className="w-full sm:w-auto">
               <FileCheck2 className="h-4 w-4" />
               Open Verification Queue ({pendingReports.length})
             </GlassButton>
           </Link>
-          <Link to="/admin/fares">
-            <GlassButton variant="glass" size="sm">
+          <Link to="/admin/fares" className="w-full sm:w-auto">
+            <GlassButton variant="secondary" size="sm" className="w-full sm:w-auto">
               Publish Official Fare
             </GlassButton>
           </Link>

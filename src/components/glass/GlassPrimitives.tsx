@@ -38,16 +38,16 @@ export function GlassCard({
       : variant === 'strong'
         ? 'glass-card-strong liquid-glass-sheen'
         : variant === 'rose' || variant === 'green'
-          ? 'glass-rose-tint text-white'
+          ? 'glass-rose-tint text-[#29262B]'
           : 'glass-surface liquid-glass-sheen';
 
   return (
     <div
       className={cn(
         variantClass,
-        'rounded-[22px] sm:rounded-[28px] transition-all duration-200',
+        'liquid-card-enter rounded-[24px] sm:rounded-[30px] transition-all duration-200',
         hoverable &&
-          'hover:-translate-y-0.5 hover:shadow-glass-lg hover:border-white',
+          'hover:-translate-y-0.5 active:scale-[0.985] hover:shadow-glass-lg hover:border-white',
         className
       )}
       {...props}
@@ -223,46 +223,33 @@ export function PageHeader({
               <React.Fragment key={b.label}>
                 {i > 0 && (
                   <ChevronRight
-                    className={cn('h-3.5 w-3.5', isRose ? 'text-white/70' : 'text-[#777078]')}
+                    className={cn('h-3.5 w-3.5', isRose ? 'text-[#777078]' : 'text-[#777078]')}
                   />
                 )}
                 {b.to ? (
                   <Link
                     to={b.to}
-                    className={cn(
-                      'hover:underline',
-                      isRose ? 'text-[#F8E7EA]' : 'text-[#C9182B]'
-                    )}
+                    className="hover:underline text-[#C9182B]"
                   >
                     {b.label}
                   </Link>
                 ) : (
-                  <span className={isRose ? 'text-white/90' : 'text-[#777078]'}>{b.label}</span>
+                  <span className="text-[#777078]">{b.label}</span>
                 )}
               </React.Fragment>
             ))}
           </nav>
         )}
         {eyebrow && (
-          <p
-            className={cn(
-              'text-[11px] sm:text-xs font-bold uppercase tracking-widest',
-              isRose ? 'text-[#F8E7EA]' : 'text-[#C9182B]'
-            )}
-          >
+          <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
             {eyebrow}
           </p>
         )}
-        <h1
-          className={cn(
-            'font-display text-xl font-extrabold leading-tight sm:text-3xl',
-            isRose ? 'text-white' : 'text-[#29262B]'
-          )}
-        >
+        <h1 className="font-display text-xl font-extrabold leading-tight sm:text-3xl text-[#29262B]">
           {title}
         </h1>
         {description && (
-          <p className={cn('text-xs sm:text-sm max-w-3xl leading-relaxed', isRose ? 'text-[#F8E7EA]/90' : 'text-[#777078]')}>
+          <p className="text-xs sm:text-sm max-w-3xl leading-relaxed text-[#343039]">
             {description}
           </p>
         )}

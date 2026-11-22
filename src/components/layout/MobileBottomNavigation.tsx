@@ -53,10 +53,10 @@ export function MobileBottomNavigation() {
             end={tab.end}
             className={({ isActive }) =>
               cn(
-                'relative flex min-h-[50px] flex-col items-center justify-center gap-0.5 rounded-2xl px-1 py-1 text-[11px] font-bold transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9182B]',
+                'relative flex min-h-[52px] flex-col items-center justify-center gap-0.5 rounded-[22px] px-1 py-1 text-[11px] font-bold transition-all duration-200 ease-out active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9182B]',
                 isActive
-                  ? 'text-[#B51224] font-extrabold'
-                  : 'text-[#343039] hover:text-[#C9182B]'
+                  ? 'bg-[#F8E7EA]/55 text-[#B51224] font-extrabold shadow-[inset_0_1.5px_1.5px_rgba(255,255,255,0.92),0_4px_14px_-4px_rgba(201,24,43,0.22)]'
+                  : 'text-[#29262B] hover:text-[#C9182B]'
               )
             }
           >
@@ -65,22 +65,25 @@ export function MobileBottomNavigation() {
                 {offlineLocked ? (
                   <span
                     aria-hidden="true"
-                    className="absolute right-1.5 top-0.5 z-10 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#F8E7EA] text-[#B51224] ring-1 ring-white shadow-sm"
+                    className="absolute right-1.5 top-1 z-10 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#C9182B] text-white ring-1 ring-white shadow-sm"
                   >
                     <WifiOff className="h-2 w-2" />
                   </span>
                 ) : authLocked ? (
                   <span
                     aria-hidden="true"
-                    className="absolute right-1.5 top-0.5 z-10 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#F8E7EA] text-[#B51224] ring-1 ring-white shadow-sm"
+                    title="Sign in required"
+                    className="absolute right-2 top-1.5 z-10 flex h-2.5 w-2.5 items-center justify-center rounded-full bg-[#C9182B] ring-2 ring-white/95 shadow-[0_2px_6px_rgba(201,24,43,0.55)]"
                   >
-                    <Lock className="h-2 w-2" />
+                    <Lock className="sr-only" />
                   </span>
                 ) : null}
                 <span
                   className={cn(
-                    'relative flex h-7 w-11 items-center justify-center rounded-full transition-all',
-                    isActive ? 'liquid-nav-active text-white' : 'bg-transparent text-current'
+                    'relative flex h-7 w-11 items-center justify-center rounded-full transition-all duration-200 ease-out',
+                    isActive
+                      ? 'liquid-nav-active text-white scale-[1.03]'
+                      : 'bg-transparent text-current'
                   )}
                 >
                   <tab.icon className="h-4 w-4 shrink-0" />

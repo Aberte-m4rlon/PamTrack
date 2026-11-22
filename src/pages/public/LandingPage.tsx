@@ -477,21 +477,21 @@ export function LandingPage() {
         </GlassCard>
 
         <GlassCard variant="rose" className="p-4 sm:p-6 space-y-3.5 sm:space-y-4 lg:col-span-5">
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1 text-xs font-bold uppercase tracking-wider">
-            <CheckCircle2 className="h-3.5 w-3.5 text-white" />
+          <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#C9182B]">
+            <CheckCircle2 className="h-3.5 w-3.5 text-[#C9182B]" />
             Statutory Discounts
           </div>
-          <h3 className="font-display text-lg sm:text-xl font-extrabold">
+          <h3 className="font-display text-lg sm:text-xl font-extrabold text-[#29262B]">
             20% Student, Senior Citizen &amp; PWD Privileges
           </h3>
-          <p className="text-xs leading-relaxed text-white/90">
+          <p className="text-xs leading-relaxed text-[#343039] font-medium">
             Discounted fares follow RA 11314, RA 9994, and RA 10754 orders.
           </p>
           <ul className="space-y-2 text-xs">
             {OFFICIAL_REGULATORY_REFERENCES.slice(0, 4).map((ref) => (
-              <li key={ref.authority} className="rounded-xl bg-white/15 p-2.5 border border-white/20">
-                <p className="font-bold">{ref.authority}</p>
-                <p className="text-white/90">{ref.title}</p>
+              <li key={ref.authority} className="glass-pill-tile rounded-2xl p-2.5">
+                <p className="font-bold text-[#C9182B]">{ref.authority}</p>
+                <p className="text-[#343039]">{ref.title}</p>
               </li>
             ))}
           </ul>
@@ -502,22 +502,22 @@ export function LandingPage() {
       <GlassCard variant="rose" className="p-5 sm:p-8">
         <div className="flex flex-col gap-4 sm:gap-5 md:flex-row md:items-center md:justify-between">
           <div className="space-y-1.5 max-w-2xl">
-            <h2 className="font-display text-xl font-extrabold sm:text-3xl leading-tight">
+            <h2 className="font-display text-xl font-extrabold sm:text-3xl leading-tight text-[#29262B]">
               Help Keep Oriental Mindoro Fares Accurate
             </h2>
-            <p className="text-xs sm:text-sm text-white/90">
+            <p className="text-xs sm:text-sm text-[#343039] font-medium">
               Sign in to report fares paid and save daily routes.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2.5 sm:gap-3">
             <Link to="/register" className="w-full sm:w-auto">
-              <GlassButton variant="secondary" size="lg" className="w-full sm:w-auto">
+              <GlassButton variant="primary" size="lg" className="w-full sm:w-auto">
                 Register as Commuter
-                <ArrowRight className="h-4 w-4 text-[#C9182B]" />
+                <ArrowRight className="h-4 w-4 text-white" />
               </GlassButton>
             </Link>
             <Link to={user ? '/dashboard/reports' : '/login'} className="w-full sm:w-auto">
-              <GlassButton variant="glass" size="lg" className="w-full sm:w-auto">
+              <GlassButton variant="secondary" size="lg" className="w-full sm:w-auto">
                 <MessageSquarePlus className="h-4 w-4 text-[#C9182B]" />
                 {user ? 'Submit Fare Report' : 'Sign In to Report Fare'}
               </GlassButton>

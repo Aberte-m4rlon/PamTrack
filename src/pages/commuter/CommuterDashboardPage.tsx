@@ -83,19 +83,19 @@ export function CommuterDashboardPage() {
         <div className="flex flex-col gap-3.5 sm:gap-4 md:flex-row md:items-center md:justify-between">
           <div className="space-y-1.5 min-w-0">
             <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-wider">
-                <Sparkles className="h-3.5 w-3.5 text-[#F8E7EA]" />
+              <span className="glass-pill-tile inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-[#C9182B]">
+                <Sparkles className="h-3.5 w-3.5 text-[#C9182B]" />
                 Commuter Portal • {role.replace('_', ' ')}
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold">
-                <LocateFixed className="h-3 w-3" />
+              <span className="glass-pill-tile inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold text-[#29262B]">
+                <LocateFixed className="h-3 w-3 text-[#C9182B]" />
                 {trackingActive ? 'GPS Tracking Active' : 'GPS Standby'}
               </span>
             </div>
-            <h1 className="font-display text-xl leading-tight font-extrabold sm:text-3xl">
+            <h1 className="font-display text-xl leading-tight font-extrabold sm:text-3xl text-[#29262B]">
               Mabuhay, {profile?.full_name || user?.email?.split('@')[0] || 'Commuter'}!
             </h1>
-            <p className="text-xs text-[#F8E7EA]/95 sm:text-sm">
+            <p className="text-xs text-[#343039] sm:text-sm font-medium">
               {nearestMunicipality?.withinOrientalMindoro
                 ? `Current GPS LGU: ${nearestMunicipality.municipality.name}`
                 : homeMuni
@@ -106,7 +106,7 @@ export function CommuterDashboardPage() {
 
           <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             <Link to="/trips" className="w-full sm:w-auto">
-              <GlassButton variant="secondary" size="sm" className="w-full">
+              <GlassButton variant="primary" size="sm" className="w-full">
                 <Radio className="h-4 w-4 shrink-0" />
                 <span className="truncate">Live Trip</span>
               </GlassButton>

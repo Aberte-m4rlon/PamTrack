@@ -9,6 +9,11 @@ import { GpsProvider } from '@/contexts/GpsContext';
 import { ToastProvider } from '@/contexts/ToastContext';
 import { LIGHT_RED_THEME } from '@/lib/theme';
 import {
+  CONTINUOUS_ANIMATION_FPS,
+  CONTINUOUS_FRAME_INTERVAL_MS,
+  createFpsFrameGate,
+} from '@/lib/liquidAnimations';
+import {
   GlassModal,
   GlassTabs,
   PageHeader,
@@ -124,5 +129,18 @@ describe('Light Red Glassmorphism Design System & Shared Components', () => {
     // Top-left hamburger menu button & drawer removed on mobile view
     expect(screen.queryByLabelText('Open navigation menu')).not.toBeInTheDocument();
     expect(screen.queryByLabelText('Mobile navigation drawer')).not.toBeInTheDocument();
+  });
+
+  it('caps continuous custom ambient animation frame gate accurately at 28 FPS', () => {
+    expect(CONTINUOUS_ANIMATION_FPS).toBe(28);
+    expect(CONTINUOUS_FRAME_INTERVAL_MS).toBeCloseTo(1000 / 28, 3);
+
+    const shouldTick = createFpsFrameGate(28);
+    expect(shouldTick(0)).toBe(true);
+    expect(shouldTick(16.6)).toBe(false);
+    expect(shouldTick(30)).toBe(false);
+    expect(shouldTick(36)).toBe(true);
+    expect(shouldTick(52)).toBe(false);
+    expect(shouldTick(72)).toBe(true);
   });
 });
