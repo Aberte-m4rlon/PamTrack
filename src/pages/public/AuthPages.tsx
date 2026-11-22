@@ -40,10 +40,10 @@ export function LoginPage() {
   };
 
   return (
-    <div className="mx-auto max-w-md py-2 sm:py-6">
+    <div className="mx-auto max-w-md min-h-[calc(100vh-14rem)] flex flex-col justify-center py-2 sm:py-6">
       <GlassCard variant="strong" className="p-5 sm:p-8 space-y-5 sm:space-y-6">
         <div className="text-center space-y-1.5 sm:space-y-2">
-          <div className="mx-auto flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full border-2 border-white/95 bg-white/50 p-1 shadow-md backdrop-blur-md">
+          <div className="mx-auto flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full border-2 border-white/95 bg-white/75 p-1 shadow-md backdrop-blur-md">
             <img
               src="/assets/pamasahe-tracker-icon.png"
               alt="Pamasahe Tracker Logo"
@@ -53,14 +53,14 @@ export function LoginPage() {
           <h1 className="font-display text-xl sm:text-2xl font-extrabold text-[#29262B]">
             Sign In to Pamasahe Tracker
           </h1>
-          <p className="text-xs text-[#777078]">
+          <p className="text-xs text-[#343039] font-medium">
             Track live trips, use the GPS map, manage trusted contacts, and report fares.
           </p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
+            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#343039]">
               Email Address
             </label>
             <input
@@ -75,13 +75,13 @@ export function LoginPage() {
           </div>
 
           <div>
-            <div className="mb-1 flex items-center justify-between gap-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-[#777078]">
+            <div className="mb-1.5 flex items-center justify-between gap-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-[#343039]">
                 Password
               </label>
               <Link
                 to="/forgot-password"
-                className="inline-flex min-h-[34px] items-center text-xs font-bold text-[#C9182B] hover:underline"
+                className="text-xs font-bold text-[#C9182B] hover:underline py-0.5"
               >
                 Forgot password?
               </Link>
@@ -108,11 +108,11 @@ export function LoginPage() {
           </GlassButton>
         </form>
 
-        <p className="text-center text-xs text-[#777078]">
+        <p className="text-center text-xs text-[#343039]">
           Don&apos;t have an account yet?{' '}
           <Link
             to="/register"
-            className="inline-flex min-h-[34px] items-center font-bold text-[#C9182B] hover:underline"
+            className="inline-flex min-h-[30px] items-center font-bold text-[#C9182B] hover:underline"
           >
             Register as Commuter
           </Link>

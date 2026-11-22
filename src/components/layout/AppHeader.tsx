@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   ChevronDown,
   LogIn,
@@ -32,6 +32,8 @@ export function AppHeader({
   const { trackingActive, nearestMunicipality, stopTracking } = useGps();
   const { isOffline } = useNetwork();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isLoginRoute = location.pathname === '/login';
 
   const [menuOpen, setMenuOpen] = useState(false);
   const menuContainerRef = useRef<HTMLDivElement | null>(null);
@@ -56,9 +58,9 @@ export function AppHeader({
   };
 
   return (
-    <header className="sticky top-2.5 sm:top-3.5 z-40 px-2.5 sm:px-5 lg:px-6">
-      <div className="glass-header liquid-glass-sheen mx-auto flex max-w-[1480px] items-center justify-between gap-1.5 sm:gap-2 rounded-full px-2.5 py-1.5 sm:px-4 sm:py-2">
-        <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0">
+    <header className="sticky top-0 z-40 mobile-header-scrim md:bg-none md:top-3 px-2.5 pt-2 pb-1 sm:px-5 sm:pt-3 sm:pb-0 lg:px-6">
+      <div className="glass-header liquid-glass-sheen mx-auto flex max-w-[1480px] items-center justify-between gap-2 rounded-full px-2.5 py-1.5 sm:px-4 sm:py-2">
+        <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
           <button
             type="button"
             onClick={onToggleSidebar}
@@ -74,7 +76,7 @@ export function AppHeader({
           </button>
 
           <Link to="/" className="flex items-center gap-2 sm:gap-2.5 group min-w-0">
-            <div className="relative flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full border border-white/95 bg-white/60 p-0.5 shadow-sm transition-transform duration-200 group-hover:scale-105">
+            <div className="relative flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full border border-white/95 bg-white/75 p-0.5 shadow-sm transition-transform duration-200 group-hover:scale-105">
               <img
                 src="/assets/pamasahe-tracker-icon.png"
                 alt="Pamasahe Tracker Logo"
@@ -82,12 +84,15 @@ export function AppHeader({
               />
             </div>
             <div className="min-w-0">
-              <span className="block truncate font-display text-[13px] sm:text-base font-extrabold tracking-tight text-[#29262B] leading-tight">
+              <span className="block truncate font-display text-[13.5px] sm:text-base font-extrabold tracking-tight text-[#29262B] leading-tight">
                 Pamasahe Tracker
               </span>
-              <span className="hidden min-[360px]:block truncate text-[8.5px] min-[400px]:text-[9.5px] sm:text-[11px] font-semibold text-[#343039] tracking-tight sm:tracking-normal leading-tight">
-                Oriental Mindoro •{' '}
-                <span className="text-[#C9182B]">Tamang Pamasahe. Ligtas na Biyahe.</span>
+              <span className="block truncate text-[10.5px] sm:text-[11px] font-semibold text-[#5B555E] leading-tight">
+                Oriental Mindoro
+                <span className="hidden sm:inline text-[#C9182B]">
+                  {' '}
+                  • Tamang Pamasahe. Ligtas na Biyahe.
+                </span>
               </span>
             </div>
           </Link>
@@ -208,7 +213,7 @@ export function AppHeader({
                 </div>
               )}
             </div>
-          ) : (
+          ) : !isLoginRoute ? (
             <div className="flex items-center gap-1.5 sm:gap-2">
               <Link to="/login">
                 <GlassButton variant="secondary" size="sm">
@@ -222,6 +227,12 @@ export function AppHeader({
                 </GlassButton>
               </Link>
             </div>
+          ) : (
+            <Link to="/register" className="inline-flex">
+              <GlassButton variant="secondary" size="sm">
+                Register
+              </GlassButton>
+            </Link>
           )}
         </div>
       </div>

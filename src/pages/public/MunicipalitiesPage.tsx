@@ -37,13 +37,13 @@ export function MunicipalitiesPage() {
         </div>
 
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 pt-1">
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 sm:pb-0">
+          <div className="no-scrollbar flex items-center gap-1.5 overflow-x-auto pb-0.5 sm:pb-0">
             {(['all', '1st District', '2nd District'] as const).map((dist) => (
               <button
                 key={dist}
                 type="button"
                 onClick={() => setDistrictFilter(dist)}
-                className={`min-h-[40px] shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 text-xs font-semibold transition ${
+                className={`min-h-[38px] shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
                   districtFilter === dist
                     ? 'liquid-nav-active text-white'
                     : 'liquid-btn-glass text-[#29262B] hover:text-[#C9182B]'
@@ -74,37 +74,39 @@ export function MunicipalitiesPage() {
       ) : (
         <div className="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filteredMunicipalities.map((m) => (
-            <GlassCard key={m.id} variant="strong" hoverable className="p-4 sm:p-5 flex flex-col justify-between gap-3 sm:gap-4">
-              <div className="space-y-2">
+            <GlassCard key={m.id} variant="strong" hoverable className="p-4 sm:p-5 flex flex-col justify-between gap-3 h-full">
+              <div className="space-y-1.5">
                 <div className="flex items-start justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <div className="glass-pill-tile rounded-xl p-2 text-[#C9182B]">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="glass-pill-tile rounded-xl p-2 text-[#C9182B] shrink-0">
                       {m.is_capital ? (
                         <Building2 className="h-4 w-4" />
                       ) : (
                         <MapPin className="h-4 w-4" />
                       )}
                     </div>
-                    <div>
-                      <h2 className="font-display text-lg font-extrabold text-[#29262B]">
+                    <div className="min-w-0">
+                      <h2 className="font-display text-base sm:text-lg font-extrabold text-[#29262B] truncate">
                         {m.name}
                       </h2>
-                      <p className="text-xs font-semibold text-[#B51224]">
+                      <p className="text-[11px] sm:text-xs font-semibold text-[#B51224]">
                         {m.classification === 'component_city' ? 'Component City' : 'Municipality'} •{' '}
                         {m.district}
                       </p>
                     </div>
                   </div>
                   {m.is_capital && (
-                    <span className="liquid-nav-active rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase text-white">
+                    <span className="liquid-nav-active shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase text-white">
                       Capital
                     </span>
                   )}
                 </div>
 
-                <p className="text-xs leading-relaxed text-[#343039] line-clamp-2">{m.description}</p>
-                <p className="text-[11px] font-mono text-[#777078]">
-                  Coords: {m.latitude.toFixed(4)}° N, {m.longitude.toFixed(4)}° E
+                <p className="text-xs leading-relaxed text-[#343039] line-clamp-2 sm:min-h-[2.4rem]">
+                  {m.description}
+                </p>
+                <p className="text-[11px] font-mono font-medium text-[#5B555E]">
+                  {m.latitude.toFixed(4)}° N, {m.longitude.toFixed(4)}° E
                 </p>
               </div>
 

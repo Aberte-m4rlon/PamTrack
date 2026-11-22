@@ -148,24 +148,21 @@ export function RequireAccountAccess({
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-3.5 sm:space-y-5">
       <PageHeader
-        eyebrow="Sign In Required • Limited Guest Access"
+        eyebrow="Sign In Required"
         title={featureTitle}
         description={featureDescription}
         breadcrumbs={[{ label: 'Home', to: '/' }, { label: featureTitle }]}
       />
 
-      <GlassCard variant="rose" className="p-4 sm:p-8 space-y-4 sm:space-y-5">
-        <div className="flex items-start gap-3.5 sm:gap-4">
-          <div className="liquid-icon-ring flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full text-[#C9182B]">
-            <Lock className="h-5 w-5" />
+      <GlassCard variant="rose" className="p-4 sm:p-7 space-y-3.5 sm:space-y-5">
+        <div className="flex items-start gap-3 sm:gap-4">
+          <div className="liquid-icon-ring flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full text-[#C9182B]">
+            <Lock className="h-4 w-4 sm:h-5 sm:w-5" />
           </div>
-          <div className="space-y-1.5 sm:space-y-2 flex-1 min-w-0">
-            <div className="glass-pill-tile inline-flex items-center gap-1.5 rounded-full px-3 py-0.5 text-[11px] font-bold uppercase tracking-wider text-[#B51224]">
-              Sign In Required
-            </div>
-            <h2 className="font-display text-lg sm:text-xl font-extrabold text-[#29262B] leading-snug">
+          <div className="space-y-1 flex-1 min-w-0">
+            <h2 className="font-display text-base sm:text-xl font-extrabold text-[#29262B] leading-snug">
               Account Access Locked While Logged Out
             </h2>
             <p className="text-xs sm:text-sm text-[#343039] max-w-2xl leading-relaxed font-medium">
@@ -177,13 +174,13 @@ export function RequireAccountAccess({
 
         {unlocks && unlocks.length > 0 && (
           <div className="glass-pill-tile rounded-2xl p-3.5 sm:p-4">
-            <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[#C9182B]">
+            <p className="mb-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#C9182B]">
               Unlocked With Your Commuter Account
             </p>
             <ul className="grid gap-1.5 sm:grid-cols-2 text-xs font-medium text-[#29262B]">
               {unlocks.map((item) => (
-                <li key={item} className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#C9182B] shrink-0" />
+                <li key={item} className="flex items-start gap-2 leading-snug">
+                  <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[#C9182B] shrink-0" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -191,22 +188,22 @@ export function RequireAccountAccess({
           </div>
         )}
 
-        <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2.5 sm:gap-3 pt-1">
+        <div className="grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap sm:items-center sm:gap-3 pt-0.5">
           <Link to="/login" state={{ from: location.pathname }} className="w-full sm:w-auto">
-            <GlassButton variant="primary" className="w-full sm:w-auto">
-              <LogIn className="h-4 w-4 shrink-0" />
+            <GlassButton variant="primary" size="sm" className="w-full sm:w-auto sm:px-5 sm:py-2.5 sm:text-sm sm:min-h-[42px]">
+              <LogIn className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
               Sign In to Unlock
             </GlassButton>
           </Link>
           <Link to="/register" state={{ from: location.pathname }} className="w-full sm:w-auto">
-            <GlassButton variant="secondary" className="w-full sm:w-auto">
-              <UserPlus className="h-4 w-4 shrink-0" />
-              Create Commuter Account
+            <GlassButton variant="secondary" size="sm" className="w-full sm:w-auto sm:px-5 sm:py-2.5 sm:text-sm sm:min-h-[42px]">
+              <UserPlus className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+              Create Account
             </GlassButton>
           </Link>
-          <Link to="/fare-search" className="w-full sm:w-auto">
-            <GlassButton variant="glass" className="w-full sm:w-auto">
-              <Compass className="h-4 w-4 shrink-0 text-[#C9182B]" />
+          <Link to="/fare-search" className="col-span-2 sm:col-span-1 w-full sm:w-auto">
+            <GlassButton variant="glass" size="sm" className="w-full sm:w-auto sm:px-5 sm:py-2.5 sm:text-sm sm:min-h-[42px]">
+              <Compass className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-[#C9182B]" />
               Use Public Fare Finder
             </GlassButton>
           </Link>

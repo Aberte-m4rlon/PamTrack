@@ -144,36 +144,36 @@ export function LandingPage() {
               )}
 
               <div className="grid grid-cols-2 gap-2.5 sm:gap-3 pt-0.5 sm:grid-cols-4 sm:max-w-2xl">
-                <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-3 sm:p-3.5 text-center space-y-0.5 sm:space-y-1">
+                <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-2.5 sm:p-3.5 text-center space-y-0.5">
                   <p className="font-display text-xl sm:text-2xl font-extrabold tabular-nums text-[#C9182B]">15</p>
-                  <p className="flex items-center justify-center gap-1 text-[11px] font-semibold text-[#777078]">
+                  <p className="flex items-center justify-center gap-1 text-[11px] font-semibold text-[#343039]">
                     <MapPin className="h-3 w-3 shrink-0 text-[#C9182B]" />
                     <span>LGUs Covered</span>
                   </p>
                 </div>
-                <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-3 sm:p-3.5 text-center space-y-0.5 sm:space-y-1">
+                <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-2.5 sm:p-3.5 text-center space-y-0.5">
                   <p className="font-display text-xl sm:text-2xl font-extrabold tabular-nums text-[#C9182B]">
                     {transportTypes.length || 4}
                   </p>
-                  <p className="flex items-center justify-center gap-1 text-[11px] font-semibold text-[#777078]">
+                  <p className="flex items-center justify-center gap-1 text-[11px] font-semibold text-[#343039]">
                     <BusFront className="h-3 w-3 shrink-0 text-[#C9182B]" />
                     <span>Transport Modes</span>
                   </p>
                 </div>
-                <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-3 sm:p-3.5 text-center space-y-0.5 sm:space-y-1">
+                <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-2.5 sm:p-3.5 text-center space-y-0.5">
                   <p className="font-display text-xl sm:text-2xl font-extrabold tabular-nums text-[#B51224]">
                     {officialFares.length + communityEstimates.length}
                   </p>
-                  <p className="flex items-center justify-center gap-1 text-[11px] font-semibold text-[#777078]">
+                  <p className="flex items-center justify-center gap-1 text-[11px] font-semibold text-[#343039]">
                     <FileCheck2 className="h-3 w-3 shrink-0 text-[#C9182B]" />
                     <span>Published Fares</span>
                   </p>
                 </div>
-                <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-3 sm:p-3.5 text-center space-y-0.5 sm:space-y-1">
+                <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-2.5 sm:p-3.5 text-center space-y-0.5">
                   <p className="font-display text-xl sm:text-2xl font-extrabold tabular-nums text-[#C9182B]">
                     {coveredPairsCount}
                   </p>
-                  <p className="flex items-center justify-center gap-1 text-[11px] font-semibold text-[#777078]">
+                  <p className="flex items-center justify-center gap-1 text-[11px] font-semibold text-[#343039]">
                     <Compass className="h-3 w-3 shrink-0 text-[#C9182B]" />
                     <span>Covered Pairs</span>
                   </p>
@@ -199,18 +199,19 @@ export function LandingPage() {
 
       {/* 2. SUPPORTED TRANSPORTATION MODES */}
       <section className="space-y-3 sm:space-y-4">
-        <div className="glass-surface liquid-glass-sheen rounded-[22px] sm:rounded-[26px] px-4 py-3.5 sm:px-5 sm:py-4 flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2.5">
-            <span aria-hidden="true" className="h-5 w-1 rounded-full bg-[#C9182B]" />
-            <h2 className="font-display text-lg sm:text-2xl font-extrabold text-[#29262B]">
+        <div className="glass-surface liquid-glass-sheen rounded-[20px] sm:rounded-[26px] px-3.5 py-2.5 sm:px-5 sm:py-4 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <span aria-hidden="true" className="h-4 sm:h-5 w-1 shrink-0 rounded-full bg-[#C9182B]" />
+            <h2 className="font-display text-sm sm:text-2xl font-extrabold text-[#29262B] truncate">
               Supported Transportation Services
             </h2>
           </div>
           <Link
             to="/fare-matrix"
-            className="inline-flex min-h-[38px] items-center rounded-full px-3 py-1.5 text-xs font-bold text-[#C9182B] hover:underline glass-pill-tile sm:bg-transparent sm:border-0 sm:shadow-none sm:px-0"
+            className="glass-pill-tile inline-flex min-h-[32px] sm:min-h-[38px] shrink-0 items-center rounded-full px-3 py-1 text-[11px] sm:text-xs font-bold text-[#C9182B] hover:underline whitespace-nowrap"
           >
-            View Fare Matrix →
+            <span className="sm:hidden">Matrix →</span>
+            <span className="hidden sm:inline">View Fare Matrix →</span>
           </Link>
         </div>
 
@@ -230,18 +231,19 @@ export function LandingPage() {
 
       {/* 3. FEATURED CITIZEN ROUTES */}
       <section className="space-y-3 sm:space-y-4">
-        <div className="glass-surface liquid-glass-sheen rounded-[22px] sm:rounded-[26px] px-4 py-3.5 sm:px-5 sm:py-4 flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2.5">
-            <span aria-hidden="true" className="h-5 w-1 rounded-full bg-[#C9182B]" />
-            <h2 className="font-display text-lg sm:text-2xl font-extrabold text-[#29262B]">
+        <div className="glass-surface liquid-glass-sheen rounded-[20px] sm:rounded-[26px] px-3.5 py-2.5 sm:px-5 sm:py-4 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <span aria-hidden="true" className="h-4 sm:h-5 w-1 shrink-0 rounded-full bg-[#C9182B]" />
+            <h2 className="font-display text-sm sm:text-2xl font-extrabold text-[#29262B] truncate">
               Featured Oriental Mindoro Routes
             </h2>
           </div>
           <Link
             to="/fare-search"
-            className="inline-flex min-h-[38px] items-center rounded-full px-3 py-1.5 text-xs font-bold text-[#C9182B] hover:underline glass-pill-tile sm:bg-transparent sm:border-0 sm:shadow-none sm:px-0"
+            className="glass-pill-tile inline-flex min-h-[32px] sm:min-h-[38px] shrink-0 items-center rounded-full px-3 py-1 text-[11px] sm:text-xs font-bold text-[#C9182B] hover:underline whitespace-nowrap"
           >
-            Search Any Route →
+            <span className="sm:hidden">Search →</span>
+            <span className="hidden sm:inline">Search Any Route →</span>
           </Link>
         </div>
 
@@ -300,19 +302,20 @@ export function LandingPage() {
       </section>
 
       {/* 4. ORIENTAL MINDORO COVERAGE (ALL 15 LGUs) */}
-      <section className="glass-surface liquid-glass-sheen rounded-[24px] sm:rounded-[30px] p-4 sm:p-6 space-y-3.5 sm:space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2.5">
-            <span aria-hidden="true" className="h-5 w-1 rounded-full bg-[#C9182B]" />
-            <h2 className="font-display text-lg sm:text-2xl font-extrabold text-[#29262B]">
+      <section className="glass-surface liquid-glass-sheen rounded-[24px] sm:rounded-[30px] p-3.5 sm:p-6 space-y-3 sm:space-y-4">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <span aria-hidden="true" className="h-4 sm:h-5 w-1 shrink-0 rounded-full bg-[#C9182B]" />
+            <h2 className="font-display text-sm sm:text-2xl font-extrabold text-[#29262B] truncate">
               15 Oriental Mindoro LGUs
             </h2>
           </div>
           <Link
             to="/municipalities"
-            className="inline-flex min-h-[38px] items-center rounded-full px-3 py-1.5 text-xs font-bold text-[#C9182B] hover:underline glass-pill-tile sm:bg-transparent sm:border-0 sm:shadow-none sm:px-0"
+            className="glass-pill-tile inline-flex min-h-[32px] sm:min-h-[38px] shrink-0 items-center rounded-full px-3 py-1 text-[11px] sm:text-xs font-bold text-[#C9182B] hover:underline whitespace-nowrap"
           >
-            Full LGU Directory →
+            <span className="sm:hidden">All 15 →</span>
+            <span className="hidden sm:inline">Full LGU Directory →</span>
           </Link>
         </div>
 
@@ -321,14 +324,16 @@ export function LandingPage() {
             <Link
               key={m.id}
               to={`/fare-search?origin=${encodeURIComponent(m.id)}`}
-              className="glass-pill-tile group flex min-h-[42px] items-center justify-between gap-1.5 rounded-full px-3 sm:px-4 py-2 text-xs font-bold text-[#29262B] transition hover:bg-gradient-to-b hover:from-[#C9182B] hover:to-[#B51224] hover:text-white"
+              className={`glass-pill-tile group flex min-h-[42px] items-center justify-between gap-1.5 rounded-full px-3 sm:px-4 py-2 text-xs font-bold text-[#29262B] transition hover:bg-gradient-to-b hover:from-[#C9182B] hover:to-[#B51224] hover:text-white ${
+                m.is_capital ? 'col-span-2 sm:col-span-1' : ''
+              }`}
             >
               <span className="flex items-center gap-1.5 sm:gap-2 truncate min-w-0">
                 <MapPin className="h-3.5 w-3.5 shrink-0 text-[#C9182B] group-hover:text-white" />
                 <span className="truncate">{m.name}</span>
               </span>
-              <span className="text-[10px] opacity-70 shrink-0 hidden min-[380px]:inline">
-                {m.is_capital ? 'Capital' : m.district.split(' ')[0]}
+              <span className="text-[10px] text-[#5B555E] group-hover:text-white/90 shrink-0">
+                {m.is_capital ? 'Provincial Capital' : m.district.split(' ')[0]}
               </span>
             </Link>
           ))}

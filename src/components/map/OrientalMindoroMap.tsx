@@ -171,14 +171,14 @@ export function OrientalMindoroMap({
   return (
     <div className="space-y-3">
       {/* Controls Bar */}
-      <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-2">
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 sm:pb-0 sm:flex-wrap">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="no-scrollbar flex items-center gap-1.5 overflow-x-auto sm:flex-wrap flex-1 min-w-0">
           {(['all', '1st District', '2nd District'] as const).map((dist) => (
             <button
               key={dist}
               type="button"
               onClick={() => setDistrictFilter(dist)}
-              className={`min-h-[40px] sm:min-h-[34px] shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 sm:py-1.5 text-xs font-semibold transition ${
+              className={`min-h-[36px] sm:min-h-[34px] shrink-0 whitespace-nowrap rounded-full px-3 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-semibold transition ${
                 districtFilter === dist
                   ? 'liquid-nav-active text-white'
                   : 'liquid-btn-glass text-[#29262B] hover:text-[#C9182B]'
@@ -193,14 +193,15 @@ export function OrientalMindoroMap({
           type="button"
           variant="glass"
           size="sm"
-          className="w-full sm:w-auto shrink-0"
+          className="shrink-0 min-h-[36px]"
           onClick={() => {
             setDistrictFilter('all');
             setResetSignal((n) => n + 1);
           }}
         >
           <LocateFixed className="h-3.5 w-3.5" />
-          Reset Province View
+          <span className="sm:hidden">Reset</span>
+          <span className="hidden sm:inline">Reset Province View</span>
         </GlassButton>
       </div>
 

@@ -1496,11 +1496,12 @@ export function LiveTripPage() {
                           >
                             {link}
                           </a>
-                          <div className="flex flex-wrap gap-1.5">
+                          <div className="grid grid-cols-2 gap-1.5 sm:flex sm:flex-wrap">
                             <GlassButton
                               type="button"
                               variant="primary"
                               size="sm"
+                              className="w-full sm:w-auto"
                               onClick={() => handleCopyShareLink(sess.share_token)}
                             >
                               {isCopied ? (
@@ -1517,12 +1518,13 @@ export function LiveTripPage() {
                               type="button"
                               variant="secondary"
                               size="sm"
+                              className="w-full sm:w-auto"
                               onClick={() => handleNativeShare(sess.share_token)}
                             >
                               <Share2 className="h-3 w-3" /> Share
                             </GlassButton>
-                            <a href={link} target="_blank" rel="noreferrer">
-                              <GlassButton type="button" variant="glass" size="sm">
+                            <a href={link} target="_blank" rel="noreferrer" className="w-full sm:w-auto">
+                              <GlassButton type="button" variant="glass" size="sm" className="w-full sm:w-auto">
                                 <ExternalLink className="h-3 w-3 text-[#C9182B]" /> Monitor
                               </GlassButton>
                             </a>
@@ -1531,6 +1533,7 @@ export function LiveTripPage() {
                                 type="button"
                                 variant="danger"
                                 size="sm"
+                                className="w-full sm:w-auto"
                                 disabled={revokeShareMutation.isPending}
                                 onClick={() => revokeShareMutation.mutate(sess.id)}
                               >
@@ -1780,13 +1783,13 @@ export function LiveTripPage() {
               </div>
             )}
 
-            <p className="text-[11px] leading-snug text-[#777078]">
+            <p className="text-[11px] leading-snug text-[#343039]">
               Keep this app open or locked/in background during a live trip with sound &amp; alerts
               allowed so consecutive sirens sound even when the screen turns off (powered-off devices
               cannot run browser audio).
             </p>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
               <GlassButton
                 type="button"
                 variant="secondary"
@@ -1844,8 +1847,8 @@ export function LiveTripPage() {
                 Test Loud Siren
               </GlassButton>
 
-              <a href={smsHref}>
-                <GlassButton type="button" variant="glass" size="sm">
+              <a href={smsHref} className="w-full sm:w-auto">
+                <GlassButton type="button" variant="glass" size="sm" className="w-full sm:w-auto">
                   <PhoneCall className="h-3.5 w-3.5 text-[#C9182B]" />
                   Offline SMS SOS
                 </GlassButton>

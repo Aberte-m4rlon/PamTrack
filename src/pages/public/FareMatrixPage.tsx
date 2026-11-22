@@ -173,37 +173,35 @@ export function FareMatrixPage() {
         </GlassButton>
       </GlassCard>
 
-      {/* Filter Bar (Compact Search + Collapsible Mobile Filters) */}
+      {/* Filter Bar (Compact Single-Row Search + Collapsible Mobile Filters) */}
       <GlassCard variant="surface" className="p-3.5 sm:p-5 space-y-3">
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#C9182B]">
-            <Filter className="h-3.5 w-3.5 shrink-0" />
-            <span>Filter Fare Matrix</span>
-          </div>
+        <div className="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#C9182B]">
+          <Filter className="h-3.5 w-3.5 shrink-0" />
+          <span>Filter Fare Matrix</span>
+        </div>
+
+        <div className="flex items-center gap-2 md:hidden">
+          <input
+            type="text"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            placeholder="Search route or town..."
+            className="glass-input min-h-[42px] flex-1 min-w-0 rounded-2xl px-3.5 py-2 text-sm"
+          />
           <button
             type="button"
             onClick={() => setFiltersOpen((v) => !v)}
-            className="liquid-btn-glass inline-flex min-h-[40px] items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-bold text-[#343039] md:hidden"
+            className="liquid-btn-glass inline-flex min-h-[42px] shrink-0 items-center gap-1.5 rounded-2xl px-3 py-2 text-xs font-bold text-[#29262B]"
             aria-expanded={filtersOpen}
           >
             <Filter className="h-3.5 w-3.5 text-[#C9182B]" />
-            <span>{filtersOpen ? 'Hide Filters' : 'Filters'}</span>
+            <span>{filtersOpen ? 'Hide' : 'Filters'}</span>
             {activeFilterCount > 0 && (
               <span className="liquid-nav-active rounded-full px-1.5 py-0.5 text-[10px] font-extrabold text-white tabular-nums">
                 {activeFilterCount}
               </span>
             )}
           </button>
-        </div>
-
-        <div className="md:hidden">
-          <input
-            type="text"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            placeholder="Search route, town, or authority..."
-            className="glass-input min-h-[42px] w-full rounded-2xl px-3.5 py-2.5 text-sm"
-          />
         </div>
 
         <div
@@ -341,13 +339,13 @@ export function FareMatrixPage() {
       ) : (
         <GlassCard variant="strong">
           {/* Mobile Card Layout (<= 767px) */}
-          <div className="grid gap-2.5 p-3 md:hidden">
+          <div className="grid gap-2.5 p-2.5 md:hidden">
             {paginatedRows.map((row) => (
               <div
                 key={row.key}
                 className="glass-pill-tile rounded-[20px] p-3.5 space-y-2.5"
               >
-                <div className="flex flex-col min-[380px]:flex-row min-[380px]:items-start min-[380px]:justify-between gap-1.5 min-[380px]:gap-2">
+                <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
                     <p className="font-display text-sm font-extrabold text-[#29262B] leading-snug">
                       {row.originName} → {row.destinationName}
@@ -359,32 +357,42 @@ export function FareMatrixPage() {
                   </div>
                 </div>
 
-                <div className="glass-panel grid grid-cols-2 gap-x-3 gap-y-1.5 rounded-2xl px-3 py-2.5 text-xs tabular-nums">
-                  <div className="flex items-center justify-between gap-1 whitespace-nowrap">
-                    <span className="text-[#777078]">Regular</span>
-                    <strong className="text-[#C9182B]">{formatPhp(row.regularFare)}</strong>
+                <div className="glass-panel grid grid-cols-4 gap-1.5 rounded-2xl px-2.5 py-2 text-center tabular-nums">
+                  <div>
+                    <span className="block text-[10px] font-semibold text-[#5B555E]">Regular</span>
+                    <strong className="text-xs font-extrabold text-[#C9182B]">
+                      {formatPhp(row.regularFare)}
+                    </strong>
                   </div>
-                  <div className="flex items-center justify-between gap-1 whitespace-nowrap">
-                    <span className="text-[#777078]">Student</span>
-                    <strong className="text-[#29262B]">{formatPhp(row.studentFare)}</strong>
+                  <div>
+                    <span className="block text-[10px] font-semibold text-[#5B555E]">Student</span>
+                    <strong className="text-xs font-bold text-[#29262B]">
+                      {formatPhp(row.studentFare)}
+                    </strong>
                   </div>
-                  <div className="flex items-center justify-between gap-1 whitespace-nowrap">
-                    <span className="text-[#777078]">Senior</span>
-                    <strong className="text-[#29262B]">{formatPhp(row.seniorFare)}</strong>
+                  <div>
+                    <span className="block text-[10px] font-semibold text-[#5B555E]">Senior</span>
+                    <strong className="text-xs font-bold text-[#29262B]">
+                      {formatPhp(row.seniorFare)}
+                    </strong>
                   </div>
-                  <div className="flex items-center justify-between gap-1 whitespace-nowrap">
-                    <span className="text-[#777078]">PWD</span>
-                    <strong className="text-[#29262B]">{formatPhp(row.pwdFare)}</strong>
+                  <div>
+                    <span className="block text-[10px] font-semibold text-[#5B555E]">PWD</span>
+                    <strong className="text-xs font-bold text-[#29262B]">
+                      {formatPhp(row.pwdFare)}
+                    </strong>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between gap-2 text-[11px] text-[#777078]">
-                  <span className="min-w-0 truncate">{row.issuingAuthority || 'Unverified'}</span>
+                <div className="flex items-center justify-between gap-2 text-[11px] text-[#5B555E]">
+                  <span className="min-w-0 truncate font-medium">
+                    {row.issuingAuthority || 'Unverified'}
+                  </span>
                   <Link
                     to={`/fares/${row.primaryRecordId}`}
-                    className="inline-flex min-h-[34px] items-center font-bold text-[#C9182B] hover:underline shrink-0 whitespace-nowrap"
+                    className="inline-flex min-h-[30px] items-center font-bold text-[#C9182B] hover:underline shrink-0 whitespace-nowrap"
                   >
-                    Details ({formatDateSafe(row.lastVerifiedAt)}) →
+                    Details →
                   </Link>
                 </div>
               </div>
