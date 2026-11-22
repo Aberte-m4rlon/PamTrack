@@ -13,12 +13,44 @@ const isPlaceholderKey =
 
 export const isSupabaseConfigured = !isPlaceholderUrl && !isPlaceholderKey;
 
+const REST_READ_TIMEOUT_MS = 12000;
+
+function fetchWithReadTimeout(
+  input: RequestInfo | URL,
+  init?: RequestInit
+): Promise<Response> {
+  const method = (init?.method || 'GET').toUpperCase();
+  const urlStr = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
+  const isRestRead =
+    (method === 'GET' || method === 'HEAD') && urlStr.includes('/rest/v1/');
+
+  if (!isRestRead || typeof AbortController === 'undefined') {
+    return fetch(input, init);
+  }
+
+  const controller = new AbortController();
+  const callerSignal = init?.signal;
+  if (callerSignal?.aborted) {
+    controller.abort(callerSignal.reason);
+  } else if (callerSignal) {
+    callerSignal.addEventListener('abort', () => controller.abort(callerSignal.reason), {
+      once: true,
+    });
+  }
+
+  const timer = setTimeout(() => controller.abort(new Error('Request timeout')), REST_READ_TIMEOUT_MS);
+  return fetch(input, { ...init, signal: controller.signal }).finally(() => clearTimeout(timer));
+}
+
 export const supabase: SupabaseClient | null = isSupabaseConfigured
   ? createClient(supabaseUrl, supabaseAnonKey, {
       auth: {
         autoRefreshToken: true,
         persistSession: true,
         detectSessionInUrl: true,
+      },
+      global: {
+        fetch: fetchWithReadTimeout,
       },
     })
   : null;

@@ -14,6 +14,7 @@ import { ToastProvider } from '@/contexts/ToastContext';
 import { AppRoutes } from '@/App';
 import { RouteExplorerPage } from '@/pages/public/RouteExplorerPage';
 import {
+  isNetworkUnavailableError,
   readOfflineFareRecords,
   saveOfflineFareRecords,
 } from '@/lib/offlineCache';
@@ -227,5 +228,15 @@ describe('Offline Mode & Logged-Out Feature Access Restrictions', () => {
       expect(screen.getByLabelText('Selected route fare prices')).toBeInTheDocument();
       expect(screen.getAllByText(/₱120\.00/).length).toBeGreaterThanOrEqual(1);
     });
+  });
+
+  it('treats upstream timeouts, gateway 5xx HTML responses, and status 0 as fallback-safe network failures', () => {
+    const abortErr = new Error('The operation was aborted due to timeout');
+    abortErr.name = 'TimeoutError';
+    expect(isNetworkUnavailableError(abortErr)).toBe(true);
+    expect(isNetworkUnavailableError({ message: '<!DOCTYPE html><html>502 Bad Gateway</html>' })).toBe(true);
+    expect(isNetworkUnavailableError({ status: 0, message: '' })).toBe(true);
+    expect(isNetworkUnavailableError({ status: 504, message: 'Gateway Time-out' })).toBe(true);
+    expect(isNetworkUnavailableError(new Error('permission denied for table fare_records'))).toBe(false);
   });
 });

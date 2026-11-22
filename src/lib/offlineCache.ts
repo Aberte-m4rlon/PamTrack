@@ -112,14 +112,52 @@ export function readOfflineTransportTypes(): TransportType[] {
 
 export function isNetworkUnavailableError(err: unknown): boolean {
   if (!isBrowserOnline()) return true;
-  if (!(err instanceof Error)) return false;
-  const msg = err.message.toLowerCase();
+  if (!err || (typeof err !== 'object' && typeof err !== 'string')) return false;
+
+  const errName =
+    typeof err === 'object' && 'name' in err && typeof err.name === 'string'
+      ? err.name.toLowerCase()
+      : '';
+  if (errName === 'aborterror' || errName === 'timeouterror') {
+    return true;
+  }
+
+  const status =
+    typeof err === 'object' && 'status' in err && typeof err.status === 'number'
+      ? err.status
+      : null;
+  if (status !== null && (status === 0 || status >= 500)) {
+    return true;
+  }
+
+  const rawMsg =
+    typeof err === 'string'
+      ? err
+      : typeof err === 'object' && 'message' in err && typeof err.message === 'string'
+        ? err.message
+        : err instanceof Error
+          ? err.message
+          : '';
+  const msg = rawMsg.toLowerCase();
+
   return (
     msg.includes('failed to fetch') ||
     msg.includes('networkerror') ||
     msg.includes('network request failed') ||
     msg.includes('load failed') ||
     msg.includes('err_internet_disconnected') ||
-    msg.includes('offline')
+    msg.includes('offline') ||
+    msg.includes('timeout') ||
+    msg.includes('timed out') ||
+    msg.includes('aborterror') ||
+    msg.includes('aborted') ||
+    msg.includes('bad gateway') ||
+    msg.includes('service unavailable') ||
+    msg.includes('gateway time-out') ||
+    msg.includes('<!doctype') ||
+    msg.includes('unexpected token \'<\'') ||
+    msg.includes('fetcherror') ||
+    msg.includes('econnreset') ||
+    msg.includes('econnrefused')
   );
 }
