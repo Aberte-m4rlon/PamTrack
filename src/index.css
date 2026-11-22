@@ -114,18 +114,7 @@
 @keyframes liquid-page-enter {
   0% {
     opacity: 0;
-    transform: translate3d(0, 10px, 0);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes liquid-card-enter {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 8px, 0) scale(0.985);
+    transform: translate3d(0, 14px, 0) scale(0.992);
   }
   100% {
     opacity: 1;
@@ -133,12 +122,114 @@
   }
 }
 
+@keyframes liquid-card-enter {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) scale(0.984);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes liquid-reveal-enter {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes liquid-overlay-enter {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes liquid-modal-enter {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%, calc(-50% + 12px), 0) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(-50%, -50%, 0) scale(1);
+  }
+}
+
+@keyframes liquid-shimmer-sweep {
+  0% {
+    transform: translate3d(-120%, 0, 0);
+  }
+  100% {
+    transform: translate3d(140%, 0, 0);
+  }
+}
+
+@keyframes liquid-radar-ping {
+  0% {
+    opacity: 0.55;
+    transform: scale(0.85);
+  }
+  75%,
+  100% {
+    opacity: 0;
+    transform: scale(2.15);
+  }
+}
+
 .liquid-page-enter {
-  animation: liquid-page-enter 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: liquid-page-enter 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .liquid-card-enter {
-  animation: liquid-card-enter 290ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: liquid-card-enter 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(min(var(--stagger, 0), 8) * 32ms);
+}
+
+.liquid-reveal-enter {
+  animation: liquid-reveal-enter 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(min(var(--stagger, 0), 8) * 28ms);
+}
+
+.liquid-overlay-enter {
+  animation: liquid-overlay-enter 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.liquid-modal-enter {
+  animation: liquid-modal-enter 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.liquid-skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.liquid-skeleton-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.62) 50%,
+    transparent 80%
+  );
+  animation: liquid-shimmer-sweep 1.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.liquid-radar-ping {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: liquid-radar-ping 2.1s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
 .pamasahe-scenic-bg {
@@ -264,6 +355,11 @@
     inset 0 -1px 1.5px rgba(233, 229, 232, 0.34),
     inset 0 0 14px rgba(255, 255, 255, 0.20),
     0 10px 24px -8px rgba(41, 38, 43, 0.14);
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 220ms ease,
+    background 220ms ease;
 }
 
 .glass-pill-tile::before {
@@ -406,9 +502,9 @@
     inset 0 -1.5px 2px rgba(201, 24, 43, 0.08),
     0 12px 26px -10px rgba(41, 38, 43, 0.14);
   transition:
-    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 200ms ease,
-    border-color 200ms ease;
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 220ms ease;
 }
 
 .liquid-feature-card::before {
@@ -440,7 +536,7 @@
 }
 
 .liquid-feature-card:hover {
-  transform: translate3d(0, -1px, 0);
+  transform: translate3d(0, -2px, 0);
   border-color: #ffffff;
   box-shadow:
     inset 0 1.5px 2px rgba(255, 255, 255, 0.98),
@@ -450,7 +546,7 @@
 }
 
 .liquid-feature-card:active {
-  transform: scale(0.985);
+  transform: scale(0.975);
 }
 
 .liquid-icon-ring {
@@ -496,9 +592,15 @@
     inset 0 0 16px rgba(255, 255, 255, 0.22),
     0 12px 28px -6px rgba(181, 18, 36, 0.48);
   transition:
-    transform 150ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 200ms ease,
-    background 200ms ease;
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 220ms ease;
+}
+
+.liquid-nav-active.liquid-pill-fill {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 .liquid-btn-primary::before,
@@ -520,8 +622,33 @@
   );
 }
 
+.liquid-btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 45%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.32) 50%,
+    transparent 100%
+  );
+  transform: skewX(-18deg) translate3d(0, 0, 0);
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1), opacity 260ms ease;
+  opacity: 0;
+}
+
+.liquid-btn-primary:hover::after {
+  opacity: 1;
+  transform: skewX(-18deg) translate3d(380%, 0, 0);
+}
+
 .liquid-btn-primary:hover {
-  transform: translate3d(0, -1px, 0);
+  transform: translate3d(0, -1.5px, 0);
   background: linear-gradient(
     155deg,
     rgba(232, 56, 74, 0.95) 0%,
@@ -536,7 +663,7 @@
 }
 
 .liquid-btn-primary:active {
-  transform: scale(0.97);
+  transform: scale(0.965);
 }
 
 .liquid-btn-secondary {
@@ -554,9 +681,10 @@
     inset 0 0 14px rgba(255, 255, 255, 0.22),
     0 10px 24px -8px rgba(41, 38, 43, 0.18);
   transition:
-    transform 150ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 200ms ease,
-    background 200ms ease;
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 220ms ease,
+    border-color 220ms ease;
 }
 
 .liquid-btn-secondary::before {
@@ -578,7 +706,7 @@
 }
 
 .liquid-btn-secondary:hover {
-  transform: translate3d(0, -1px, 0);
+  transform: translate3d(0, -1.5px, 0);
   background: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.76) 0%,
@@ -592,7 +720,7 @@
 }
 
 .liquid-btn-secondary:active {
-  transform: scale(0.97);
+  transform: scale(0.965);
 }
 
 @layer components {
@@ -620,12 +748,13 @@
     inset 0 1.5px 1.5px rgba(255, 255, 255, 0.94),
     0 8px 20px -8px rgba(41, 38, 43, 0.14);
   transition:
-    transform 150ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 200ms ease,
-    background 200ms ease;
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 220ms ease;
 }
 
 .liquid-btn-glass:hover {
+  transform: translate3d(0, -1px, 0);
   background: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.64) 0%,
@@ -635,7 +764,7 @@
 }
 
 .liquid-btn-glass:active {
-  transform: scale(0.97);
+  transform: scale(0.965);
 }
 
 .liquid-btn-danger {
@@ -655,11 +784,13 @@
     inset 0 1.5px 1px rgba(255, 255, 255, 0.90),
     0 8px 20px -6px rgba(181, 18, 36, 0.18);
   transition:
-    transform 150ms cubic-bezier(0.22, 1, 0.36, 1),
-    background 180ms ease;
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 220ms ease,
+    box-shadow 240ms ease;
 }
 
 .liquid-btn-danger:hover {
+  transform: translate3d(0, -1px, 0);
   background: linear-gradient(
     135deg,
     rgba(248, 231, 234, 0.78) 0%,
@@ -668,7 +799,7 @@
 }
 
 .liquid-btn-danger:active {
-  transform: scale(0.97);
+  transform: scale(0.965);
 }
 
 .glass-input {

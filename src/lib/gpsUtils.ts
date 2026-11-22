@@ -2,11 +2,11 @@ import { haversineDistanceKm } from '@/lib/utils';
 import type { Municipality, StopCategory, TransportStop, TripStatus } from '@/types/database';
 
 export const STOP_CATEGORY_LABELS: Record<StopCategory, string> = {
-  jeepney_stop: 'PUV & Multicab Stop',
-  tricycle_terminal: 'Tricycle Terminal',
-  bus_terminal: 'Bus Terminal',
-  uv_express_terminal: 'UV Express Terminal',
-  port_hub: 'Port & Transit Hub',
+  jeepney_stop: 'Sakayan ng PUV & Multicab',
+  tricycle_terminal: 'Terminal ng Tricycle',
+  bus_terminal: 'Terminal ng Bus',
+  uv_express_terminal: 'Terminal ng UV Express',
+  port_hub: 'Pantalan at Transit Hub',
 };
 
 export function isInsideOrientalMindoro(lat: number, lng: number): boolean {
@@ -261,24 +261,24 @@ export function classifyMovementState(
   tripStatus: TripStatus = 'active'
 ): MovementClassification {
   if (tripStatus === 'completed') {
-    return { label: 'Trip Completed', isMoving: false };
+    return { label: 'Tapos na ang Biyahe', isMoving: false };
   }
   if (tripStatus === 'cancelled') {
-    return { label: 'Trip Cancelled', isMoving: false };
+    return { label: 'Nakansela ang Biyahe', isMoving: false };
   }
   if (staleSeconds > 60) {
-    return { label: 'Signal Delayed', isMoving: false };
+    return { label: 'Naantala ang Signal', isMoving: false };
   }
   if (speedKmh < 1.5) {
-    return { label: 'Stopped / Waiting', isMoving: false };
+    return { label: 'Nakahinto / Naghihintay', isMoving: false };
   }
   if (speedKmh < 15) {
-    return { label: 'Slow / Traffic', isMoving: true };
+    return { label: 'Mabagal / Trapiko', isMoving: true };
   }
   if (speedKmh < 45) {
-    return { label: 'Moving Steadily', isMoving: true };
+    return { label: 'Normal ang Takbo', isMoving: true };
   }
-  return { label: 'Fast Travel', isMoving: true };
+  return { label: 'Mabilis ang Takbo', isMoving: true };
 }
 
 export function estimateEtaMinutes(

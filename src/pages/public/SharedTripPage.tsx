@@ -469,10 +469,10 @@ export function SharedTripPage() {
     return (
       <EmptyStateCard
         icon={ShieldCheck}
-        title="Shared Trip Unavailable"
+        title="Hindi Mabuksan ang Shared Trip"
         description={
           data?.reason ||
-          'This location sharing link is invalid, has expired, or was revoked by the commuter.'
+          'Hindi valid, nag-expire na, o tinigil na ng pasahero ang link na ito.'
         }
       />
     );
@@ -495,29 +495,29 @@ export function SharedTripPage() {
               className={`h-3.5 w-3.5 ${effectiveTripStatus === 'active' ? 'animate-pulse' : ''}`}
             />
             {effectiveTripStatus !== 'active'
-              ? `Trip ${effectiveTripStatus}`
+              ? `Biyahe: ${effectiveTripStatus === 'completed' ? 'Tapos na' : 'Nakansela'}`
               : streamConnected
-                ? 'Live Realtime Monitor'
+                ? 'Naka-Live Realtime Monitor'
                 : 'Live Polling Monitor (3s)'}
           </div>
 
           <span className="glass-pill-tile rounded-full px-3 py-1 text-[11px] font-bold text-[#343039]">
             {lastUpdateMs !== null
-              ? `Last movement: ${staleSeconds <= 2 ? 'Just now' : `${staleSeconds}s ago`}`
-              : 'Waiting for GPS ping'}
+              ? `Huling galaw: ${staleSeconds <= 2 ? 'Kani-kanina lang' : `${staleSeconds}s ang nakalipas`}`
+              : 'Naghihintay ng GPS signal'}
           </span>
         </div>
 
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="space-y-1 min-w-0">
             <h1 className="font-display text-xl sm:text-2xl font-extrabold text-[#29262B]">
-              {data.commuter_name}&apos;s Live Trip: {data.origin_name ?? 'Origin'} →{' '}
-              {data.destination_name ?? 'Destination'}
+              Live na Biyahe ni {data.commuter_name}: {data.origin_name ?? 'Pinanggalingan'} →{' '}
+              {data.destination_name ?? 'Pupuntahan'}
             </h1>
             <p className="text-xs text-[#343039] font-medium">
-              Mode: {data.transport_mode ?? 'Public Transport'} • Status:{' '}
+              Sasakyan: {data.transport_mode ?? 'Pampublikong Sasakyan'} • Katayuan:{' '}
               <span className="font-bold uppercase text-[#C9182B]">{effectiveTripStatus}</span> •
-              Expires {formatDateTimeSafe(data.expires_at ?? null)}
+              May bisa hanggang {formatDateTimeSafe(data.expires_at ?? null)}
             </p>
           </div>
 
@@ -525,7 +525,7 @@ export function SharedTripPage() {
             <a href={googleMapsHref} target="_blank" rel="noreferrer" className="shrink-0">
               <GlassButton type="button" variant="secondary" size="sm">
                 <ExternalLink className="h-3.5 w-3.5 text-[#C9182B]" />
-                Open Pin in Maps
+                Buksan sa Maps
               </GlassButton>
             </a>
           )}
@@ -536,24 +536,24 @@ export function SharedTripPage() {
       {(alertBanner || deviationDetected) && (
         <div
           role="alert"
-          className="rounded-3xl border border-white/80 bg-[#C9182B] px-4 py-3.5 text-white shadow-glass flex flex-wrap items-start justify-between gap-3"
+          className="liquid-reveal-enter rounded-3xl border border-white/80 bg-[#C9182B] px-4 py-3.5 text-white shadow-glass flex flex-wrap items-start justify-between gap-3"
         >
           <div className="flex items-start gap-2.5 text-xs sm:text-sm">
             <AlertTriangle className="h-5 w-5 shrink-0 mt-0.5" />
             <div>
               <p className="font-extrabold uppercase tracking-wide">
-                {alertBanner?.title || 'Route Deviation Warning'}
+                {alertBanner?.title || 'Babala: Lumihis sa Ruta'}
               </p>
               <p className="text-white/95 text-xs">
                 {alertBanner?.message ||
-                  `Commuter's live GPS moved ${deviationKm > 0 ? `${deviationKm.toFixed(2)} km ` : ''}off the planned corridor.`}
+                  `Lumayo ang live GPS ng pasahero nang ${deviationKm > 0 ? `${deviationKm.toFixed(2)} km ` : ''}mula sa dapat na ruta.`}
               </p>
             </div>
           </div>
           {googleMapsHref && (
             <a href={googleMapsHref} target="_blank" rel="noreferrer">
               <GlassButton type="button" variant="secondary" size="sm">
-                Locate Pin
+                Hanapin ang Pin
               </GlassButton>
             </a>
           )}
@@ -562,11 +562,11 @@ export function SharedTripPage() {
 
       {/* Real-Time Speedometer & Movement Dashboard */}
       <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
-        <GlassCard variant="strong" className="p-4 space-y-2 col-span-2 sm:col-span-1">
+        <GlassCard variant="strong" staggerIndex={0} className="p-4 space-y-2 col-span-2 sm:col-span-1">
           <div className="flex items-center justify-between gap-2">
             <p className="text-[11px] font-bold uppercase text-[#777078] flex items-center gap-1">
               <Gauge className="h-3.5 w-3.5 text-[#C9182B]" />
-              Current Speed
+              Bilis Ngayon
             </p>
             <span className="rounded-full bg-[#F8E7EA] px-2.5 py-0.5 text-[10px] font-bold text-[#B51224]">
               {movementState.label}
@@ -580,59 +580,59 @@ export function SharedTripPage() {
           </p>
           <div className="h-2 w-full overflow-hidden rounded-full bg-[#F8E7EA]">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-[#C9182B] to-[#B51224] transition-all duration-500"
+              className="h-full rounded-full bg-gradient-to-r from-[#C9182B] to-[#B51224] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
               style={{ width: `${speedGaugePercent}%` }}
             />
           </div>
           <p className="text-[11px] font-semibold text-[#343039] flex items-center gap-1">
             <Compass className="h-3.5 w-3.5 text-[#C9182B]" />
-            Heading:{' '}
+            Direksyon:{' '}
             {currentHeadingDeg !== null
               ? `${compass} (${Math.round(currentHeadingDeg)}°)`
-              : 'Waiting for movement'}
+              : 'Naghihintay ng galaw'}
           </p>
         </GlassCard>
 
-        <GlassCard variant="strong" className="p-4 space-y-1.5">
-          <p className="text-[11px] font-bold uppercase text-[#777078]">Avg / Peak Speed</p>
+        <GlassCard variant="strong" staggerIndex={1} className="p-4 space-y-1.5">
+          <p className="text-[11px] font-bold uppercase text-[#777078]">Average / Pinakamabilis</p>
           <p className="font-display text-2xl font-extrabold text-[#29262B] tabular-nums">
             {avgSpeedKmh.toFixed(1)}{' '}
             <span className="text-xs font-bold text-[#777078]">km/h avg</span>
           </p>
           <p className="text-xs font-bold text-[#C9182B] tabular-nums">
-            Peak recorded: {maxSpeedKmh.toFixed(1)} km/h
+            Pinakamabilis: {maxSpeedKmh.toFixed(1)} km/h
           </p>
           <p className="text-[11px] text-[#777078]">
-            Based on live GPS trail deltas
+            Batay sa live GPS movement
           </p>
         </GlassCard>
 
-        <GlassCard variant="strong" className="p-4 space-y-1.5">
-          <p className="text-[11px] font-bold uppercase text-[#777078]">Distance &amp; ETA</p>
+        <GlassCard variant="strong" staggerIndex={2} className="p-4 space-y-1.5">
+          <p className="text-[11px] font-bold uppercase text-[#777078]">Distansya at ETA</p>
           <p className="font-display text-2xl font-extrabold text-[#C9182B] tabular-nums">
             {distanceKm.toFixed(2)} km
           </p>
           <p className="text-xs font-semibold text-[#29262B]">
-            {remainingKm !== null ? `${remainingKm.toFixed(1)} km to destination` : 'Active corridor'}
+            {remainingKm !== null ? `${remainingKm.toFixed(1)} km pa ang natitira` : 'Aktibong ruta'}
           </p>
           <p className="text-[11px] font-bold text-[#B51224]">
-            {etaMinutes !== null ? `Est. Arrival: ~${etaMinutes} min` : 'ETA updates while moving'}
+            {etaMinutes !== null ? `Tinatayang dating: ~${etaMinutes} min` : 'Lalabas ang ETA habang umaandar'}
           </p>
         </GlassCard>
 
-        <GlassCard variant="strong" className="p-4 space-y-1.5 col-span-2 sm:col-span-1">
-          <p className="text-[11px] font-bold uppercase text-[#777078]">Elapsed &amp; Corridor</p>
+        <GlassCard variant="strong" staggerIndex={3} className="p-4 space-y-1.5 col-span-2 sm:col-span-1">
+          <p className="text-[11px] font-bold uppercase text-[#777078]">Oras at Ruta</p>
           <p className="font-display text-2xl font-extrabold text-[#29262B] flex items-center gap-1.5 tabular-nums">
             <Clock className="h-5 w-5 text-[#C9182B]" />
             {formatDurationSeconds(elapsedSeconds)}
           </p>
           <p className="text-xs font-semibold text-[#343039] truncate">
-            {nearestLgu ? `Near ${nearestLgu}` : 'Monitoring Oriental Mindoro'}
+            {nearestLgu ? `Malapit sa ${nearestLgu}` : 'Sinusubaybayan sa Oriental Mindoro'}
           </p>
           <p className="text-[11px] font-bold text-[#C9182B]">
             {deviationDetected
-              ? `Off planned route (${deviationKm.toFixed(1)} km)`
-              : `On planned corridor${accuracyMeters ? ` • ±${Math.round(accuracyMeters)}m` : ''}`}
+              ? `Lumihis sa ruta (${deviationKm.toFixed(1)} km)`
+              : `Nasa tamang ruta pa${accuracyMeters ? ` • ±${Math.round(accuracyMeters)}m` : ''}`}
           </p>
         </GlassCard>
       </div>
@@ -643,22 +643,22 @@ export function SharedTripPage() {
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className="font-display text-base sm:text-lg font-bold text-[#29262B] flex items-center gap-2">
               <Navigation className="h-4 w-4 text-[#C9182B]" />
-              Live Commuter Position &amp; Movement Trail
+              Live na Lokasyon at Dinadaanan
             </h2>
             <div className="flex items-center gap-2">
               <span className="glass-pill-tile rounded-full px-2.5 py-1 text-[11px] font-bold text-[#343039]">
-                {trailPoints.length} track point{trailPoints.length === 1 ? '' : 's'}
+                {trailPoints.length} point{trailPoints.length === 1 ? '' : 's'}
               </span>
               <button
                 type="button"
                 onClick={() => setFollowLive((v) => !v)}
-                className={`rounded-full px-3 py-1 text-[11px] font-bold transition ${
+                className={`rounded-full px-3 py-1 text-[11px] font-bold transition-all duration-200 active:scale-95 ${
                   followLive
                     ? 'bg-[#C9182B] text-white'
                     : 'glass-pill-tile text-[#343039]'
                 }`}
               >
-                {followLive ? 'Auto-Following' : 'Follow Commuter'}
+                {followLive ? 'Sinusundan' : 'Sundan sa Mapa'}
               </button>
             </div>
           </div>
@@ -709,7 +709,7 @@ export function SharedTripPage() {
                     weight: 3,
                   }}
                 >
-                  <Popup>Origin: {data.origin_name ?? 'Start'}</Popup>
+                  <Popup>Galing: {data.origin_name ?? 'Simula'}</Popup>
                 </CircleMarker>
               )}
 
@@ -724,7 +724,7 @@ export function SharedTripPage() {
                     weight: 2.5,
                   }}
                 >
-                  <Popup>Destination: {data.destination_name ?? 'Target'}</Popup>
+                  <Popup>Pupuntahan: {data.destination_name ?? 'Babaan'}</Popup>
                 </CircleMarker>
               )}
 
@@ -744,7 +744,7 @@ export function SharedTripPage() {
                     <Popup>
                       <strong>{data.commuter_name}</strong> •{' '}
                       <strong>{currentSpeedKmh.toFixed(1)} km/h</strong> ({movementState.label})
-                      {compass !== '—' ? ` • Moving ${compass}` : ''}
+                      {compass !== '—' ? ` • Papuntang ${compass}` : ''}
                     </Popup>
                   </Marker>
                 </>
@@ -758,7 +758,7 @@ export function SharedTripPage() {
           <div className="flex items-center justify-between gap-2">
             <h2 className="font-display text-base font-bold text-[#29262B] flex items-center gap-1.5">
               <LocateFixed className="h-4 w-4 text-[#C9182B]" />
-              Movement Log
+              Talaan ng Galaw
             </h2>
             {currentLat !== null && currentLng !== null && (
               <span className="text-[10px] font-mono font-semibold text-[#777078]">
@@ -769,8 +769,7 @@ export function SharedTripPage() {
 
           {trailPoints.length === 0 ? (
             <p className="text-xs text-[#777078]">
-              Waiting for commuter movement checkpoints. Speed and location trail will populate
-              automatically as they travel.
+              Naghihintay ng paggalaw ng pasahero. Kusa itong mapupuno ng bilis at lokasyon habang bumabyahe.
             </p>
           ) : (
             <div className="space-y-2 max-h-[360px] overflow-y-auto pr-0.5">
@@ -780,7 +779,7 @@ export function SharedTripPage() {
                 .map((pt, idx) => (
                   <div
                     key={`${pt.recordedAt}-${idx}`}
-                    className="glass-pill-tile rounded-2xl px-3 py-2 text-xs flex items-center justify-between gap-2"
+                    className="glass-pill-tile liquid-reveal-enter rounded-2xl px-3 py-2 text-xs flex items-center justify-between gap-2"
                   >
                     <div className="min-w-0">
                       <p className="font-bold text-[#29262B]">
@@ -808,25 +807,26 @@ export function SharedTripPage() {
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="font-display text-base sm:text-lg font-bold text-[#29262B] flex items-center gap-2">
             <History className="h-4 w-4 text-[#C9182B] shrink-0" />
-            <span>{data.commuter_name}&apos;s Recent Trip History ({sharedHistory.length})</span>
+            <span>Mga Kamakailang Biyahe ni {data.commuter_name} ({sharedHistory.length})</span>
           </h2>
           <span className="glass-pill-tile rounded-full px-3 py-1 text-[10px] sm:text-[11px] font-bold text-[#5B555E]">
-            Shared with this link
+            Naka-share sa link na ito
           </span>
         </div>
 
         {sharedHistory.length === 0 ? (
           <p className="text-xs text-[#5B555E]">
             {streamPacket?.includeHistory === false
-              ? 'Trip history sharing is currently paused by the commuter.'
-              : 'Past recorded trips from this commuter will appear here automatically while sharing is active.'}
+              ? 'Naka-pause muna ng pasahero ang pag-share ng trip history.'
+              : 'Lalabas dito ang mga nagawang biyahe ng pasahero habang naka-on ang sharing.'}
           </p>
         ) : (
           <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
-            {sharedHistory.map((item) => (
+            {sharedHistory.map((item, idx) => (
               <div
                 key={item.id}
-                className="glass-pill-tile min-w-0 rounded-2xl p-3.5 text-xs space-y-1.5"
+                style={{ '--stagger': idx } as React.CSSProperties}
+                className="glass-pill-tile liquid-reveal-enter min-w-0 rounded-2xl p-3.5 text-xs space-y-1.5"
               >
                 <div className="flex items-start justify-between gap-2">
                   <p className="font-display font-extrabold text-[#29262B] leading-snug min-w-0 truncate">
@@ -839,7 +839,7 @@ export function SharedTripPage() {
                         : 'bg-white/80 text-[#343039]'
                     }`}
                   >
-                    {item.status}
+                    {item.status === 'completed' ? 'Tapos' : item.status === 'cancelled' ? 'Kanselado' : item.status}
                   </span>
                 </div>
                 <p className="text-[11px] font-semibold text-[#343039]">
@@ -848,7 +848,7 @@ export function SharedTripPage() {
                 </p>
                 <div className="flex flex-wrap items-center justify-between gap-1 text-[11px]">
                   <span className="font-bold text-[#B51224]">
-                    {item.avg_speed_kmh !== null ? `${item.avg_speed_kmh} km/h avg` : 'Recorded trip'}
+                    {item.avg_speed_kmh !== null ? `${item.avg_speed_kmh} km/h avg` : 'Na-save na biyahe'}
                     {item.recorded_fare_amount !== null
                       ? ` • ${formatPhp(item.recorded_fare_amount)}`
                       : ''}
@@ -859,7 +859,7 @@ export function SharedTripPage() {
                 </div>
                 {item.deviation_detected && (
                   <p className="text-[10px] font-bold text-[#C9182B]">
-                    Route deviation flagged during this trip
+                    May alerto ng paglihis sa ruta sa biyaheng ito
                   </p>
                 )}
               </div>

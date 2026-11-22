@@ -10,100 +10,100 @@ export const ALLOWED_EVIDENCE_MIME_TYPES = [
 export const MAX_EVIDENCE_FILE_BYTES = 5 * 1024 * 1024; // 5 MB
 
 export const loginSchema = z.object({
-  email: z.string().trim().email('Please enter a valid email address.'),
-  password: z.string().min(8, 'Password must be at least 8 characters.'),
+  email: z.string().trim().email('Maglagay ng tamang email address.'),
+  password: z.string().min(8, 'Dapat ay may 8 characters o higit pa ang password.'),
 });
 
 export const registerSchema = z
   .object({
-    fullName: z.string().trim().min(2, 'Full name must be at least 2 characters.').max(120),
-    email: z.string().trim().email('Please enter a valid email address.'),
+    fullName: z.string().trim().min(2, 'Ilagay ang iyong buong pangalan (min 2 characters).').max(120),
+    email: z.string().trim().email('Maglagay ng tamang email address.'),
     homeMunicipalityId: z.string().optional(),
     password: z
       .string()
-      .min(8, 'Password must be at least 8 characters.')
-      .regex(/[A-Z]/, 'Include at least one uppercase letter.')
-      .regex(/[0-9]/, 'Include at least one number.'),
+      .min(8, 'Dapat ay may 8 characters o higit pa ang password.')
+      .regex(/[A-Z]/, 'Maglagay ng kahit isang malaking letra (uppercase).')
+      .regex(/[0-9]/, 'Maglagay ng kahit isang numero.'),
     confirmPassword: z.string(),
     acceptTerms: z.literal(true, {
-      errorMap: () => ({ message: 'You must agree to the Terms and Privacy Policy.' }),
+      errorMap: () => ({ message: 'Kailangang kumpirmahin ang Terms at Privacy Policy.' }),
     }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords do not match.',
+    message: 'Hindi magkatugma ang mga password.',
     path: ['confirmPassword'],
   });
 
 export const fareReportSchema = z.object({
-  originMunicipalityId: z.string().min(1, 'Select an origin municipality.'),
-  destinationMunicipalityId: z.string().min(1, 'Select a destination municipality.'),
-  transportTypeId: z.string().min(1, 'Select a transportation type.'),
+  originMunicipalityId: z.string().min(1, 'Piliin kung saan nanggaling.'),
+  destinationMunicipalityId: z.string().min(1, 'Piliin kung saan papunta.'),
+  transportTypeId: z.string().min(1, 'Piliin ang uri ng sasakyan.'),
   farePaid: z.coerce
-    .number({ invalid_type_error: 'Enter the fare amount paid.' })
-    .positive('Fare paid must be greater than zero.')
-    .max(50000, 'Fare amount exceeds realistic provincial threshold.'),
+    .number({ invalid_type_error: 'Ilagay ang halaga ng pamasaheng binayaran.' })
+    .positive('Ang pamasahe ay dapat higit sa zero.')
+    .max(50000, 'Sobrang taas ng halaga para sa lokal na biyahe.'),
   passengerCategory: z.enum(['regular', 'student', 'senior_citizen', 'pwd']),
   travelDate: z
     .string()
-    .min(1, 'Travel date is required.')
+    .min(1, 'Kailangan ang petsa ng biyahe.')
     .refine((dateStr) => {
       const chosen = new Date(dateStr);
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
       return !Number.isNaN(chosen.getTime()) && chosen <= tomorrow;
-    }, 'Travel date cannot be in the future.'),
+    }, 'Hindi pwedeng sa hinaharap ang petsa ng biyahe.'),
   operatorOrVehicleDetails: z.string().trim().max(240).optional(),
   remarks: z.string().trim().max(1000).optional(),
 });
 
 export const officialFareSchema = z.object({
-  originMunicipalityId: z.string().min(1, 'Origin is required.'),
-  destinationMunicipalityId: z.string().min(1, 'Destination is required.'),
-  transportTypeId: z.string().min(1, 'Transport type is required.'),
+  originMunicipalityId: z.string().min(1, 'Kailangan ang pinanggalingan.'),
+  destinationMunicipalityId: z.string().min(1, 'Kailangan ang pupuntahan.'),
+  transportTypeId: z.string().min(1, 'Kailangan ang uri ng sasakyan.'),
   passengerCategory: z.enum(['regular', 'student', 'senior_citizen', 'pwd']),
-  fareAmount: z.coerce.number().positive('Fare amount must be greater than zero.').max(50000),
+  fareAmount: z.coerce.number().positive('Ang pamasahe ay dapat higit sa zero.').max(50000),
   issuingAuthority: z
     .string()
     .trim()
-    .min(2, 'Issuing authority (e.g., LTFRB Region IV-B or Municipal LGU) is required.'),
+    .min(2, 'Kailangan ilagay kung aling ahensya (hal. LTFRB Region IV-B o LGU).'),
   officialDocumentReference: z
     .string()
     .trim()
-    .min(3, 'Official document / memorandum reference is required.'),
+    .min(3, 'Kailangan ang reference number ng opisyal na dokumento.'),
   sourceUrl: z
     .string()
     .trim()
-    .url('Enter a valid https:// or http:// URL.')
+    .url('Maglagay ng tamang https:// o http:// URL.')
     .optional()
     .or(z.literal('')),
-  effectiveDate: z.string().min(1, 'Effective date is required.'),
+  effectiveDate: z.string().min(1, 'Kailangan ang petsa kung kailan nagsimula.'),
   routeId: z.string().optional(),
   notes: z.string().trim().max(1000).optional(),
 });
 
 export const routeFormSchema = z
   .object({
-    routeCode: z.string().trim().min(3, 'Route code is required.').max(50),
-    routeName: z.string().trim().min(4, 'Route name is required.').max(150),
-    originMunicipalityId: z.string().min(1, 'Origin is required.'),
-    destinationMunicipalityId: z.string().min(1, 'Destination is required.'),
-    transportTypeId: z.string().min(1, 'Transport type is required.'),
+    routeCode: z.string().trim().min(3, 'Kailangan ang route code.').max(50),
+    routeName: z.string().trim().min(4, 'Kailangan ang pangalan ng ruta.').max(150),
+    originMunicipalityId: z.string().min(1, 'Kailangan ang pinanggalingan.'),
+    destinationMunicipalityId: z.string().min(1, 'Kailangan ang pupuntahan.'),
+    transportTypeId: z.string().min(1, 'Kailangan ang uri ng sasakyan.'),
     operatorId: z.string().optional(),
     distanceKm: z.coerce.number().positive().optional().or(z.literal('')),
     estimatedDurationMin: z.coerce.number().int().positive().optional().or(z.literal('')),
     operatingNotes: z.string().trim().max(500).optional(),
   })
   .refine((d) => d.originMunicipalityId !== d.destinationMunicipalityId, {
-    message: 'Origin and destination must differ.',
+    message: 'Dapat magkaiba ang pinanggalingan at pupuntahan.',
     path: ['destinationMunicipalityId'],
   });
 
 export function validateEvidenceFile(file: File): string | null {
   if (!ALLOWED_EVIDENCE_MIME_TYPES.includes(file.type as (typeof ALLOWED_EVIDENCE_MIME_TYPES)[number])) {
-    return `Unsupported file type "${file.type}". Allowed: JPG, PNG, WebP, or PDF.`;
+    return `Hindi supported ang file na "${file.type}". Pwede lang: JPG, PNG, WebP, o PDF.`;
   }
   if (file.size > MAX_EVIDENCE_FILE_BYTES) {
-    return `File "${file.name}" exceeds the 5 MB upload limit.`;
+    return `Lumampas sa 5 MB ang file na "${file.name}".`;
   }
   return null;
 }

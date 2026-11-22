@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { LayoutGroup, motion } from 'framer-motion';
 import { Building2, Compass, MapPin, Search } from 'lucide-react';
 import { useMunicipalities } from '@/hooks/useReferenceData';
 import { GlassButton, GlassCard, GlassSkeleton } from '@/components/glass/GlassPrimitives';
@@ -26,39 +27,53 @@ export function MunicipalitiesPage() {
       <GlassCard variant="strong" className="p-4 sm:p-6 space-y-3">
         <div className="space-y-1.5">
           <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
-            Complete Provincial Coverage
+            Sakop na Mga Bayan at Lungsod
           </p>
           <h1 className="font-display text-xl leading-tight font-extrabold text-[#29262B] sm:text-3xl">
-            Oriental Mindoro Municipality Directory
+            Mga Bayan sa Oriental Mindoro
           </h1>
           <p className="text-xs sm:text-sm text-[#343039]">
-            Quick links to fares and maps across Calapan City and all 14 municipalities.
+            Mabilisang pagtingin sa pamasahe at mapa ng Calapan City at 14 pang bayan.
           </p>
         </div>
 
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 pt-1">
-          <div className="no-scrollbar flex items-center gap-1.5 overflow-x-auto pb-0.5 sm:pb-0">
-            {(['all', '1st District', '2nd District'] as const).map((dist) => (
-              <button
-                key={dist}
-                type="button"
-                onClick={() => setDistrictFilter(dist)}
-                className={`min-h-[38px] shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
-                  districtFilter === dist
-                    ? 'liquid-nav-active text-white'
-                    : 'liquid-btn-glass text-[#29262B] hover:text-[#C9182B]'
-                }`}
-              >
-                {dist === 'all' ? `All LGUs (${municipalities.length})` : dist}
-              </button>
-            ))}
-          </div>
+          <LayoutGroup id="muni-district-tabs">
+            <div className="no-scrollbar flex items-center gap-1.5 overflow-x-auto pb-0.5 sm:pb-0">
+              {(['all', '1st District', '2nd District'] as const).map((dist) => {
+                const active = districtFilter === dist;
+                return (
+                  <button
+                    key={dist}
+                    type="button"
+                    onClick={() => setDistrictFilter(dist)}
+                    className={`relative isolate min-h-[38px] shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors duration-200 active:scale-95 ${
+                      active
+                        ? 'text-white'
+                        : 'liquid-btn-glass text-[#29262B] hover:text-[#C9182B]'
+                    }`}
+                  >
+                    {active && (
+                      <motion.span
+                        layoutId="muni-district-pill"
+                        transition={{ type: 'spring', stiffness: 420, damping: 32, mass: 0.78 }}
+                        className="liquid-nav-active liquid-pill-fill z-0 rounded-full"
+                      />
+                    )}
+                    <span className="relative z-10">
+                      {dist === 'all' ? `Lahat ng LGU (${municipalities.length})` : dist}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </LayoutGroup>
 
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Find city or town..."
+            placeholder="Maghanap ng bayan o lungsod..."
             aria-label="Search municipalities"
             className="glass-input min-h-[42px] w-full sm:w-56 rounded-2xl px-3.5 py-2 text-sm"
           />
@@ -73,8 +88,14 @@ export function MunicipalitiesPage() {
         </div>
       ) : (
         <div className="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredMunicipalities.map((m) => (
-            <GlassCard key={m.id} variant="strong" hoverable className="p-4 sm:p-5 flex flex-col justify-between gap-3 h-full">
+          {filteredMunicipalities.map((m, idx) => (
+            <GlassCard
+              key={m.id}
+              variant="strong"
+              hoverable
+              staggerIndex={idx}
+              className="p-4 sm:p-5 flex flex-col justify-between gap-3 h-full"
+            >
               <div className="space-y-1.5">
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-2.5 min-w-0">
@@ -90,14 +111,14 @@ export function MunicipalitiesPage() {
                         {m.name}
                       </h2>
                       <p className="text-[11px] sm:text-xs font-semibold text-[#B51224]">
-                        {m.classification === 'component_city' ? 'Component City' : 'Municipality'} •{' '}
+                        {m.classification === 'component_city' ? 'Lungsod' : 'Bayan'} •{' '}
                         {m.district}
                       </p>
                     </div>
                   </div>
                   {m.is_capital && (
                     <span className="liquid-nav-active shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase text-white">
-                      Capital
+                      Kabisera
                     </span>
                   )}
                 </div>
@@ -114,13 +135,13 @@ export function MunicipalitiesPage() {
                 <Link to={`/fare-search?origin=${encodeURIComponent(m.id)}`} className="flex-1">
                   <GlassButton variant="primary" size="sm" className="w-full">
                     <Search className="h-3.5 w-3.5" />
-                    Check Fares
+                    Check Pamasahe
                   </GlassButton>
                 </Link>
                 <Link to="/routes">
                   <GlassButton variant="secondary" size="sm">
                     <Compass className="h-3.5 w-3.5" />
-                    Map
+                    Mapa
                   </GlassButton>
                 </Link>
               </div>

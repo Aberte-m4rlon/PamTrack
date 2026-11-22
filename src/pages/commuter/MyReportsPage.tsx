@@ -69,7 +69,7 @@ export function MyReportsPage() {
 
   const submitMutation = useMutation({
     mutationFn: async (values: FareReportFormValues) => {
-      if (!user) throw new Error('You must be signed in.');
+      if (!user) throw new Error('Kailangan naka-sign in ka muna.');
       return submitFareReport({
         reporterId: user.id,
         originMunicipalityId: values.originMunicipalityId,
@@ -92,23 +92,23 @@ export function MyReportsPage() {
       });
       setEvidenceFiles([]);
       pushToast({
-        title: 'Fare report submitted',
+        title: 'Naipadala na ang fare report',
         description:
-          'Your report is queued as Pending. Approving it as a Community Estimate never alters Official fares.',
+          'Nakabinbin pa ito para i-check. Kapag na-approve bilang Gabay ng Komunidad, mananatili itong nakahiwalay sa Opisyal na taripa.',
         variant: 'success',
       });
     },
     onError: (err: Error) => {
-      pushToast({ title: 'Report submission failed', description: err.message, variant: 'error' });
+      pushToast({ title: 'Hindi naipadala ang report', description: err.message, variant: 'error' });
     },
   });
 
   const editMutation = useMutation({
     mutationFn: async () => {
-      if (!editingReport) throw new Error('No report selected.');
+      if (!editingReport) throw new Error('Walang napiling report.');
       const numericFare = Number(editFarePaid);
       if (!Number.isFinite(numericFare) || numericFare <= 0) {
-        throw new Error('Enter a valid positive fare paid.');
+        throw new Error('Maglagay ng tamang halaga ng pamasahe.');
       }
       return updatePendingFareReport(editingReport.id, {
         farePaid: numericFare,
@@ -121,10 +121,10 @@ export function MyReportsPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['myReports', user?.id] });
       setEditingReport(null);
-      pushToast({ title: 'Pending report updated', variant: 'success' });
+      pushToast({ title: 'Na-update na ang report', variant: 'success' });
     },
     onError: (err: Error) => {
-      pushToast({ title: 'Unable to update report', description: err.message, variant: 'error' });
+      pushToast({ title: 'Hindi ma-update ang report', description: err.message, variant: 'error' });
     },
   });
 
@@ -133,7 +133,7 @@ export function MyReportsPage() {
     for (const file of selected) {
       const err = validateEvidenceFile(file);
       if (err) {
-        pushToast({ title: 'Invalid evidence file', description: err, variant: 'error' });
+        pushToast({ title: 'Hindi pwede ang file', description: err, variant: 'error' });
         return;
       }
     }
@@ -146,7 +146,7 @@ export function MyReportsPage() {
       window.open(url, '_blank', 'noopener,noreferrer');
     } catch (err) {
       pushToast({
-        title: 'Unable to open evidence',
+        title: 'Hindi mabuksan ang ebidensya',
         description: err instanceof Error ? err.message : 'Storage error',
         variant: 'error',
       });
@@ -157,15 +157,15 @@ export function MyReportsPage() {
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6 space-y-1.5">
         <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
-          Community Fare Reporting
+          Pag-report ng Pamasahe ng Mga Pasahero
         </p>
         <h1 className="font-display text-2xl font-extrabold text-[#29262B]">
-          Submit &amp; Track Fare Reports
+          Mag-report at Tingnan ang Mga Sinumite
         </h1>
         <p className="text-sm text-[#777078]">
-          Report fares observed across Oriental Mindoro. Pending reports may be edited prior to
-          administrator review. Approved community reports remain labeled strictly as{' '}
-          <strong className="text-[#29262B]">Community Estimates</strong> unless matched to an official government order.
+          I-report ang singil ng pamasahe sa Oriental Mindoro. Pwede pang i-edit ang nakabinbing report
+          bago ma-review. Ang mga na-approve na report ng pasahero ay laging nakalabel bilang{' '}
+          <strong className="text-[#29262B]">Gabay ng Komunidad</strong> maliban kung may opisyal na dokumento.
         </p>
       </GlassCard>
 
@@ -175,7 +175,7 @@ export function MyReportsPage() {
           <div className="flex items-center gap-2 text-[#C9182B]">
             <MessageSquarePlus className="h-5 w-5" />
             <h2 className="font-display text-lg font-bold text-[#29262B]">
-              New Fare Report
+              Bagong Fare Report
             </h2>
           </div>
 
@@ -186,13 +186,13 @@ export function MyReportsPage() {
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
                 <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
-                  Origin
+                  Saan Galing
                 </label>
                 <select
                   {...register('originMunicipalityId')}
                   className="glass-input w-full rounded-2xl px-3 py-2 text-sm"
                 >
-                  <option value="">Select origin...</option>
+                  <option value="">Piliin...</option>
                   {municipalities.map((m) => (
                     <option key={m.id} value={m.id}>
                       {m.name}
@@ -206,13 +206,13 @@ export function MyReportsPage() {
 
               <div>
                 <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
-                  Destination
+                  Saan Pupunta
                 </label>
                 <select
                   {...register('destinationMunicipalityId')}
                   className="glass-input w-full rounded-2xl px-3 py-2 text-sm"
                 >
-                  <option value="">Select destination...</option>
+                  <option value="">Piliin...</option>
                   {municipalities.map((m) => (
                     <option key={m.id} value={m.id}>
                       {m.name}
@@ -230,13 +230,13 @@ export function MyReportsPage() {
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
                 <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
-                  Transport Type
+                  Uri ng Sasakyan
                 </label>
                 <select
                   {...register('transportTypeId')}
                   className="glass-input w-full rounded-2xl px-3 py-2 text-sm"
                 >
-                  <option value="">Select mode...</option>
+                  <option value="">Piliin...</option>
                   {transportTypes.map((tt) => (
                     <option key={tt.id} value={tt.id}>
                       {tt.name}
@@ -250,7 +250,7 @@ export function MyReportsPage() {
 
               <div>
                 <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
-                  Passenger Category
+                  Uri ng Pasahero
                 </label>
                 <select
                   {...register('passengerCategory')}
@@ -268,13 +268,13 @@ export function MyReportsPage() {
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
                 <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
-                  Fare Paid (PHP)
+                  Binayaran (PHP)
                 </label>
                 <input
                   type="number"
                   step="0.25"
                   {...register('farePaid')}
-                  placeholder="e.g., 45.00"
+                  placeholder="hal., 45.00"
                   className="glass-input w-full rounded-2xl px-3 py-2 text-sm"
                 />
                 {errors.farePaid && (
@@ -284,7 +284,7 @@ export function MyReportsPage() {
 
               <div>
                 <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
-                  Travel Date
+                  Petsa ng Biyahe
                 </label>
                 <input
                   type="date"
@@ -299,38 +299,38 @@ export function MyReportsPage() {
 
             <div>
               <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
-                Operator / Vehicle Details (Optional)
+                Detalye ng Sasakyan / Operator (Opsyonal)
               </label>
               <input
                 type="text"
                 {...register('operatorOrVehicleDetails')}
-                placeholder="e.g., Plate / Body number, TODA, or terminal name"
+                placeholder="hal., Plate / Body no., TODA, o pangalan ng terminal"
                 className="glass-input w-full rounded-2xl px-3 py-2 text-sm"
               />
             </div>
 
             <div>
               <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
-                Additional Remarks
+                Dagdag na Detalye o Tala
               </label>
               <textarea
                 rows={3}
                 {...register('remarks')}
-                placeholder="Share terminal details, posted fare matrix sightings, or notes..."
+                placeholder="Ikwento ang detalye ng terminal, taripa na nakita, o iba pang tala..."
                 className="glass-input w-full rounded-2xl px-3 py-2 text-sm"
               />
             </div>
 
             <div>
               <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
-                Supporting Evidence (Optional — JPG/PNG/WebP/PDF, max 5MB)
+                Ebidensya (Opsyonal — JPG/PNG/WebP/PDF, max 5MB)
               </label>
               <label className="flex cursor-pointer items-center justify-center gap-2 rounded-2xl border border-dashed border-[#C9182B]/40 bg-[#F7F3EF]/75 p-3 text-xs font-semibold text-[#C9182B] hover:bg-[#F8E7EA]/80 transition">
                 <FileUp className="h-4 w-4" />
                 <span>
                   {evidenceFiles.length > 0
-                    ? `${evidenceFiles.length} file(s) attached`
-                    : 'Upload ticket, receipt, or posted fare chart photo'}
+                    ? `${evidenceFiles.length} file(s) ang naka-attach`
+                    : 'Mag-upload ng larawan ng ticket, resibo, o fare chart'}
                 </span>
                 <input
                   type="file"
@@ -365,7 +365,7 @@ export function MyReportsPage() {
               disabled={submitMutation.isPending || !isConfigured}
             >
               <Send className="h-4 w-4" />
-              {submitMutation.isPending ? 'Submitting Report...' : 'Submit Fare Report'}
+              {submitMutation.isPending ? 'Ipinapadala...' : 'I-submit ang Fare Report'}
             </GlassButton>
           </form>
         </GlassCard>
@@ -373,7 +373,7 @@ export function MyReportsPage() {
         {/* Report History */}
         <div className="lg:col-span-7 space-y-4">
           <h2 className="font-display text-lg font-bold text-[#29262B] px-1">
-            My Submitted Reports ({myReports?.length ?? 0})
+            Mga Pinadala Kong Report ({myReports?.length ?? 0})
           </h2>
 
           {isLoading ? (
@@ -381,13 +381,13 @@ export function MyReportsPage() {
           ) : !myReports || myReports.length === 0 ? (
             <EmptyStateCard
               icon={MessageSquarePlus}
-              title="You have not submitted any fare reports yet"
-              description="Submit your first fare observation using the form to track verification progress here."
+              title="Wala ka pang naipadala na fare report"
+              description="Gamitin ang form sa kaliwa para i-share ang napansin mong pamasahe at masubaybayan dito."
             />
           ) : (
             <div className="space-y-3">
-              {myReports.map((rep) => (
-                <GlassCard key={rep.id} variant="strong" className="p-5 space-y-3">
+              {myReports.map((rep, idx) => (
+                <GlassCard key={rep.id} variant="strong" staggerIndex={idx} className="p-5 space-y-3">
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div>
                       <h3 className="font-display text-base font-extrabold text-[#29262B]">
@@ -395,7 +395,7 @@ export function MyReportsPage() {
                       </h3>
                       <p className="text-xs text-[#777078]">
                         {rep.transport_type?.name} •{' '}
-                        {PASSENGER_CATEGORY_LABELS[rep.passenger_category]} • Travel date:{' '}
+                        {PASSENGER_CATEGORY_LABELS[rep.passenger_category]} • Petsa ng biyahe:{' '}
                         {formatDateSafe(rep.travel_date)}
                       </p>
                     </div>
@@ -408,7 +408,7 @@ export function MyReportsPage() {
                     </span>
                     {rep.operator_or_vehicle_details && (
                       <span className="text-xs text-[#777078]">
-                        Vehicle/Operator: {rep.operator_or_vehicle_details}
+                        Sasakyan/Operator: {rep.operator_or_vehicle_details}
                       </span>
                     )}
                   </div>
@@ -417,7 +417,7 @@ export function MyReportsPage() {
 
                   {rep.admin_feedback && (
                     <div className="glass-pill-tile rounded-[20px] p-3 text-xs text-[#29262B]">
-                      <strong>Administrator Feedback:</strong> {rep.admin_feedback}
+                      <strong>Sagot ng Admin:</strong> {rep.admin_feedback}
                     </div>
                   )}
 
@@ -452,14 +452,14 @@ export function MyReportsPage() {
                         }}
                       >
                         <Edit3 className="h-3.5 w-3.5" />
-                        Edit Pending Report
+                        I-edit ang Report
                       </GlassButton>
                     </div>
                   )}
 
                   {editingReport?.id === rep.id && (
-                    <div className="glass-pill-tile space-y-2.5 rounded-[22px] p-3.5">
-                      <p className="text-xs font-bold text-[#C9182B]">Edit Pending Report</p>
+                    <div className="glass-pill-tile liquid-reveal-enter space-y-2.5 rounded-[22px] p-3.5">
+                      <p className="text-xs font-bold text-[#C9182B]">I-edit ang Nakabinbing Report</p>
                       <input
                         type="number"
                         step="0.25"
@@ -481,7 +481,7 @@ export function MyReportsPage() {
                           onClick={() => editMutation.mutate()}
                           disabled={editMutation.isPending}
                         >
-                          Save Changes
+                          I-save
                         </GlassButton>
                         <GlassButton
                           type="button"
@@ -489,7 +489,7 @@ export function MyReportsPage() {
                           size="sm"
                           onClick={() => setEditingReport(null)}
                         >
-                          Cancel
+                          Kanselahin
                         </GlassButton>
                       </div>
                     </div>

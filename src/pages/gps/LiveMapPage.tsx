@@ -119,19 +119,19 @@ export function LiveMapPage() {
         <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-3">
           <div className="min-w-0">
             <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
-              Real-Time Geospatial View
+              Real-Time GPS Map
             </p>
             <h1 className="font-display text-xl leading-tight font-extrabold text-[#29262B] sm:text-3xl">
-              Live GPS Location &amp; Verified Terminals Map
+              Live GPS Location at mga Terminal
             </h1>
             <p className="text-xs sm:text-sm text-[#343039]">
-              View your live position, nearby stops, and OSRM directions across Oriental Mindoro.
+              Tingnan ang iyong live location, malalapit na sakayan, at direksyon sa Oriental Mindoro.
             </p>
           </div>
           <div className="w-full sm:w-auto">
             <Link to="/trips" className="w-full sm:w-auto">
               <GlassButton variant="primary" size="sm" className="w-full sm:w-auto">
-                Start Live Trip
+                Simulan ang Live Trip
               </GlassButton>
             </Link>
           </div>
@@ -149,14 +149,14 @@ export function LiveMapPage() {
                   key={cat}
                   type="button"
                   onClick={() => setCategoryFilter(cat)}
-                  className={`min-h-[40px] sm:min-h-[34px] shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 sm:py-1.5 text-xs font-semibold transition ${
+                  className={`min-h-[40px] sm:min-h-[34px] shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 sm:py-1.5 text-xs font-semibold transition-all duration-200 active:scale-95 ${
                     categoryFilter === cat
                       ? 'liquid-nav-active text-white'
                       : 'liquid-btn-glass text-[#29262B] hover:text-[#C9182B]'
                   }`}
                 >
                   {cat === 'all'
-                    ? `All Verified Stops (${stops?.length ?? 0})`
+                    ? `Lahat ng Terminal (${stops?.length ?? 0})`
                     : STOP_CATEGORY_LABELS[cat]}
                 </button>
               )
@@ -182,10 +182,10 @@ export function LiveMapPage() {
               aria-label="Choose destination municipality"
               className="glass-input rounded-2xl px-3 py-1.5 text-xs font-semibold"
             >
-              <option value="">Select destination LGU...</option>
+              <option value="">Pumili ng pupuntahan...</option>
               {municipalities.map((m) => (
                 <option key={m.id} value={m.name}>
-                  Dest: {m.name}
+                  Papunta: {m.name}
                 </option>
               ))}
             </select>
@@ -197,7 +197,7 @@ export function LiveMapPage() {
                 size="sm"
                 onClick={() => setFocusUserTrigger((n) => n + 1)}
               >
-                Center on Me
+                Itutok sa Akin
               </GlassButton>
             )}
           </div>
@@ -225,12 +225,12 @@ export function LiveMapPage() {
                 >
                   <Popup>
                     <div className="text-xs space-y-1 text-[#29262B]">
-                      <p className="font-bold text-[#C9182B]">Your Current GPS Position</p>
+                      <p className="font-bold text-[#C9182B]">Kasalukuyang GPS Lokasyon Mo</p>
                       <p>
                         {currentPosition.latitude.toFixed(5)}°N,{' '}
                         {currentPosition.longitude.toFixed(5)}°E
                       </p>
-                      <p>Accuracy: ±{currentPosition.accuracyMeters} m</p>
+                      <p>Katumpakan: ±{currentPosition.accuracyMeters} m</p>
                     </div>
                   </Popup>
                 </Marker>
@@ -290,7 +290,7 @@ export function LiveMapPage() {
                       }
                       className="w-full rounded-xl bg-gradient-to-r from-[#C9182B] to-[#B51224] px-2.5 py-1.5 text-[11px] font-bold text-white"
                     >
-                      Route to This Stop
+                      Itakda Dito ang Ruta
                     </button>
                   </div>
                 </Popup>
@@ -305,7 +305,7 @@ export function LiveMapPage() {
               >
                 <Popup>
                   <div className="text-xs font-bold text-[#29262B]">
-                    Destination: {selectedDest.name}
+                    Pupuntahan: {selectedDest.name}
                   </div>
                 </Popup>
               </Marker>
@@ -321,22 +321,22 @@ export function LiveMapPage() {
         </div>
 
         {selectedDest && (
-          <GlassCard variant="strong" className="p-3.5 flex flex-wrap items-center justify-between gap-2 text-xs">
+          <GlassCard variant="strong" className="liquid-reveal-enter p-3.5 flex flex-wrap items-center justify-between gap-2 text-xs">
             <div className="flex items-center gap-2">
               <RouteIcon className="h-4 w-4 text-[#C9182B]" />
               <span>
-                Selected Destination: <strong>{selectedDest.name}</strong>
+                Napiling Pupuntahan: <strong>{selectedDest.name}</strong>
               </span>
             </div>
             {currentPosition ? (
               osrmRoute?.available ? (
                 <span className="font-bold text-[#C9182B]">
-                  OSRM Route from your location: {osrmRoute.distanceKm} km (~{osrmRoute.durationMin}{' '}
-                  mins)
+                  Layo mula sa lokasyon mo: {osrmRoute.distanceKm} km (~{osrmRoute.durationMin}{' '}
+                  min)
                 </span>
               ) : (
                 <span className="text-[#B51224]">
-                  Straight-line distance:{' '}
+                  Diretsong distansya:{' '}
                   {haversineDistanceKm(
                     currentPosition.latitude,
                     currentPosition.longitude,
@@ -349,7 +349,7 @@ export function LiveMapPage() {
             ) : (
               <span className="inline-flex items-center gap-1 text-[#777078]">
                 <Compass className="h-3.5 w-3.5" />
-                Enable GPS above to calculate driving directions from your location.
+                I-on ang GPS sa itaas para makita ang direksyon mula sa iyong lokasyon.
               </span>
             )}
           </GlassCard>

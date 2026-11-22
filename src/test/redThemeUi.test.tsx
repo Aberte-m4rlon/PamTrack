@@ -112,7 +112,7 @@ describe('Light Red Glassmorphism Design System & Shared Components', () => {
     );
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     expect(screen.getByText('Modal content')).toBeInTheDocument();
-    expect(screen.getByLabelText('Close modal')).toBeInTheDocument();
+    expect(screen.getByLabelText('Isara ang modal')).toBeInTheDocument();
   });
 
   it('renders AppShell header, sidebar, and mandatory 5-tab mobile bottom nav cleanly without top-left mobile menu button', () => {
@@ -121,9 +121,9 @@ describe('Light Red Glassmorphism Design System & Shared Components', () => {
     expect(screen.getByLabelText('Desktop navigation sidebar')).toBeInTheDocument();
     const mobileNav = screen.getByLabelText('Mobile bottom navigation');
     expect(mobileNav).toHaveTextContent('Home');
-    expect(mobileNav).toHaveTextContent('Explore');
+    expect(mobileNav).toHaveTextContent('Hanapin');
     expect(mobileNav).toHaveTextContent('Live Map');
-    expect(mobileNav).toHaveTextContent('Trips');
+    expect(mobileNav).toHaveTextContent('Biyahe');
     expect(mobileNav).toHaveTextContent('Profile');
 
     // Top-left hamburger menu button & drawer removed on mobile view

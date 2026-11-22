@@ -98,13 +98,13 @@ export function OfflineTripRadar({
       <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
         <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F8E7EA] px-3 py-1 font-bold text-[#B51224]">
           <WifiOff className="h-3.5 w-3.5" />
-          Offline GPS Corridor Monitor
+          Offline GPS Monitor
         </span>
         <span className="inline-flex items-center gap-1 font-semibold text-[#343039]">
           <LocateFixed className="h-3.5 w-3.5 text-[#C9182B]" />
           {currentPosition
             ? `${currentPosition.latitude.toFixed(4)}°N, ${currentPosition.longitude.toFixed(4)}°E (±${currentPosition.accuracyMeters}m)`
-            : 'Waiting for GPS fix...'}
+            : 'Naghihintay ng GPS signal...'}
         </span>
       </div>
 
@@ -173,7 +173,14 @@ export function OfflineTripRadar({
 
           {liveXY && (
             <g>
-              <circle cx={liveXY[0]} cy={liveXY[1]} r="13" fill="#C9182B" fillOpacity="0.22" />
+              <circle
+                cx={liveXY[0]}
+                cy={liveXY[1]}
+                r="13"
+                fill="#C9182B"
+                fillOpacity="0.22"
+                className="liquid-radar-ping"
+              />
               <circle cx={liveXY[0]} cy={liveXY[1]} r="6.5" fill="#C9182B" stroke="#FFFFFF" strokeWidth="2.5" />
             </g>
           )}
@@ -182,20 +189,20 @@ export function OfflineTripRadar({
 
       <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 text-xs">
         <div className="glass-panel rounded-2xl p-2.5 text-center">
-          <p className="text-[10px] font-bold uppercase text-[#343039]">Moved</p>
+          <p className="text-[10px] font-bold uppercase text-[#343039]">Nalayong Layo</p>
           <p className="font-display text-base font-extrabold text-[#C9182B]">
             {distanceTraveledKm.toFixed(2)} km
           </p>
         </div>
         <div className="glass-panel rounded-2xl p-2.5 text-center">
-          <p className="text-[10px] font-bold uppercase text-[#343039]">To Dest</p>
+          <p className="text-[10px] font-bold uppercase text-[#343039]">Natitira Pa</p>
           <p className="font-display text-base font-extrabold text-[#B51224]">
             {remainingDestKm !== null ? `${remainingDestKm.toFixed(1)} km` : '—'}
           </p>
         </div>
         <div className="glass-panel rounded-2xl p-2.5 text-center">
           <p className="text-[10px] font-bold uppercase text-[#343039]">
-            {movementLabel ? 'Live Speed' : 'Speed'}
+            {movementLabel ? 'Bilis Ngayon' : 'Bilis'}
           </p>
           <p className="font-display text-base font-extrabold text-[#29262B]">
             {speedKmh.toFixed(1)} km/h
@@ -209,7 +216,7 @@ export function OfflineTripRadar({
         </div>
         <div className="glass-panel rounded-2xl p-2.5 text-center">
           <p className="text-[10px] font-bold uppercase text-[#343039]">
-            {nearestLguName ? 'Nearest LGU' : 'Offset'}
+            {nearestLguName ? 'Pinakamalapit' : 'Lihis sa Ruta'}
           </p>
           <p className="truncate font-display text-sm font-extrabold text-[#C9182B]">
             {nearestLguName || `${deviationKm.toFixed(1)} km`}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { LayoutGroup, motion } from 'framer-motion';
 import {
   Home,
   LocateFixed,
@@ -31,17 +32,17 @@ const GUEST_PUBLIC_NAV: SidebarNavItem[] = [
   { to: '/', label: 'Home', icon: Home, end: true, offlineReady: true },
   { to: '/fare-search', label: 'Fare Finder', icon: Search, offlineReady: true },
   { to: '/fare-matrix', label: 'Fare Matrix', icon: Table2, offlineReady: true },
-  { to: '/routes', label: 'Route Map', icon: MapIcon, offlineReady: false },
+  { to: '/routes', label: 'Mapa ng Ruta', icon: MapIcon, offlineReady: false },
   { to: '/municipalities', label: '15 LGUs', icon: MapPin, offlineReady: true },
 ];
 
 const COMMUTER_NAV: SidebarNavItem[] = [
   { to: '/live-map', label: 'Live GPS Map', icon: LocateFixed, offlineReady: false },
   { to: '/trips', label: 'Live Trip Monitor', icon: Radio, end: true, offlineReady: true },
-  { to: '/dashboard/reports', label: 'Report Fare', icon: MessageSquarePlus, offlineReady: false },
-  { to: '/safety', label: 'Safety & Contacts', icon: ShieldAlert, offlineReady: false },
+  { to: '/dashboard/reports', label: 'Mag-report ng Pamasahe', icon: MessageSquarePlus, offlineReady: false },
+  { to: '/safety', label: 'Safety at Contacts', icon: ShieldAlert, offlineReady: false },
   { to: '/profile', label: 'Account Hub', icon: User, offlineReady: true },
-  { to: '/dashboard/profile', label: 'Profile Settings', icon: Settings, offlineReady: false },
+  { to: '/dashboard/profile', label: 'Settings ng Profile', icon: Settings, offlineReady: false },
 ];
 
 function SidebarContent({
@@ -71,17 +72,17 @@ function SidebarContent({
             onClick={onNavigate}
             title={
               offlineLocked
-                ? `${item.label} (Requires Internet)`
+                ? `${item.label} (Kailangan ng Internet)`
                 : collapsed
                   ? item.label
                   : undefined
             }
             className={({ isActive }) =>
               cn(
-                'group flex items-center justify-between rounded-full px-3.5 py-2 text-[13px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9182B]',
+                'group relative isolate flex items-center justify-between rounded-full px-3.5 py-2 text-[13px] font-semibold transition-[color,background-color,transform,box-shadow] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9182B]',
                 collapsed && 'justify-center px-2',
                 isActive
-                  ? 'liquid-nav-active text-white'
+                  ? 'text-white'
                   : offlineLocked
                     ? 'text-[#777078]/75 hover:bg-[#F7F3EF]/75 hover:text-[#C9182B]'
                     : 'text-[#29262B] hover:bg-[#F7F3EF]/80 hover:text-[#C9182B] hover:shadow-sm'
@@ -90,17 +91,24 @@ function SidebarContent({
           >
             {({ isActive }) => (
               <>
-                <span className="flex items-center gap-2.5 min-w-0">
+                {isActive && (
+                  <motion.span
+                    layoutId="sidebar-active-pill"
+                    transition={{ type: 'spring', stiffness: 420, damping: 32, mass: 0.8 }}
+                    className="liquid-nav-active liquid-pill-fill z-0 rounded-full"
+                  />
+                )}
+                <span className="relative z-10 flex items-center gap-2.5 min-w-0">
                   <item.icon
                     className={cn(
-                      'h-4 w-4 shrink-0 transition-colors',
+                      'h-4 w-4 shrink-0 transition-transform duration-200 group-hover:scale-110',
                       isActive ? 'text-white' : 'text-[#343039] group-hover:text-[#C9182B]'
                     )}
                   />
                   {!collapsed && <span className="truncate">{item.label}</span>}
                 </span>
                 {!collapsed && offlineLocked && (
-                  <WifiOff className="h-3.5 w-3.5 shrink-0 opacity-70" aria-label="Requires internet" />
+                  <WifiOff className="relative z-10 h-3.5 w-3.5 shrink-0 opacity-70" aria-label="Kailangan ng internet" />
                 )}
               </>
             )}
@@ -111,21 +119,21 @@ function SidebarContent({
   );
 
   return (
-    <>
+    <LayoutGroup id="desktop-sidebar">
       <div className="space-y-4 overflow-y-auto pr-0.5">
         {renderNavSection(
-          user ? 'Fare & Route Guides' : 'Public Guest Access',
+          user ? 'Gabay sa Pamasahe at Ruta' : 'Bukas Para sa Lahat',
           GUEST_PUBLIC_NAV
         )}
 
         {!user && !collapsed && (
-          <div className="glass-pill-tile rounded-[22px] p-3.5 space-y-2.5">
+          <div className="glass-pill-tile liquid-card-enter rounded-[22px] p-3.5 space-y-2.5">
             <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#343039]">
               <Lock className="h-3.5 w-3.5 text-[#C9182B]" />
-              <span>Sign In to Unlock More</span>
+              <span>Mag-sign In Para Mas Marami</span>
             </div>
             <p className="text-[11px] leading-snug text-[#777078]">
-              Unlock Live GPS Map, Trips, Safety &amp; Fare Reporting.
+              Buksan ang Live GPS Map, Biyahe, Safety at Pag-report ng Pamasahe.
             </p>
             <div className="grid grid-cols-2 gap-1.5">
               <Link
@@ -133,20 +141,20 @@ function SidebarContent({
                 onClick={onNavigate}
                 className="liquid-btn-primary inline-flex items-center justify-center whitespace-nowrap rounded-full px-2.5 py-1.5 text-[11px] font-bold text-white transition"
               >
-                Sign In
+                Mag-sign In
               </Link>
               <Link
                 to="/register"
                 onClick={onNavigate}
                 className="liquid-btn-secondary inline-flex items-center justify-center whitespace-nowrap rounded-full px-2.5 py-1.5 text-[11px] font-bold transition"
               >
-                Register
+                Mag-register
               </Link>
             </div>
           </div>
         )}
 
-        {user && renderNavSection('Commuter Tools', COMMUTER_NAV)}
+        {user && renderNavSection('Mga Tool ng Pasahero', COMMUTER_NAV)}
       </div>
 
       {!collapsed && (
@@ -157,7 +165,7 @@ function SidebarContent({
                 {profile?.full_name || user.email?.split('@')[0]}
               </p>
               <p className="text-[10px] font-bold uppercase tracking-wider text-[#C9182B]">
-                Citizen Commuter
+                Pasahero
               </p>
             </div>
           ) : (
@@ -172,7 +180,7 @@ function SidebarContent({
           )}
         </div>
       )}
-    </>
+    </LayoutGroup>
   );
 }
 
@@ -181,7 +189,7 @@ export function AppSidebar({ collapsed }: { collapsed: boolean }) {
     <aside
       aria-label="Desktop navigation sidebar"
       className={cn(
-        'desktop-sidebar-shell shrink-0 transition-all duration-300',
+        'desktop-sidebar-shell shrink-0 transition-[width] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
         collapsed ? 'w-[84px]' : 'w-60 xl:w-64'
       )}
     >

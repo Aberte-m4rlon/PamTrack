@@ -106,17 +106,17 @@ export function FareMatrixPage() {
 
   const handleExportCsv = () => {
     const header = [
-      'Origin',
-      'Destination',
-      'Transportation Type',
-      'Regular Fare',
-      'Student Fare',
-      'Senior Citizen Fare',
-      'PWD Fare',
-      'Status',
-      'Source',
+      'Pinanggalingan',
+      'Pupuntahan',
+      'Sasakyan',
+      'Regular',
+      'Estudyante',
+      'Senior Citizen',
+      'PWD',
+      'Katayuan',
+      'Pinagmulan',
       'Document Reference',
-      'Last Verified Date',
+      'Huling Na-check',
     ];
     const lines = [header.join(',')];
     for (const r of filteredRows) {
@@ -150,13 +150,13 @@ export function FareMatrixPage() {
       <GlassCard variant="strong" className="p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
         <div className="min-w-0 space-y-1">
           <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
-            Province-Wide Citizen Commuter Fare Table
+            Talaan ng Pamasahe sa Buong Probinsya
           </p>
           <h1 className="font-display text-xl leading-tight font-extrabold text-[#29262B] sm:text-3xl">
-            Oriental Mindoro Fare Matrix
+            Fare Matrix ng Oriental Mindoro
           </h1>
           <p className="text-xs sm:text-sm text-[#343039]">
-            Province-wide fare estimates and 20% discount guide.
+            Gabay sa mga pamasahe at 20% discount sa bawat bayan.
           </p>
         </div>
 
@@ -169,7 +169,7 @@ export function FareMatrixPage() {
           disabled={filteredRows.length === 0}
         >
           <Download className="h-4 w-4 text-[#C9182B]" />
-          Export CSV
+          I-export sa CSV
         </GlassButton>
       </GlassCard>
 
@@ -177,7 +177,7 @@ export function FareMatrixPage() {
       <GlassCard variant="surface" className="p-3.5 sm:p-5 space-y-3">
         <div className="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#C9182B]">
           <Filter className="h-3.5 w-3.5 shrink-0" />
-          <span>Filter Fare Matrix</span>
+          <span>I-filter ang Fare Matrix</span>
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
@@ -185,7 +185,7 @@ export function FareMatrixPage() {
             type="text"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            placeholder="Search route or town..."
+            placeholder="Maghanap ng ruta o bayan..."
             className="glass-input min-h-[42px] flex-1 min-w-0 rounded-2xl px-3.5 py-2 text-sm"
           />
           <button
@@ -195,7 +195,7 @@ export function FareMatrixPage() {
             aria-expanded={filtersOpen}
           >
             <Filter className="h-3.5 w-3.5 text-[#C9182B]" />
-            <span>{filtersOpen ? 'Hide' : 'Filters'}</span>
+            <span>{filtersOpen ? 'Itago' : 'Filter'}</span>
             {activeFilterCount > 0 && (
               <span className="liquid-nav-active rounded-full px-1.5 py-0.5 text-[10px] font-extrabold text-white tabular-nums">
                 {activeFilterCount}
@@ -206,14 +206,14 @@ export function FareMatrixPage() {
 
         <div
           className={`${
-            filtersOpen ? 'grid' : 'hidden md:grid'
+            filtersOpen ? 'grid liquid-reveal-enter' : 'hidden md:grid'
           } gap-2.5 sm:gap-3 grid-cols-1 min-[360px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-6`}
         >
           <input
             type="text"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            placeholder="Search route..."
+            placeholder="Maghanap ng ruta..."
             className="glass-input hidden md:block min-h-[42px] rounded-2xl px-3.5 py-2 text-sm"
           />
 
@@ -223,7 +223,7 @@ export function FareMatrixPage() {
             aria-label="Filter by any municipality"
             className="glass-input min-h-[42px] rounded-2xl px-3 py-2 text-sm"
           >
-            <option value="all">Any Municipality</option>
+            <option value="all">Kahit Anong Bayan</option>
             {municipalities.map((m) => (
               <option key={m.id} value={m.id}>
                 {m.name}
@@ -237,10 +237,10 @@ export function FareMatrixPage() {
             aria-label="Filter by origin"
             className="glass-input min-h-[42px] rounded-2xl px-3 py-2 text-sm"
           >
-            <option value="all">All Origins</option>
+            <option value="all">Lahat ng Pinanggalingan</option>
             {municipalities.map((m) => (
               <option key={m.id} value={m.id}>
-                From: {m.name}
+                Galing: {m.name}
               </option>
             ))}
           </select>
@@ -251,10 +251,10 @@ export function FareMatrixPage() {
             aria-label="Filter by destination"
             className="glass-input min-h-[42px] rounded-2xl px-3 py-2 text-sm"
           >
-            <option value="all">All Destinations</option>
+            <option value="all">Lahat ng Pupuntahan</option>
             {municipalities.map((m) => (
               <option key={m.id} value={m.id}>
-                To: {m.name}
+                Papunta: {m.name}
               </option>
             ))}
           </select>
@@ -265,7 +265,7 @@ export function FareMatrixPage() {
             aria-label="Filter by transport type"
             className="glass-input min-h-[42px] rounded-2xl px-3 py-2 text-sm"
           >
-            <option value="all">All Modes</option>
+            <option value="all">Lahat ng Sasakyan</option>
             {transportTypes.map((tt) => (
               <option key={tt.id} value={tt.id}>
                 {tt.name}
@@ -279,21 +279,21 @@ export function FareMatrixPage() {
             aria-label="Filter by fare status"
             className="glass-input min-h-[42px] rounded-2xl px-3 py-2 text-sm"
           >
-            <option value="all">All Statuses</option>
-            <option value="verified_official">Verified Official Fare</option>
-            <option value="community_estimate">Community Estimate</option>
-            <option value="pending_verification">Pending Verification</option>
-            <option value="rejected_or_disputed">Rejected or Disputed</option>
+            <option value="all">Lahat ng Katayuan</option>
+            <option value="verified_official">Opisyal na Taripa</option>
+            <option value="community_estimate">Gabay ng Komunidad</option>
+            <option value="pending_verification">Nire-review Pa</option>
+            <option value="rejected_or_disputed">Tinanggihan / May Dispute</option>
           </select>
         </div>
 
         <div
           className={`${
-            filtersOpen ? 'flex' : 'hidden md:flex'
+            filtersOpen ? 'flex liquid-reveal-enter' : 'hidden md:flex'
           } flex-wrap items-center justify-between gap-2 text-xs`}
         >
           <div className="flex items-center gap-2">
-            <label className="font-semibold text-[#777078]">Updated since:</label>
+            <label className="font-semibold text-[#777078]">Na-update simula:</label>
             <input
               type="date"
               value={updatedAfter}
@@ -315,7 +315,7 @@ export function FareMatrixPage() {
             }}
             className="inline-flex min-h-[38px] items-center px-2 font-bold text-[#C9182B] hover:underline"
           >
-            Reset All Filters
+            I-reset Lahat ng Filter
           </button>
         </div>
       </GlassCard>
@@ -326,12 +326,12 @@ export function FareMatrixPage() {
       ) : filteredRows.length === 0 ? (
         <EmptyStateCard
           icon={Table2}
-          title="No fare matrix records match your filters"
-          description="Try clearing a filter or search term."
+          title="Walang nakitang pamasahe sa piniling filter"
+          description="Subukang alisin o baguhin ang iyong mga filter o keyword."
           action={
             <Link to="/fare-search">
               <GlassButton variant="primary" size="sm">
-                Open Route &amp; Fare Finder
+                Buksan ang Fare Finder
               </GlassButton>
             </Link>
           }
@@ -339,7 +339,7 @@ export function FareMatrixPage() {
       ) : (
         <GlassCard variant="strong">
           {/* Mobile Card Layout (<= 767px) */}
-          <div className="grid gap-2.5 p-2.5 md:hidden">
+          <div key={`m-page-${safePage}`} className="liquid-reveal-enter grid gap-2.5 p-2.5 md:hidden">
             {paginatedRows.map((row) => (
               <div
                 key={row.key}
@@ -365,7 +365,7 @@ export function FareMatrixPage() {
                     </strong>
                   </div>
                   <div>
-                    <span className="block text-[10px] font-semibold text-[#5B555E]">Student</span>
+                    <span className="block text-[10px] font-semibold text-[#5B555E]">Estudyante</span>
                     <strong className="text-xs font-bold text-[#29262B]">
                       {formatPhp(row.studentFare)}
                     </strong>
@@ -386,13 +386,13 @@ export function FareMatrixPage() {
 
                 <div className="flex items-center justify-between gap-2 text-[11px] text-[#5B555E]">
                   <span className="min-w-0 truncate font-medium">
-                    {row.issuingAuthority || 'Unverified'}
+                    {row.issuingAuthority || 'Hindi pa verified'}
                   </span>
                   <Link
                     to={`/fares/${row.primaryRecordId}`}
                     className="inline-flex min-h-[30px] items-center font-bold text-[#C9182B] hover:underline shrink-0 whitespace-nowrap"
                   >
-                    Details →
+                    Detalye →
                   </Link>
                 </div>
               </div>
@@ -400,25 +400,25 @@ export function FareMatrixPage() {
           </div>
 
           {/* Desktop/Tablet Table */}
-          <div className="hidden md:block overflow-x-auto rounded-t-[28px]">
+          <div key={`d-page-${safePage}`} className="liquid-reveal-enter hidden md:block overflow-x-auto rounded-t-[28px]">
             <table className="w-full min-w-[980px] text-left text-sm">
               <thead className="glass-table-head text-[11px] font-bold uppercase tracking-wider text-[#29262B]">
                 <tr>
-                  <th className="px-4 py-3.5">Origin</th>
-                  <th className="px-4 py-3.5">Destination</th>
-                  <th className="px-4 py-3.5">Transport</th>
+                  <th className="px-4 py-3.5">Pinanggalingan</th>
+                  <th className="px-4 py-3.5">Pupuntahan</th>
+                  <th className="px-4 py-3.5">Sasakyan</th>
                   <th className="px-4 py-3.5">Regular</th>
-                  <th className="px-4 py-3.5">Student</th>
+                  <th className="px-4 py-3.5">Estudyante</th>
                   <th className="px-4 py-3.5">Senior</th>
                   <th className="px-4 py-3.5">PWD</th>
-                  <th className="px-4 py-3.5">Fare Status</th>
-                  <th className="px-4 py-3.5">Source</th>
-                  <th className="px-4 py-3.5">Last Verified</th>
+                  <th className="px-4 py-3.5">Katayuan</th>
+                  <th className="px-4 py-3.5">Pinagmulan</th>
+                  <th className="px-4 py-3.5">Huling Na-check</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/50">
                 {paginatedRows.map((row) => (
-                  <tr key={row.key} className="hover:bg-white/35 transition">
+                  <tr key={row.key} className="hover:bg-white/35 transition-colors duration-150">
                     <td className="px-4 py-3 font-bold text-[#29262B]">{row.originName}</td>
                     <td className="px-4 py-3 font-bold text-[#29262B]">{row.destinationName}</td>
                     <td className="px-4 py-3 font-medium text-[#343039]">{row.transportTypeName}</td>
@@ -433,7 +433,7 @@ export function FareMatrixPage() {
                     </td>
                     <td className="px-4 py-3 text-xs">
                       <p className="font-semibold text-[#29262B]">
-                        {row.issuingAuthority || 'Unverified'}
+                        {row.issuingAuthority || 'Hindi pa verified'}
                       </p>
                       {row.officialDocumentReference && (
                         <p className="text-[#777078]">{row.officialDocumentReference}</p>
@@ -465,11 +465,11 @@ export function FareMatrixPage() {
 
           <div className="glass-table-head flex flex-wrap items-center justify-between gap-2 rounded-b-[28px] border-t border-white/65 px-4 py-3 text-xs">
             <span className="font-semibold text-[#777078]">
-              Showing <strong className="text-[#29262B]">{startIdx + 1}</strong>–
+              Ipinapakita <strong className="text-[#29262B]">{startIdx + 1}</strong>–
               <strong className="text-[#29262B]">
                 {Math.min(startIdx + MATRIX_PAGE_SIZE, filteredRows.length)}
               </strong>{' '}
-              of <strong className="text-[#C9182B]">{filteredRows.length}</strong> corridors
+              sa <strong className="text-[#C9182B]">{filteredRows.length}</strong> na ruta
             </span>
 
             {totalPages > 1 && (
@@ -483,10 +483,10 @@ export function FareMatrixPage() {
                   onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 >
                   <ChevronLeft className="h-3.5 w-3.5" />
-                  Prev
+                  Nakaraan
                 </GlassButton>
                 <span className="glass-pill-tile rounded-full px-3 py-1 text-[11px] font-bold text-[#29262B] tabular-nums">
-                  Page {safePage} of {totalPages}
+                  Pahina {safePage} ng {totalPages}
                 </span>
                 <GlassButton
                   type="button"
@@ -496,7 +496,7 @@ export function FareMatrixPage() {
                   disabled={safePage >= totalPages}
                   onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 >
-                  Next
+                  Susunod
                   <ChevronRight className="h-3.5 w-3.5" />
                 </GlassButton>
               </div>

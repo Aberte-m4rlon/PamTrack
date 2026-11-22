@@ -59,13 +59,13 @@ export function OfflineFeatureGate({
   }
 
   return (
-    <div className="space-y-5">
+    <div className="liquid-reveal-enter space-y-5">
       <PageHeader
-        eyebrow="Offline Mode • Limited Features Active"
+        eyebrow="Offline Mode • Limitado ang Bukas"
         title={featureTitle}
         description={
           featureDescription ||
-          'Only core cached commuter tools run without an internet connection.'
+          'Mga naka-save na gabay sa pamasahe lang muna ang gumagana kapag walang internet.'
         }
         breadcrumbs={[{ label: 'Home', to: '/' }, { label: featureTitle }]}
       />
@@ -77,10 +77,10 @@ export function OfflineFeatureGate({
           </div>
           <div className="space-y-1.5 min-w-0">
             <h2 className="font-display text-lg sm:text-xl font-extrabold text-[#29262B] leading-snug">
-              Internet Connection Required for {featureTitle}
+              Kailangan ng Internet Para sa {featureTitle}
             </h2>
             <p className="text-xs sm:text-sm text-[#343039] max-w-2xl leading-relaxed">
-              Connect to Wi-Fi or mobile data to use{' '}
+              Kumonekta muna sa Wi-Fi o mobile data para magamit ang{' '}
               <strong className="text-[#29262B]">{featureTitle}</strong>.
             </p>
           </div>
@@ -88,25 +88,25 @@ export function OfflineFeatureGate({
 
         <div className="rounded-2xl border border-white/85 bg-white/50 backdrop-blur-md p-3.5 sm:p-4 space-y-2.5 sm:space-y-3">
           <p className="text-xs font-bold uppercase tracking-wider text-[#C9182B]">
-            Features Available Right Now in Offline Mode
+            Mga Pwede Pang Gamitin Kahit Offline Ngayon
           </p>
           <div className="grid gap-2.5 sm:grid-cols-3">
             <Link to="/fare-search">
-              <div className="glass-pill-tile min-h-[42px] rounded-2xl p-3 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#29262B]">
+              <div className="glass-pill-tile min-h-[42px] rounded-2xl p-3 hover:-translate-y-0.5 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#29262B]">
                 <Compass className="h-4 w-4 text-[#C9182B] shrink-0" />
-                <span>Cached Fare Finder</span>
+                <span>Naka-save na Fare Finder</span>
               </div>
             </Link>
             <Link to="/fare-matrix">
-              <div className="glass-pill-tile min-h-[42px] rounded-2xl p-3 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#29262B]">
+              <div className="glass-pill-tile min-h-[42px] rounded-2xl p-3 hover:-translate-y-0.5 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#29262B]">
                 <Table2 className="h-4 w-4 text-[#C9182B] shrink-0" />
-                <span>Cached Fare Matrix</span>
+                <span>Naka-save na Fare Matrix</span>
               </div>
             </Link>
             <Link to="/municipalities">
-              <div className="glass-pill-tile min-h-[42px] rounded-2xl p-3 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#29262B]">
+              <div className="glass-pill-tile min-h-[42px] rounded-2xl p-3 hover:-translate-y-0.5 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#29262B]">
                 <MapPin className="h-4 w-4 text-[#C9182B] shrink-0" />
-                <span>15 LGUs Directory</span>
+                <span>Mga Bayan (15 LGUs)</span>
               </div>
             </Link>
           </div>
@@ -148,9 +148,9 @@ export function RequireAccountAccess({
   }
 
   return (
-    <div className="space-y-3.5 sm:space-y-5">
+    <div className="liquid-reveal-enter space-y-3.5 sm:space-y-5">
       <PageHeader
-        eyebrow="Sign In Required"
+        eyebrow="Kailangan Mag-sign In"
         title={featureTitle}
         description={featureDescription}
         breadcrumbs={[{ label: 'Home', to: '/' }, { label: featureTitle }]}
@@ -163,11 +163,11 @@ export function RequireAccountAccess({
           </div>
           <div className="space-y-1 flex-1 min-w-0">
             <h2 className="font-display text-base sm:text-xl font-extrabold text-[#29262B] leading-snug">
-              Account Access Locked While Logged Out
+              Naka-lock Muna Habang Hindi Naka-Sign In
             </h2>
             <p className="text-xs sm:text-sm text-[#343039] max-w-2xl leading-relaxed font-medium">
-              Sign in to unlock <strong className="text-[#29262B]">{featureTitle}</strong>. Public
-              fare lookup and matrix remain open to guests.
+              Mag-sign in para mabuksan ang <strong className="text-[#29262B]">{featureTitle}</strong>.
+              Bukas pa rin para sa lahat ang paghahanap ng pamasahe at matrix.
             </p>
           </div>
         </div>
@@ -175,7 +175,7 @@ export function RequireAccountAccess({
         {unlocks && unlocks.length > 0 && (
           <div className="glass-pill-tile rounded-2xl p-3.5 sm:p-4">
             <p className="mb-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#C9182B]">
-              Unlocked With Your Commuter Account
+              Mga Mabubuksan Gamit ang Account Mo
             </p>
             <ul className="grid gap-1.5 sm:grid-cols-2 text-xs font-medium text-[#29262B]">
               {unlocks.map((item) => (
@@ -192,19 +192,19 @@ export function RequireAccountAccess({
           <Link to="/login" state={{ from: location.pathname }} className="w-full sm:w-auto">
             <GlassButton variant="primary" size="sm" className="w-full sm:w-auto sm:px-5 sm:py-2.5 sm:text-sm sm:min-h-[42px]">
               <LogIn className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
-              Sign In to Unlock
+              Mag-sign In
             </GlassButton>
           </Link>
           <Link to="/register" state={{ from: location.pathname }} className="w-full sm:w-auto">
             <GlassButton variant="secondary" size="sm" className="w-full sm:w-auto sm:px-5 sm:py-2.5 sm:text-sm sm:min-h-[42px]">
               <UserPlus className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
-              Create Account
+              Gumawa ng Account
             </GlassButton>
           </Link>
           <Link to="/fare-search" className="col-span-2 sm:col-span-1 w-full sm:w-auto">
             <GlassButton variant="glass" size="sm" className="w-full sm:w-auto sm:px-5 sm:py-2.5 sm:text-sm sm:min-h-[42px]">
               <Compass className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-[#C9182B]" />
-              Use Public Fare Finder
+              Gamitin ang Fare Finder
             </GlassButton>
           </Link>
         </div>

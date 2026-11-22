@@ -68,16 +68,16 @@ describe('GPS Permission, Tracking Controls, Nearby Stops & Mobile Bottom Nav', 
     // Never silently queries GPS on mount
     expect(getCurrentPositionMock).not.toHaveBeenCalled();
 
-    await user.click(screen.getByRole('button', { name: /start tracking/i }));
+    await user.click(screen.getByRole('button', { name: /simulan ang tracking/i }));
 
     await waitFor(() => {
       expect(watchPositionMock).toHaveBeenCalledTimes(1);
-      expect(screen.getByText(/Live GPS Active/i)).toBeInTheDocument();
-      expect(screen.getByText(/±18 meters/i)).toBeInTheDocument();
+      expect(screen.getByText(/Naka-on ang Live GPS/i)).toBeInTheDocument();
+      expect(screen.getByText(/±18 metro/i)).toBeInTheDocument();
       expect(screen.getByText(/Calapan City/i)).toBeInTheDocument();
     });
 
-    await user.click(screen.getByRole('button', { name: /stop tracking/i }));
+    await user.click(screen.getByRole('button', { name: /ihinto ang tracking/i }));
     expect(clearWatchMock).toHaveBeenCalledWith(42);
   });
 
@@ -104,10 +104,10 @@ describe('GPS Permission, Tracking Controls, Nearby Stops & Mobile Bottom Nav', 
     const user = userEvent.setup();
     renderWithAllProviders(<GpsConsentCard />);
 
-    await user.click(screen.getByRole('button', { name: /detect location/i }));
+    await user.click(screen.getByRole('button', { name: /alamin ang lokasyon/i }));
 
     await waitFor(() => {
-      expect(screen.getByText(/Location permission denied/i)).toBeInTheDocument();
+      expect(screen.getByText(/Tinanggihan ang location permission/i)).toBeInTheDocument();
     });
   });
 
@@ -116,7 +116,7 @@ describe('GPS Permission, Tracking Controls, Nearby Stops & Mobile Bottom Nav', 
 
     await waitFor(() => {
       expect(screen.getByText(/Live GPS Location/i)).toBeInTheDocument();
-      expect(screen.getByText(/Browser GPS Location Control/i)).toBeInTheDocument();
+      expect(screen.getByText(/Kontrol sa GPS Location/i)).toBeInTheDocument();
     });
   });
 
@@ -128,9 +128,9 @@ describe('GPS Permission, Tracking Controls, Nearby Stops & Mobile Bottom Nav', 
     const mobileNav = screen.getByLabelText('Mobile bottom navigation');
     expect(mobileNav).toBeInTheDocument();
     expect(mobileNav).toHaveTextContent('Home');
-    expect(mobileNav).toHaveTextContent('Explore');
+    expect(mobileNav).toHaveTextContent('Hanapin');
     expect(mobileNav).toHaveTextContent('Live Map');
-    expect(mobileNav).toHaveTextContent('Trips');
+    expect(mobileNav).toHaveTextContent('Biyahe');
     expect(mobileNav).toHaveTextContent('Profile');
   });
 });

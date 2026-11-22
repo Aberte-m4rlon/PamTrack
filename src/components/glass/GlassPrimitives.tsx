@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useId } from 'react';
 import { Link } from 'react-router-dom';
+import { LayoutGroup, motion } from 'framer-motion';
 import {
   AlertTriangle,
   Bike,
@@ -23,12 +24,15 @@ import type { FareStatus, ReportStatus } from '@/types/database';
 interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: 'panel' | 'surface' | 'strong' | 'rose' | 'green';
   hoverable?: boolean;
+  staggerIndex?: number;
 }
 
 export function GlassCard({
   variant = 'surface',
   hoverable = false,
+  staggerIndex,
   className,
+  style,
   children,
   ...props
 }: GlassCardProps) {
@@ -41,13 +45,19 @@ export function GlassCard({
           ? 'glass-rose-tint text-[#29262B]'
           : 'glass-surface liquid-glass-sheen';
 
+  const mergedStyle =
+    typeof staggerIndex === 'number'
+      ? ({ '--stagger': staggerIndex, ...style } as React.CSSProperties)
+      : style;
+
   return (
     <div
+      style={mergedStyle}
       className={cn(
         variantClass,
-        'liquid-card-enter min-w-0 max-w-full rounded-[24px] sm:rounded-[30px] transition-all duration-200',
+        'liquid-card-enter min-w-0 max-w-full rounded-[24px] sm:rounded-[30px] transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
         hoverable &&
-          'hover:-translate-y-0.5 active:scale-[0.985] hover:shadow-glass-lg hover:border-white',
+          'hover:-translate-y-0.5 active:scale-[0.98] hover:shadow-glass-lg hover:border-white',
         className
       )}
       {...props}
@@ -87,7 +97,7 @@ export function GlassButton({
   return (
     <button
       className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-full font-semibold tracking-tight transition-all duration-150 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9182B] focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-55',
+        'inline-flex items-center justify-center gap-2 rounded-full font-semibold tracking-tight transition-[transform,box-shadow,background-color,border-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.965] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9182B] focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-55',
         variantStyles[variant],
         sizeStyles[size],
         className
@@ -156,42 +166,52 @@ export function GlassTabs<T extends string>({
   onChange: (value: T) => void;
   className?: string;
 }) {
+  const groupId = useId();
   return (
-    <div
-      role="tablist"
-      className={cn('liquid-segmented inline-flex flex-wrap items-center gap-1 rounded-full p-1', className)}
-    >
-      {tabs.map((tab) => {
-        const active = tab.value === value;
-        return (
-          <button
-            key={tab.value}
-            type="button"
-            role="tab"
-            aria-selected={active}
-            onClick={() => onChange(tab.value)}
-            className={cn(
-              'inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition-all',
-              active
-                ? 'liquid-nav-active text-white'
-                : 'text-[#343039] hover:bg-[#F7F3EF]/80 hover:text-[#C9182B]'
-            )}
-          >
-            <span>{tab.label}</span>
-            {typeof tab.count === 'number' && (
-              <span
-                className={cn(
-                  'rounded-full px-1.5 py-0.5 text-[10px] font-extrabold',
-                  active ? 'bg-white/25 text-white' : 'bg-[#F8E7EA]/85 text-[#B51224]'
-                )}
-              >
-                {tab.count}
-              </span>
-            )}
-          </button>
-        );
-      })}
-    </div>
+    <LayoutGroup id={`glass-tabs-${groupId}`}>
+      <div
+        role="tablist"
+        className={cn('liquid-segmented inline-flex flex-wrap items-center gap-1 rounded-full p-1', className)}
+      >
+        {tabs.map((tab) => {
+          const active = tab.value === value;
+          return (
+            <button
+              key={tab.value}
+              type="button"
+              role="tab"
+              aria-selected={active}
+              onClick={() => onChange(tab.value)}
+              className={cn(
+                'relative isolate inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition-colors duration-200 active:scale-95',
+                active
+                  ? 'text-white'
+                  : 'text-[#343039] hover:bg-[#F7F3EF]/80 hover:text-[#C9182B]'
+              )}
+            >
+              {active && (
+                <motion.span
+                  layoutId={`tab-pill-${groupId}`}
+                  transition={{ type: 'spring', stiffness: 420, damping: 32, mass: 0.78 }}
+                  className="liquid-nav-active liquid-pill-fill z-0 rounded-full"
+                />
+              )}
+              <span className="relative z-10">{tab.label}</span>
+              {typeof tab.count === 'number' && (
+                <span
+                  className={cn(
+                    'relative z-10 rounded-full px-1.5 py-0.5 text-[10px] font-extrabold transition-colors duration-200',
+                    active ? 'bg-white/25 text-white' : 'bg-[#F8E7EA]/85 text-[#B51224]'
+                  )}
+                >
+                  {tab.count}
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+    </LayoutGroup>
   );
 }
 
@@ -435,7 +455,7 @@ export function GlassSkeleton({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        'glass-panel animate-pulse rounded-[24px]',
+        'glass-panel liquid-skeleton-shimmer rounded-[24px]',
         className
       )}
     />
@@ -473,7 +493,7 @@ export function SupabaseSetupBanner({ compact = false }: { compact?: boolean }) 
   return (
     <div
       className={cn(
-        'glass-card-strong liquid-glass-sheen flex flex-col gap-3 rounded-[24px] p-4 text-[#29262B] sm:flex-row sm:items-center sm:justify-between',
+        'glass-card-strong liquid-glass-sheen liquid-reveal-enter flex flex-col gap-3 rounded-[24px] p-4 text-[#29262B] sm:flex-row sm:items-center sm:justify-between',
         compact && 'p-3'
       )}
     >
@@ -482,14 +502,14 @@ export function SupabaseSetupBanner({ compact = false }: { compact?: boolean }) 
           <Database className="h-5 w-5" />
         </div>
         <div>
-          <p className="text-sm font-bold">Supabase Backend Credentials Not Configured</p>
+          <p className="text-sm font-bold">Hindi Pa Naka-set Up ang Supabase Backend</p>
           <p className="text-xs text-[#343039]">
-            Geospatial map coordinates for all 15 Oriental Mindoro municipalities and OSRM road
-            routing are active. Add <code className="font-semibold text-[#29262B]">VITE_SUPABASE_URL</code> and{' '}
-            <code className="font-semibold text-[#29262B]">VITE_SUPABASE_ANON_KEY</code> to{' '}
-            <code className="font-semibold text-[#29262B]">.env</code> and run the SQL migrations in{' '}
-            <code className="font-semibold text-[#29262B]">supabase/migrations/</code> to enable live authentication,
-            official fare records, and reporting.
+            Aktibo ang mapa at mga koordinado ng 15 bayan sa Oriental Mindoro pati ang OSRM routing.
+            Ilagay ang <code className="font-semibold text-[#29262B]">VITE_SUPABASE_URL</code> at{' '}
+            <code className="font-semibold text-[#29262B]">VITE_SUPABASE_ANON_KEY</code> sa{' '}
+            <code className="font-semibold text-[#29262B]">.env</code> at i-run ang SQL migrations sa{' '}
+            <code className="font-semibold text-[#29262B]">supabase/migrations/</code> para gumana
+            ang live login, mga taripa, at pag-report.
           </p>
         </div>
       </div>
@@ -513,8 +533,8 @@ export function GlassModal({
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-50 bg-[#29262B]/30 backdrop-blur-md" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-[92vw] max-w-lg -translate-x-1/2 -translate-y-1/2 glass-card-strong liquid-glass-sheen rounded-[30px] p-6 shadow-2xl">
+        <Dialog.Overlay className="liquid-overlay-enter fixed inset-0 z-50 bg-[#29262B]/30 backdrop-blur-md" />
+        <Dialog.Content className="liquid-modal-enter fixed left-1/2 top-1/2 z-50 w-[92vw] max-w-lg -translate-x-1/2 -translate-y-1/2 glass-card-strong liquid-glass-sheen rounded-[30px] p-6 shadow-2xl">
           <div className="flex items-start justify-between gap-3">
             <div>
               <Dialog.Title className="font-display text-lg font-bold text-[#29262B]">
@@ -529,8 +549,8 @@ export function GlassModal({
             <Dialog.Close asChild>
               <button
                 type="button"
-                aria-label="Close modal"
-                className="liquid-btn-glass rounded-full p-2 text-[#777078] hover:text-[#C9182B] transition"
+                aria-label="Isara ang modal"
+                className="liquid-btn-glass rounded-full p-2 text-[#777078] hover:text-[#C9182B] transition-transform duration-150 active:scale-90"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -548,7 +568,7 @@ export function ConfirmDialog({
   onOpenChange,
   title,
   description,
-  confirmLabel = 'Confirm',
+  confirmLabel = 'Kumpirmahin',
   destructive = false,
   loading = false,
   onConfirm,
@@ -571,7 +591,7 @@ export function ConfirmDialog({
           onClick={() => onOpenChange(false)}
           disabled={loading}
         >
-          Cancel
+          Kanselahin
         </GlassButton>
         <GlassButton
           type="button"
@@ -579,7 +599,7 @@ export function ConfirmDialog({
           onClick={onConfirm}
           disabled={loading}
         >
-          {loading ? 'Processing...' : confirmLabel}
+          {loading ? 'Pinoproseso...' : confirmLabel}
         </GlassButton>
       </div>
     </GlassModal>

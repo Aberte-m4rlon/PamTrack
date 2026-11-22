@@ -17,48 +17,48 @@ export const FARE_STATUS_META: Record<
   }
 > = {
   verified_official: {
-    label: 'VERIFIED OFFICIAL FARE',
-    shortLabel: 'Verified Official',
+    label: 'OPISYAL AT VERIFIED',
+    shortLabel: 'Opisyal na Taripa',
     badgeClass:
       'bg-gradient-to-b from-[#C9182B]/90 to-[#B51224]/95 text-white border border-white/65 shadow-[inset_0_1px_1px_rgba(255,255,255,0.72),0_4px_12px_rgba(181,18,36,0.22)]',
     dotClass: 'bg-[#C9182B]',
     description:
-      'Backed by an official LTFRB order, LGU ordinance, or authorized tariff.',
+      'Galing sa opisyal na utos ng LTFRB, ordinansa ng LGU, o aprubadong taripa.',
   },
   community_estimate: {
-    label: 'COMMUNITY ESTIMATE',
-    shortLabel: 'Community Estimate',
+    label: 'GABAY NG KOMUNIDAD',
+    shortLabel: 'Tantya ng Pasahero',
     badgeClass:
       'bg-[#F7F3EF]/85 text-[#B51224] border border-[#E9E5E8] shadow-[inset_0_1px_1px_rgba(255,255,255,0.94),0_4px_10px_rgba(41,38,43,0.08)]',
     dotClass: 'bg-[#C9182B]',
     description:
-      'Commuter reference estimate for budgeting only.',
+      'Tinatayang pamasahe mula sa mga pasahero bilang gabay sa pag-budget.',
   },
   pending_verification: {
-    label: 'PENDING VERIFICATION',
-    shortLabel: 'Pending Verification',
+    label: 'NIRE-REVIEW PA',
+    shortLabel: 'Nire-review Pa',
     badgeClass:
       'bg-[#F8E7EA]/90 text-[#343039] border border-white/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.88)]',
     dotClass: 'bg-[#B51224]',
     description:
-      'Awaiting review against transport documents.',
+      'Naghihintay ng check laban sa mga dokumento ng transportasyon.',
   },
   rejected_or_disputed: {
-    label: 'REJECTED OR DISPUTED',
-    shortLabel: 'Rejected / Disputed',
+    label: 'TINANGGIHAN / MAY DISPUTE',
+    shortLabel: 'May Dispute',
     badgeClass:
       'liquid-nav-active text-white border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_4px_12px_rgba(181,18,36,0.24)]',
     dotClass: 'bg-[#B51224]',
     description:
-      'Flagged or rejected due to conflicting proof.',
+      'Tinanggihan o may iba-ibang ebidensya sa taripa.',
   },
   archived: {
-    label: 'ARCHIVED',
-    shortLabel: 'Archived',
+    label: 'NAKA-ARCHIVE',
+    shortLabel: 'Naka-archive',
     badgeClass:
       'bg-white/60 text-[#343039] border border-white/80 shadow-[inset_0_1px_1px_rgba(255,255,255,0.75)]',
     dotClass: 'bg-[#343039]',
-    description: 'Superseded historical fare record.',
+    description: 'Lumang talaan ng pamasahe na napalitan na.',
   },
 };
 
@@ -67,32 +67,32 @@ export const REPORT_STATUS_META: Record<
   { label: string; badgeClass: string }
 > = {
   pending: {
-    label: 'Pending',
+    label: 'Nakabinbin',
     badgeClass:
       'bg-white/75 text-[#343039] border border-white/85 shadow-[inset_0_1px_1px_rgba(255,255,255,0.85)]',
   },
   under_review: {
-    label: 'Under Review',
+    label: 'Sinusuri Pa',
     badgeClass:
       'bg-[#F8E7EA]/85 text-[#B51224] border border-[#E9E5E8] shadow-[inset_0_1px_1px_rgba(255,255,255,0.85)]',
   },
   approved_community_estimate: {
-    label: 'Approved as Community Estimate',
+    label: 'Na-approve Bilang Gabay ng Komunidad',
     badgeClass:
       'bg-white/80 text-[#B51224] border border-[#E9E5E8] shadow-[inset_0_1px_1px_rgba(255,255,255,0.92)]',
   },
   verified_official: {
-    label: 'Verified Official',
+    label: 'Opisyal at Verified',
     badgeClass:
       'bg-gradient-to-b from-[#C9182B]/85 to-[#B51224]/90 text-white border border-white/65 shadow-[inset_0_1px_1px_rgba(255,255,255,0.7)]',
   },
   rejected: {
-    label: 'Rejected',
+    label: 'Tinanggihan',
     badgeClass:
       'liquid-nav-active text-white border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]',
   },
   disputed: {
-    label: 'Disputed',
+    label: 'May Dispute',
     badgeClass:
       'liquid-nav-active text-white border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]',
   },
@@ -100,9 +100,9 @@ export const REPORT_STATUS_META: Record<
 
 export const PASSENGER_CATEGORY_LABELS: Record<PassengerCategory, string> = {
   regular: 'Regular',
-  student: 'Student',
+  student: 'Estudyante',
   senior_citizen: 'Senior Citizen',
-  pwd: 'Person with Disability (PWD)',
+  pwd: 'PWD',
 };
 
 /**

@@ -86,7 +86,7 @@ export function LandingPage() {
       <motion.section
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.32 }}
+        transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
       >
         <GlassCard variant="surface" className="relative rounded-[24px] sm:rounded-[32px] p-4 sm:p-7 lg:p-10">
           <div className="grid items-center gap-6 lg:gap-8 lg:grid-cols-12">
@@ -106,26 +106,26 @@ export function LandingPage() {
               </div>
 
               <h1 className="font-display text-[26px] min-[375px]:text-[30px] font-extrabold leading-[1.12] tracking-tight text-[#29262B] sm:text-5xl">
-                Know Your Route.{' '}
-                <span className="text-[#C9182B]">Plan Your Pamasahe.</span>
+                Alamin ang Ruta.{' '}
+                <span className="text-[#C9182B]">Planuhin ang Pamasahe.</span>
               </h1>
 
               <p className="max-w-xl text-xs min-[375px]:text-sm leading-relaxed text-[#343039] sm:text-base">
-                Check commuter fares, 20% discounts, and routes across all{' '}
-                <strong className="text-[#29262B]">15 LGUs of Oriental Mindoro</strong>.
+                I-check ang pamasahe, 20% discount, at mga ruta sa lahat ng{' '}
+                <strong className="text-[#29262B]">15 LGU sa Oriental Mindoro</strong>.
               </p>
 
               <div className="grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap sm:gap-3 pt-0.5">
                 <Link to="/routes" className="w-full sm:w-auto">
                   <GlassButton variant="primary" size="md" className="w-full sm:w-auto px-3 sm:px-6 sm:py-3 sm:text-base sm:min-h-[48px] text-[13px] whitespace-nowrap">
                     <Compass className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
-                    Explore Routes
+                    Tingnan ang Ruta
                   </GlassButton>
                 </Link>
                 <Link to="/fare-search" className="w-full sm:w-auto">
                   <GlassButton variant="secondary" size="md" className="w-full sm:w-auto px-3 sm:px-6 sm:py-3 sm:text-base sm:min-h-[48px] text-[13px] whitespace-nowrap">
                     <Search className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-[#C9182B]" />
-                    Check Fare
+                    Check Pamasahe
                   </GlassButton>
                 </Link>
               </div>
@@ -134,48 +134,48 @@ export function LandingPage() {
                 <div className="glass-pill-tile flex items-center gap-2.5 rounded-2xl sm:rounded-full px-3.5 py-2 text-[11px] sm:text-xs text-[#343039]">
                   <Lock className="h-3.5 w-3.5 text-[#C9182B] shrink-0" />
                   <span className="leading-snug">
-                    <strong className="text-[#29262B]">Guest Mode:</strong> Fare lookup unlocked.{' '}
+                    <strong className="text-[#29262B]">Guest Mode:</strong> Bukas na ang paghanap ng pamasahe.{' '}
                     <Link to="/login" className="inline-flex min-h-[28px] items-center font-bold text-[#C9182B] hover:underline">
-                      Sign in
+                      Mag-sign in
                     </Link>{' '}
-                    for Live GPS, Trips &amp; Fare Reporting.
+                    para sa Live GPS, Biyahe at Pag-report.
                   </span>
                 </div>
               )}
 
               <div className="grid grid-cols-2 gap-2.5 sm:gap-3 pt-0.5 sm:grid-cols-4 sm:max-w-2xl">
-                <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-2.5 sm:p-3.5 text-center space-y-0.5">
+                <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-2.5 sm:p-3.5 text-center space-y-0.5 hover:-translate-y-0.5">
                   <p className="font-display text-xl sm:text-2xl font-extrabold tabular-nums text-[#C9182B]">15</p>
                   <p className="flex items-center justify-center gap-1 text-[11px] font-semibold text-[#343039]">
                     <MapPin className="h-3 w-3 shrink-0 text-[#C9182B]" />
-                    <span>LGUs Covered</span>
+                    <span>Mga Bayan</span>
                   </p>
                 </div>
-                <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-2.5 sm:p-3.5 text-center space-y-0.5">
+                <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-2.5 sm:p-3.5 text-center space-y-0.5 hover:-translate-y-0.5">
                   <p className="font-display text-xl sm:text-2xl font-extrabold tabular-nums text-[#C9182B]">
                     {transportTypes.length || 4}
                   </p>
                   <p className="flex items-center justify-center gap-1 text-[11px] font-semibold text-[#343039]">
                     <BusFront className="h-3 w-3 shrink-0 text-[#C9182B]" />
-                    <span>Transport Modes</span>
+                    <span>Uri ng Sasakyan</span>
                   </p>
                 </div>
-                <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-2.5 sm:p-3.5 text-center space-y-0.5">
+                <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-2.5 sm:p-3.5 text-center space-y-0.5 hover:-translate-y-0.5">
                   <p className="font-display text-xl sm:text-2xl font-extrabold tabular-nums text-[#B51224]">
                     {officialFares.length + communityEstimates.length}
                   </p>
                   <p className="flex items-center justify-center gap-1 text-[11px] font-semibold text-[#343039]">
                     <FileCheck2 className="h-3 w-3 shrink-0 text-[#C9182B]" />
-                    <span>Published Fares</span>
+                    <span>Nakalistang Taripa</span>
                   </p>
                 </div>
-                <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-2.5 sm:p-3.5 text-center space-y-0.5">
+                <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-2.5 sm:p-3.5 text-center space-y-0.5 hover:-translate-y-0.5">
                   <p className="font-display text-xl sm:text-2xl font-extrabold tabular-nums text-[#C9182B]">
                     {coveredPairsCount}
                   </p>
                   <p className="flex items-center justify-center gap-1 text-[11px] font-semibold text-[#343039]">
                     <Compass className="h-3 w-3 shrink-0 text-[#C9182B]" />
-                    <span>Covered Pairs</span>
+                    <span>Sakop na Ruta</span>
                   </p>
                 </div>
               </div>
@@ -184,7 +184,7 @@ export function LandingPage() {
             <div className="hidden lg:flex flex-col items-center justify-center lg:col-span-5">
               <div className="relative flex items-center justify-center">
                 <div className="absolute -inset-6 rounded-full bg-gradient-to-tr from-[#F8E7EA]/70 via-white/75 to-[#E9E5E8]/60 blur-2xl" />
-                <div className="glass-panel liquid-glass-sheen relative rounded-full p-2.5 ring-1 ring-white/90 shadow-[0_24px_60px_-14px_rgba(181,18,36,0.26)]">
+                <div className="glass-panel liquid-glass-sheen relative rounded-full p-2.5 ring-1 ring-white/90 shadow-[0_24px_60px_-14px_rgba(181,18,36,0.26)] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.02]">
                   <img
                     src="/assets/pamasahe-tracker-logo.png"
                     alt="Pamasahe Tracker Oriental Mindoro Emblem"
@@ -198,12 +198,17 @@ export function LandingPage() {
       </motion.section>
 
       {/* 2. SUPPORTED TRANSPORTATION MODES */}
-      <section className="space-y-3 sm:space-y-4">
+      <motion.section
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.34, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+        className="space-y-3 sm:space-y-4"
+      >
         <div className="glass-surface liquid-glass-sheen rounded-[20px] sm:rounded-[26px] px-3.5 py-2.5 sm:px-5 sm:py-4 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0">
             <span aria-hidden="true" className="h-4 sm:h-5 w-1 shrink-0 rounded-full bg-[#C9182B]" />
             <h2 className="font-display text-sm sm:text-2xl font-extrabold text-[#29262B] truncate">
-              Supported Transportation Services
+              Mga Pwedeng Sakyan
             </h2>
           </div>
           <Link
@@ -211,13 +216,19 @@ export function LandingPage() {
             className="glass-pill-tile inline-flex min-h-[32px] sm:min-h-[38px] shrink-0 items-center rounded-full px-3 py-1 text-[11px] sm:text-xs font-bold text-[#C9182B] hover:underline whitespace-nowrap"
           >
             <span className="sm:hidden">Matrix →</span>
-            <span className="hidden sm:inline">View Fare Matrix →</span>
+            <span className="hidden sm:inline">Tingnan ang Fare Matrix →</span>
           </Link>
         </div>
 
         <div className="grid grid-cols-2 gap-2.5 sm:gap-4 lg:grid-cols-4">
-          {transportTypes.map((tt) => (
-            <GlassCard key={tt.id} variant="strong" hoverable className="p-3.5 sm:p-5 flex items-center gap-3">
+          {transportTypes.map((tt, idx) => (
+            <GlassCard
+              key={tt.id}
+              variant="strong"
+              hoverable
+              staggerIndex={idx}
+              className="p-3.5 sm:p-5 flex items-center gap-3"
+            >
               <div className="liquid-icon-ring flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full text-[#C9182B]">
                 <TransportModeIcon code={tt.code} className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
@@ -227,41 +238,46 @@ export function LandingPage() {
             </GlassCard>
           ))}
         </div>
-      </section>
+      </motion.section>
 
       {/* 3. FEATURED CITIZEN ROUTES */}
-      <section className="space-y-3 sm:space-y-4">
+      <motion.section
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.34, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+        className="space-y-3 sm:space-y-4"
+      >
         <div className="glass-surface liquid-glass-sheen rounded-[20px] sm:rounded-[26px] px-3.5 py-2.5 sm:px-5 sm:py-4 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0">
             <span aria-hidden="true" className="h-4 sm:h-5 w-1 shrink-0 rounded-full bg-[#C9182B]" />
             <h2 className="font-display text-sm sm:text-2xl font-extrabold text-[#29262B] truncate">
-              Featured Oriental Mindoro Routes
+              Mga Sikat na Ruta sa Oriental Mindoro
             </h2>
           </div>
           <Link
             to="/fare-search"
             className="glass-pill-tile inline-flex min-h-[32px] sm:min-h-[38px] shrink-0 items-center rounded-full px-3 py-1 text-[11px] sm:text-xs font-bold text-[#C9182B] hover:underline whitespace-nowrap"
           >
-            <span className="sm:hidden">Search →</span>
-            <span className="hidden sm:inline">Search Any Route →</span>
+            <span className="sm:hidden">Hanapin →</span>
+            <span className="hidden sm:inline">Maghanap ng Ruta →</span>
           </Link>
         </div>
 
         {featuredGuides.length === 0 ? (
           <EmptyStateCard
             icon={FileCheck2}
-            title="No commuter fare guides published yet"
-            description="Browse the interactive 15-LGU route map or search commuter fare estimates across Oriental Mindoro."
+            title="Wala pang naka-publish na gabay sa pamasahe"
+            description="Tingnan ang interactive mapa ng 15 LGU o maghanap ng tinatayang pamasahe sa Oriental Mindoro."
             action={
               <div className="flex flex-wrap justify-center gap-2">
                 <Link to="/fare-matrix">
                   <GlassButton variant="primary" size="sm">
-                    View Fare Matrix
+                    Tingnan ang Fare Matrix
                   </GlassButton>
                 </Link>
                 <Link to="/routes">
                   <GlassButton variant="secondary" size="sm">
-                    Explore Route Map
+                    Buksan ang Mapa ng Ruta
                   </GlassButton>
                 </Link>
               </div>
@@ -269,13 +285,18 @@ export function LandingPage() {
           />
         ) : (
           <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {featuredGuides.map((fare) => (
+            {featuredGuides.map((fare, idx) => (
               <Link
                 key={fare.id}
                 to={`/fare-search?origin=${encodeURIComponent(fare.origin_municipality_id)}&destination=${encodeURIComponent(fare.destination_municipality_id)}`}
                 className="block"
               >
-                <GlassCard variant="strong" hoverable className="p-4 sm:p-5 space-y-2.5 sm:space-y-3 h-full">
+                <GlassCard
+                  variant="strong"
+                  hoverable
+                  staggerIndex={idx}
+                  className="p-4 sm:p-5 space-y-2.5 sm:space-y-3 h-full"
+                >
                   <FareStatusBadge status={fare.status} compact />
                   <div>
                     <p className="text-xs font-semibold text-[#B51224]">
@@ -283,7 +304,7 @@ export function LandingPage() {
                     </p>
                     <h3 className="font-display text-sm sm:text-base font-bold text-[#29262B]">
                       {fare.origin_municipality_id === fare.destination_municipality_id
-                        ? `${fare.origin?.name} (Local Base)`
+                        ? `${fare.origin?.name} (Loob ng Bayan)`
                         : `${fare.origin?.name} → ${fare.destination?.name}`}
                     </h3>
                   </div>
@@ -291,7 +312,7 @@ export function LandingPage() {
                     {formatPhp(fare.fare_amount)}
                   </p>
                   <p className="text-[11px] text-[#777078]">
-                    {fare.issuing_authority || 'Citizen Commuter Guide'} •{' '}
+                    {fare.issuing_authority || 'Gabay ng Mga Pasahero'} •{' '}
                     {formatDateSafe(fare.last_verified_at || fare.updated_at)}
                   </p>
                 </GlassCard>
@@ -299,23 +320,28 @@ export function LandingPage() {
             ))}
           </div>
         )}
-      </section>
+      </motion.section>
 
       {/* 4. ORIENTAL MINDORO COVERAGE (ALL 15 LGUs) */}
-      <section className="glass-surface liquid-glass-sheen rounded-[24px] sm:rounded-[30px] p-3.5 sm:p-6 space-y-3 sm:space-y-4">
+      <motion.section
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.34, delay: 0.14, ease: [0.22, 1, 0.36, 1] }}
+        className="glass-surface liquid-glass-sheen rounded-[24px] sm:rounded-[30px] p-3.5 sm:p-6 space-y-3 sm:space-y-4"
+      >
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0">
             <span aria-hidden="true" className="h-4 sm:h-5 w-1 shrink-0 rounded-full bg-[#C9182B]" />
             <h2 className="font-display text-sm sm:text-2xl font-extrabold text-[#29262B] truncate">
-              15 Oriental Mindoro LGUs
+              15 LGU sa Oriental Mindoro
             </h2>
           </div>
           <Link
             to="/municipalities"
             className="glass-pill-tile inline-flex min-h-[32px] sm:min-h-[38px] shrink-0 items-center rounded-full px-3 py-1 text-[11px] sm:text-xs font-bold text-[#C9182B] hover:underline whitespace-nowrap"
           >
-            <span className="sm:hidden">All 15 →</span>
-            <span className="hidden sm:inline">Full LGU Directory →</span>
+            <span className="sm:hidden">Lahat ng 15 →</span>
+            <span className="hidden sm:inline">Lahat ng Bayan →</span>
           </Link>
         </div>
 
@@ -324,21 +350,21 @@ export function LandingPage() {
             <Link
               key={m.id}
               to={`/fare-search?origin=${encodeURIComponent(m.id)}`}
-              className={`glass-pill-tile group flex min-h-[42px] items-center justify-between gap-1.5 rounded-full px-3 sm:px-4 py-2 text-xs font-bold text-[#29262B] transition hover:bg-gradient-to-b hover:from-[#C9182B] hover:to-[#B51224] hover:text-white ${
+              className={`glass-pill-tile group flex min-h-[42px] items-center justify-between gap-1.5 rounded-full px-3 sm:px-4 py-2 text-xs font-bold text-[#29262B] hover:-translate-y-0.5 active:scale-[0.97] hover:bg-gradient-to-b hover:from-[#C9182B] hover:to-[#B51224] hover:text-white ${
                 m.is_capital ? 'col-span-2 sm:col-span-1' : ''
               }`}
             >
               <span className="flex items-center gap-1.5 sm:gap-2 truncate min-w-0">
-                <MapPin className="h-3.5 w-3.5 shrink-0 text-[#C9182B] group-hover:text-white" />
+                <MapPin className="h-3.5 w-3.5 shrink-0 text-[#C9182B] group-hover:text-white transition-colors" />
                 <span className="truncate">{m.name}</span>
               </span>
               <span className="text-[10px] text-[#5B555E] group-hover:text-white/90 shrink-0">
-                {m.is_capital ? 'Provincial Capital' : m.district.split(' ')[0]}
+                {m.is_capital ? 'Kabisera' : m.district.split(' ')[0]}
               </span>
             </Link>
           ))}
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }

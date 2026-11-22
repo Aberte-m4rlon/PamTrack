@@ -30,10 +30,10 @@ describe('Pamasahe Tracker Core UI & Role Guards', () => {
   it('renders the Landing Page with brand slogan, 15 LGUs, and safe citizen featured routes state', async () => {
     renderWithProviders(<LandingPage />);
 
-    expect(screen.getByText(/Know Your Route\./i)).toBeInTheDocument();
+    expect(screen.getByText(/Alamin ang Ruta\./i)).toBeInTheDocument();
     expect(screen.getByText(/Tamang Pamasahe\. Ligtas na Biyahe\./i)).toBeInTheDocument();
-    expect(screen.getByText(/Featured Oriental Mindoro Routes/i)).toBeInTheDocument();
-    expect(screen.getByText('Published Fares')).toBeInTheDocument();
+    expect(screen.getByText(/Mga Sikat na Ruta sa Oriental Mindoro/i)).toBeInTheDocument();
+    expect(screen.getByText('Nakalistang Taripa')).toBeInTheDocument();
 
     await waitFor(() => {
       expect(screen.getByText('Calapan City')).toBeInTheDocument();
@@ -56,11 +56,11 @@ describe('Pamasahe Tracker Core UI & Role Guards', () => {
 
     await user.selectOptions(screen.getByLabelText('Origin municipality'), 'lgu-calapan-city');
     await user.selectOptions(screen.getByLabelText('Destination municipality'), 'lgu-naujan');
-    await user.click(screen.getByRole('button', { name: /search/i }));
+    await user.click(screen.getByRole('button', { name: /hanapin/i }));
 
     await waitFor(() => {
       expect(
-        screen.getByText('No commuter fare estimate found for this route yet.')
+        screen.getByText('Wala pang naka-save na pamasahe para sa rutang ito.')
       ).toBeInTheDocument();
     });
   });
@@ -69,9 +69,9 @@ describe('Pamasahe Tracker Core UI & Role Guards', () => {
     renderWithProviders(<FareMatrixPage />);
 
     await waitFor(() => {
-      expect(screen.getByText('Oriental Mindoro Fare Matrix')).toBeInTheDocument();
+      expect(screen.getByText('Fare Matrix ng Oriental Mindoro')).toBeInTheDocument();
       expect(
-        screen.getByText(/No fare matrix records match your filters/i)
+        screen.getByText(/Walang nakitang pamasahe sa piniling filter/i)
       ).toBeInTheDocument();
     });
   });

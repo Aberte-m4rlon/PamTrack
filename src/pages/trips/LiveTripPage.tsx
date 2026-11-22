@@ -291,15 +291,15 @@ export function LiveTripPage() {
         const oName =
           t.origin?.name ||
           municipalities.find((m) => m.id === t.origin_municipality_id)?.name ||
-          'Origin';
+          'Pinanggalingan';
         const dName =
           t.destination?.name ||
           municipalities.find((m) => m.id === t.destination_municipality_id)?.name ||
-          'Destination';
+          'Pupuntahan';
         const mName =
           t.transport_type?.name ||
           transportTypes.find((tt) => tt.id === t.transport_type_id)?.name ||
-          'Public Transport';
+          'Pampublikong Sasakyan';
         const avg =
           t.duration_seconds > 5 && t.distance_km > 0
             ? Number(Math.min(160, t.distance_km / (t.duration_seconds / 3600)).toFixed(1))
@@ -446,16 +446,16 @@ export function LiveTripPage() {
       const nextMode =
         activeTrip.transport_type?.name ||
         transportTypes.find((t) => t.id === activeTrip.transport_type_id)?.name ||
-        'Public Transport';
+        'Pampublikong Sasakyan';
 
       return {
         tripId: activeTrip.id,
         commuterName:
           profile?.full_name?.split(' ')[0] ||
           user?.email?.split('@')[0] ||
-          'Commuter',
-        originName: originMuni?.name ?? 'Origin',
-        destinationName: destMuni?.name ?? 'Destination',
+          'Pasahero',
+        originName: originMuni?.name ?? 'Pinanggalingan',
+        destinationName: destMuni?.name ?? 'Pupuntahan',
         transportMode: nextMode,
         tripStatus: nextStatus,
         latitude: lat,
@@ -748,8 +748,8 @@ export function LiveTripPage() {
       setDeviationDetected(true);
       fireTripAlert({
         type: 'route_deviation_warning',
-        title: 'Route Deviation Alert',
-        message: `Live GPS moved ${curDev} km off the planned corridor.`,
+        title: 'Babala: Lumihis sa Ruta',
+        message: `Lumihis ang live GPS ng ${curDev} km mula sa nakaplanong daan.`,
         urgent: true,
       });
     }
@@ -763,8 +763,8 @@ export function LiveTripPage() {
       setArrivalNotified(true);
       fireTripAlert({
         type: 'arrival_alert',
-        title: `Approaching ${destMuni.name}`,
-        message: `Your moving location is within ${ARRIVAL_ALERT_KM} km of ${destMuni.name}.`,
+        title: `Malapit na sa ${destMuni.name}`,
+        message: `Nasa loob ka na ng ${ARRIVAL_ALERT_KM} km mula sa ${destMuni.name}.`,
         urgent: false,
       });
     }
@@ -828,18 +828,18 @@ export function LiveTripPage() {
 
   const startMutation = useMutation({
     mutationFn: async () => {
-      if (!user) throw new Error('Sign in to start and save a live trip.');
+      if (!user) throw new Error('Mag-sign in muna para simulan at i-save ang live trip.');
       if (!originId || !destinationId || !transportTypeId || !originMuni || !destMuni) {
-        throw new Error('Select origin, destination, and transport type first.');
+        throw new Error('Piliin muna kung saan galing, saan pupunta, at uri ng sasakyan.');
       }
       const selectedTransport = transportTypes.find((t) => t.id === transportTypeId);
       if (!selectedTransport) {
-        throw new Error('Select a valid transport type.');
+        throw new Error('Pumili ng tamang uri ng sasakyan.');
       }
 
       const ok = await startTracking();
       if (!ok) {
-        throw new Error('GPS tracking permission is required to monitor an active trip.');
+        throw new Error('Kailangan ng GPS permission para mabantayan ang live na biyahe.');
       }
 
       const bestFare = officialFares[0] ?? communityEstimates[0] ?? null;
@@ -940,20 +940,20 @@ export function LiveTripPage() {
       queryClient.invalidateQueries({ queryKey: ['myTrips', user?.id] });
       pushToast({
         title: created.id.startsWith('offline-')
-          ? 'Offline live trip started'
-          : 'Live trip started',
-        description: 'Moving GPS location and alerts are active.',
+          ? 'Nagsimula na ang offline biyahe'
+          : 'Nagsimula na ang live biyahe',
+        description: 'Aktibo na ang pagsubaybay sa galaw at mga alerto.',
         variant: 'success',
       });
     },
     onError: (err: Error) => {
-      pushToast({ title: 'Could not start trip', description: err.message, variant: 'error' });
+      pushToast({ title: 'Hindi masimulan ang biyahe', description: err.message, variant: 'error' });
     },
   });
 
   const endMutation = useMutation({
     mutationFn: async (status: 'completed' | 'cancelled') => {
-      if (!activeTrip || !user) throw new Error('No active trip.');
+      if (!activeTrip || !user) throw new Error('Walang aktibong biyahe.');
       await stopTracking();
 
       const customFare = Number(recordedFareInput);
@@ -1030,22 +1030,22 @@ export function LiveTripPage() {
         title:
           finished.status === 'completed'
             ? finished.id.startsWith('offline-')
-              ? 'Trip saved offline'
-              : 'Trip completed & saved'
-            : 'Trip cancelled',
+              ? 'Na-save offline ang biyahe'
+              : 'Tapos at na-save na ang biyahe'
+            : 'Nakansela ang biyahe',
         message: `${distanceTraveledKm.toFixed(2)} km • ${formatDurationSeconds(elapsedSeconds)}`,
         repeatMs: 3600,
       });
     },
     onError: (err: Error) => {
-      pushToast({ title: 'Could not finish trip', description: err.message, variant: 'error' });
+      pushToast({ title: 'Hindi matapos ang biyahe', description: err.message, variant: 'error' });
     },
   });
 
   const shareMutation = useMutation({
     mutationFn: async () => {
-      if (!isOnline) throw new Error('Internet connection required for web share links.');
-      if (!user || !activeTrip) throw new Error('Start an active trip first.');
+      if (!isOnline) throw new Error('Kailangan ng internet connection para makagawa ng web share link.');
+      if (!user || !activeTrip) throw new Error('Mag-start muna ng aktibong biyahe.');
 
       let targetTrip = activeTrip;
       // Automatically promote an offline-started trip to Supabase once connectivity returns
@@ -1057,7 +1057,7 @@ export function LiveTripPage() {
           !activeTrip.transport_type_id
         ) {
           throw new Error(
-            'Reconnect to Supabase to create an online live tracking link. Offline SMS remains available.'
+            'Mag-connect muna sa Supabase para makagawa ng live share link. Gumagana pa rin ang offline SMS.'
           );
         }
         const promoted = await startTripRecord({
@@ -1118,12 +1118,12 @@ export function LiveTripPage() {
       queryClient.invalidateQueries({ queryKey: ['locationSharing', user?.id] });
       queryClient.invalidateQueries({ queryKey: ['myTrips', user?.id] });
       pushToast({
-        title: `Live location & speed sharing started (${shareDurationMinutes} mins)`,
+        title: `Naka-on na ang live sharing (${shareDurationMinutes} min)`,
         variant: 'success',
       });
     },
     onError: (err: Error) => {
-      pushToast({ title: 'Share failed', description: err.message, variant: 'error' });
+      pushToast({ title: 'Hindi nakagawa ng share link', description: err.message, variant: 'error' });
     },
   });
 
@@ -1135,10 +1135,10 @@ export function LiveTripPage() {
         setCreatedShareToken(null);
       }
       queryClient.invalidateQueries({ queryKey: ['locationSharing', user?.id] });
-      pushToast({ title: 'Live trip share revoked', variant: 'info' });
+      pushToast({ title: 'Tinigil na ang pag-share ng biyahe', variant: 'info' });
     },
     onError: (err: Error) => {
-      pushToast({ title: 'Revoke failed', description: err.message, variant: 'error' });
+      pushToast({ title: 'Hindi natigil ang sharing', description: err.message, variant: 'error' });
     },
   });
 
@@ -1152,15 +1152,15 @@ export function LiveTripPage() {
       await navigator.clipboard.writeText(url);
       setCopiedToken(token);
       setTimeout(() => setCopiedToken((prev) => (prev === token ? null : prev)), 2500);
-      pushToast({ title: 'Live share link copied', variant: 'success' });
+      pushToast({ title: 'Nakopya na ang live share link', variant: 'success' });
     } catch {
-      pushToast({ title: 'Copy manually from the link box below', variant: 'info' });
+      pushToast({ title: 'Kopyahin na lang sa link box sa ibaba', variant: 'info' });
     }
   };
 
   const handleNativeShare = async (token: string) => {
     const url = `${window.location.origin}/shared-trip/${token}`;
-    const summaryText = `Monitor my live trip (${routeSummaryLabel}) — Current speed ${currentSpeedKmh.toFixed(1)} km/h, ${distanceTraveledKm.toFixed(2)} km covered.`;
+    const summaryText = `Tingnan ang live na biyahe ko (${routeSummaryLabel}) — Bilis: ${currentSpeedKmh.toFixed(1)} km/h, ${distanceTraveledKm.toFixed(2)} km ang layo.`;
     if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
       try {
         await navigator.share({
@@ -1201,12 +1201,12 @@ export function LiveTripPage() {
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
             <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
-              GPS Trip Monitoring
+              Pagbabantay ng Biyahe Gamit ang GPS
             </p>
             {isOffline && (
               <span className="inline-flex items-center gap-1 rounded-full bg-[#F8E7EA] px-2.5 py-0.5 text-[10px] font-bold uppercase text-[#B51224]">
                 <WifiOff className="h-3 w-3" />
-                Offline Tracking Active
+                Gumagana ang Offline Tracking
               </span>
             )}
           </div>
@@ -1214,14 +1214,14 @@ export function LiveTripPage() {
             Live Trip Monitor
           </h1>
           <p className="text-xs sm:text-sm text-[#343039]">
-            Track moving GPS location, distance, and route/arrival alerts online or offline.
+            Subaybayan ang iyong lokasyon, layo, bilis, at mga alerto kahit online o offline.
           </p>
         </div>
         <div className="w-full sm:w-auto">
           <Link to="/safety" className="w-full sm:w-auto">
             <GlassButton variant="secondary" size="sm" className="w-full sm:w-auto">
               <ShieldAlert className="h-3.5 w-3.5 shrink-0" />
-              Safety &amp; Contacts
+              Safety at Contacts
             </GlassButton>
           </Link>
         </div>
@@ -1232,11 +1232,11 @@ export function LiveTripPage() {
       {!user && (
         <GlassCard variant="strong" className="p-4 sm:p-5 border-[#E9E5E8] flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-3">
           <p className="text-xs sm:text-sm font-semibold text-[#29262B]">
-            Sign in to record trips and trigger offline alerts.
+            Mag-sign in para mai-record ang biyahe at makapagpadala ng mga alerto.
           </p>
           <Link to="/login" className="w-full sm:w-auto">
             <GlassButton variant="primary" size="sm" className="w-full sm:w-auto">
-              Sign In to Start Trip
+              Mag-sign In Para Magsimula
             </GlassButton>
           </Link>
         </GlassCard>
@@ -1244,25 +1244,29 @@ export function LiveTripPage() {
 
       {/* Trip Setup or Active Trip Controls */}
       <div className="grid gap-4 sm:gap-6 lg:grid-cols-12 min-w-0">
-        <GlassCard variant="strong" className="min-w-0 max-w-full overflow-hidden p-3.5 sm:p-5 lg:col-span-5 space-y-4 h-fit">
+        <GlassCard
+          key={activeTrip ? `trip-run-${activeTrip.id}` : 'trip-setup'}
+          variant="strong"
+          className="liquid-reveal-enter min-w-0 max-w-full overflow-hidden p-3.5 sm:p-5 lg:col-span-5 space-y-4 h-fit"
+        >
           {!activeTrip ? (
             <>
               <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#29262B]">
                 <Navigation className="h-5 w-5 text-[#C9182B]" />
-                Configure New Trip
+                Ihanda ang Bagong Biyahe
               </h2>
 
               <div className="space-y-3">
                 <div>
                   <label className="mb-1 block text-xs font-bold uppercase text-[#777078]">
-                    1. Origin Municipality / City
+                    1. Saan Galing
                   </label>
                   <select
                     value={originId}
                     onChange={(e) => setOriginId(e.target.value)}
                     className="glass-input w-full rounded-2xl px-3.5 py-2 text-sm"
                   >
-                    <option value="">Select origin...</option>
+                    <option value="">Piliin kung saan galing...</option>
                     {municipalities.map((m) => (
                       <option key={m.id} value={m.id}>
                         {m.name}
@@ -1273,14 +1277,14 @@ export function LiveTripPage() {
 
                 <div>
                   <label className="mb-1 block text-xs font-bold uppercase text-[#777078]">
-                    2. Destination Municipality / City
+                    2. Saan Pupunta
                   </label>
                   <select
                     value={destinationId}
                     onChange={(e) => setDestinationId(e.target.value)}
                     className="glass-input w-full rounded-2xl px-3.5 py-2 text-sm"
                   >
-                    <option value="">Select destination...</option>
+                    <option value="">Piliin kung saan pupunta...</option>
                     {municipalities.map((m) => (
                       <option key={m.id} value={m.id}>
                         {m.name}
@@ -1291,14 +1295,14 @@ export function LiveTripPage() {
 
                 <div>
                   <label className="mb-1 block text-xs font-bold uppercase text-[#777078]">
-                    3. Transportation Type
+                    3. Uri ng Sasakyan
                   </label>
                   <select
                     value={transportTypeId}
                     onChange={(e) => setTransportTypeId(e.target.value)}
                     className="glass-input w-full rounded-2xl px-3.5 py-2 text-sm"
                   >
-                    <option value="">Select mode...</option>
+                    <option value="">Piliin ang sasakyan...</option>
                     {transportTypes.map((tt) => (
                       <option key={tt.id} value={tt.id}>
                         {tt.name}
@@ -1309,9 +1313,9 @@ export function LiveTripPage() {
 
                 {/* Available Fare Preview */}
                 {originId && destinationId && (
-                  <div className="glass-pill-tile rounded-2xl p-3.5 space-y-2 text-xs">
+                  <div className="glass-pill-tile liquid-reveal-enter rounded-2xl p-3.5 space-y-2 text-xs">
                     <p className="font-bold uppercase text-[#C9182B]">
-                      4. Available Fare Records
+                      4. Mga Nakalistang Pamasahe
                     </p>
                     {officialFares.length > 0 ? (
                       officialFares.map((f) => (
@@ -1334,7 +1338,7 @@ export function LiveTripPage() {
                         </div>
                       ))
                     ) : (
-                      <p className="text-[#343039]">No fare guide recorded for this corridor yet.</p>
+                      <p className="text-[#343039]">Wala pang nakalistang gabay para sa rutang ito.</p>
                     )}
                   </div>
                 )}
@@ -1348,10 +1352,10 @@ export function LiveTripPage() {
                 >
                   <Play className="h-4 w-4" />
                   {startMutation.isPending
-                    ? 'Starting Trip...'
+                    ? 'Sinisimulan...'
                     : isOffline
-                      ? 'Start Live Trip (Offline)'
-                      : 'Start Live Trip'}
+                      ? 'Simulan ang Live Trip (Offline)'
+                      : 'Simulan ang Live Trip'}
                 </GlassButton>
               </div>
             </>
@@ -1361,23 +1365,23 @@ export function LiveTripPage() {
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-[#C9182B] px-3 py-1 text-xs font-bold text-white">
                   <Radio className="h-3.5 w-3.5 animate-pulse" />
                   {activeTrip.id.startsWith('offline-') || isOffline
-                    ? 'Offline Trip Running'
-                    : 'Active Trip Running'}
+                    ? 'Tumatakbo ang Offline Biyahe'
+                    : 'Tumatakbo ang Live Biyahe'}
                 </span>
                 <span className="text-xs font-semibold text-[#C9182B]">
-                  Started {formatDateSafe(activeTrip.started_at, 'h:mm a')}
+                  Nagsimula {formatDateSafe(activeTrip.started_at, 'h:mm a')}
                 </span>
               </div>
 
               <h2 className="font-display text-xl font-extrabold text-[#29262B]">
-                {originMuni?.name ?? 'Origin'} → {destMuni?.name ?? 'Destination'}
+                {originMuni?.name ?? 'Pinanggalingan'} → {destMuni?.name ?? 'Pupuntahan'}
               </h2>
 
               <div className="grid grid-cols-2 gap-2.5">
                 <div className="rounded-2xl bg-[#F8E7EA] p-3 text-center">
                   <p className="text-[10px] font-bold uppercase text-[#B51224] flex items-center justify-center gap-1">
                     <Gauge className="h-3 w-3" />
-                    Live Speed
+                    Bilis Ngayon
                   </p>
                   <p className="font-display text-2xl font-extrabold text-[#C9182B] tabular-nums">
                     {currentSpeedKmh.toFixed(1)} <span className="text-xs font-bold">km/h</span>
@@ -1388,7 +1392,7 @@ export function LiveTripPage() {
                   </p>
                 </div>
                 <div className="glass-pill-tile rounded-[20px] p-3 text-center">
-                  <p className="text-[10px] font-bold uppercase text-[#B51224]">Distance</p>
+                  <p className="text-[10px] font-bold uppercase text-[#B51224]">Nalayong Layo</p>
                   <p className="font-display text-2xl font-extrabold text-[#C9182B] tabular-nums">
                     {distanceTraveledKm.toFixed(2)} <span className="text-xs font-bold">km</span>
                   </p>
@@ -1396,12 +1400,12 @@ export function LiveTripPage() {
                     {etaMinutes !== null
                       ? `~${etaMinutes} min ETA`
                       : remainingDestKm !== null
-                        ? `${remainingDestKm.toFixed(1)} km left`
-                        : 'Live corridor'}
+                        ? `${remainingDestKm.toFixed(1)} km pa`
+                        : 'Aktibong ruta'}
                   </p>
                 </div>
                 <div className="glass-pill-tile rounded-[20px] p-3 text-center">
-                  <p className="text-[10px] font-bold uppercase text-[#B51224]">Elapsed</p>
+                  <p className="text-[10px] font-bold uppercase text-[#B51224]">Oras ng Biyahe</p>
                   <p className="font-display text-xl font-extrabold text-[#29262B] flex items-center justify-center gap-1 tabular-nums">
                     <Clock className="h-4 w-4 text-[#C9182B]" />
                     {formatDurationSeconds(elapsedSeconds)}
@@ -1422,11 +1426,11 @@ export function LiveTripPage() {
               {deviationDetected && (
                 <div
                   role="alert"
-                  className="glass-pill-tile flex items-start gap-2 rounded-[20px] border-[#E9E5E8] p-3 text-xs text-[#B51224]"
+                  className="glass-pill-tile liquid-reveal-enter flex items-start gap-2 rounded-[20px] border-[#E9E5E8] p-3 text-xs text-[#B51224]"
                 >
                   <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#C9182B]" />
                   <span>
-                    <strong>Route Deviation Alert:</strong> Max recorded offset is{' '}
+                    <strong>Babala: Lumihis sa Ruta:</strong> Pinakamalayong paglihis ay{' '}
                     {deviationKm.toFixed(2)} km.
                   </span>
                 </div>
@@ -1434,14 +1438,14 @@ export function LiveTripPage() {
 
               <div>
                 <label className="mb-1 block text-xs font-bold uppercase text-[#777078]">
-                  Actual Fare Paid (PHP, optional)
+                  Aktwal na Pamasaheng Binayaran (PHP, opsyonal)
                 </label>
                 <input
                   type="number"
                   step="0.25"
                   value={recordedFareInput}
                   onChange={(e) => setRecordedFareInput(e.target.value)}
-                  placeholder="Enter exact fare paid..."
+                  placeholder="Ilagay ang eksaktong pamasaheng binayaran..."
                   className="glass-input w-full rounded-2xl px-3.5 py-2 text-sm"
                 />
               </div>
@@ -1454,13 +1458,13 @@ export function LiveTripPage() {
                     <span className="truncate">
                       {isOffline
                         ? 'Offline Emergency SMS Share'
-                        : 'Share Live Location & Speed'}
+                        : 'I-share ang Live Location at Bilis'}
                     </span>
                   </p>
                   {activeShareSessions.length > 0 && isOnline && (
                     <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[#C9182B] px-2.5 py-0.5 text-[10px] font-bold uppercase text-white">
                       <Radio className="h-3 w-3 animate-pulse" />
-                      Streaming Live ({activeShareSessions.length})
+                      Naka-Live Stream ({activeShareSessions.length})
                     </span>
                   )}
                 </div>
@@ -1472,7 +1476,7 @@ export function LiveTripPage() {
                     aria-label="Select trusted contact"
                     className="glass-input min-w-0 w-full rounded-xl px-2.5 py-2 text-xs"
                   >
-                    <option value="">Any trusted recipient...</option>
+                    <option value="">Kahit sinong pinagkakatiwalaan...</option>
                     {(trustedContacts ?? []).map((tc) => (
                       <option key={tc.id} value={tc.id}>
                         {tc.contact_name}
@@ -1487,11 +1491,11 @@ export function LiveTripPage() {
                       aria-label="Share link duration"
                       className="glass-input min-w-0 w-full rounded-xl px-2.5 py-2 text-xs"
                     >
-                      <option value={15}>Valid 15 mins</option>
-                      <option value={30}>Valid 30 mins</option>
-                      <option value={60}>Valid 1 hour</option>
-                      <option value={120}>Valid 2 hours</option>
-                      <option value={240}>Valid 4 hours</option>
+                      <option value={15}>May bisa ng 15 minuto</option>
+                      <option value={30}>May bisa ng 30 minuto</option>
+                      <option value={60}>May bisa ng 1 oras</option>
+                      <option value={120}>May bisa ng 2 oras</option>
+                      <option value={240}>May bisa ng 4 na oras</option>
                     </select>
                   )}
                 </div>
@@ -1514,7 +1518,7 @@ export function LiveTripPage() {
                       className="mt-0.5 h-4 w-4 shrink-0 accent-[#C9182B]"
                     />
                     <span className="leading-snug">
-                      Include my recent Trip History for shared link recipients
+                      Isama ang kamakailang Trip History para sa pinagsendan ng link
                     </span>
                   </label>
                 )}
@@ -1523,7 +1527,7 @@ export function LiveTripPage() {
                   {isOffline ? (
                     <a href={smsHref} className="min-[340px]:col-span-2 w-full">
                       <GlassButton type="button" variant="secondary" size="sm" className="w-full">
-                        Send SMS Location &amp; Speed
+                        I-send sa SMS ang Lokasyon at Bilis
                       </GlassButton>
                     </a>
                   ) : (
@@ -1539,16 +1543,16 @@ export function LiveTripPage() {
                         <Share2 className="h-3.5 w-3.5 shrink-0" />
                         <span className="truncate">
                           {shareMutation.isPending
-                            ? 'Creating...'
+                            ? 'Ginagawa...'
                             : activeShareSessions.length > 0
-                              ? 'New Share Link'
-                              : 'Create Live Share Link'}
+                              ? 'Bagong Share Link'
+                              : 'Gumawa ng Share Link'}
                         </span>
                       </GlassButton>
                       <a href={smsHref} className="w-full min-w-0">
                         <GlassButton type="button" variant="glass" size="sm" className="w-full min-w-0 px-2.5">
                           <PhoneCall className="h-3.5 w-3.5 shrink-0 text-[#C9182B]" />
-                          <span className="truncate">SMS Link</span>
+                          <span className="truncate">I-send sa SMS</span>
                         </GlassButton>
                       </a>
                     </>
@@ -1563,15 +1567,15 @@ export function LiveTripPage() {
                       return (
                         <div
                           key={sess.id}
-                          className="min-w-0 max-w-full overflow-hidden rounded-xl bg-[#F8E7EA] border border-white/80 p-2.5 text-[11px] space-y-2"
+                          className="liquid-reveal-enter min-w-0 max-w-full overflow-hidden rounded-xl bg-[#F8E7EA] border border-white/80 p-2.5 text-[11px] space-y-2"
                         >
                           <div className="flex flex-wrap items-center justify-between gap-1.5">
                             <span className="font-bold text-[#B51224]">
-                              Streaming {currentSpeedKmh.toFixed(1)} km/h •{' '}
+                              Naka-stream {currentSpeedKmh.toFixed(1)} km/h •{' '}
                               {distanceTraveledKm.toFixed(2)} km
                             </span>
                             <span className="text-[10px] font-semibold text-[#5B555E]">
-                              Until {formatDateTimeSafe(sess.expires_at)}
+                              Hanggang {formatDateTimeSafe(sess.expires_at)}
                             </span>
                           </div>
                           <a
@@ -1592,11 +1596,11 @@ export function LiveTripPage() {
                             >
                               {isCopied ? (
                                 <>
-                                  <Check className="h-3 w-3 shrink-0" /> Copied
+                                  <Check className="h-3 w-3 shrink-0" /> Nakopya na
                                 </>
                               ) : (
                                 <>
-                                  <Copy className="h-3 w-3 shrink-0" /> Copy Link
+                                  <Copy className="h-3 w-3 shrink-0" /> Kopyahin
                                 </>
                               )}
                             </GlassButton>
@@ -1607,7 +1611,7 @@ export function LiveTripPage() {
                               className="w-full min-w-0 px-2"
                               onClick={() => handleNativeShare(sess.share_token)}
                             >
-                              <Share2 className="h-3 w-3 shrink-0" /> Share
+                              <Share2 className="h-3 w-3 shrink-0" /> I-share
                             </GlassButton>
                             <a href={link} target="_blank" rel="noreferrer" className="w-full min-w-0">
                               <GlassButton type="button" variant="glass" size="sm" className="w-full min-w-0 px-2">
@@ -1623,7 +1627,7 @@ export function LiveTripPage() {
                                 disabled={revokeShareMutation.isPending}
                                 onClick={() => revokeShareMutation.mutate(sess.id)}
                               >
-                                <Trash2 className="h-3 w-3 shrink-0" /> Revoke
+                                <Trash2 className="h-3 w-3 shrink-0" /> I-revoke
                               </GlassButton>
                             )}
                           </div>
@@ -1644,7 +1648,7 @@ export function LiveTripPage() {
                   onClick={() => endMutation.mutate('completed')}
                 >
                   <CheckCircle2 className="h-4 w-4 shrink-0" />
-                  <span className="truncate">End &amp; Save Trip</span>
+                  <span className="truncate">Tapusin at I-save</span>
                 </GlassButton>
                 <GlassButton
                   type="button"
@@ -1655,20 +1659,20 @@ export function LiveTripPage() {
                   onClick={() => endMutation.mutate('cancelled')}
                 >
                   <Square className="h-4 w-4 shrink-0" />
-                  <span>Cancel</span>
+                  <span>Kanselahin</span>
                 </GlassButton>
               </div>
 
               {!trackingActive && (
                 <div className="glass-pill-tile rounded-2xl p-3 flex flex-wrap items-center justify-between gap-2 text-xs text-[#B51224]">
-                  <span>GPS watch paused. Resume tracking to broadcast speed &amp; movement.</span>
+                  <span>Naka-pause ang GPS. I-resume muna para tuloy ang pag-track ng bilis at galaw.</span>
                   <GlassButton
                     type="button"
                     variant="secondary"
                     size="sm"
                     onClick={() => startTracking()}
                   >
-                    Resume GPS
+                    I-resume ang GPS
                   </GlassButton>
                 </div>
               )}
@@ -1681,25 +1685,25 @@ export function LiveTripPage() {
           <GlassCard variant="surface" className="p-4 space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <h2 className="font-display text-lg font-bold text-[#29262B]">
-                {isOffline ? 'Offline Moving GPS Monitor' : 'Live Trip & Corridor Map'}
+                {isOffline ? 'Offline Moving GPS Monitor' : 'Live na Mapa ng Biyahe'}
               </h2>
               <div className="flex flex-wrap items-center gap-2">
                 {nearestMunicipality && (
                   <span className="glass-pill-tile rounded-full px-3 py-1 text-[11px] font-bold text-[#B51224]">
-                    Near: {nearestMunicipality.municipality.name}
+                    Malapit sa: {nearestMunicipality.municipality.name}
                   </span>
                 )}
                 {!isOffline && (
                   <button
                     type="button"
                     onClick={() => setFollowGps((v) => !v)}
-                    className={`rounded-full px-3 py-1 text-[11px] font-bold transition ${
+                    className={`rounded-full px-3 py-1 text-[11px] font-bold transition-all duration-200 active:scale-95 ${
                       followGps
                         ? 'bg-[#C9182B] text-white'
                         : 'glass-pill-tile text-[#343039]'
                     }`}
                   >
-                    {followGps ? 'Following GPS' : 'Follow GPS'}
+                    {followGps ? 'Sinusundan GPS' : 'Sundan GPS'}
                   </button>
                 )}
               </div>
@@ -1707,8 +1711,8 @@ export function LiveTripPage() {
 
             {isOffline ? (
               <OfflineTripRadar
-                originName={originMuni?.name ?? 'Origin'}
-                destName={destMuni?.name ?? 'Destination'}
+                originName={originMuni?.name ?? 'Pinanggalingan'}
+                destName={destMuni?.name ?? 'Pupuntahan'}
                 originCoords={
                   originMuni ? [originMuni.latitude, originMuni.longitude] : null
                 }
@@ -1758,7 +1762,7 @@ export function LiveTripPage() {
                       radius={7}
                       pathOptions={{ color: '#C9182B', fillColor: '#FFFFFF', fillOpacity: 1, weight: 3 }}
                     >
-                      <Popup>Origin: {originMuni.name}</Popup>
+                      <Popup>Galing: {originMuni.name}</Popup>
                     </CircleMarker>
                   )}
                   {destMuni && (
@@ -1767,7 +1771,7 @@ export function LiveTripPage() {
                       radius={7}
                       pathOptions={{ color: '#FFFFFF', fillColor: '#B51224', fillOpacity: 1, weight: 2.5 }}
                     >
-                      <Popup>Destination: {destMuni.name}</Popup>
+                      <Popup>Pupuntahan: {destMuni.name}</Popup>
                     </CircleMarker>
                   )}
                   {trail.length >= 2 && (
@@ -1805,7 +1809,7 @@ export function LiveTripPage() {
               <div className="flex items-center gap-2">
                 <BellRing className="h-4 w-4 text-[#C9182B]" />
                 <h2 className="font-display text-base font-bold text-[#29262B]">
-                  Trip &amp; Safety Alerts {isOffline ? '(Offline Ready)' : ''}
+                  Mga Alerto sa Biyahe at Kaligtasan {isOffline ? '(Handa Offline)' : ''}
                 </h2>
               </div>
 
@@ -1823,7 +1827,7 @@ export function LiveTripPage() {
                       armBackgroundTripAudio().catch(() => null);
                     }
                   }}
-                  aria-label={soundEnabled ? 'Mute alert sound' : 'Enable alert sound'}
+                  aria-label={soundEnabled ? 'I-mute ang tunog ng alerto' : 'Buksan ang tunog ng alerto'}
                   className="liquid-btn-glass inline-flex items-center gap-1 rounded-full px-3 py-1 text-[11px] font-bold text-[#29262B]"
                 >
                   {soundEnabled ? (
@@ -1831,7 +1835,7 @@ export function LiveTripPage() {
                   ) : (
                     <VolumeX className="h-3.5 w-3.5 text-[#343039]" />
                   )}
-                  {soundEnabled ? 'Loud Siren On' : 'Muted'}
+                  {soundEnabled ? 'Malakas na Sirena: ON' : 'Naka-mute'}
                 </button>
 
                 {notifPerm === 'default' && (
@@ -1844,7 +1848,7 @@ export function LiveTripPage() {
                       setNotifPerm(perm);
                     }}
                   >
-                    Allow Lock-Screen Alerts
+                    Payagan ang Lock-Screen Alerts
                   </GlassButton>
                 )}
               </div>
@@ -1854,11 +1858,11 @@ export function LiveTripPage() {
               <div
                 role="status"
                 aria-live="assertive"
-                className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-white/80 bg-[#C9182B] px-4 py-3 text-white shadow-lg animate-pulse"
+                className="liquid-reveal-enter flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-white/80 bg-[#C9182B] px-4 py-3 text-white shadow-lg animate-pulse"
               >
                 <div className="flex items-center gap-2 text-xs font-extrabold">
                   <Volume2 className="h-4 w-4 shrink-0" />
-                  <span>Consecutive Alert Siren Ringing — Tap Stop to silence</span>
+                  <span>Tumutunog ang Sunod-sunod na Sirena — I-tap ang Stop para patahimikin</span>
                 </div>
                 <GlassButton
                   type="button"
@@ -1867,15 +1871,15 @@ export function LiveTripPage() {
                   onClick={() => stopOfflineAlertAlarm()}
                 >
                   <VolumeX className="h-3.5 w-3.5 text-[#C9182B]" />
-                  Stop Alarm Sound
+                  Itigil ang Alarm
                 </GlassButton>
               </div>
             )}
 
             <p className="text-[11px] leading-snug text-[#343039]">
-              Keep this app open or locked/in background during a live trip with sound &amp; alerts
-              allowed so consecutive sirens sound even when the screen turns off (powered-off devices
-              cannot run browser audio).
+              Panatilihing bukas o naka-background ang app habang bumabyahe at payagan ang tunog at
+              notifications para tumunog pa rin ang sunod-sunod na sirena kahit nakapatay ang screen
+              (hindi makapag-play ng tunog kung naka-power off nang tuluyan ang phone).
             </p>
 
             <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
@@ -1886,16 +1890,16 @@ export function LiveTripPage() {
                 onClick={() =>
                   fireTripAlert({
                     type: 'arrival_alert',
-                    title: 'Safe Arrival Alert Logged',
+                    title: 'Naitala ang Ligtas na Pagdating',
                     message: currentPosition
-                      ? `Checked in at ${currentPosition.latitude.toFixed(4)}°N, ${currentPosition.longitude.toFixed(4)}°E${isOffline ? ' (Offline)' : ''}.`
-                      : `Safe arrival recorded${isOffline ? ' offline' : ''}.`,
+                      ? `Nag-check-in sa ${currentPosition.latitude.toFixed(4)}°N, ${currentPosition.longitude.toFixed(4)}°E${isOffline ? ' (Offline)' : ''}.`
+                      : `Na-save ang safe arrival${isOffline ? ' offline' : ''}.`,
                     repeatMs: 6000,
                   })
                 }
               >
                 <CheckCircle2 className="h-3.5 w-3.5" />
-                Safe Arrival Alert
+                Alerto sa Pagdating
               </GlassButton>
 
               <GlassButton
@@ -1905,17 +1909,17 @@ export function LiveTripPage() {
                 onClick={() =>
                   fireTripAlert({
                     type: 'safety_alert',
-                    title: 'SOS Emergency Alert Triggered',
+                    title: 'Nagpadala ng SOS Emergency Alert',
                     message: currentPosition
-                      ? `Emergency alert along ${routeSummaryLabel} at ${currentPosition.latitude.toFixed(4)}°N, ${currentPosition.longitude.toFixed(4)}°E.`
-                      : `Emergency alert triggered along ${routeSummaryLabel}.`,
+                      ? `Emergency alert sa rutang ${routeSummaryLabel} bandang ${currentPosition.latitude.toFixed(4)}°N, ${currentPosition.longitude.toFixed(4)}°E.`
+                      : `Nagpadala ng emergency alert sa rutang ${routeSummaryLabel}.`,
                     urgent: true,
                     repeatMs: 30000,
                   })
                 }
               >
                 <AlertTriangle className="h-3.5 w-3.5" />
-                Trigger SOS Alert
+                Mag-send ng SOS
               </GlassButton>
 
               <GlassButton
@@ -1925,15 +1929,15 @@ export function LiveTripPage() {
                 onClick={() =>
                   fireTripAlert({
                     type: 'route_deviation_warning',
-                    title: 'Loud Alert Test Active',
-                    message: 'Consecutive repeating siren, vibration, and notification active.',
+                    title: 'Naka-on ang Test ng Sirena',
+                    message: 'Tuloy-tuloy ang tunog ng malakas na sirena, vibration, at notification.',
                     urgent: true,
                     repeatMs: 8000,
                   })
                 }
               >
                 <Volume2 className="h-3.5 w-3.5 text-[#C9182B]" />
-                Test Loud Siren
+                Subukan ang Sirena
               </GlassButton>
 
               <a href={smsHref} className="w-full sm:w-auto">
@@ -1949,14 +1953,14 @@ export function LiveTripPage() {
                 {alertLog.slice(0, 5).map((al) => (
                   <div
                     key={al.id}
-                    className="glass-pill-tile flex items-start justify-between gap-2 rounded-2xl px-3.5 py-2.5 text-xs"
+                    className="glass-pill-tile liquid-reveal-enter flex items-start justify-between gap-2 rounded-2xl px-3.5 py-2.5 text-xs"
                   >
                     <div className="min-w-0">
                       <p className="font-bold text-[#29262B]">{al.title}</p>
                       <p className="text-[#343039] truncate">{al.message}</p>
                     </div>
                     <span className="shrink-0 text-[10px] font-bold text-[#B51224]">
-                      {al.synced ? 'Synced' : 'Saved Offline'} • {formatDateSafe(al.createdAt, 'h:mm a')}
+                      {al.synced ? 'Na-sync' : 'Naka-save Offline'} • {formatDateSafe(al.createdAt, 'h:mm a')}
                     </span>
                   </div>
                 ))}
@@ -1970,26 +1974,27 @@ export function LiveTripPage() {
               <div className="flex items-center gap-2">
                 <History className="h-4 w-4 text-[#C9182B] shrink-0" />
                 <h2 className="font-display text-base font-bold text-[#29262B]">
-                  My Trip History ({sharedHistoryItems.length})
+                  Mga Nagawa Kong Biyahe ({sharedHistoryItems.length})
                 </h2>
               </div>
               {sharedHistoryItems.length > 0 && (
                 <span className="glass-pill-tile rounded-full px-2.5 py-0.5 text-[10px] font-bold text-[#B51224]">
-                  {shareIncludeHistory ? 'Shared with Live Link' : 'Private Only'}
+                  {shareIncludeHistory ? 'Naka-share sa Live Link' : 'Pribado Lang'}
                 </span>
               )}
             </div>
 
             {sharedHistoryItems.length === 0 ? (
               <p className="text-xs text-[#5B555E]">
-                Completed or saved trips appear here and are shared automatically when recipients open your Live Trip link.
+                Lalabas dito ang mga natapos o na-save mong biyahe at awtomatikong makikita ng pinagsendan mo ng Live Trip link.
               </p>
             ) : (
               <div className="space-y-2 max-h-72 overflow-y-auto pr-0.5">
-                {sharedHistoryItems.map((hist) => (
+                {sharedHistoryItems.map((hist, idx) => (
                   <div
                     key={hist.id}
-                    className="glass-pill-tile min-w-0 rounded-2xl px-3.5 py-2.5 text-xs space-y-1"
+                    style={{ '--stagger': idx } as React.CSSProperties}
+                    className="glass-pill-tile liquid-reveal-enter min-w-0 rounded-2xl px-3.5 py-2.5 text-xs space-y-1"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-1.5">
                       <p className="font-bold text-[#29262B] truncate">
@@ -2002,7 +2007,7 @@ export function LiveTripPage() {
                             : 'bg-white/80 text-[#343039]'
                         }`}
                       >
-                        {hist.status}
+                        {hist.status === 'completed' ? 'Tapos' : hist.status === 'cancelled' ? 'Kanselado' : hist.status}
                       </span>
                     </div>
                     <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-[#343039]">

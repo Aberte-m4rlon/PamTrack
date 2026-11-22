@@ -41,52 +41,52 @@ export function ProfileSettingsPage() {
 
     setSaving(false);
     if (error) {
-      pushToast({ title: 'Update failed', description: error.message, variant: 'error' });
+      pushToast({ title: 'Hindi na-save', description: error.message, variant: 'error' });
       return;
     }
     await refreshProfile();
-    pushToast({ title: 'Profile saved', variant: 'success' });
+    pushToast({ title: 'Na-save na ang profile', variant: 'success' });
   };
 
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!supabase) return;
     if (newPassword.length < 8) {
-      pushToast({ title: 'Password must be at least 8 characters.', variant: 'error' });
+      pushToast({ title: 'Dapat ay 8 characters o higit pa ang password.', variant: 'error' });
       return;
     }
     setUpdatingPw(true);
     const { error } = await supabase.auth.updateUser({ password: newPassword });
     setUpdatingPw(false);
     if (error) {
-      pushToast({ title: 'Password change failed', description: error.message, variant: 'error' });
+      pushToast({ title: 'Hindi napalitan ang password', description: error.message, variant: 'error' });
       return;
     }
     setNewPassword('');
-    pushToast({ title: 'Password updated', variant: 'success' });
+    pushToast({ title: 'Napalitan na ang password', variant: 'success' });
   };
 
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6">
         <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">Account</p>
-        <h1 className="font-display text-2xl font-extrabold text-[#29262B]">Profile Settings</h1>
+        <h1 className="font-display text-2xl font-extrabold text-[#29262B]">Settings ng Profile</h1>
       </GlassCard>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <GlassCard variant="strong" className="p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-lg font-bold text-[#29262B]">Personal Information</h2>
+            <h2 className="font-display text-lg font-bold text-[#29262B]">Personal na Impormasyon</h2>
             <span className="inline-flex items-center gap-1 rounded-full bg-[#F8E7EA] px-3 py-1 text-xs font-bold uppercase text-[#C9182B]">
               <Shield className="h-3.5 w-3.5" />
-              Commuter Account
+              Account ng Pasahero
             </span>
           </div>
 
           <form onSubmit={handleSaveProfile} className="space-y-3.5">
             <div>
               <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
-                Email (Read-only)
+                Email (Hindi napapalitan)
               </label>
               <input
                 type="email"
@@ -98,7 +98,7 @@ export function ProfileSettingsPage() {
 
             <div>
               <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
-                Full Name
+                Buong Pangalan
               </label>
               <input
                 type="text"
@@ -111,7 +111,7 @@ export function ProfileSettingsPage() {
 
             <div>
               <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
-                Contact Number (Optional)
+                Numero ng Telepono (Opsyonal)
               </label>
               <input
                 type="text"
@@ -124,14 +124,14 @@ export function ProfileSettingsPage() {
 
             <div>
               <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
-                Home Municipality
+                Taga-saang Bayan
               </label>
               <select
                 value={homeMuniId}
                 onChange={(e) => setHomeMuniId(e.target.value)}
                 className="glass-input w-full rounded-2xl px-3.5 py-2 text-sm"
               >
-                <option value="">Select LGU...</option>
+                <option value="">Pumili ng LGU...</option>
                 {municipalities.map((m) => (
                   <option key={m.id} value={m.id}>
                     {m.name}
@@ -142,17 +142,17 @@ export function ProfileSettingsPage() {
 
             <GlassButton type="submit" variant="primary" disabled={saving}>
               <Save className="h-4 w-4" />
-              {saving ? 'Saving...' : 'Save Changes'}
+              {saving ? 'Sine-save...' : 'I-save ang Pagbabago'}
             </GlassButton>
           </form>
         </GlassCard>
 
         <GlassCard variant="strong" className="p-6 space-y-4 h-fit">
-          <h2 className="font-display text-lg font-bold text-[#29262B]">Security &amp; Password</h2>
+          <h2 className="font-display text-lg font-bold text-[#29262B]">Seguridad at Password</h2>
           <form onSubmit={handleChangePassword} className="space-y-3.5">
             <div>
               <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
-                New Password
+                Bagong Password
               </label>
               <input
                 type="password"
@@ -163,7 +163,7 @@ export function ProfileSettingsPage() {
               />
             </div>
             <GlassButton type="submit" variant="secondary" disabled={updatingPw}>
-              {updatingPw ? 'Updating Password...' : 'Update Password'}
+              {updatingPw ? 'Pinapalitan...' : 'Palitan ang Password'}
             </GlassButton>
           </form>
         </GlassCard>

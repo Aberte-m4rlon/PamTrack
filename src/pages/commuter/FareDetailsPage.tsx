@@ -34,11 +34,11 @@ export function FareDetailsPage() {
   if (!fare) {
     return (
       <EmptyStateCard
-        title="Fare record not found"
-        description="The requested fare record does not exist or has been archived."
+        title="Hindi makita ang rekord ng pamasahe"
+        description="Wala o naka-archive na ang hinahanap mong rekord ng pamasahe."
         action={
           <Link to="/fare-matrix">
-            <GlassButton variant="primary">Back to Fare Matrix</GlassButton>
+            <GlassButton variant="primary">Bumalik sa Fare Matrix</GlassButton>
           </Link>
         }
       />
@@ -49,7 +49,7 @@ export function FareDetailsPage() {
     <div className="space-y-6">
       <Link to="/fare-matrix" className="inline-flex items-center gap-1.5 text-xs font-bold text-[#C9182B] hover:underline">
         <ArrowLeft className="h-4 w-4" />
-        Back to Fare Matrix
+        Bumalik sa Fare Matrix
       </Link>
 
       <GlassCard variant="strong" className="p-6 sm:p-8 space-y-6">
@@ -65,7 +65,7 @@ export function FareDetailsPage() {
           </div>
           <div className="glass-pill-tile rounded-[24px] px-6 py-4 text-right">
             <p className="text-[11px] font-bold uppercase tracking-wider text-[#B51224]">
-              Published Amount
+              Nakalistang Pamasahe
             </p>
             <p className="font-display text-4xl font-extrabold text-[#C9182B] tabular-nums">
               {formatPhp(fare.fare_amount)}
@@ -76,28 +76,28 @@ export function FareDetailsPage() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 border-t border-white/75 pt-5 text-sm">
           <div className="space-y-1">
             <p className="text-xs font-bold uppercase tracking-wider text-[#777078] flex items-center gap-1.5">
-              <ShieldCheck className="h-3.5 w-3.5 text-[#C9182B]" /> Issuing Authority
+              <ShieldCheck className="h-3.5 w-3.5 text-[#C9182B]" /> Pinagmulan ng Taripa
             </p>
             <p className="font-semibold text-[#29262B]">
-              {fare.issuing_authority || 'Community Submission'}
+              {fare.issuing_authority || 'Ulat ng Komunidad'}
             </p>
           </div>
 
           <div className="space-y-1">
             <p className="text-xs font-bold uppercase tracking-wider text-[#777078] flex items-center gap-1.5">
-              <FileText className="h-3.5 w-3.5 text-[#C9182B]" /> Document Reference
+              <FileText className="h-3.5 w-3.5 text-[#C9182B]" /> Reference ng Dokumento
             </p>
             <p className="font-semibold text-[#29262B]">
-              {fare.official_document_reference || 'No official reference attached'}
+              {fare.official_document_reference || 'Walang naka-attach na opisyal na reference'}
             </p>
           </div>
 
           <div className="space-y-1">
             <p className="text-xs font-bold uppercase tracking-wider text-[#777078] flex items-center gap-1.5">
-              <CalendarCheck className="h-3.5 w-3.5 text-[#C9182B]" /> Last Verified / Effective
+              <CalendarCheck className="h-3.5 w-3.5 text-[#C9182B]" /> Huling Na-check / Epektibo
             </p>
             <p className="font-semibold text-[#29262B]">
-              Verified: {formatDateSafe(fare.last_verified_at)} • Effective:{' '}
+              Na-check: {formatDateSafe(fare.last_verified_at)} • Epektibo:{' '}
               {formatDateSafe(fare.effective_date)}
             </p>
           </div>
@@ -111,14 +111,14 @@ export function FareDetailsPage() {
               rel="noreferrer"
               className="inline-flex items-center gap-1.5 text-sm font-bold text-[#C9182B] hover:underline"
             >
-              Open Official Source Document <ExternalLink className="h-4 w-4" />
+              Buksan ang Opisyal na Dokumento <ExternalLink className="h-4 w-4" />
             </a>
           </div>
         )}
 
         {fare.notes && (
           <div className="glass-pill-tile rounded-[20px] p-4 text-xs text-[#29262B]">
-            <strong>Notes:</strong> {fare.notes}
+            <strong>Mga Tala:</strong> {fare.notes}
           </div>
         )}
       </GlassCard>
@@ -127,10 +127,10 @@ export function FareDetailsPage() {
       <GlassCard variant="surface" className="p-6 space-y-4">
         <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#29262B]">
           <History className="h-4 w-4 text-[#C9182B]" />
-          Verification Audit Trail
+          Kasaysayan ng Pag-verify
         </h2>
         {!logs || logs.length === 0 ? (
-          <p className="text-xs text-[#777078]">No verification audit entries recorded yet.</p>
+          <p className="text-xs text-[#777078]">Wala pang naitalang review history dito.</p>
         ) : (
           <div className="space-y-2.5">
             {logs.map((log) => (

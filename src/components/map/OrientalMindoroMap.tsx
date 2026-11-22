@@ -178,13 +178,13 @@ export function OrientalMindoroMap({
               key={dist}
               type="button"
               onClick={() => setDistrictFilter(dist)}
-              className={`min-h-[36px] sm:min-h-[34px] shrink-0 whitespace-nowrap rounded-full px-3 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-semibold transition ${
+              className={`min-h-[36px] sm:min-h-[34px] shrink-0 whitespace-nowrap rounded-full px-3 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-semibold transition-all duration-200 active:scale-95 ${
                 districtFilter === dist
                   ? 'liquid-nav-active text-white'
                   : 'liquid-btn-glass text-[#29262B] hover:text-[#C9182B]'
               }`}
             >
-              {dist === 'all' ? `All 15 LGUs (${municipalities.length})` : dist}
+              {dist === 'all' ? `Lahat ng 15 LGU (${municipalities.length})` : dist}
             </button>
           ))}
         </div>
@@ -200,8 +200,8 @@ export function OrientalMindoroMap({
           }}
         >
           <LocateFixed className="h-3.5 w-3.5" />
-          <span className="sm:hidden">Reset</span>
-          <span className="hidden sm:inline">Reset Province View</span>
+          <span className="sm:hidden">I-reset</span>
+          <span className="hidden sm:inline">I-reset ang Mapa</span>
         </GlassButton>
       </div>
 
@@ -249,7 +249,7 @@ export function OrientalMindoroMap({
                         <h4 className="font-bold text-sm">{muni.name}</h4>
                         {muni.is_capital && (
                           <span className="rounded-full bg-[#F8E7EA] px-2 py-0.5 text-[10px] font-bold text-[#C9182B]">
-                            Capital
+                            Kabisera
                           </span>
                         )}
                       </div>
@@ -268,7 +268,7 @@ export function OrientalMindoroMap({
                             onClick={() => onSelectOrigin(muni.id)}
                             className="liquid-btn-primary flex-1 rounded-full px-2.5 py-1.5 text-[11px] font-bold text-white"
                           >
-                            Set Origin
+                            Galing Dito
                           </button>
                         )}
                         {onSelectDestination && (
@@ -277,7 +277,7 @@ export function OrientalMindoroMap({
                             onClick={() => onSelectDestination(muni.id)}
                             className="liquid-btn-primary flex-1 rounded-full px-2.5 py-1.5 text-[11px] font-bold text-white"
                           >
-                            Set Destination
+                            Papunta Dito
                           </button>
                         )}
                       </div>
@@ -304,13 +304,13 @@ export function OrientalMindoroMap({
         <div className="pointer-events-none absolute bottom-3 left-3 z-[400] hidden sm:block">
           <div className="glass-card-strong flex items-center gap-3 rounded-2xl px-3 py-2 text-[11px] font-semibold text-[#29262B]">
             <span className="inline-flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#C9182B]" /> Origin
+              <span className="h-2.5 w-2.5 rounded-full bg-[#C9182B]" /> Galing
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#B51224]" /> Destination
+              <span className="h-2.5 w-2.5 rounded-full bg-[#B51224]" /> Pupuntahan
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#B51224]" /> Calapan Capital
+              <span className="h-2.5 w-2.5 rounded-full bg-[#B51224]" /> Kabisera (Calapan)
             </span>
           </div>
         </div>
@@ -318,7 +318,7 @@ export function OrientalMindoroMap({
 
       {/* Road Routing Telemetry Bar */}
       {origin && destination && origin.id !== destination.id && (
-        <GlassCard variant="strong" className="p-3.5">
+        <GlassCard variant="strong" className="liquid-reveal-enter p-3.5">
           <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
             <div className="flex items-center gap-2.5">
               <div className="glass-pill-tile rounded-xl p-2 text-[#C9182B]">
@@ -330,16 +330,16 @@ export function OrientalMindoroMap({
                 </p>
                 {routingLoading ? (
                   <p className="text-xs text-[#777078]">
-                    Calculating road geometry via OpenStreetMap / OSRM...
+                    Kinakalkula ang daan gamit ang OpenStreetMap / OSRM...
                   </p>
                 ) : osrmRoute?.available ? (
                   <p className="text-xs text-[#C9182B] font-semibold">
-                    Verified OSRM road distance: {osrmRoute.distanceKm} km (approx.{' '}
-                    {osrmRoute.durationMin} mins driving)
+                    Distansya sa kalsada (OSRM): {osrmRoute.distanceKm} km (tinatayang{' '}
+                    {osrmRoute.durationMin} min na biyahe)
                   </p>
                 ) : (
                   <p className="text-xs text-[#B51224]">
-                    Road routing unavailable ({osrmRoute?.error ?? 'offline'}). Straight-line: ~
+                    Walang road routing ({osrmRoute?.error ?? 'offline'}). Diretsong layo: ~
                     {straightLineRefKm} km.
                   </p>
                 )}
@@ -347,7 +347,7 @@ export function OrientalMindoroMap({
             </div>
             <div className="glass-pill-tile flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[11px] font-semibold text-[#777078]">
               <Compass className="h-3.5 w-3.5 text-[#C9182B]" />
-              <span>Distance is never used to invent an official fare</span>
+              <span>Hindi ginagamit ang distansya para hulaan ang opisyal na taripa</span>
             </div>
           </div>
         </GlassCard>
@@ -357,8 +357,8 @@ export function OrientalMindoroMap({
         <div className="flex items-center gap-2 text-xs text-[#777078] px-1">
           <Navigation className="h-3.5 w-3.5 text-[#C9182B]" />
           <span>
-            Click any municipality marker on the map to inspect details or choose Origin &amp;
-            Destination.
+            Pindutin ang kahit anong pin sa mapa para tingnan ang bayan o itakda ang Pinanggalingan at
+            Pupuntahan.
           </span>
         </div>
       )}

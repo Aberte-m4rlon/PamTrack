@@ -171,15 +171,15 @@ export function GpsProvider({ children }: { children: React.ReactNode }) {
   const mapGeoError = (err: GeolocationPositionError): string => {
     if (err.code === err.PERMISSION_DENIED) {
       setPermissionState('denied');
-      return 'Location permission denied. Enable browser GPS access to detect your Oriental Mindoro location.';
+      return 'Tinanggihan ang location permission. Payagan ang GPS access sa browser para makita ang lokasyon mo sa Oriental Mindoro.';
     }
     if (err.code === err.POSITION_UNAVAILABLE) {
-      return 'GPS position is currently unavailable on this device or network.';
+      return 'Hindi makuha ang GPS position ngayon sa device o network.';
     }
     if (err.code === err.TIMEOUT) {
-      return 'GPS request timed out. Move to an open signal area and retry.';
+      return 'Nag-time out ang GPS request. Lumipat sa mas bukas na signal at subukan ulit.';
     }
-    return err.message || 'Unable to acquire GPS fix.';
+    return err.message || 'Hindi makuha ang GPS signal.';
   };
 
   const applySnapshot = useCallback(
@@ -229,14 +229,14 @@ export function GpsProvider({ children }: { children: React.ReactNode }) {
     async (explicitConsent = false): Promise<GpsPositionSnapshot | null> => {
       if (!isSupported) {
         setPermissionState('unsupported');
-        setGpsError('Geolocation is not supported by this browser.');
+        setGpsError('Hindi sinusuportahan ng browser na ito ang GPS geolocation.');
         return null;
       }
 
       if (explicitConsent) {
         await grantConsent();
       } else if (!consentGranted) {
-        setGpsError('Explicit location consent is required before reading your GPS.');
+        setGpsError('Kailangan muna ng iyong pahintulot bago basahin ang GPS.');
         return null;
       }
 
@@ -269,7 +269,7 @@ export function GpsProvider({ children }: { children: React.ReactNode }) {
   const startTracking = useCallback(async (): Promise<boolean> => {
     if (!isSupported) {
       setPermissionState('unsupported');
-      setGpsError('Geolocation is not supported by this browser.');
+      setGpsError('Hindi sinusuportahan ng browser na ito ang GPS geolocation.');
       return false;
     }
 

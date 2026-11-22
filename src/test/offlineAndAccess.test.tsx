@@ -97,32 +97,32 @@ describe('Offline Mode & Logged-Out Feature Access Restrictions', () => {
     const first = renderApp(['/']);
 
     const sidebar = screen.getByLabelText('Desktop navigation sidebar');
-    expect(sidebar).toHaveTextContent('Public Guest Access');
+    expect(sidebar).toHaveTextContent('Bukas Para sa Lahat');
     expect(sidebar).toHaveTextContent('Fare Finder');
     expect(sidebar).toHaveTextContent('Fare Matrix');
     expect(sidebar).toHaveTextContent('15 LGUs');
-    expect(sidebar).toHaveTextContent('Sign In to Unlock More');
+    expect(sidebar).toHaveTextContent('Mag-sign In Para Mas Marami');
     expect(within(sidebar).queryByRole('link', { name: /Live GPS Map/i })).toBeNull();
     first.unmount();
 
     const second = renderApp(['/live-map']);
     await waitFor(() => {
       expect(screen.getByRole('heading', { name: /Live GPS Map/i })).toBeInTheDocument();
-      expect(screen.getByText(/Account Access Locked While Logged Out/i)).toBeInTheDocument();
+      expect(screen.getByText(/Naka-lock Muna Habang Hindi Naka-Sign In/i)).toBeInTheDocument();
     });
     second.unmount();
 
     const third = renderApp(['/trips']);
     await waitFor(() => {
       expect(screen.getByRole('heading', { name: /Live Trip Monitor/i })).toBeInTheDocument();
-      expect(screen.getByText(/Account Access Locked While Logged Out/i)).toBeInTheDocument();
+      expect(screen.getByText(/Naka-lock Muna Habang Hindi Naka-Sign In/i)).toBeInTheDocument();
     });
     third.unmount();
 
     renderApp(['/safety']);
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: /Safety & Trusted Contacts/i })).toBeInTheDocument();
-      expect(screen.getByText(/Account Access Locked While Logged Out/i)).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /Safety at Trusted Contacts/i })).toBeInTheDocument();
+      expect(screen.getByText(/Naka-lock Muna Habang Hindi Naka-Sign In/i)).toBeInTheDocument();
     });
   });
 
@@ -144,7 +144,7 @@ describe('Offline Mode & Logged-Out Feature Access Restrictions', () => {
     const user = userEvent.setup();
     const first = renderApp(['/fare-search']);
     expect(
-      screen.getByText(/Offline Mode Active — Limited Features Available/i)
+      screen.getByText(/Naka-Offline Mode — Limitado ang Ilang Feature/i)
     ).toBeInTheDocument();
 
     await waitFor(() => {
@@ -153,20 +153,20 @@ describe('Offline Mode & Logged-Out Feature Access Restrictions', () => {
 
     await user.selectOptions(screen.getByLabelText('Origin municipality'), 'lgu-calapan-city');
     await user.selectOptions(screen.getByLabelText('Destination municipality'), 'lgu-puerto-galera');
-    await user.click(screen.getByRole('button', { name: /^search$/i }));
+    await user.click(screen.getByRole('button', { name: /^Hanapin$/i }));
 
     await waitFor(() => {
-      expect(screen.getByText(/Offline Cached Lookup/i)).toBeInTheDocument();
+      expect(screen.getByText(/Naka-save Offline/i)).toBeInTheDocument();
       expect(screen.getAllByText(/₱120\.00/).length).toBeGreaterThanOrEqual(1);
       expect(screen.getByText(/MC-2026-041/)).toBeInTheDocument();
     });
 
     // Uncached route offline still obeys strict integrity notice (no invented price)
     await user.selectOptions(screen.getByLabelText('Destination municipality'), 'lgu-naujan');
-    await user.click(screen.getByRole('button', { name: /^search$/i }));
+    await user.click(screen.getByRole('button', { name: /^Hanapin$/i }));
     await waitFor(() => {
       expect(
-        screen.getByText('No commuter fare estimate found for this route yet.')
+        screen.getByText('Wala pang naka-save na pamasahe para sa rutang ito.')
       ).toBeInTheDocument();
     });
     first.unmount();
@@ -174,14 +174,14 @@ describe('Offline Mode & Logged-Out Feature Access Restrictions', () => {
     // Online-only routes render Offline Mode Gate cleanly
     const second = renderApp(['/routes']);
     expect(
-      screen.getByText(/Internet Connection Required for Oriental Mindoro Route Explorer/i)
+      screen.getByText(/Kailangan ng Internet Para sa Mapa ng Mga Ruta sa Oriental Mindoro/i)
     ).toBeInTheDocument();
-    expect(screen.getByText(/Cached Fare Finder/i)).toBeInTheDocument();
+    expect(screen.getByText(/Naka-save na Fare Finder/i)).toBeInTheDocument();
     second.unmount();
 
     renderApp(['/login']);
     expect(
-      screen.getByText(/Internet Connection Required for Account Sign In/i)
+      screen.getByText(/Kailangan ng Internet Para sa Pag-sign In sa Account/i)
     ).toBeInTheDocument();
   });
 

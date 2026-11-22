@@ -95,10 +95,10 @@ describe('Offline Live Trip Monitoring & Offline Alerts', () => {
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { name: /Live Trip Monitor/i })).toBeInTheDocument();
-      expect(screen.getByText(/Offline Tracking Active/i)).toBeInTheDocument();
+      expect(screen.getByText(/Gumagana ang Offline Tracking/i)).toBeInTheDocument();
     });
     expect(
-      screen.queryByText(/Internet Connection Required for Live Trip Monitor/i)
+      screen.queryByText(/Kailangan ng Internet Para sa Live Trip Monitor/i)
     ).not.toBeInTheDocument();
   });
 
@@ -128,7 +128,7 @@ describe('Offline Live Trip Monitoring & Offline Alerts', () => {
     renderLiveTripTree(<LiveTripPage />);
 
     expect(screen.getByTestId('offline-gps-radar')).toBeInTheDocument();
-    expect(screen.getByText(/Offline Tracking Active/i)).toBeInTheDocument();
+    expect(screen.getByText(/Gumagana ang Offline Tracking/i)).toBeInTheDocument();
 
     await waitFor(() => {
       const boxes = screen.getAllByRole('combobox');
@@ -141,10 +141,10 @@ describe('Offline Live Trip Monitoring & Offline Alerts', () => {
     await user.selectOptions(combos[1], 'lgu-naujan');
     await user.selectOptions(combos[2], 'tt-multicab');
 
-    await user.click(screen.getByRole('button', { name: /Start Live Trip/i }));
+    await user.click(screen.getByRole('button', { name: /Simulan ang Live Trip/i }));
 
     await waitFor(() => {
-      expect(screen.getByText(/Offline Trip Running/i)).toBeInTheDocument();
+      expect(screen.getByText(/Tumatakbo ang Offline Biyahe/i)).toBeInTheDocument();
       expect(readOfflineActiveTrip('offline-commuter-1')).not.toBeNull();
     });
 
@@ -155,23 +155,23 @@ describe('Offline Live Trip Monitoring & Offline Alerts', () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByRole('alert')).toHaveTextContent(/Route Deviation Alert/i);
+      expect(screen.getByRole('alert')).toHaveTextContent(/Babala: Lumihis sa Ruta/i);
       expect(vibrateMock).toHaveBeenCalled();
       expect(
         readOfflineAlerts('offline-commuter-1').some((a) => a.type === 'route_deviation_warning')
       ).toBe(true);
     });
 
-    // Trigger manual Safe Arrival Alert offline
-    await user.click(screen.getByRole('button', { name: /Safe Arrival Alert/i }));
+    // Trigger manual Alerto sa Pagdating offline
+    await user.click(screen.getByRole('button', { name: /Alerto sa Pagdating/i }));
     await waitFor(() => {
       expect(
-        readOfflineAlerts('offline-commuter-1').some((a) => a.title.includes('Safe Arrival'))
+        readOfflineAlerts('offline-commuter-1').some((a) => a.title.includes('Ligtas na Pagdating'))
       ).toBe(true);
     });
 
     // Finish trip offline cleanly -> queued locally for future online sync
-    await user.click(screen.getByRole('button', { name: /End & Save Trip/i }));
+    await user.click(screen.getByRole('button', { name: /Tapusin at I-save/i }));
     await waitFor(() => {
       expect(readOfflineActiveTrip('offline-commuter-1')).toBeNull();
       const completed = readOfflineCompletedTrips('offline-commuter-1');

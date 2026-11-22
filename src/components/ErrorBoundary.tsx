@@ -18,7 +18,7 @@ export class GlassErrorBoundary extends React.Component<
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return {
       hasError: true,
-      errorMessage: error?.message || 'An unexpected application error occurred.',
+      errorMessage: error?.message || 'Nagkaroon ng hindi inaasahang error sa page.',
     };
   }
 
@@ -29,15 +29,15 @@ export class GlassErrorBoundary extends React.Component<
 
     return (
       <div className="pamasahe-scenic-bg min-h-screen flex items-center justify-center p-4 text-[#29262B]">
-        <div className="glass-card-strong liquid-glass-sheen max-w-lg w-full rounded-[30px] p-6 sm:p-8 space-y-4 text-center">
+        <div className="glass-card-strong liquid-glass-sheen liquid-page-enter max-w-lg w-full rounded-[30px] p-6 sm:p-8 space-y-4 text-center">
           <div className="glass-pill-tile mx-auto flex h-12 w-12 items-center justify-center rounded-full text-[#C9182B]">
             <ShieldAlert className="h-6 w-6" />
           </div>
           <h1 className="font-display text-2xl font-extrabold text-[#29262B]">
-            Something went wrong
+            May kaunting problema lang
           </h1>
           <p className="text-sm text-[#777078]">
-            Pamasahe Tracker encountered a temporary display error and prevented a blank screen.
+            Nagkaroon ng pansamantalang display error ang Pamasahe Tracker pero naiwasan ang blank screen.
           </p>
           {this.state.errorMessage && (
             <p className="glass-pill-tile rounded-2xl px-3 py-2 text-xs font-mono text-[#B51224] break-words">
@@ -51,7 +51,7 @@ export class GlassErrorBoundary extends React.Component<
               className="liquid-btn-primary inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition"
             >
               <RefreshCw className="h-4 w-4" />
-              Reload Application
+              I-reload ang App
             </button>
             <button
               type="button"
@@ -61,7 +61,7 @@ export class GlassErrorBoundary extends React.Component<
               }}
               className="liquid-btn-secondary inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition"
             >
-              Return Home
+              Bumalik sa Home
             </button>
           </div>
         </div>

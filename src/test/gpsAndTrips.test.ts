@@ -107,12 +107,12 @@ describe('GPS Geospatial, Route Deviation, and Terminal Distance Utilities', () 
   });
 
   it('classifies movement speed states and estimates remaining ETA cleanly', () => {
-    expect(classifyMovementState(0.4, 0, 'active').label).toBe('Stopped / Waiting');
-    expect(classifyMovementState(10, 0, 'active').label).toBe('Slow / Traffic');
-    expect(classifyMovementState(32, 0, 'active').label).toBe('Moving Steadily');
-    expect(classifyMovementState(58, 0, 'active').label).toBe('Fast Travel');
-    expect(classifyMovementState(30, 90, 'active').label).toBe('Signal Delayed');
-    expect(classifyMovementState(0, 0, 'completed').label).toBe('Trip Completed');
+    expect(classifyMovementState(0.4, 0, 'active').label).toBe('Nakahinto / Naghihintay');
+    expect(classifyMovementState(10, 0, 'active').label).toBe('Mabagal / Trapiko');
+    expect(classifyMovementState(32, 0, 'active').label).toBe('Normal ang Takbo');
+    expect(classifyMovementState(58, 0, 'active').label).toBe('Mabilis ang Takbo');
+    expect(classifyMovementState(30, 90, 'active').label).toBe('Naantala ang Signal');
+    expect(classifyMovementState(0, 0, 'completed').label).toBe('Tapos na ang Biyahe');
 
     expect(estimateEtaMinutes(15, 30, 25)).toBe(30);
     expect(estimateEtaMinutes(12, 0, 24)).toBe(30);

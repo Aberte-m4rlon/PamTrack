@@ -96,6 +96,7 @@ export function FareSearchWidget({
   const [passengerCategory, setPassengerCategory] = useState<PassengerCategory>('regular');
   const [hasSearched, setHasSearched] = useState(Boolean(initialOriginId && initialDestinationId));
   const [osrmInfo, setOsrmInfo] = useState<OsrmRouteResult | null>(null);
+  const [swapSpinCount, setSwapSpinCount] = useState(0);
 
   useEffect(() => {
     if (initialOriginId) setOriginId(initialOriginId);
@@ -120,6 +121,7 @@ export function FareSearchWidget({
   }, [originMuni, destMuni]);
 
   const handleSwap = () => {
+    setSwapSpinCount((c) => c + 1);
     setOriginId(destinationId);
     setDestinationId(originId);
     onSelectionChange?.(destinationId, originId);
@@ -129,9 +131,9 @@ export function FareSearchWidget({
     e.preventDefault();
     if (!originId || !destinationId) {
       pushToast({
-        title: 'Select origin and destination',
+        title: 'Piliin kung saan galing at pupunta',
         description:
-          'Choose your origin and destination (you may select the same LGU for local tricycle/multicab fares).',
+          'Piliin ang iyong pinanggalingan at pupuntahan (pwedeng parehong bayan para sa lokal na tricycle o multicab).',
         variant: 'error',
       });
       return;
@@ -251,7 +253,7 @@ export function FareSearchWidget({
         <form onSubmit={handleSearch} className="grid grid-cols-2 gap-2.5 sm:gap-3.5 md:grid-cols-12 md:items-end">
           <div className="col-span-2 min-w-0 md:col-span-5">
             <label className="mb-1 block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#343039]">
-              Origin
+              Saan Galing (Origin)
             </label>
             <select
               value={originId}
@@ -262,7 +264,7 @@ export function FareSearchWidget({
               aria-label="Origin municipality"
               className="glass-input min-h-[42px] w-full min-w-0 truncate rounded-2xl px-3.5 py-2.5 text-sm font-medium"
             >
-              <option value="">Select origin...</option>
+              <option value="">Piliin kung saan galing...</option>
               {municipalities.map((m) => (
                 <option key={m.id} value={m.id}>
                   {m.name}
@@ -276,18 +278,21 @@ export function FareSearchWidget({
             <button
               type="button"
               onClick={handleSwap}
-              title="Swap origin and destination"
+              title="Pagpalitin ang galing at pupuntahan"
               aria-label="Swap origin and destination"
               className="liquid-btn-secondary inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
             >
-              <ArrowLeftRight className="h-4 w-4" />
+              <ArrowLeftRight
+                className="h-4 w-4 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                style={{ transform: `rotate(${swapSpinCount * 180}deg)` }}
+              />
             </button>
             <div className="h-px flex-1 bg-white/85 md:hidden" />
           </div>
 
           <div className="col-span-2 min-w-0 md:col-span-5 lg:col-span-6">
             <label className="mb-1 block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#343039]">
-              Destination
+              Saan Pupunta (Destination)
             </label>
             <select
               value={destinationId}
@@ -298,7 +303,7 @@ export function FareSearchWidget({
               aria-label="Destination municipality"
               className="glass-input min-h-[42px] w-full min-w-0 truncate rounded-2xl px-3.5 py-2.5 text-sm font-medium"
             >
-              <option value="">Select destination...</option>
+              <option value="">Piliin kung saan pupunta...</option>
               {municipalities.map((m) => (
                 <option key={m.id} value={m.id}>
                   {m.name}
@@ -309,7 +314,7 @@ export function FareSearchWidget({
 
           <div className="col-span-1 min-w-0 md:col-span-4">
             <label className="mb-1 block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#343039]">
-              Transport Type
+              Uri ng Sasakyan
             </label>
             <select
               value={transportTypeId}
@@ -317,7 +322,7 @@ export function FareSearchWidget({
               aria-label="Transportation type"
               className="glass-input min-h-[42px] w-full min-w-0 truncate rounded-2xl px-3 sm:px-3.5 py-2.5 text-xs sm:text-sm font-medium"
             >
-              <option value="all">All Modes</option>
+              <option value="all">Lahat ng Sasakyan</option>
               {transportTypes.map((tt) => (
                 <option key={tt.id} value={tt.id}>
                   {tt.name}
@@ -328,7 +333,7 @@ export function FareSearchWidget({
 
           <div className="col-span-1 min-w-0 md:col-span-5">
             <label className="mb-1 block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#343039]">
-              Passenger
+              Pasahero
             </label>
             <select
               value={passengerCategory}
@@ -347,7 +352,7 @@ export function FareSearchWidget({
           <div className="col-span-2 min-w-0 md:col-span-3 pt-0.5 md:pt-0">
             <GlassButton type="submit" variant="primary" className="w-full">
               <Search className="h-4 w-4 shrink-0" />
-              <span>Search</span>
+              <span>Hanapin</span>
             </GlassButton>
           </div>
         </form>
@@ -357,7 +362,7 @@ export function FareSearchWidget({
         <GlassCard variant="surface" className="p-3.5 sm:p-4 space-y-2.5">
           <div className="flex items-center justify-between gap-2">
             <p className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#C9182B]">
-              Popular Fare Corridors
+              Mga Madalas Hanapin na Ruta
             </p>
             <Link
               to="/fare-matrix"
@@ -379,11 +384,11 @@ export function FareSearchWidget({
                 }}
                 className={`${
                   idx >= 4 ? 'hidden sm:inline-flex' : 'inline-flex'
-                } glass-pill-tile min-h-[36px] sm:min-h-[40px] max-w-full items-center gap-1.5 sm:gap-2 rounded-full px-3 sm:px-3.5 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold text-[#29262B] hover:bg-gradient-to-b hover:from-[#C9182B]/85 hover:to-[#B51224]/90 hover:text-white transition group`}
+                } glass-pill-tile min-h-[36px] sm:min-h-[40px] max-w-full items-center gap-1.5 sm:gap-2 rounded-full px-3 sm:px-3.5 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold text-[#29262B] hover:-translate-y-0.5 active:scale-95 hover:bg-gradient-to-b hover:from-[#C9182B]/85 hover:to-[#B51224]/90 hover:text-white group`}
               >
                 <span className="truncate">
                   {c.originId === c.destinationId
-                    ? `${c.originName} (Local)`
+                    ? `${c.originName} (Loob ng Bayan)`
                     : `${c.originName} → ${c.destinationName}`}
                 </span>
                 <span className="glass-panel shrink-0 rounded-full px-2 py-0.5 text-[10px] sm:text-[11px] font-extrabold text-[#C9182B] group-hover:bg-white/25 group-hover:text-white tabular-nums">
@@ -396,44 +401,47 @@ export function FareSearchWidget({
       )}
 
       {hasSearched && originMuni && destMuni && (
-        <div className="space-y-4">
+        <div
+          key={`${originId}-${destinationId}-${transportTypeId}-${passengerCategory}`}
+          className="liquid-reveal-enter space-y-4"
+        >
           {/* Corridor Header & Road Distance */}
           <GlassCard variant="surface" className="p-4 sm:p-5">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   <p className="text-xs font-bold uppercase tracking-wider text-[#C9182B]">
-                    Route Inquiry • {PASSENGER_CATEGORY_LABELS[passengerCategory]}
+                    Resulta ng Ruta • {PASSENGER_CATEGORY_LABELS[passengerCategory]}
                   </p>
                   {isOffline && (
                     <span className="inline-flex items-center gap-1 rounded-full border border-[#E9E5E8]/80 bg-[#F8E7EA]/85 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#B51224]">
                       <WifiOff className="h-3 w-3" />
-                      Offline Cached Lookup
+                      Naka-save Offline
                     </span>
                   )}
                 </div>
                 <h3 className="font-display text-xl font-extrabold text-[#29262B]">
                   {originMuni.id === destMuni.id
-                    ? `${originMuni.name} (Local / Intra-Municipality Fare)`
+                    ? `${originMuni.name} (Lokal / Loob ng Bayan)`
                     : `${originMuni.name} → ${destMuni.name}`}
                 </h3>
                 {osrmInfo?.available ? (
                   <p className="text-xs font-semibold text-[#777078]">
-                    OSRM Road Distance: {osrmInfo.distanceKm} km • Est. {osrmInfo.durationMin} mins
-                    driving
+                    Distansya sa Kalsada (OSRM): {osrmInfo.distanceKm} km • Tinatayang {osrmInfo.durationMin} min
+                    na biyahe
                   </p>
                 ) : (
                   offlineGeodesicKm !== null && (
                     <p className="text-xs font-semibold text-[#777078]">
                       {isOffline
-                        ? `Offline Reference Distance: ~${offlineGeodesicKm} km straight-line (live OSRM road route updates online)`
-                        : `Straight-line reference: ~${offlineGeodesicKm} km`}
+                        ? `Offline Ref. Distance: ~${offlineGeodesicKm} km (mag-u-update ang eksaktong ruta kapag online)`
+                        : `Tinatayang diretso: ~${offlineGeodesicKm} km`}
                     </p>
                   )
                 )}
                 {matchingRoutes.length > 0 && (
                   <p className="mt-1 text-xs text-[#C9182B] font-semibold">
-                    {matchingRoutes.length} registered corridor(s) found:{' '}
+                    May {matchingRoutes.length} nakarehistrong ruta:{' '}
                     {matchingRoutes.map((r) => r.route_name).join(', ')}
                   </p>
                 )}
@@ -446,15 +454,15 @@ export function FareSearchWidget({
                     variant="secondary"
                     size="sm"
                     disabled
-                    title="Internet connection required to submit fare reports"
+                    title="Kailangan ng internet para mag-submit ng fare report"
                   >
                     <WifiOff className="h-3.5 w-3.5" />
-                    Reporting Offline Paused
+                    Naka-pause Offline
                   </GlassButton>
                 ) : (
                   <Link to={user ? '/dashboard/reports' : '/login'}>
                     <GlassButton variant="secondary" size="sm">
-                      {user ? 'Report Observed Fare' : 'Sign In to Report Fare'}
+                      {user ? 'Mag-report ng Pamasahe' : 'Mag-sign In Para Mag-report'}
                     </GlassButton>
                   </Link>
                 )}
@@ -470,12 +478,12 @@ export function FareSearchWidget({
           ) : officialFares.length === 0 && communityEstimates.length === 0 ? (
             <EmptyStateCard
               icon={ShieldAlert}
-              title="No commuter fare estimate found for this route yet."
-              description="Browse our full 15-LGU Fare Matrix or sign in to share the actual fare you paid along this Oriental Mindoro corridor."
+              title="Wala pang naka-save na pamasahe para sa rutang ito."
+              description="Tingnan ang buong Fare Matrix ng 15 LGU o mag-sign in para i-share ang aktwal na binayaran mong pamasahe sa rutang ito."
               action={
                 <Link to="/fare-matrix">
                   <GlassButton variant="secondary" size="sm">
-                    Browse Complete Fare Matrix
+                    Tingnan ang Buong Fare Matrix
                   </GlassButton>
                 </Link>
               }
@@ -488,13 +496,19 @@ export function FareSearchWidget({
                   <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-4 py-1.5">
                     <CheckCircle2 className="h-4 w-4 text-[#C9182B]" />
                     <h4 className="text-xs font-bold uppercase tracking-wider text-[#29262B]">
-                      Verified Fare Records
+                      Opisyal at Verified na Pamasahe
                     </h4>
                   </div>
 
                   <div className="grid gap-4 md:grid-cols-2">
-                    {officialFares.map((fare) => (
-                      <GlassCard key={fare.id} variant="strong" hoverable className="p-5 space-y-3">
+                    {officialFares.map((fare, idx) => (
+                      <GlassCard
+                        key={fare.id}
+                        variant="strong"
+                        hoverable
+                        staggerIndex={idx}
+                        className="p-5 space-y-3"
+                      >
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex items-center gap-2.5">
                             <div className="liquid-nav-active rounded-2xl p-2.5 text-white">
@@ -502,7 +516,7 @@ export function FareSearchWidget({
                             </div>
                             <div>
                               <p className="font-bold text-[#29262B]">
-                                {fare.transport_type?.name ?? 'Public Transport'}
+                                {fare.transport_type?.name ?? 'Pampublikong Sasakyan'}
                               </p>
                               <p className="text-xs text-[#777078]">
                                 {PASSENGER_CATEGORY_LABELS[fare.passenger_category]}
@@ -514,7 +528,7 @@ export function FareSearchWidget({
 
                         <div className="flex items-baseline justify-between border-y border-[#E9E5E8]/35 py-3">
                           <span className="text-xs font-semibold uppercase tracking-wider text-[#777078]">
-                            Fare Rate
+                            Taripa ng Pamasahe
                           </span>
                           <span className="font-display text-3xl font-extrabold text-[#C9182B]">
                             {formatPhp(fare.fare_amount)}
@@ -524,21 +538,21 @@ export function FareSearchWidget({
                         <div className="space-y-1.5 text-xs text-[#777078]">
                           <p className="flex items-center gap-1.5">
                             <FileText className="h-3.5 w-3.5 text-[#C9182B]" />
-                            <span className="font-semibold text-[#29262B]">Source:</span>{' '}
-                            {fare.issuing_authority || 'Commuter Reference'}
+                            <span className="font-semibold text-[#29262B]">Pinagmulan:</span>{' '}
+                            {fare.issuing_authority || 'Gabay ng Pasahero'}
                             {fare.official_document_reference
                               ? ` (${fare.official_document_reference})`
                               : ''}
                           </p>
                           <p className="flex items-center gap-1.5">
                             <CalendarCheck className="h-3.5 w-3.5 text-[#C9182B]" />
-                            <span className="font-semibold text-[#29262B]">Updated:</span>{' '}
+                            <span className="font-semibold text-[#29262B]">Na-update:</span>{' '}
                             {formatDateSafe(fare.last_verified_at || fare.updated_at)}
                           </p>
                           {fare.passenger_category !== 'regular' && (
                             <p className="flex items-center gap-1.5 text-[#B51224] font-semibold">
                               <Info className="h-3.5 w-3.5" />
-                              Includes 20% discount guideline.
+                              May kasamang 20% discount guideline.
                             </p>
                           )}
                         </div>
@@ -551,7 +565,7 @@ export function FareSearchWidget({
                               rel="noreferrer"
                               className="inline-flex items-center gap-1 text-xs font-bold text-[#C9182B] hover:underline"
                             >
-                              View Source Link
+                              Tingnan ang Source Link
                               <ExternalLink className="h-3 w-3" />
                             </a>
                           ) : (
@@ -561,7 +575,7 @@ export function FareSearchWidget({
                             to={`/fares/${fare.id}`}
                             className="text-xs font-bold text-[#B51224] hover:underline"
                           >
-                            Full Fare Details →
+                            Buong Detalye →
                           </Link>
                         </div>
                       </GlassCard>
@@ -576,21 +590,22 @@ export function FareSearchWidget({
                   <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-4 py-1.5">
                     <AlertTriangle className="h-4 w-4 text-[#C9182B]" />
                     <h4 className="text-xs font-bold uppercase tracking-wider text-[#29262B]">
-                      Commuter Fare Guide (Citizen Estimates)
+                      Gabay sa Pamasahe (Tantya ng Komunidad)
                     </h4>
                   </div>
 
                   <div className="glass-pill-tile rounded-2xl px-3.5 py-2.5 text-xs text-[#343039]">
-                    <strong className="text-[#29262B]">Citizen Reference Guide:</strong> Confirm
-                    posted terminal fares upon boarding.
+                    <strong className="text-[#29262B]">Paalala:</strong> I-check pa rin ang
+                    naka-post na taripa sa terminal pag-akyat ng sasakyan.
                   </div>
 
                   <div className="grid gap-4 md:grid-cols-2">
-                    {communityEstimates.map((est) => (
+                    {communityEstimates.map((est, idx) => (
                       <GlassCard
                         key={est.id}
                         variant="strong"
                         hoverable
+                        staggerIndex={idx}
                         className="p-5 space-y-3"
                       >
                         <div className="flex items-center justify-between gap-2">
@@ -611,14 +626,14 @@ export function FareSearchWidget({
                         </div>
                         <div className="flex items-baseline justify-between border-y border-[#E9E5E8]/35 py-2.5">
                           <span className="text-xs font-semibold uppercase tracking-wider text-[#777078]">
-                            Estimated Fare
+                            Tinatayang Pamasahe
                           </span>
                           <p className="font-display text-3xl font-extrabold text-[#C9182B]">
                             {formatPhp(est.fare_amount)}
                           </p>
                         </div>
                         <p className="text-xs text-[#777078]">
-                          Updated: {formatDateSafe(est.last_verified_at || est.updated_at)}
+                          Na-update: {formatDateSafe(est.last_verified_at || est.updated_at)}
                         </p>
                         {est.notes && (
                           <p className="text-xs italic text-[#777078]">{est.notes}</p>

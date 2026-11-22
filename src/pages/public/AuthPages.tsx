@@ -32,10 +32,10 @@ export function LoginPage() {
   const onSubmit = async (values: LoginFormValues) => {
     const { error } = await signIn(values.email, values.password);
     if (error) {
-      pushToast({ title: 'Sign in failed', description: error, variant: 'error' });
+      pushToast({ title: 'Hindi nakapag-sign in', description: error, variant: 'error' });
       return;
     }
-    pushToast({ title: 'Welcome back!', description: 'Signed in cleanly.', variant: 'success' });
+    pushToast({ title: 'Welcome back!', description: 'Maayos na naka-sign in.', variant: 'success' });
     navigate(from, { replace: true });
   };
 
@@ -51,10 +51,10 @@ export function LoginPage() {
             />
           </div>
           <h1 className="font-display text-xl sm:text-2xl font-extrabold text-[#29262B]">
-            Sign In to Pamasahe Tracker
+            Mag-sign In sa Pamasahe Tracker
           </h1>
           <p className="text-xs text-[#343039] font-medium">
-            Track live trips, use the GPS map, manage trusted contacts, and report fares.
+            Subaybayan ang live na biyahe, gamitin ang GPS map, trusted contacts, at mag-report ng pamasahe.
           </p>
         </div>
 
@@ -66,7 +66,7 @@ export function LoginPage() {
             <input
               type="email"
               {...register('email')}
-              placeholder="commuter@example.com"
+              placeholder="pasahero@example.com"
               className="glass-input min-h-[42px] w-full rounded-2xl px-3.5 py-2.5 text-sm"
             />
             {errors.email && (
@@ -83,7 +83,7 @@ export function LoginPage() {
                 to="/forgot-password"
                 className="text-xs font-bold text-[#C9182B] hover:underline py-0.5"
               >
-                Forgot password?
+                Nakalimutan ang password?
               </Link>
             </div>
             <input
@@ -104,17 +104,17 @@ export function LoginPage() {
             disabled={isSubmitting || !isConfigured}
           >
             <LogIn className="h-4 w-4" />
-            {isSubmitting ? 'Signing in...' : 'Sign In'}
+            {isSubmitting ? 'Nag-si-sign in...' : 'Mag-sign In'}
           </GlassButton>
         </form>
 
         <p className="text-center text-xs text-[#343039]">
-          Don&apos;t have an account yet?{' '}
+          Wala ka pang account?{' '}
           <Link
             to="/register"
             className="inline-flex min-h-[30px] items-center font-bold text-[#C9182B] hover:underline"
           >
-            Register as Commuter
+            Mag-register bilang Pasahero
           </Link>
         </p>
       </GlassCard>
@@ -147,7 +147,7 @@ export function RegisterPage() {
     });
 
     if (res.error) {
-      pushToast({ title: 'Registration failed', description: res.error, variant: 'error' });
+      pushToast({ title: 'Hindi nakapag-register', description: res.error, variant: 'error' });
       return;
     }
 
@@ -157,8 +157,8 @@ export function RegisterPage() {
     }
 
     pushToast({
-      title: 'Account created',
-      description: 'Welcome to Pamasahe Tracker – Oriental Mindoro!',
+      title: 'Nagawa na ang account',
+      description: 'Welcome sa Pamasahe Tracker – Oriental Mindoro!',
       variant: 'success',
     });
     navigate('/profile');
@@ -172,14 +172,14 @@ export function RegisterPage() {
             <MailCheck className="h-7 w-7" />
           </div>
           <h1 className="font-display text-2xl font-extrabold text-[#29262B]">
-            Verify Your Email Address
+            I-verify ang Iyong Email
           </h1>
           <p className="text-sm text-[#777078]">
-            We sent a verification link to your inbox. Please confirm your email to activate your
-            commuter account and submit fare reports.
+            Nagpadala kami ng verification link sa email mo. Paki-check ito para ma-activate ang
+            iyong commuter account.
           </p>
           <Link to="/login" className="inline-block">
-            <GlassButton variant="primary">Proceed to Sign In</GlassButton>
+            <GlassButton variant="primary">Magpatuloy sa Sign In</GlassButton>
           </Link>
         </GlassCard>
       </div>
@@ -198,17 +198,17 @@ export function RegisterPage() {
             />
           </div>
           <h1 className="font-display text-xl sm:text-2xl font-extrabold text-[#29262B]">
-            Create Commuter Account
+            Gumawa ng Account ng Pasahero
           </h1>
           <p className="text-xs text-[#777078]">
-            Report observed fares, save Oriental Mindoro routes, and track official updates.
+            Mag-report ng pamasahe, i-save ang mga ruta, at subaybayan ang mga live na biyahe.
           </p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5 sm:space-y-4">
           <div>
             <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
-              Full Name
+              Buong Pangalan
             </label>
             <input
               type="text"
@@ -239,13 +239,13 @@ export function RegisterPage() {
 
             <div>
               <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
-                Home Municipality (Optional)
+                Taga-saang Bayan (Opsyonal)
               </label>
               <select
                 {...register('homeMunicipalityId')}
                 className="glass-input min-h-[42px] w-full rounded-2xl px-3 py-2.5 text-sm"
               >
-                <option value="">Select LGU...</option>
+                <option value="">Pumili ng LGU...</option>
                 {municipalities.map((m) => (
                   <option key={m.id} value={m.id}>
                     {m.name}
@@ -272,12 +272,12 @@ export function RegisterPage() {
             </div>
             <div>
               <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
-                Confirm Password
+                Ulitin ang Password
               </label>
               <input
                 type="password"
                 {...register('confirmPassword')}
-                placeholder="Repeat password"
+                placeholder="Ulitin ang password"
                 className="glass-input min-h-[42px] w-full rounded-2xl px-3.5 py-2.5 text-sm"
               />
               {errors.confirmPassword && (
@@ -295,7 +295,7 @@ export function RegisterPage() {
               className="mt-0.5 h-5 w-5 shrink-0 rounded border-[#E9E5E8] accent-[#C9182B]"
             />
             <span className="leading-relaxed">
-              I confirm my registration details are accurate and truthful for commuter fare tracking.
+              Pinapatunayan kong tama ang mga detalye ko para sa tamang pagsubaybay ng pamasahe.
             </span>
           </label>
           {errors.acceptTerms && (
@@ -309,14 +309,14 @@ export function RegisterPage() {
             disabled={isSubmitting || !isConfigured}
           >
             <UserPlus className="h-4 w-4" />
-            {isSubmitting ? 'Creating account...' : 'Register Account'}
+            {isSubmitting ? 'Ginagawa ang account...' : 'I-register ang Account'}
           </GlassButton>
         </form>
 
         <p className="text-center text-xs text-[#777078]">
-          Already registered?{' '}
+          May account ka na?{' '}
           <Link to="/login" className="inline-flex min-h-[34px] items-center font-bold text-[#C9182B] hover:underline">
-            Sign In
+            Mag-sign In
           </Link>
         </p>
       </GlassCard>
@@ -333,7 +333,7 @@ export function ForgotPasswordPage() {
   const handleReset = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!supabase) {
-      pushToast({ title: 'Supabase unconfigured', variant: 'error' });
+      pushToast({ title: 'Hindi pa naka-set up ang Supabase', variant: 'error' });
       return;
     }
     setSubmitting(true);
@@ -342,7 +342,7 @@ export function ForgotPasswordPage() {
     });
     setSubmitting(false);
     if (error) {
-      pushToast({ title: 'Reset error', description: error.message, variant: 'error' });
+      pushToast({ title: 'Hindi ma-reset', description: error.message, variant: 'error' });
       return;
     }
     setSent(true);
@@ -354,15 +354,15 @@ export function ForgotPasswordPage() {
         <div className="flex items-center gap-2 text-[#C9182B]">
           <KeyRound className="h-5 w-5" />
           <h1 className="font-display text-xl font-extrabold text-[#29262B]">
-            Reset Your Password
+            I-reset ang Password
           </h1>
         </div>
         {sent ? (
-          <div className="space-y-3 text-sm text-[#343039]">
+          <div className="liquid-reveal-enter space-y-3 text-sm text-[#343039]">
             <p className="flex items-center gap-2 font-bold text-[#C9182B]">
-              <CheckCircle2 className="h-5 w-5" /> Reset email sent!
+              <CheckCircle2 className="h-5 w-5" /> Naipadala na ang reset email!
             </p>
-            <p>Check your inbox for a password recovery link.</p>
+            <p>Tingnan ang iyong inbox para sa password recovery link.</p>
           </div>
         ) : (
           <form onSubmit={handleReset} className="space-y-4">
@@ -371,11 +371,11 @@ export function ForgotPasswordPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your registered email..."
+              placeholder="Ilagay ang nakarehistrong email..."
               className="glass-input w-full rounded-2xl px-3.5 py-2.5 text-sm"
             />
             <GlassButton type="submit" variant="primary" className="w-full" disabled={submitting}>
-              {submitting ? 'Sending link...' : 'Send Reset Link'}
+              {submitting ? 'Nagpapadala...' : 'Magpadala ng Reset Link'}
             </GlassButton>
           </form>
         )}
@@ -394,17 +394,17 @@ export function ResetPasswordPage() {
     e.preventDefault();
     if (!supabase) return;
     if (password.length < 8) {
-      pushToast({ title: 'Password must be at least 8 characters.', variant: 'error' });
+      pushToast({ title: 'Dapat hindi bababa sa 8 characters ang password.', variant: 'error' });
       return;
     }
     setSubmitting(true);
     const { error } = await supabase.auth.updateUser({ password });
     setSubmitting(false);
     if (error) {
-      pushToast({ title: 'Update failed', description: error.message, variant: 'error' });
+      pushToast({ title: 'Hindi na-update', description: error.message, variant: 'error' });
       return;
     }
-    pushToast({ title: 'Password updated', description: 'You may now sign in.', variant: 'success' });
+    pushToast({ title: 'Na-update na ang password', description: 'Pwede ka nang mag-sign in.', variant: 'success' });
     navigate('/profile');
   };
 
@@ -412,7 +412,7 @@ export function ResetPasswordPage() {
     <div className="mx-auto max-w-md py-6">
       <GlassCard variant="strong" className="p-6 sm:p-8 space-y-5">
         <h1 className="font-display text-xl font-extrabold text-[#29262B]">
-          Choose New Password
+          Pumili ng Bagong Password
         </h1>
         <form onSubmit={handleUpdate} className="space-y-4">
           <input
@@ -420,11 +420,11 @@ export function ResetPasswordPage() {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="New password (min 8 chars)"
+            placeholder="Bagong password (min 8 characters)"
             className="glass-input w-full rounded-2xl px-3.5 py-2.5 text-sm"
           />
           <GlassButton type="submit" variant="primary" className="w-full" disabled={submitting}>
-            {submitting ? 'Updating...' : 'Save New Password'}
+            {submitting ? 'Sine-save...' : 'I-save ang Bagong Password'}
           </GlassButton>
         </form>
       </GlassCard>

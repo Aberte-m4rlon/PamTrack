@@ -139,7 +139,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!supabase) {
       return {
         error:
-          'Supabase backend is not configured. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to .env.',
+          'Hindi pa naka-set up ang Supabase backend. Ilagay ang VITE_SUPABASE_URL at VITE_SUPABASE_ANON_KEY sa .env.',
       };
     }
     const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -155,7 +155,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!supabase) {
       return {
         error:
-          'Supabase backend is not configured. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to .env.',
+          'Hindi pa naka-set up ang Supabase backend. Ilagay ang VITE_SUPABASE_URL at VITE_SUPABASE_ANON_KEY sa .env.',
         requiresEmailConfirmation: false,
       };
     }

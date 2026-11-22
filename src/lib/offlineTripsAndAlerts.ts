@@ -143,7 +143,7 @@ export function buildLocalTripRecord(input: {
     status: 'active',
     started_at: now,
     ended_at: null,
-    notes: 'Recorded locally in Offline Trip Monitor',
+    notes: 'Naka-save lokal sa Offline Trip Monitor',
     created_at: now,
     updated_at: now,
     origin: input.origin,
@@ -237,7 +237,7 @@ export async function triggerOfflineDeviceAlert(input: {
   soundEnabled?: boolean;
   repeatMs?: number;
 }): Promise<void> {
-  const mode = input.urgent ? 'urgent' : /approaching/i.test(input.title) ? 'arrival' : 'info';
+  const mode = input.urgent ? 'urgent' : /approaching|malapit|pagdating/i.test(input.title) ? 'arrival' : 'info';
 
   if (input.soundEnabled !== false) {
     startLoudConsecutiveAlertSound({
@@ -306,13 +306,13 @@ export function buildOfflineEmergencySmsHref(input: {
   const coords =
     typeof input.latitude === 'number' && typeof input.longitude === 'number'
       ? `${input.latitude.toFixed(5)}, ${input.longitude.toFixed(5)}`
-      : 'GPS pending';
+      : 'Wala pang GPS signal';
   const speedPart =
     typeof input.speedKmh === 'number' && Number.isFinite(input.speedKmh)
-      ? ` Speed: ${input.speedKmh.toFixed(1)} km/h.`
+      ? ` Bilis: ${input.speedKmh.toFixed(1)} km/h.`
       : '';
-  const linkPart = input.shareUrl ? ` Track live: ${input.shareUrl}` : '';
-  const body = `PAMASAHE TRACKER LIVE TRIP (${input.userName || 'Commuter'}): Route ${input.routeLabel}. GPS: ${coords}.${speedPart}${linkPart}`;
+  const linkPart = input.shareUrl ? ` Tingnan live: ${input.shareUrl}` : '';
+  const body = `PAMASAHE TRACKER LIVE BIYAHE (${input.userName || 'Pasahero'}): Ruta ${input.routeLabel}. GPS: ${coords}.${speedPart}${linkPart}`;
   const cleanPhone = (input.phone || '').replace(/[^\d+]/g, '');
   return cleanPhone
     ? `sms:${cleanPhone}?body=${encodeURIComponent(body)}`

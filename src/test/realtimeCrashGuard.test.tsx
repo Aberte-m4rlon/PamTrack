@@ -30,9 +30,9 @@ describe('Post-Login Realtime Crash Prevention & GlassErrorBoundary', () => {
         <ThrowingWidget />
       </GlassErrorBoundary>
     );
-    expect(screen.getByText('Something went wrong')).toBeInTheDocument();
+    expect(screen.getByText('May kaunting problema lang')).toBeInTheDocument();
     expect(screen.getByText('Simulated render crash')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Reload Application/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /I-reload ang App/i })).toBeInTheDocument();
     spy.mockRestore();
   });
 

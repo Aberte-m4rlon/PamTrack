@@ -71,7 +71,7 @@ export function SafetyCenterPage() {
   const [consentChecked, setConsentChecked] = useState(false);
 
   // Safety report form
-  const [incidentType, setIncidentType] = useState('Overcharging / Kontrata');
+  const [incidentType, setIncidentType] = useState('Sobra ang Singil / Kontrata');
   const [severity, setSeverity] = useState<SafetySeverity>('medium');
   const [muniId, setMuniId] = useState('');
   const [ttId, setTtId] = useState('');
@@ -94,10 +94,10 @@ export function SafetyCenterPage() {
       setRelationship('');
       setPhone('');
       setEmail('');
-      pushToast({ title: 'Trusted contact saved', variant: 'success' });
+      pushToast({ title: 'Na-save na ang trusted contact', variant: 'success' });
     },
     onError: (err: Error) => {
-      pushToast({ title: 'Save failed', description: err.message, variant: 'error' });
+      pushToast({ title: 'Hindi na-save', description: err.message, variant: 'error' });
     },
   });
 
@@ -105,14 +105,14 @@ export function SafetyCenterPage() {
     mutationFn: (id: string) => removeTrustedContact(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['trustedContacts', user?.id] });
-      pushToast({ title: 'Trusted contact removed', variant: 'info' });
+      pushToast({ title: 'Natanggal na ang trusted contact', variant: 'info' });
     },
   });
 
   const createShareMut = useMutation({
     mutationFn: () => {
-      if (!activeTrip) throw new Error('Start an active trip in Live Trip Monitor first.');
-      if (!consentChecked) throw new Error('Confirm explicit location sharing consent.');
+      if (!activeTrip) throw new Error('Magsimula muna ng active trip sa Live Trip Monitor.');
+      if (!consentChecked) throw new Error('I-check muna ang pahintulot sa pag-share ng lokasyon.');
       return createLocationSharingSession({
         userId: user!.id,
         tripId: activeTrip.id,
@@ -123,10 +123,10 @@ export function SafetyCenterPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['locationSharing', user?.id] });
       setConsentChecked(false);
-      pushToast({ title: 'Time-limited trip sharing link created', variant: 'success' });
+      pushToast({ title: 'Nagawa na ang may-limit na share link', variant: 'success' });
     },
     onError: (err: Error) => {
-      pushToast({ title: 'Cannot create share link', description: err.message, variant: 'error' });
+      pushToast({ title: 'Hindi nagawa ang share link', description: err.message, variant: 'error' });
     },
   });
 
@@ -134,7 +134,7 @@ export function SafetyCenterPage() {
     mutationFn: (id: string) => revokeLocationSharingSession(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['locationSharing', user?.id] });
-      pushToast({ title: 'Location sharing revoked immediately', variant: 'info' });
+      pushToast({ title: 'Agad na na-revoke ang location sharing', variant: 'info' });
     },
   });
 
@@ -157,27 +157,27 @@ export function SafetyCenterPage() {
       queryClient.invalidateQueries({ queryKey: ['notifications', user?.id] });
       setDescription('');
       setVehicleDetails('');
-      pushToast({ title: 'Safety report submitted', variant: 'success' });
+      pushToast({ title: 'Naipadala na ang safety report', variant: 'success' });
     },
     onError: (err: Error) => {
-      pushToast({ title: 'Submission failed', description: err.message, variant: 'error' });
+      pushToast({ title: 'Hindi naipadala ang report', description: err.message, variant: 'error' });
     },
   });
 
   const handleArrivalAlert = async () => {
     if (!user) return;
-    const message = `Arrival check-in logged at ${new Date().toLocaleTimeString()}${!isOnline ? ' (saved offline)' : ''}.`;
+    const message = `Naitala ang ligtas na pagdating noong ${new Date().toLocaleTimeString()}${!isOnline ? ' (naka-save offline)' : ''}.`;
     saveOfflineAlert({
       userId: user.id,
       type: 'arrival_alert',
-      title: 'Safe arrival recorded',
+      title: 'Naitala ang ligtas na pagdating',
       message,
       latitude: currentPosition?.latitude ?? null,
       longitude: currentPosition?.longitude ?? null,
       synced: isOnline && Boolean(supabase),
     });
     triggerOfflineDeviceAlert({
-      title: 'Safe arrival recorded',
+      title: 'Naitala ang ligtas na pagdating',
       body: message,
       soundEnabled: getOfflineAlertSoundEnabled(),
     });
@@ -186,28 +186,27 @@ export function SafetyCenterPage() {
       await supabase.from('notifications').insert({
         user_id: user.id,
         type: 'arrival_alert',
-        title: 'Safe arrival recorded',
+        title: 'Naitala ang ligtas na pagdating',
         message,
         dedupe_key: `arrival-${Date.now()}`,
       });
     }
     queryClient.invalidateQueries({ queryKey: ['notifications', user.id] });
-    pushToast({ title: 'Safe arrival notification recorded', variant: 'success' });
+    pushToast({ title: 'Naitala ang abiso ng ligtas na pagdating', variant: 'success' });
   };
 
   return (
     <div className="space-y-6">
-      <GlassCard variant="rose" className="p-4 sm:p-6 flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-4">
+      <GlassCard variant="rose" staggerIndex={0} className="p-4 sm:p-6 flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-4">
         <div className="min-w-0 space-y-1">
           <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
-            Commuter Protection &amp; Consent Controls
+            Proteksyon ng Pasahero at Pahintulot
           </p>
           <h1 className="font-display text-xl sm:text-3xl font-extrabold text-[#29262B]">
-            Trusted Contacts &amp; Safety Center
+            Trusted Contacts at Safety Center
           </h1>
           <p className="text-xs sm:text-sm text-[#343039] font-medium">
-            Manage emergency contacts, share active trips via revocable expiring links, and submit
-            transport safety reports.
+            Ayusin ang emergency contacts, mag-share ng live biyahe gamit ang nag-e-expire na link, at magpadala ng safety report.
           </p>
         </div>
 
@@ -233,7 +232,7 @@ export function SafetyCenterPage() {
               onClick={handleArrivalAlert}
             >
               <CheckCircle2 className="h-3.5 w-3.5 text-[#C9182B]" />
-              Safe Arrival Check-In
+              Ligtas na Pagdating
             </GlassButton>
           )}
         </div>
@@ -242,17 +241,17 @@ export function SafetyCenterPage() {
       {!user ? (
         <EmptyStateCard
           icon={ShieldAlert}
-          title="Sign in to manage Trusted Contacts and Safety Reports"
-          description="Personal contacts, time-limited sharing tokens, and incident submissions require a registered commuter account protected by Row Level Security."
+          title="Mag-sign in para sa Trusted Contacts at Safety Reports"
+          description="Kailangan ang account ng pasahero para sa personal contacts, may-limit na sharing link, at safety reports."
         />
       ) : (
         <div className="grid gap-6 lg:grid-cols-12 min-w-0">
-          {/* Trusted Contacts & Time-Limited Sharing */}
+          {/* Trusted Contacts at May-Limit na Pag-share */}
           <div className="min-w-0 lg:col-span-6 space-y-5">
-            <GlassCard variant="strong" className="p-5 space-y-4">
+            <GlassCard variant="strong" staggerIndex={1} className="p-5 space-y-4">
               <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#29262B]">
                 <UserPlus className="h-4 w-4 text-[#C9182B]" />
-                Trusted Contacts ({contacts?.length ?? 0})
+                Mga Trusted Contact ({contacts?.length ?? 0})
               </h2>
 
               <form
@@ -267,28 +266,28 @@ export function SafetyCenterPage() {
                   required
                   value={contactName}
                   onChange={(e) => setContactName(e.target.value)}
-                  placeholder="Contact Full Name"
+                  placeholder="Buong Pangalan ng Contact"
                   className="glass-input rounded-xl px-3 py-2 text-xs"
                 />
                 <input
                   type="text"
                   value={relationship}
                   onChange={(e) => setRelationship(e.target.value)}
-                  placeholder="Relationship (e.g., Family)"
+                  placeholder="Relasyon (hal. Pamilya, Kaibigan)"
                   className="glass-input rounded-xl px-3 py-2 text-xs"
                 />
                 <input
                   type="text"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  placeholder="Phone Number"
+                  placeholder="Numero ng Telepono"
                   className="glass-input rounded-xl px-3 py-2 text-xs"
                 />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email (optional)"
+                  placeholder="Email (opsyonal)"
                   className="glass-input rounded-xl px-3 py-2 text-xs"
                 />
                 <GlassButton
@@ -298,7 +297,7 @@ export function SafetyCenterPage() {
                   className="sm:col-span-2"
                   disabled={!isConfigured || addContactMut.isPending}
                 >
-                  Add Trusted Contact
+                  Idagdag sa Trusted Contacts
                 </GlassButton>
               </form>
 
@@ -306,7 +305,7 @@ export function SafetyCenterPage() {
                 {(contacts ?? []).map((c) => (
                   <div
                     key={c.id}
-                    className="flex items-center justify-between rounded-2xl bg-white/85 border border-[#F8E7EA] p-3 text-xs"
+                    className="liquid-reveal-enter flex items-center justify-between rounded-2xl bg-white/85 border border-[#F8E7EA] p-3 text-xs"
                   >
                     <div>
                       <p className="font-bold text-[#29262B]">
@@ -316,14 +315,14 @@ export function SafetyCenterPage() {
                         )}
                       </p>
                       <p className="text-[#777078]">
-                        {c.phone_number || 'No phone'} • {c.email || 'No email'}
+                        {c.phone_number || 'Walang numero'} • {c.email || 'Walang email'}
                       </p>
                     </div>
                     <button
                       type="button"
                       onClick={() => removeContactMut.mutate(c.id)}
-                      className="rounded-lg p-1.5 text-[#C9182B] hover:bg-[#F8E7EA]"
-                      aria-label="Remove contact"
+                      className="rounded-lg p-1.5 text-[#C9182B] hover:bg-[#F8E7EA] transition-transform duration-150 active:scale-95"
+                      aria-label="Alisin ang contact"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>
@@ -332,14 +331,13 @@ export function SafetyCenterPage() {
               </div>
             </GlassCard>
 
-            <GlassCard variant="strong" className="p-5 space-y-4">
+            <GlassCard variant="strong" staggerIndex={2} className="p-5 space-y-4">
               <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#29262B]">
                 <Share2 className="h-4 w-4 text-[#C9182B]" />
-                Time-Limited Trip Location Sharing
+                May-Limit na Pag-share ng Lokasyon
               </h2>
               <p className="text-xs text-[#777078]">
-                Your exact location is never public. Only holders of an active, unexpired,
-                unrevoked token can view your active trip status.
+                Hindi kailanman pampubliko ang eksaktong lokasyon mo. Tanging may hawak lang ng active at hindi pa na-revoke na link ang makakakita ng biyahe mo.
               </p>
 
               <div className="space-y-2.5 text-xs">
@@ -349,7 +347,7 @@ export function SafetyCenterPage() {
                     onChange={(e) => setSelectedContactId(e.target.value)}
                     className="glass-input rounded-xl px-3 py-2"
                   >
-                    <option value="">Optional trusted contact...</option>
+                    <option value="">Pumili ng contact (opsyonal)...</option>
                     {(contacts ?? []).map((c) => (
                       <option key={c.id} value={c.id}>
                         {c.contact_name}
@@ -361,10 +359,10 @@ export function SafetyCenterPage() {
                     onChange={(e) => setDurationMinutes(Number(e.target.value))}
                     className="glass-input rounded-xl px-3 py-2"
                   >
-                    <option value={15}>Expires in 15 mins</option>
-                    <option value={30}>Expires in 30 mins</option>
-                    <option value={60}>Expires in 1 hour</option>
-                    <option value={120}>Expires in 2 hours</option>
+                    <option value={15}>Mag-e-expire sa 15 minuto</option>
+                    <option value={30}>Mag-e-expire sa 30 minuto</option>
+                    <option value={60}>Mag-e-expire sa 1 oras</option>
+                    <option value={120}>Mag-e-expire sa 2 oras</option>
                   </select>
                 </div>
 
@@ -375,8 +373,7 @@ export function SafetyCenterPage() {
                     onChange={(e) => setConsentChecked(e.target.checked)}
                     className="accent-[#C9182B]"
                   />
-                  I explicitly consent to share my active trip GPS position until expiry or
-                  revocation.
+                  Pumapayag akong i-share ang live GPS ng active kong biyahe hanggang mag-expire o i-revoke ko ito.
                 </label>
 
                 <GlassButton
@@ -387,8 +384,8 @@ export function SafetyCenterPage() {
                   onClick={() => createShareMut.mutate()}
                 >
                   {activeTrip
-                    ? 'Generate Active Trip Share Link'
-                    : 'Start an Active Trip First'}
+                    ? 'Gumawa ng Active Trip Share Link'
+                    : 'Magsimula Muna ng Live Biyahe'}
                 </GlassButton>
               </div>
 
@@ -399,7 +396,7 @@ export function SafetyCenterPage() {
                   return (
                     <div
                       key={s.id}
-                      className="glass-pill-tile min-w-0 max-w-full overflow-hidden rounded-[20px] p-3 text-xs space-y-1.5"
+                      className="liquid-reveal-enter glass-pill-tile min-w-0 max-w-full overflow-hidden rounded-[20px] p-3 text-xs space-y-1.5"
                     >
                       <div className="flex items-center justify-between gap-2">
                         <span
@@ -409,7 +406,7 @@ export function SafetyCenterPage() {
                               : 'bg-white/75 text-[#343039]'
                           }`}
                         >
-                          {active ? 'Active Share' : s.revoked_at ? 'Revoked' : 'Expired'}
+                          {active ? 'Naka-share Ngayon' : s.revoked_at ? 'Na-revoke' : 'Nag-expire na'}
                         </span>
                         {active && (
                           <GlassButton
@@ -418,12 +415,12 @@ export function SafetyCenterPage() {
                             size="sm"
                             onClick={() => revokeShareMut.mutate(s.id)}
                           >
-                            Revoke Now
+                            I-revoke Ngayon
                           </GlassButton>
                         )}
                       </div>
                       <p className="text-[11px] text-[#5B555E]">
-                        Expires: {formatDateTimeSafe(s.expires_at)}
+                        Mag-e-expire: {formatDateTimeSafe(s.expires_at)}
                       </p>
                       {active && (
                         <div className="space-y-1.5 min-w-0 max-w-full">
@@ -443,13 +440,13 @@ export function SafetyCenterPage() {
                               onClick={() => {
                                 navigator.clipboard?.writeText(link).then(() => {
                                   pushToast({
-                                    title: 'Live movement share link copied',
+                                    title: 'Nakopya na ang live share link',
                                     variant: 'success',
                                   });
                                 });
                               }}
                             >
-                              Copy Live Monitor Link
+                              Kopyahin ang Live Monitor Link
                             </GlassButton>
                           </div>
                         </div>
@@ -461,11 +458,11 @@ export function SafetyCenterPage() {
             </GlassCard>
           </div>
 
-          {/* Safety Incident Reports */}
-          <GlassCard variant="strong" className="p-5 lg:col-span-6 space-y-4 h-fit">
+          {/* Mga Safety Incident Report */}
+          <GlassCard variant="strong" staggerIndex={3} className="p-5 lg:col-span-6 space-y-4 h-fit">
             <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#29262B]">
               <ShieldAlert className="h-4 w-4 text-[#C9182B]" />
-              Report a Safety Incident
+              Mag-report ng Safety Incident
             </h2>
 
             <form
@@ -481,22 +478,22 @@ export function SafetyCenterPage() {
                   onChange={(e) => setIncidentType(e.target.value)}
                   className="glass-input rounded-xl px-3 py-2"
                 >
-                  <option>Overcharging / Kontrata</option>
-                  <option>Refusal of Student/Senior/PWD Discount</option>
-                  <option>Reckless Driving</option>
-                  <option>Unlicensed / Colorum Vehicle</option>
-                  <option>Harassment or Safety Threat</option>
-                  <option>Other Transport Safety Issue</option>
+                  <option>Sobra ang Singil / Kontrata</option>
+                  <option>Ayaw Magbigay ng Student/Senior/PWD Discount</option>
+                  <option>Mapanganib o Kaskaserong Pagmamaneho</option>
+                  <option>Walang Prangkisa / Colorum na Sasakyan</option>
+                  <option>Panliligalig o Banta sa Kaligtasan</option>
+                  <option>Ibang Isyu sa Kaligtasan sa Biyahe</option>
                 </select>
                 <select
                   value={severity}
                   onChange={(e) => setSeverity(e.target.value as SafetySeverity)}
                   className="glass-input rounded-xl px-3 py-2"
                 >
-                  <option value="low">Severity: Low</option>
-                  <option value="medium">Severity: Medium</option>
-                  <option value="high">Severity: High</option>
-                  <option value="critical">Severity: Critical</option>
+                  <option value="low">Antas: Mababa</option>
+                  <option value="medium">Antas: Katamtaman</option>
+                  <option value="high">Antas: Mataas</option>
+                  <option value="critical">Antas: Kritikal</option>
                 </select>
               </div>
 
@@ -506,7 +503,7 @@ export function SafetyCenterPage() {
                   onChange={(e) => setMuniId(e.target.value)}
                   className="glass-input rounded-xl px-3 py-2"
                 >
-                  <option value="">Municipality (optional)...</option>
+                  <option value="">Bayan (opsyonal)...</option>
                   {municipalities.map((m) => (
                     <option key={m.id} value={m.id}>
                       {m.name}
@@ -518,7 +515,7 @@ export function SafetyCenterPage() {
                   onChange={(e) => setTtId(e.target.value)}
                   className="glass-input rounded-xl px-3 py-2"
                 >
-                  <option value="">Transport Mode (optional)...</option>
+                  <option value="">Uri ng Sasakyan (opsyonal)...</option>
                   {transportTypes.map((tt) => (
                     <option key={tt.id} value={tt.id}>
                       {tt.name}
@@ -531,7 +528,7 @@ export function SafetyCenterPage() {
                 type="text"
                 value={vehicleDetails}
                 onChange={(e) => setVehicleDetails(e.target.value)}
-                placeholder="Plate / Body No. / TODA / Operator (optional)"
+                placeholder="Plaka / Body No. / TODA / Operator (opsyonal)"
                 className="glass-input w-full rounded-xl px-3 py-2"
               />
 
@@ -540,7 +537,7 @@ export function SafetyCenterPage() {
                 required
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Describe what happened cleanly and factually..."
+                placeholder="Ikwento nang malinaw at totoo ang nangyari..."
                 className="glass-input w-full rounded-xl px-3 py-2"
               />
 
@@ -552,8 +549,8 @@ export function SafetyCenterPage() {
                     onChange={(e) => setAttachGps(e.target.checked)}
                     className="accent-[#C9182B]"
                   />
-                  Include my current GPS fix ({currentPosition.latitude.toFixed(4)}°N,{' '}
-                  {currentPosition.longitude.toFixed(4)}°E) with this report
+                  Isama ang kasalukuyan kong GPS ({currentPosition.latitude.toFixed(4)}°N,{' '}
+                  {currentPosition.longitude.toFixed(4)}°E) sa report
                 </label>
               )}
 
@@ -562,16 +559,16 @@ export function SafetyCenterPage() {
                 variant="primary"
                 disabled={submitSafetyMut.isPending}
               >
-                Submit Safety Report
+                Ipadala ang Safety Report
               </GlassButton>
             </form>
 
             <div className="space-y-2 border-t border-[#E9E5E8]/40 pt-4">
               <p className="text-xs font-bold text-[#29262B]">
-                My Safety Reports ({safetyReports?.length ?? 0})
+                Mga Safety Report Ko ({safetyReports?.length ?? 0})
               </p>
               {(safetyReports ?? []).map((sr) => (
-                <div key={sr.id} className="rounded-2xl bg-white/85 border border-[#F8E7EA] p-3 text-xs space-y-1">
+                <div key={sr.id} className="liquid-reveal-enter rounded-2xl bg-white/85 border border-[#F8E7EA] p-3 text-xs space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-[#29262B]">{sr.incident_type}</span>
                     <span className="rounded-full bg-[#F8E7EA] px-2 py-0.5 text-[10px] font-bold uppercase text-[#C9182B]">
@@ -581,7 +578,7 @@ export function SafetyCenterPage() {
                   <p className="text-[#777078]">{sr.description}</p>
                   {sr.admin_notes && (
                     <p className="text-[11px] font-semibold text-[#B51224]">
-                      Admin response: {sr.admin_notes}
+                      Tugon ng admin: {sr.admin_notes}
                     </p>
                   )}
                 </div>

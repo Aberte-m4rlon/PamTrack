@@ -157,13 +157,13 @@ describe('Live Trip Sharing & Recipient Speed/Movement Monitor', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText(/Juan's Live Trip: Calapan City → Roxas/i)).toBeInTheDocument();
+      expect(screen.getByText(/Live na Biyahe ni Juan: Calapan City → Roxas/i)).toBeInTheDocument();
       expect(screen.getByTestId('shared-current-speed')).toHaveTextContent('36.0');
-      expect(screen.getAllByText(/Moving Steadily/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/Normal ang Takbo/i).length).toBeGreaterThan(0);
       expect(screen.getByText(/SE \(135°\)/i)).toBeInTheDocument();
-      expect(screen.getByText(/Live Realtime Monitor/i)).toBeInTheDocument();
-      expect(screen.getByText(/Movement Log/i)).toBeInTheDocument();
-      expect(screen.getByText(/Juan's Recent Trip History/i)).toBeInTheDocument();
+      expect(screen.getByText(/Naka-Live Realtime Monitor/i)).toBeInTheDocument();
+      expect(screen.getByText(/Talaan ng Galaw/i)).toBeInTheDocument();
+      expect(screen.getByText(/Mga Kamakailang Biyahe ni Juan/i)).toBeInTheDocument();
       expect(screen.getByText(/Calapan City → Naujan/i)).toBeInTheDocument();
       expect(screen.getByText(/38\.7 km\/h avg/i)).toBeInTheDocument();
     });
@@ -186,7 +186,7 @@ describe('Live Trip Sharing & Recipient Speed/Movement Monitor', () => {
         avgSpeedKmh: 41.0,
         maxSpeedKmh: 58.4,
         headingDeg: 145,
-        movementLabel: 'Fast Travel',
+        movementLabel: 'Mabilis ang Takbo',
         distanceKm: 19.6,
         elapsedSeconds: 1500,
         remainingKm: 42.0,
@@ -215,8 +215,8 @@ describe('Live Trip Sharing & Recipient Speed/Movement Monitor', () => {
           },
         ],
         alertBanner: {
-          title: 'SOS Emergency Alert Triggered',
-          message: 'Emergency button pressed near Victoria.',
+          title: 'Na-trigger ang SOS Emergency Alert',
+          message: 'Pinindot ang emergency button malapit sa Victoria.',
           urgent: true,
           triggeredAt: new Date().toISOString(),
         },
@@ -226,9 +226,9 @@ describe('Live Trip Sharing & Recipient Speed/Movement Monitor', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('shared-current-speed')).toHaveTextContent('58.4');
-      expect(screen.getAllByText(/Fast Travel/i).length).toBeGreaterThan(0);
-      expect(screen.getByText(/Peak recorded: 58\.4 km\/h/i)).toBeInTheDocument();
-      expect(screen.getByRole('alert')).toHaveTextContent(/SOS Emergency Alert Triggered/i);
+      expect(screen.getAllByText(/Mabilis ang Takbo/i).length).toBeGreaterThan(0);
+      expect(screen.getByText(/Pinakamabilis: 58\.4 km\/h/i)).toBeInTheDocument();
+      expect(screen.getByRole('alert')).toHaveTextContent(/Na-trigger ang SOS Emergency Alert/i);
     });
   });
 
@@ -246,7 +246,7 @@ describe('Live Trip Sharing & Recipient Speed/Movement Monitor', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText(/Shared Trip Unavailable/i)).toBeInTheDocument();
+      expect(screen.getByText(/Hindi Mabuksan ang Shared Trip/i)).toBeInTheDocument();
       expect(screen.getByText(/Sharing link has been revoked/i)).toBeInTheDocument();
     });
   });
@@ -385,42 +385,42 @@ describe('Live Trip Sharing & Recipient Speed/Movement Monitor', () => {
     await user.selectOptions(combos[1], 'lgu-naujan');
     await user.selectOptions(combos[2], 'tt-multicab');
 
-    await user.click(screen.getByRole('button', { name: /Start Live Trip/i }));
+    await user.click(screen.getByRole('button', { name: /Simulan ang Live Trip/i }));
 
     await waitFor(() => {
       expect(startSpy).toHaveBeenCalled();
-      expect(screen.getByText(/Live Speed/i)).toBeInTheDocument();
+      expect(screen.getByText(/Bilis Ngayon/i)).toBeInTheDocument();
       expect(screen.getAllByText(/36\.0/i).length).toBeGreaterThan(0);
-      expect(screen.getByText(/Share Live Location & Speed/i)).toBeInTheDocument();
-      expect(screen.getByText(/My Trip History \(1\)/i)).toBeInTheDocument();
+      expect(screen.getByText(/I-share ang Live Location at Bilis/i)).toBeInTheDocument();
+      expect(screen.getByText(/Mga Nagawa Kong Biyahe \(1\)/i)).toBeInTheDocument();
       expect(screen.getByText(/Calapan City → Puerto Galera/i)).toBeInTheDocument();
-      expect(screen.getByText(/Include my recent Trip History for shared link recipients/i)).toBeInTheDocument();
+      expect(screen.getByText(/Isama ang kamakailang Trip History para sa pinagsendan ng link/i)).toBeInTheDocument();
     });
 
     // Change duration to 30 mins and create share link
     const durationSelect = screen.getByLabelText(/Share link duration/i);
     await user.selectOptions(durationSelect, '30');
 
-    await user.click(screen.getByRole('button', { name: /Create Live Share Link/i }));
+    await user.click(screen.getByRole('button', { name: /Gumawa ng Share Link/i }));
 
     await waitFor(() => {
       expect(screen.getByText(/live-share-xyz789/i)).toBeInTheDocument();
-      expect(screen.getByText(/Streaming Live/i)).toBeInTheDocument();
+      expect(screen.getByText(/Naka-Live Stream/i)).toBeInTheDocument();
     });
 
-    await user.click(screen.getByRole('button', { name: /Copy Link/i }));
+    await user.click(screen.getByRole('button', { name: /Kopyahin/i }));
     await waitFor(() => {
       expect(clipboardSpy).toHaveBeenCalledWith(
         expect.stringContaining('/shared-trip/live-share-xyz789')
       );
-      expect(screen.getByRole('button', { name: /Copied/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /Nakopya na/i })).toBeInTheDocument();
     });
 
     // Wait for query refetch to hydrate server-persisted session so Revoke button renders
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /^Revoke$/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /^I-revoke$/i })).toBeInTheDocument();
     });
-    await user.click(screen.getByRole('button', { name: /^Revoke$/i }));
+    await user.click(screen.getByRole('button', { name: /^I-revoke$/i }));
     await waitFor(() => {
       expect(revokeSpy).toHaveBeenCalledWith('share-sess-1');
     });

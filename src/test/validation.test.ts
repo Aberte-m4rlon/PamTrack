@@ -89,11 +89,11 @@ describe('Input & Security Validation Schemas', () => {
 
   it('rejects unsupported file types and files over 5MB for evidence uploads', () => {
     const exeFile = new File(['abc'], 'payload.exe', { type: 'application/x-msdownload' });
-    expect(validateEvidenceFile(exeFile)).toContain('Unsupported file type');
+    expect(validateEvidenceFile(exeFile)).toContain('Hindi supported ang file');
 
     const hugeBuffer = new Uint8Array(6 * 1024 * 1024);
     const bigPng = new File([hugeBuffer], 'huge.png', { type: 'image/png' });
-    expect(validateEvidenceFile(bigPng)).toContain('5 MB upload limit');
+    expect(validateEvidenceFile(bigPng)).toContain('Lumampas sa 5 MB');
 
     const okJpg = new File(['image-bytes'], 'ticket.jpg', { type: 'image/jpeg' });
     expect(validateEvidenceFile(okJpg)).toBeNull();

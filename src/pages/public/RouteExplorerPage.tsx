@@ -128,13 +128,13 @@ export function RouteExplorerPage() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="min-w-0">
             <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
-              Interactive OpenStreetMap Explorer &amp; Fare Guide
+              Interactive Mapa at Gabay sa Pamasahe
             </p>
             <h1 className="font-display text-xl leading-tight font-extrabold text-[#29262B] sm:text-3xl">
-              Oriental Mindoro Route Map &amp; Fares
+              Mapa ng Mga Ruta sa Oriental Mindoro
             </h1>
             <p className="text-xs sm:text-sm text-[#343039]">
-              Pick two LGUs to view the road corridor and fare guide.
+              Pumili ng dalawang bayan para makita ang kalsada at presyo ng pamasahe.
             </p>
           </div>
           {originId && destinationId && (
@@ -144,7 +144,7 @@ export function RouteExplorerPage() {
             >
               <GlassButton variant="primary" className="w-full sm:w-auto">
                 <Search className="h-4 w-4" />
-                Compare All Filters
+                Ikumpara Lahat
               </GlassButton>
             </Link>
           )}
@@ -154,7 +154,7 @@ export function RouteExplorerPage() {
       {quickFareCorridors.length > 0 && (
         <GlassCard variant="surface" className="p-3.5 sm:p-4 space-y-2">
           <p className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#C9182B]">
-            Popular Corridors
+            Mga Sikat na Ruta
           </p>
           <div className="flex sm:flex-wrap gap-2 overflow-x-auto pb-1 -mx-1 px-1 sm:mx-0 sm:px-0 sm:pb-0 sm:overflow-visible">
             {quickFareCorridors.map((c) => (
@@ -165,11 +165,11 @@ export function RouteExplorerPage() {
                   setOriginId(c.originId);
                   setDestinationId(c.destinationId);
                 }}
-                className="glass-pill-tile inline-flex min-h-[40px] shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-3.5 py-2 text-xs font-bold text-[#29262B] hover:bg-gradient-to-b hover:from-[#C9182B] hover:to-[#B51224] hover:text-white transition group"
+                className="glass-pill-tile inline-flex min-h-[40px] shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-3.5 py-2 text-xs font-bold text-[#29262B] hover:-translate-y-0.5 active:scale-95 hover:bg-gradient-to-b hover:from-[#C9182B] hover:to-[#B51224] hover:text-white group"
               >
                 <span>
                   {c.originId === c.destinationId
-                    ? `${c.originName} (Local)`
+                    ? `${c.originName} (Loob ng Bayan)`
                     : `${c.originName} → ${c.destinationName}`}
                 </span>
                 <span className="rounded-full bg-[#F8E7EA] px-2 py-0.5 text-[11px] font-extrabold text-[#C9182B] group-hover:bg-white/25 group-hover:text-white tabular-nums">
@@ -185,7 +185,7 @@ export function RouteExplorerPage() {
         <div className="grid gap-2.5 sm:gap-3 sm:grid-cols-2">
           <div>
             <label className="mb-1 block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#777078]">
-              Map Origin
+              Pinanggalingan sa Mapa
             </label>
             <select
               value={originId}
@@ -193,7 +193,7 @@ export function RouteExplorerPage() {
               aria-label="Route map origin municipality"
               className="glass-input min-h-[42px] w-full rounded-2xl px-3.5 py-2.5 text-sm font-medium"
             >
-              <option value="">Choose origin on map or dropdown...</option>
+              <option value="">Pumili ng pinanggalingan sa mapa o listahan...</option>
               {municipalities.map((m) => (
                 <option key={m.id} value={m.id}>
                   {m.name} ({m.district})
@@ -203,7 +203,7 @@ export function RouteExplorerPage() {
           </div>
           <div>
             <label className="mb-1 block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#777078]">
-              Map Destination
+              Pupuntahan sa Mapa
             </label>
             <select
               value={destinationId}
@@ -211,7 +211,7 @@ export function RouteExplorerPage() {
               aria-label="Route map destination municipality"
               className="glass-input min-h-[42px] w-full rounded-2xl px-3.5 py-2.5 text-sm font-medium"
             >
-              <option value="">Choose destination on map or dropdown...</option>
+              <option value="">Pumili ng pupuntahan sa mapa o listahan...</option>
               {municipalities.map((m) => (
                 <option key={m.id} value={m.id}>
                   {m.name} ({m.district})
@@ -237,23 +237,27 @@ export function RouteExplorerPage() {
 
       {/* Selected Route Fares Directly on /routes */}
       {originId && destinationId && selectedCorridorFares && (
-        <section className="space-y-4" aria-label="Selected route fare prices">
+        <section
+          key={`${originId}-${destinationId}`}
+          className="liquid-reveal-enter space-y-4"
+          aria-label="Selected route fare prices"
+        >
           <div className="glass-surface rounded-3xl p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3">
             <div>
               <p className="text-xs font-bold uppercase tracking-wider text-[#C9182B]">
-                Selected Route Fare Breakdown
+                Detalye ng Pamasahe sa Napiling Ruta
               </p>
               <h2 className="font-display text-xl font-extrabold text-[#29262B]">
                 {originId === destinationId
-                  ? `${originName ?? 'Origin'} (Local / Intra-Municipality)`
-                  : `${originName ?? 'Origin'} → ${destinationName ?? 'Destination'}`}
+                  ? `${originName ?? 'Pinanggalingan'} (Lokal / Loob ng Bayan)`
+                  : `${originName ?? 'Pinanggalingan'} → ${destinationName ?? 'Pupuntahan'}`}
               </h2>
             </div>
             <Link
               to={`/fare-search?origin=${encodeURIComponent(originId)}&destination=${encodeURIComponent(destinationId)}`}
             >
               <GlassButton variant="secondary" size="sm">
-                Open Full Fare Search →
+                Buksan sa Fare Finder →
               </GlassButton>
             </Link>
           </div>
@@ -267,8 +271,8 @@ export function RouteExplorerPage() {
             selectedCorridorFares.communityEstimates.length === 0 ? (
             <EmptyStateCard
               icon={ShieldAlert}
-              title="No commuter fare estimate found for this route yet."
-              description="Browse available estimates in the Fare Matrix or check back after syncing online."
+              title="Wala pang naka-save na pamasahe para sa rutang ito."
+              description="Tingnan ang ibang tinatayang pamasahe sa Fare Matrix o subukan ulit kapag naka-sync online."
             />
           ) : (
             <div className="space-y-4">
@@ -276,11 +280,17 @@ export function RouteExplorerPage() {
                 <div className="space-y-2.5">
                   <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-xs font-bold text-[#29262B]">
                     <CheckCircle2 className="h-4 w-4 text-[#C9182B]" />
-                    <span>Verified Fare Records</span>
+                    <span>Opisyal at Verified na Pamasahe</span>
                   </div>
                   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {selectedCorridorFares.officialFares.map((fare) => (
-                      <GlassCard key={fare.id} variant="strong" hoverable className="p-4 space-y-2.5">
+                    {selectedCorridorFares.officialFares.map((fare, idx) => (
+                      <GlassCard
+                        key={fare.id}
+                        variant="strong"
+                        hoverable
+                        staggerIndex={idx}
+                        className="p-4 space-y-2.5"
+                      >
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex items-center gap-2">
                             <span className="liquid-nav-active rounded-xl p-2 text-white">
@@ -288,7 +298,7 @@ export function RouteExplorerPage() {
                             </span>
                             <div>
                               <p className="font-bold text-sm text-[#29262B]">
-                                {fare.transport_type?.name ?? 'Public Transport'}
+                                {fare.transport_type?.name ?? 'Pampublikong Sasakyan'}
                               </p>
                               <p className="text-[11px] font-semibold text-[#777078]">
                                 {PASSENGER_CATEGORY_LABELS[fare.passenger_category]}
@@ -310,7 +320,7 @@ export function RouteExplorerPage() {
                           to={`/fares/${fare.id}`}
                           className="inline-block text-xs font-bold text-[#B51224] hover:underline"
                         >
-                          View Details →
+                          Tingnan ang Detalye →
                         </Link>
                       </GlassCard>
                     ))}
@@ -322,14 +332,15 @@ export function RouteExplorerPage() {
                 <div className="space-y-2.5">
                   <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-xs font-bold text-[#29262B]">
                     <AlertTriangle className="h-4 w-4 text-[#C9182B]" />
-                    <span>Commuter Fare Guide (Citizen Estimates)</span>
+                    <span>Gabay sa Pamasahe (Tantya ng Komunidad)</span>
                   </div>
                   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {selectedCorridorFares.communityEstimates.map((est) => (
+                    {selectedCorridorFares.communityEstimates.map((est, idx) => (
                       <GlassCard
                         key={est.id}
                         variant="strong"
                         hoverable
+                        staggerIndex={idx}
                         className="p-4 space-y-2"
                       >
                         <div className="flex items-start justify-between gap-2">
@@ -339,7 +350,7 @@ export function RouteExplorerPage() {
                             </span>
                             <div>
                               <p className="font-bold text-sm text-[#29262B]">
-                                {est.transport_type?.name ?? 'Public Transport'}
+                                {est.transport_type?.name ?? 'Pampublikong Sasakyan'}
                               </p>
                               <p className="text-[11px] font-semibold text-[#777078]">
                                 {PASSENGER_CATEGORY_LABELS[est.passenger_category]}
@@ -352,8 +363,8 @@ export function RouteExplorerPage() {
                           {formatPhp(est.fare_amount)}
                         </p>
                         <p className="text-[11px] text-[#777078]">
-                          Updated {formatDateSafe(est.last_verified_at || est.updated_at)} • Citizen
-                          commuter reference
+                          Na-update {formatDateSafe(est.last_verified_at || est.updated_at)} • Gabay
+                          mula sa mga pasahero
                         </p>
                       </GlassCard>
                     ))}
@@ -370,7 +381,7 @@ export function RouteExplorerPage() {
         <div className="flex items-center gap-2 px-1">
           <RouteIcon className="h-4 w-4 text-[#C9182B]" />
           <h2 className="font-display text-xl font-extrabold text-[#29262B]">
-            Registered Transport Corridors &amp; Fares
+            Mga Nakarehistrong Ruta at Pamasahe
           </h2>
         </div>
 
@@ -382,12 +393,12 @@ export function RouteExplorerPage() {
         ) : !routes || routes.length === 0 ? (
           <EmptyStateCard
             icon={Compass}
-            title="No transport corridors registered in the database yet"
-            description="Select any two municipalities above to compute live OpenStreetMap road routing, or browse available routes in the Fare Matrix."
+            title="Wala pang nakarehistrong ruta sa database"
+            description="Pumili ng kahit anong dalawang bayan sa itaas para makita ang daan sa mapa, o tingnan ang Fare Matrix."
           />
         ) : (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {routes.map((route) => {
+            {routes.map((route, idx) => {
               const routeFares = allFares.filter(
                 (f) =>
                   f.origin_municipality_id === route.origin_municipality_id &&
@@ -401,7 +412,13 @@ export function RouteExplorerPage() {
               } = summarizeCorridorFares(routeFares);
 
               return (
-                <GlassCard key={route.id} variant="strong" hoverable className="p-4 space-y-3 flex flex-col justify-between">
+                <GlassCard
+                  key={route.id}
+                  variant="strong"
+                  hoverable
+                  staggerIndex={idx}
+                  className="p-4 space-y-3 flex flex-col justify-between"
+                >
                   <div className="space-y-2.5">
                     <div className="flex items-center justify-between gap-2">
                       <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F8E7EA] px-2.5 py-1 text-[11px] font-bold text-[#C9182B]">
@@ -424,7 +441,7 @@ export function RouteExplorerPage() {
 
                     {route.distance_km && (
                       <p className="text-xs font-semibold text-[#B51224]">
-                        Distance: {route.distance_km} km ({route.distance_source ?? 'survey'})
+                        Distansya: {route.distance_km} km ({route.distance_source ?? 'survey'})
                       </p>
                     )}
 
@@ -433,7 +450,7 @@ export function RouteExplorerPage() {
                       <div className="glass-pill-tile rounded-[20px] p-3 space-y-1 border-[#E9E5E8]">
                         <div className="flex items-center justify-between gap-2">
                           <span className="text-[10px] font-bold uppercase tracking-wider text-[#B51224]">
-                            Approved Tariff Rate
+                            Opisyal na Taripa
                           </span>
                           <FareStatusBadge status="verified_official" compact />
                         </div>
@@ -445,7 +462,7 @@ export function RouteExplorerPage() {
                         </p>
                         {officialDiscounted && (
                           <p className="text-[11px] font-semibold text-[#29262B]">
-                            Discounted ({PASSENGER_CATEGORY_LABELS[officialDiscounted.passenger_category]}):{' '}
+                            May Discount ({PASSENGER_CATEGORY_LABELS[officialDiscounted.passenger_category]}):{' '}
                             {formatPhp(officialDiscounted.fare_amount)}
                           </p>
                         )}
@@ -454,7 +471,7 @@ export function RouteExplorerPage() {
                       <div className="glass-pill-tile rounded-[20px] p-3 space-y-1">
                         <div className="flex items-center justify-between gap-2">
                           <span className="text-[10px] font-bold uppercase tracking-wider text-[#B51224]">
-                            Citizen Guide Rate
+                            Gabay ng Komunidad
                           </span>
                           <FareStatusBadge status="community_estimate" compact />
                         </div>
@@ -467,7 +484,7 @@ export function RouteExplorerPage() {
                       </div>
                     ) : (
                       <div className="glass-pill-tile rounded-[20px] p-2.5 text-[11px] font-semibold text-[#343039]">
-                        No fare estimate yet.
+                        Wala pang presyo ng pamasahe.
                       </div>
                     )}
                   </div>
@@ -481,13 +498,13 @@ export function RouteExplorerPage() {
                       }}
                       className="text-xs font-bold text-[#B51224] hover:underline"
                     >
-                      Show on Map &amp; Details
+                      Ipakita sa Mapa
                     </button>
                     <Link
                       to={`/fare-search?origin=${route.origin_municipality_id}&destination=${route.destination_municipality_id}`}
                       className="text-xs font-bold text-[#C9182B] hover:underline"
                     >
-                      Full Fare Search →
+                      Buong Detalye →
                     </Link>
                   </div>
                 </GlassCard>

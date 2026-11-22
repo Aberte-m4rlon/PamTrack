@@ -1,4 +1,5 @@
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { MotionConfig } from 'framer-motion';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { GpsProvider } from '@/contexts/GpsContext';
@@ -73,8 +74,8 @@ export function AppRoutes() {
           path="/routes"
           element={
             <OfflineFeatureGate
-              featureTitle="Oriental Mindoro Route Explorer"
-              featureDescription="Interactive OpenStreetMap tiles and OSRM road geometry require internet connectivity. Cached fares remain usable offline."
+              featureTitle="Mapa ng Mga Ruta sa Oriental Mindoro"
+              featureDescription="Kailangan ng internet para makita ang OpenStreetMap tiles at OSRM na ruta ng kalsada. Pwede pa ring gamitin offline ang mga naka-save na pamasahe."
             >
               <RouteExplorerPage />
             </OfflineFeatureGate>
@@ -84,8 +85,8 @@ export function AppRoutes() {
           path="/shared-trip/:token"
           element={
             <OfflineFeatureGate
-              featureTitle="Shared Live Trip Viewer"
-              featureDescription="Viewing a shared commuter trip link requires an internet connection."
+              featureTitle="Viewer ng Naka-share na Biyahe"
+              featureDescription="Kailangan ng internet connection para mabuksan at masubaybayan ang live shared trip link."
             >
               <SharedTripPage />
             </OfflineFeatureGate>
@@ -97,8 +98,8 @@ export function AppRoutes() {
           path="/login"
           element={
             <OfflineFeatureGate
-              featureTitle="Account Sign In"
-              featureDescription="Signing in to your commuter account requires an internet connection."
+              featureTitle="Pag-sign In sa Account"
+              featureDescription="Kailangan ng internet connection para makapag-sign in sa account mo."
             >
               <LoginPage />
             </OfflineFeatureGate>
@@ -108,8 +109,8 @@ export function AppRoutes() {
           path="/register"
           element={
             <OfflineFeatureGate
-              featureTitle="Commuter Registration"
-              featureDescription="Creating a commuter account requires an internet connection."
+              featureTitle="Pag-register ng Pasahero"
+              featureDescription="Kailangan ng internet connection para makagawa ng bagong account."
             >
               <RegisterPage />
             </OfflineFeatureGate>
@@ -119,8 +120,8 @@ export function AppRoutes() {
           path="/forgot-password"
           element={
             <OfflineFeatureGate
-              featureTitle="Password Recovery"
-              featureDescription="Sending password reset links requires an internet connection."
+              featureTitle="Pagbawi ng Password"
+              featureDescription="Kailangan ng internet connection para makapagpadala ng password reset link."
             >
               <ForgotPasswordPage />
             </OfflineFeatureGate>
@@ -130,8 +131,8 @@ export function AppRoutes() {
           path="/reset-password"
           element={
             <OfflineFeatureGate
-              featureTitle="Reset Password"
-              featureDescription="Updating your password requires an internet connection."
+              featureTitle="I-reset ang Password"
+              featureDescription="Kailangan ng internet connection para ma-update ang iyong password."
             >
               <ResetPasswordPage />
             </OfflineFeatureGate>
@@ -144,16 +145,16 @@ export function AppRoutes() {
           element={
             <OfflineFeatureGate
               featureTitle="Live GPS Map"
-              featureDescription="Real-time OpenStreetMap tiles and routing require internet connectivity."
+              featureDescription="Kailangan ng internet connection para sa live OpenStreetMap tiles at road routing."
             >
               <RequireAccountAccess
                 featureTitle="Live GPS Map"
-                featureDescription="Track your current position, browse terminals, and measure OSRM road corridors across Oriental Mindoro."
+                featureDescription="Subaybayan ang iyong lokasyon, tingnan ang mga terminal, at sukatin ang layo sa kalsada sa Oriental Mindoro."
                 unlocks={[
-                  'Live GPS position marker across all 15 LGUs',
-                  'Terminal & port pins with mode filtering',
-                  'OSRM road distance & duration estimation',
-                  'Direct handoff to Live Trip Monitor',
+                  'Live GPS marker sa lahat ng 15 LGU',
+                  'Mga terminal at pantalan na may filter sa sasakyan',
+                  'Pagkalkula ng distansya at tagal sa kalsada (OSRM)',
+                  'Direktang lipat papunta sa Live Trip Monitor',
                 ]}
               >
                 <LiveMapPage />
@@ -166,12 +167,12 @@ export function AppRoutes() {
           element={
             <RequireAccountAccess
               featureTitle="Live Trip Monitor"
-              featureDescription="Monitor active journeys offline or online with GPS tracking, route alerts, and trip saving."
+              featureDescription="Bantayan ang iyong biyahe online o offline gamit ang GPS, alerto sa ruta, at pag-save ng biyahe."
               unlocks={[
-                'Offline & online active trip GPS distance monitor',
-                'Offline route deviation & destination arrival alerts',
-                'Shareable live trip links when connected',
-                'Trip logging synced automatically when back online',
+                'Online at offline GPS monitor habang bumabyahe',
+                'Offline alerto kapag lumihis sa ruta o malapit na sa bababaan',
+                'Link na pwede i-share para sa live monitoring kapag may internet',
+                'Awtomatikong nag-si-sync ang na-save na biyahe kapag online na ulit',
               ]}
             >
               <LiveTripPage />
@@ -182,16 +183,16 @@ export function AppRoutes() {
           path="/safety"
           element={
             <OfflineFeatureGate
-              featureTitle="Safety & Trusted Contacts"
-              featureDescription="Managing trusted contacts and emergency trip sharing requires an internet connection."
+              featureTitle="Safety at Trusted Contacts"
+              featureDescription="Kailangan ng internet connection para ma-manage ang mga trusted contact at live sharing links."
             >
               <RequireAccountAccess
-                featureTitle="Safety & Trusted Contacts"
-                featureDescription="Manage emergency trusted contacts, control live trip sharing links, and log safety alerts."
+                featureTitle="Safety at Trusted Contacts"
+                featureDescription="I-manage ang mga emergency contact, live sharing links na may limitadong oras, at safety reports."
                 unlocks={[
-                  'Trusted family & emergency contact directory',
-                  'Time-limited live GPS share controls',
-                  'Commuter safety incident logging',
+                  'Listahan ng pamilya at mga pinagkakatiwalaang contact',
+                  'Kontrol sa live GPS share links na may expiration',
+                  'Pag-report ng mga insidente sa kaligtasan ng pasahero',
                 ]}
               >
                 <SafetyCenterPage />
@@ -202,11 +203,11 @@ export function AppRoutes() {
 
         <Route
           path="/dashboard/reports"
-          element={withAuthGate('Report Observed Fare', <MyReportsPage />)}
+          element={withAuthGate('Mag-report ng Pamasahe', <MyReportsPage />)}
         />
         <Route
           path="/dashboard/profile"
-          element={withAuthGate('Profile Settings', <ProfileSettingsPage />)}
+          element={withAuthGate('Settings ng Profile', <ProfileSettingsPage />)}
         />
 
         {/* Fallback 404 */}
@@ -214,11 +215,11 @@ export function AppRoutes() {
           path="*"
           element={
             <EmptyStateCard
-              title="Page Not Found"
-              description="The requested Pamasahe Tracker route does not exist."
+              title="Hindi Mahanap ang Pahina"
+              description="Mukhang wala sa Pamasahe Tracker ang pahinang hinahanap mo."
               action={
                 <Link to="/">
-                  <GlassButton variant="primary">Return Home</GlassButton>
+                  <GlassButton variant="primary">Bumalik sa Home</GlassButton>
                 </Link>
               }
             />
@@ -232,19 +233,21 @@ export function AppRoutes() {
 export default function App() {
   return (
     <GlassErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <NetworkProvider>
-          <ToastProvider>
-            <AuthProvider>
-              <GpsProvider>
-                <BrowserRouter>
-                  <AppRoutes />
-                </BrowserRouter>
-              </GpsProvider>
-            </AuthProvider>
-          </ToastProvider>
-        </NetworkProvider>
-      </QueryClientProvider>
+      <MotionConfig reducedMotion="user">
+        <QueryClientProvider client={queryClient}>
+          <NetworkProvider>
+            <ToastProvider>
+              <AuthProvider>
+                <GpsProvider>
+                  <BrowserRouter>
+                    <AppRoutes />
+                  </BrowserRouter>
+                </GpsProvider>
+              </AuthProvider>
+            </ToastProvider>
+          </NetworkProvider>
+        </QueryClientProvider>
+      </MotionConfig>
     </GlassErrorBoundary>
   );
 }

@@ -67,13 +67,13 @@ describe('Navigation, Matrix Filtering, Recent Search History & Status Metadata'
   });
 
   it('defines distinct official vs community vs pending vs disputed status labels and colors', () => {
-    expect(FARE_STATUS_META.verified_official.label).toBe('VERIFIED OFFICIAL FARE');
-    expect(FARE_STATUS_META.community_estimate.label).toBe('COMMUNITY ESTIMATE');
-    expect(FARE_STATUS_META.pending_verification.label).toBe('PENDING VERIFICATION');
-    expect(FARE_STATUS_META.rejected_or_disputed.label).toBe('REJECTED OR DISPUTED');
+    expect(FARE_STATUS_META.verified_official.label).toBe('OPISYAL AT VERIFIED');
+    expect(FARE_STATUS_META.community_estimate.label).toBe('GABAY NG KOMUNIDAD');
+    expect(FARE_STATUS_META.pending_verification.label).toBe('NIRE-REVIEW PA');
+    expect(FARE_STATUS_META.rejected_or_disputed.label).toBe('TINANGGIHAN / MAY DISPUTE');
 
     expect(REPORT_STATUS_META.approved_community_estimate.label).toBe(
-      'Approved as Community Estimate'
+      'Na-approve Bilang Gabay ng Komunidad'
     );
   });
 
@@ -82,24 +82,24 @@ describe('Navigation, Matrix Filtering, Recent Search History & Status Metadata'
     renderAppAt('/municipalities');
 
     await waitFor(() => {
-      expect(screen.getByText('Oriental Mindoro Municipality Directory')).toBeInTheDocument();
+      expect(screen.getByText('Mga Bayan sa Oriental Mindoro')).toBeInTheDocument();
       expect(screen.getByText('Calapan City')).toBeInTheDocument();
       expect(screen.getByText('Puerto Galera')).toBeInTheDocument();
     });
 
-    const collapseBtn = screen.getByLabelText('Collapse sidebar');
+    const collapseBtn = screen.getByLabelText('Isara ang sidebar');
     await user.click(collapseBtn);
-    expect(screen.getByLabelText('Expand sidebar')).toBeInTheDocument();
+    expect(screen.getByLabelText('Buksan ang sidebar')).toBeInTheDocument();
   });
 
   it('renders registration form with safe unconfigured Supabase submit guard', async () => {
     renderAppAt('/register');
 
     await waitFor(() => {
-      expect(screen.getByText('Create Commuter Account')).toBeInTheDocument();
+      expect(screen.getByText('Gumawa ng Account ng Pasahero')).toBeInTheDocument();
     });
 
-    const submitBtn = screen.getByRole('button', { name: /register account/i });
+    const submitBtn = screen.getByRole('button', { name: /I-register ang Account/i });
     expect(submitBtn).toBeDisabled();
   });
 
