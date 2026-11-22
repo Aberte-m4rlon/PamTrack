@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import {
   Activity,
@@ -31,7 +31,6 @@ import {
   User,
   Users,
   WifiOff,
-  X,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNetwork } from '@/contexts/NetworkContext';
@@ -72,7 +71,7 @@ const AUTH_PUBLIC_NAV: SidebarNavItem[] = [
 
 const COMMUTER_NAV: SidebarNavItem[] = [
   { to: '/dashboard', label: 'Commuter Dashboard', icon: LayoutDashboard, end: true },
-  { to: '/trips', label: 'Live Trip Monitor', icon: Radio, end: true },
+  { to: '/trips', label: 'Live Trip Monitor', icon: Radio, end: true, offlineReady: true },
   { to: '/trips/analytics', label: 'Trip Analytics', icon: BarChart3 },
   { to: '/safety', label: 'Safety & Contacts', icon: ShieldAlert },
   { to: '/dashboard/vehicle-reports', label: 'My Vehicle Reports', icon: Car },
@@ -255,62 +254,5 @@ export function AppSidebar({ collapsed }: { collapsed: boolean }) {
         <SidebarContent collapsed={collapsed} />
       </div>
     </aside>
-  );
-}
-
-export function MobileNavigationDrawer({
-  open,
-  onClose,
-}: {
-  open: boolean;
-  onClose: () => void;
-}) {
-  useEffect(() => {
-    if (!open) return;
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [open, onClose]);
-
-  if (!open) return null;
-
-  return (
-    <div className="min-[769px]:hidden fixed inset-0 z-50 flex">
-      <button
-        type="button"
-        aria-label="Close navigation backdrop"
-        onClick={onClose}
-        className="fixed inset-0 bg-[#24191D]/30 backdrop-blur-sm"
-      />
-      <nav
-        aria-label="Mobile navigation drawer"
-        className="relative z-10 m-3 flex max-h-[calc(100vh-1.5rem)] w-[min(82vw,20rem)] flex-col justify-between gap-4 glass-card-strong liquid-glass-sheen rounded-[30px] p-4 shadow-2xl"
-      >
-        <div className="flex items-center justify-between border-b border-white/75 pb-3">
-          <div className="flex items-center gap-2 min-w-0">
-            <img
-              src="/assets/pamasahe-tracker-icon.png"
-              alt="Pamasahe Tracker"
-              className="h-8 w-8 rounded-full border border-white/95"
-            />
-            <span className="truncate font-display text-sm font-extrabold text-[#24191D]">
-              Pamasahe Tracker
-            </span>
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close navigation drawer"
-            className="liquid-btn-glass rounded-full p-1.5 text-[#78716C] hover:text-[#DC2626]"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
-
-        <SidebarContent onNavigate={onClose} />
-      </nav>
-    </div>
   );
 }

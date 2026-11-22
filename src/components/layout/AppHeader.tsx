@@ -6,7 +6,6 @@ import {
   LayoutDashboard,
   LogIn,
   LogOut,
-  Menu,
   PanelLeftClose,
   PanelLeftOpen,
   Search,
@@ -17,7 +16,6 @@ import {
   Truck,
   UserCheck,
   WifiOff,
-  X,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useGps } from '@/contexts/GpsContext';
@@ -29,13 +27,9 @@ import { GlassButton } from '@/components/glass/GlassPrimitives';
 export function AppHeader({
   sidebarCollapsed,
   onToggleSidebar,
-  mobileDrawerOpen,
-  onToggleMobileDrawer,
 }: {
   sidebarCollapsed: boolean;
   onToggleSidebar: () => void;
-  mobileDrawerOpen?: boolean;
-  onToggleMobileDrawer?: () => void;
 }) {
   const { user, profile, role, isAdmin, isOperator, signOut } = useAuth();
   const { trackingActive, nearestMunicipality, stopTracking } = useGps();
@@ -73,18 +67,6 @@ export function AppHeader({
     <header className="sticky top-2 sm:top-3.5 z-40 px-2 sm:px-5 lg:px-6">
       <div className="glass-header liquid-glass-sheen mx-auto flex max-w-[1480px] items-center justify-between gap-1.5 sm:gap-2 rounded-[24px] sm:rounded-full px-2.5 py-1.5 sm:px-4 sm:py-2">
         <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0">
-          {onToggleMobileDrawer && (
-            <button
-              type="button"
-              onClick={onToggleMobileDrawer}
-              aria-label={mobileDrawerOpen ? 'Close navigation menu' : 'Open navigation menu'}
-              aria-expanded={mobileDrawerOpen}
-              className="min-[769px]:hidden liquid-btn-glass flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[#DC2626] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626]"
-            >
-              {mobileDrawerOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-            </button>
-          )}
-
           <button
             type="button"
             onClick={onToggleSidebar}

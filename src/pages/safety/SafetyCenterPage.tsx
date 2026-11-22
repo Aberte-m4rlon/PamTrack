@@ -10,7 +10,13 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useGps } from '@/contexts/GpsContext';
+import { useNetwork } from '@/contexts/NetworkContext';
 import { useToast } from '@/contexts/ToastContext';
+import {
+  getOfflineAlertSoundEnabled,
+  saveOfflineAlert,
+  triggerOfflineDeviceAlert,
+} from '@/lib/offlineTripsAndAlerts';
 import {
   useLocationSharingSessions,
   useMunicipalities,
@@ -38,6 +44,7 @@ import {
 export function SafetyCenterPage() {
   const { user, isConfigured } = useAuth();
   const { currentPosition } = useGps();
+  const { isOnline } = useNetwork();
   const { pushToast } = useToast();
   const queryClient = useQueryClient();
 
@@ -158,17 +165,31 @@ export function SafetyCenterPage() {
   });
 
   const handleArrivalAlert = async () => {
-    if (!user || !supabase) return;
-    const { error } = await supabase.from('notifications').insert({
-      user_id: user.id,
+    if (!user) return;
+    const message = `Arrival check-in logged at ${new Date().toLocaleTimeString()}${!isOnline ? ' (saved offline)' : ''}.`;
+    saveOfflineAlert({
+      userId: user.id,
       type: 'arrival_alert',
       title: 'Safe arrival recorded',
-      message: `Arrival check-in logged at ${new Date().toLocaleTimeString()}. Remember to revoke any temporary trip sharing links if no longer needed.`,
-      dedupe_key: `arrival-${Date.now()}`,
+      message,
+      latitude: currentPosition?.latitude ?? null,
+      longitude: currentPosition?.longitude ?? null,
+      synced: isOnline && Boolean(supabase),
     });
-    if (error) {
-      pushToast({ title: 'Arrival log failed', description: error.message, variant: 'error' });
-      return;
+    triggerOfflineDeviceAlert({
+      title: 'Safe arrival recorded',
+      body: message,
+      soundEnabled: getOfflineAlertSoundEnabled(),
+    });
+
+    if (isOnline && supabase) {
+      await supabase.from('notifications').insert({
+        user_id: user.id,
+        type: 'arrival_alert',
+        title: 'Safe arrival recorded',
+        message,
+        dedupe_key: `arrival-${Date.now()}`,
+      });
     }
     queryClient.invalidateQueries({ queryKey: ['notifications', user.id] });
     pushToast({ title: 'Safe arrival notification recorded', variant: 'success' });

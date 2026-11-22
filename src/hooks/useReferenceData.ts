@@ -3,6 +3,10 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 import { isSupabaseConfigured, supabase } from '@/lib/supabase';
 import {
+  mapOfflineAlertsToNotifications,
+  readOfflineCompletedTrips,
+} from '@/lib/offlineTripsAndAlerts';
+import {
   fetchAdminAggregatedAnalytics,
   fetchAllAgencyReferrals,
   fetchFareRecords,
@@ -223,10 +227,30 @@ export function useNotifications() {
     }
   );
 
+  useEffect(() => {
+    const onOfflineAlerts = () => {
+      if (user) {
+        queryClient.invalidateQueries({ queryKey: ['notifications', user.id] });
+      }
+    };
+    window.addEventListener('pamtrack:offline-alerts-updated', onOfflineAlerts);
+    return () => window.removeEventListener('pamtrack:offline-alerts-updated', onOfflineAlerts);
+  }, [queryClient, user]);
+
   return useQuery({
-    queryKey: ['notifications', user?.id],
-    queryFn: () => fetchNotifications(user!.id),
-    enabled: Boolean(user && isOnline && isSupabaseConfigured),
+    queryKey: ['notifications', user?.id, isOnline],
+    queryFn: async () => {
+      const offlineList = user ? mapOfflineAlertsToNotifications(user.id) : [];
+      if (!user || !isOnline || !isSupabaseConfigured) {
+        return offlineList;
+      }
+      const remote = await fetchNotifications(user.id);
+      const unsyncedOffline = offlineList.filter(
+        (o) => !remote.some((r) => r.dedupe_key === o.id)
+      );
+      return [...unsyncedOffline, ...remote];
+    },
+    enabled: Boolean(user),
   });
 }
 
@@ -247,10 +271,22 @@ export function useTransportStops(includeUnverified = false) {
 
 export function useMyTrips() {
   const { user } = useAuth();
+  const { isOnline } = useNetwork();
   return useQuery({
-    queryKey: ['myTrips', user?.id],
-    queryFn: () => fetchMyTrips(user!.id),
-    enabled: Boolean(user && isSupabaseConfigured),
+    queryKey: ['myTrips', user?.id, isOnline],
+    queryFn: async () => {
+      const offlineCompleted = user ? readOfflineCompletedTrips(user.id) : [];
+      if (!user || !isOnline || !isSupabaseConfigured) {
+        return offlineCompleted;
+      }
+      try {
+        const remote = await fetchMyTrips(user.id);
+        return [...offlineCompleted, ...remote];
+      } catch {
+        return offlineCompleted;
+      }
+    },
+    enabled: Boolean(user),
   });
 }
 

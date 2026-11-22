@@ -27,6 +27,32 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
+const OFFLINE_AUTH_META_KEY = 'pamtrack_offline_auth_meta_v1';
+
+function readCachedAuthMeta(uid: string): { profile: Profile | null; role: AppRole } | null {
+  try {
+    const raw = localStorage.getItem(OFFLINE_AUTH_META_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as { userId: string; profile: Profile | null; role: AppRole };
+    if (parsed?.userId !== uid) return null;
+    return { profile: parsed.profile ?? null, role: parsed.role ?? 'commuter' };
+  } catch {
+    return null;
+  }
+}
+
+function saveCachedAuthMeta(userId: string, profile: Profile | null, role: AppRole) {
+  try {
+    localStorage.setItem(OFFLINE_AUTH_META_KEY, JSON.stringify({ userId, profile, role }));
+  } catch {}
+}
+
+function clearCachedAuthMeta() {
+  try {
+    localStorage.removeItem(OFFLINE_AUTH_META_KEY);
+  } catch {}
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
@@ -35,17 +61,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState<boolean>(isSupabaseConfigured);
 
   const loadUserProfileAndRole = useCallback(async (uid: string) => {
-    if (!supabase) return;
+    const cached = readCachedAuthMeta(uid);
+    if (!supabase || (typeof navigator !== 'undefined' && navigator.onLine === false)) {
+      setProfile(cached?.profile ?? null);
+      setRole(cached?.role ?? 'commuter');
+      return;
+    }
     try {
-      const [{ data: profileData }, { data: roleData }] = await Promise.all([
-        supabase.from('profiles').select('*').eq('id', uid).maybeSingle(),
-        supabase.from('user_roles').select('role').eq('user_id', uid).maybeSingle(),
-      ]);
+      const [{ data: profileData, error: pErr }, { data: roleData, error: rErr }] =
+        await Promise.all([
+          supabase.from('profiles').select('*').eq('id', uid).maybeSingle(),
+          supabase.from('user_roles').select('role').eq('user_id', uid).maybeSingle(),
+        ]);
 
-      setProfile((profileData as Profile) ?? null);
-      setRole((roleData?.role as AppRole) ?? 'commuter');
+      if (pErr || rErr) {
+        setProfile(cached?.profile ?? null);
+        setRole(cached?.role ?? 'commuter');
+        return;
+      }
+
+      const nextProfile = (profileData as Profile) ?? cached?.profile ?? null;
+      const nextRole = (roleData?.role as AppRole) ?? cached?.role ?? 'commuter';
+      setProfile(nextProfile);
+      setRole(nextRole);
+      saveCachedAuthMeta(uid, nextProfile, nextRole);
     } catch {
-      setRole('commuter');
+      setProfile(cached?.profile ?? null);
+      setRole(cached?.role ?? 'commuter');
     }
   }, []);
 
@@ -150,8 +192,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signOut = async () => {
+    clearCachedAuthMeta();
     if (supabase) {
-      await supabase.auth.signOut();
+      await supabase.auth.signOut().catch(() => null);
     }
     setSession(null);
     setUser(null);

@@ -235,23 +235,18 @@ export function AppRoutes() {
         <Route
           path="/trips"
           element={
-            <OfflineFeatureGate
+            <RequireAccountAccess
               featureTitle="Live Trip Monitor"
-              featureDescription="Real-time trip tracking, deviation checks, and safety share links require an internet connection."
+              featureDescription="Monitor active journeys offline or online with GPS tracking, route deviation alerts, and trip saving."
+              unlocks={[
+                'Offline & online active trip GPS distance monitor',
+                'Offline route deviation & destination arrival alerts',
+                'Shareable live trip links when connected',
+                'Trip logging synced automatically when back online',
+              ]}
             >
-              <RequireAccountAccess
-                featureTitle="Live Trip Monitor"
-                featureDescription="Monitor active journeys against verified corridors, get route deviation warnings, and generate shareable live safety links."
-                unlocks={[
-                  'Real-time active trip GPS timer & distance monitor',
-                  'Route deviation alerts (2 km corridor threshold)',
-                  'Shareable live trip tokens for trusted family contacts',
-                  'Trip logging linked to official fares',
-                ]}
-              >
-                <LiveTripPage />
-              </RequireAccountAccess>
-            </OfflineFeatureGate>
+              <LiveTripPage />
+            </RequireAccountAccess>
           }
         />
         <Route

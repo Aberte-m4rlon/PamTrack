@@ -10,6 +10,7 @@ import React, {
 import { useAuth } from '@/contexts/AuthContext';
 import { useMunicipalities } from '@/hooks/useReferenceData';
 import { findNearestMunicipality, type NearestMunicipalityMatch } from '@/lib/gpsUtils';
+import { isBrowserOnline } from '@/lib/offlineCache';
 import { isSupabaseConfigured, supabase } from '@/lib/supabase';
 
 export type GpsPermissionState = 'prompt' | 'granted' | 'denied' | 'unsupported';
@@ -107,13 +108,17 @@ export function GpsProvider({ children }: { children: React.ReactNode }) {
 
   const syncConsentToDb = useCallback(
     async (granted: boolean) => {
-      if (!user || !isSupabaseConfigured || !supabase) return;
-      await supabase.from('user_location_preferences').upsert({
-        user_id: user.id,
-        gps_consent_granted: granted,
-        allow_live_trip_tracking: granted,
-        consent_updated_at: new Date().toISOString(),
-      });
+      if (!user || !isSupabaseConfigured || !supabase || !isBrowserOnline()) return;
+      try {
+        await supabase.from('user_location_preferences').upsert({
+          user_id: user.id,
+          gps_consent_granted: granted,
+          allow_live_trip_tracking: granted,
+          consent_updated_at: new Date().toISOString(),
+        });
+      } catch {
+        // Offline / transient network errors stay non-blocking
+      }
     },
     [user]
   );
@@ -133,17 +138,23 @@ export function GpsProvider({ children }: { children: React.ReactNode }) {
     }
     setTrackingActive(false);
 
-    if (sessionIdRef.current && user && isSupabaseConfigured && supabase) {
+    if (sessionIdRef.current && user && isSupabaseConfigured && supabase && isBrowserOnline()) {
       const sid = sessionIdRef.current;
       sessionIdRef.current = null;
-      await supabase
-        .from('user_location_sessions')
-        .update({
-          is_active: false,
-          stopped_at: new Date().toISOString(),
-        })
-        .eq('id', sid)
-        .eq('user_id', user.id);
+      try {
+        await supabase
+          .from('user_location_sessions')
+          .update({
+            is_active: false,
+            stopped_at: new Date().toISOString(),
+          })
+          .eq('id', sid)
+          .eq('user_id', user.id);
+      } catch {
+        // Non-blocking when offline
+      }
+    } else {
+      sessionIdRef.current = null;
     }
   }, [isSupported, user]);
 
@@ -185,24 +196,28 @@ export function GpsProvider({ children }: { children: React.ReactNode }) {
       setGpsError(null);
       setCurrentPosition(snap);
 
-      if (sessionIdRef.current && user && isSupabaseConfigured && supabase) {
+      if (sessionIdRef.current && user && isSupabaseConfigured && supabase && isBrowserOnline()) {
         const match = findNearestMunicipality(
           snap.latitude,
           snap.longitude,
           municipalities
         );
-        await supabase
-          .from('user_location_sessions')
-          .update({
-            last_latitude: snap.latitude,
-            last_longitude: snap.longitude,
-            last_accuracy_meters: snap.accuracyMeters,
-            detected_municipality_id: match?.withinOrientalMindoro
-              ? match.municipality.id
-              : null,
-          })
-          .eq('id', sessionIdRef.current)
-          .eq('user_id', user.id);
+        try {
+          await supabase
+            .from('user_location_sessions')
+            .update({
+              last_latitude: snap.latitude,
+              last_longitude: snap.longitude,
+              last_accuracy_meters: snap.accuracyMeters,
+              detected_municipality_id: match?.withinOrientalMindoro
+                ? match.municipality.id
+                : null,
+            })
+            .eq('id', sessionIdRef.current)
+            .eq('user_id', user.id);
+        } catch {
+          // Keep live GPS monitoring active even if background telemetry update fails offline
+        }
       }
 
       return snap;
@@ -268,29 +283,33 @@ export function GpsProvider({ children }: { children: React.ReactNode }) {
       navigator.geolocation.clearWatch(watchIdRef.current);
     }
 
-    if (user && isSupabaseConfigured && supabase && !sessionIdRef.current) {
+    if (user && isSupabaseConfigured && supabase && isBrowserOnline() && !sessionIdRef.current) {
       const match = findNearestMunicipality(
         initial.latitude,
         initial.longitude,
         municipalities
       );
-      const { data: created } = await supabase
-        .from('user_location_sessions')
-        .insert({
-          user_id: user.id,
-          permission_state: 'granted',
-          is_active: true,
-          last_latitude: initial.latitude,
-          last_longitude: initial.longitude,
-          last_accuracy_meters: initial.accuracyMeters,
-          detected_municipality_id: match?.withinOrientalMindoro
-            ? match.municipality.id
-            : null,
-        })
-        .select('id')
-        .single();
-      if (created?.id) {
-        sessionIdRef.current = created.id;
+      try {
+        const { data: created } = await supabase
+          .from('user_location_sessions')
+          .insert({
+            user_id: user.id,
+            permission_state: 'granted',
+            is_active: true,
+            last_latitude: initial.latitude,
+            last_longitude: initial.longitude,
+            last_accuracy_meters: initial.accuracyMeters,
+            detected_municipality_id: match?.withinOrientalMindoro
+              ? match.municipality.id
+              : null,
+          })
+          .select('id')
+          .single();
+        if (created?.id) {
+          sessionIdRef.current = created.id;
+        }
+      } catch {
+        // Proceed with local browser GPS watch even when session logging is offline
       }
     }
 

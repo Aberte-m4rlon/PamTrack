@@ -16,6 +16,7 @@ import {
   MapPin,
   MessageSquarePlus,
   Navigation,
+  Radio,
   Settings,
   ShieldAlert,
   ShieldCheck,
@@ -114,6 +115,13 @@ export function ProfileHubPage() {
       desc: 'Personalized summary & quick search',
       icon: LayoutDashboard,
       offlineReady: false,
+    },
+    {
+      to: '/trips',
+      label: 'Live Trip Monitor',
+      desc: 'Moving GPS monitor & offline alerts',
+      icon: Radio,
+      offlineReady: true,
     },
     {
       to: '/dashboard/vehicle-reports',

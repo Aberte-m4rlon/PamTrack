@@ -25,7 +25,7 @@ const MOBILE_BOTTOM_TABS = [
     label: 'Trips',
     icon: Radio,
     requiresAuth: true,
-    offlineReady: false,
+    offlineReady: true,
   },
   {
     to: '/profile',

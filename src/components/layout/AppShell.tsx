@@ -1,24 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { WifiOff } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNetwork } from '@/contexts/NetworkContext';
+import { useToast } from '@/contexts/ToastContext';
+import { syncPendingOfflineTripData } from '@/lib/offlineTripsAndAlerts';
 import { formatDateTimeSafe } from '@/lib/utils';
 import { SupabaseSetupBanner } from '@/components/glass/GlassPrimitives';
 import { AppHeader } from '@/components/layout/AppHeader';
-import { AppSidebar, MobileNavigationDrawer } from '@/components/layout/AppSidebar';
+import { AppSidebar } from '@/components/layout/AppSidebar';
 import { MobileBottomNavigation } from '@/components/layout/MobileBottomNavigation';
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const { user, isConfigured } = useAuth();
-  const { isOffline, lastSyncedAt } = useNetwork();
-  const location = useLocation();
+  const { isOnline, isOffline, lastSyncedAt } = useNetwork();
+  const { pushToast } = useToast();
+  const queryClient = useQueryClient();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   useEffect(() => {
-    setMobileDrawerOpen(false);
-  }, [location.pathname]);
+    if (!isOnline || !user?.id) return;
+    let cancelled = false;
+    syncPendingOfflineTripData(user.id)
+      .then((count) => {
+        if (!cancelled && count > 0) {
+          queryClient.invalidateQueries({ queryKey: ['myTrips', user.id] });
+          queryClient.invalidateQueries({ queryKey: ['notifications', user.id] });
+          pushToast({
+            title: 'Offline trips & alerts synced',
+            description: `Synced ${count} offline item(s) to your account.`,
+            variant: 'success',
+          });
+        }
+      })
+      .catch(() => null);
+    return () => {
+      cancelled = true;
+    };
+  }, [isOnline, user?.id, queryClient, pushToast]);
 
   return (
     <div className="pamasahe-scenic-bg relative min-h-screen text-[#24191D] flex flex-col mobile-safe-content-pad">
@@ -37,14 +57,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <AppHeader
         sidebarCollapsed={sidebarCollapsed}
         onToggleSidebar={() => setSidebarCollapsed((v) => !v)}
-        mobileDrawerOpen={mobileDrawerOpen}
-        onToggleMobileDrawer={() => setMobileDrawerOpen((v) => !v)}
-      />
-
-      {/* Collapsible Mobile Liquid Glass Drawer (<= 768px) */}
-      <MobileNavigationDrawer
-        open={mobileDrawerOpen}
-        onClose={() => setMobileDrawerOpen(false)}
       />
 
       {/* Main Content + Desktop/Tablet Floating Sidebar (hidden <= 768px) */}
@@ -67,8 +79,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                     Offline Mode Active — Limited Features Available
                   </p>
                   <p className="text-[#4B3B40]">
-                    Cached <strong>Fare Finder</strong>, <strong>Fare Matrix</strong>, and{' '}
-                    <strong>15 LGUs</strong> work offline. Live GPS and reporting require internet.
+                    Cached <strong>Fare Finder</strong>, <strong>Fare Matrix</strong>,{' '}
+                    <strong>15 LGUs</strong>, <strong>Live Trip Monitor</strong> &amp; alerts work
+                    offline.
                   </p>
                 </div>
               </div>

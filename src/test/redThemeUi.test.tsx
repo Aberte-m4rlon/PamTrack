@@ -1,7 +1,6 @@
 import React from 'react';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Car } from 'lucide-react';
@@ -111,8 +110,7 @@ describe('Light Red Glassmorphism Design System & Shared Components', () => {
     expect(screen.getByLabelText('Close modal')).toBeInTheDocument();
   });
 
-  it('renders AppShell header, sidebar, collapsible mobile drawer, and mandatory 5-tab mobile bottom nav cleanly', async () => {
-    const user = userEvent.setup();
+  it('renders AppShell header, sidebar, and mandatory 5-tab mobile bottom nav cleanly without top-left mobile menu button', () => {
     renderWithProviders(<AppRoutes />, ['/']);
 
     expect(screen.getByLabelText('Desktop navigation sidebar')).toBeInTheDocument();
@@ -123,11 +121,8 @@ describe('Light Red Glassmorphism Design System & Shared Components', () => {
     expect(mobileNav).toHaveTextContent('Trips');
     expect(mobileNav).toHaveTextContent('Profile');
 
-    // Collapsible mobile navigation drawer stays closed at rest and opens cleanly on toggle
-    expect(screen.queryByLabelText('Mobile navigation drawer')).not.toBeInTheDocument();
-    await user.click(screen.getByLabelText('Open navigation menu'));
-    expect(screen.getByLabelText('Mobile navigation drawer')).toBeInTheDocument();
-    await user.click(screen.getByLabelText('Close navigation drawer'));
+    // Top-left hamburger menu button & drawer removed on mobile view
+    expect(screen.queryByLabelText('Open navigation menu')).not.toBeInTheDocument();
     expect(screen.queryByLabelText('Mobile navigation drawer')).not.toBeInTheDocument();
   });
 });
