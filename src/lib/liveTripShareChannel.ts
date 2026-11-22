@@ -1,6 +1,6 @@
 import type { RealtimeChannel } from '@supabase/supabase-js';
 import { isSupabaseConfigured, supabase } from '@/lib/supabase';
-import type { TripStatus } from '@/types/database';
+import type { SharedTripHistoryItem, TripStatus } from '@/types/database';
 
 export interface LiveTripBreadcrumbPoint {
   latitude: number;
@@ -45,12 +45,40 @@ export interface LiveTripTelemetryPacket {
   destinationCoords: [number, number] | null;
   trail: LiveTripBreadcrumbPoint[];
   alertBanner: SharedAlertBannerPayload | null;
+  includeHistory?: boolean;
+  tripHistory?: SharedTripHistoryItem[];
   updatedAt: string;
 }
 
 export const SHARED_TRIP_CHANNEL_PREFIX = 'live_trip_share:';
 
 const SHARED_TRAIL_STORAGE_PREFIX = 'pamtrack_shared_trail_v1_';
+const SHARED_HISTORY_STORAGE_PREFIX = 'pamtrack_shared_history_v1_';
+
+export function readStoredSharedHistory(token: string): SharedTripHistoryItem[] {
+  try {
+    const raw = sessionStorage.getItem(`${SHARED_HISTORY_STORAGE_PREFIX}${token}`);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as SharedTripHistoryItem[];
+    return Array.isArray(parsed) ? parsed.slice(0, 15) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function writeStoredSharedHistory(
+  token: string,
+  history: SharedTripHistoryItem[]
+): void {
+  try {
+    sessionStorage.setItem(
+      `${SHARED_HISTORY_STORAGE_PREFIX}${token}`,
+      JSON.stringify(history.slice(0, 15))
+    );
+  } catch {
+    // Ignore storage quota errors
+  }
+}
 
 export function readStoredSharedTrail(token: string): LiveTripBreadcrumbPoint[] {
   try {

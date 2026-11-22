@@ -54,10 +54,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       />
 
       {/* Main Content + Desktop/Tablet Floating Sidebar (hidden <= 768px) */}
-      <div className="relative z-10 mx-auto flex w-full max-w-[1480px] flex-1 gap-4 lg:gap-5 px-2.5 py-2.5 sm:px-5 sm:py-5 lg:px-6">
+      <div className="relative z-10 mx-auto flex w-full max-w-[1480px] flex-1 gap-4 lg:gap-5 px-2.5 py-2.5 sm:px-5 sm:py-5 lg:px-6 overflow-x-clip">
         <AppSidebar collapsed={sidebarCollapsed} />
 
-        <main key={location.pathname} className="liquid-page-enter min-w-0 flex-1 space-y-4 sm:space-y-5">
+        <main key={location.pathname} className="liquid-page-enter min-w-0 w-full flex-1 space-y-4 sm:space-y-5">
           {isOffline && (
             <div
               role="status"

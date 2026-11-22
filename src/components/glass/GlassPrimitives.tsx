@@ -45,7 +45,7 @@ export function GlassCard({
     <div
       className={cn(
         variantClass,
-        'liquid-card-enter rounded-[24px] sm:rounded-[30px] transition-all duration-200',
+        'liquid-card-enter min-w-0 max-w-full rounded-[24px] sm:rounded-[30px] transition-all duration-200',
         hoverable &&
           'hover:-translate-y-0.5 active:scale-[0.985] hover:shadow-glass-lg hover:border-white',
         className

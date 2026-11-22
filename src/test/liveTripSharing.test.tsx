@@ -120,6 +120,22 @@ describe('Live Trip Sharing & Recipient Speed/Movement Monitor', () => {
           recorded_at: new Date().toISOString(),
         },
       ],
+      trip_history: [
+        {
+          id: 'hist-trip-1',
+          origin_name: 'Calapan City',
+          destination_name: 'Naujan',
+          transport_mode: 'Multicab',
+          distance_km: 14.2,
+          duration_seconds: 1320,
+          avg_speed_kmh: 38.7,
+          recorded_fare_amount: 35,
+          deviation_detected: false,
+          status: 'completed',
+          started_at: new Date(Date.now() - 86_400_000).toISOString(),
+          ended_at: new Date(Date.now() - 85_080_000).toISOString(),
+        },
+      ],
     };
 
     vi.spyOn(api, 'fetchSharedTripStatus').mockResolvedValue(mockStatus);
@@ -147,6 +163,9 @@ describe('Live Trip Sharing & Recipient Speed/Movement Monitor', () => {
       expect(screen.getByText(/SE \(135°\)/i)).toBeInTheDocument();
       expect(screen.getByText(/Live Realtime Monitor/i)).toBeInTheDocument();
       expect(screen.getByText(/Movement Log/i)).toBeInTheDocument();
+      expect(screen.getByText(/Juan's Recent Trip History/i)).toBeInTheDocument();
+      expect(screen.getByText(/Calapan City → Naujan/i)).toBeInTheDocument();
+      expect(screen.getByText(/38\.7 km\/h avg/i)).toBeInTheDocument();
     });
 
     // Simulate incoming Realtime Broadcast packet showing faster movement & urgent SOS alert
@@ -261,7 +280,35 @@ describe('Live Trip Sharing & Recipient Speed/Movement Monitor', () => {
       updated_at: new Date().toISOString(),
     });
     vi.spyOn(api, 'updateActiveTripProgress').mockResolvedValue(undefined);
-    vi.spyOn(api, 'fetchMyTrips').mockResolvedValue([]);
+    vi.spyOn(api, 'fetchMyTrips').mockResolvedValue([
+      {
+        id: 'past-trip-1',
+        user_id: 'commuter-share-1',
+        origin_municipality_id: 'lgu-calapan-city',
+        destination_municipality_id: 'lgu-puerto-galera',
+        route_id: null,
+        transport_type_id: 'tt-uv-express',
+        associated_fare_record_id: null,
+        recorded_fare_amount: 120,
+        fare_expense_type: 'recorded',
+        start_latitude: 13.407,
+        start_longitude: 121.1778,
+        destination_latitude: 13.5018,
+        destination_longitude: 120.9541,
+        current_latitude: 13.5018,
+        current_longitude: 120.9541,
+        distance_km: 31.4,
+        duration_seconds: 2700,
+        deviation_detected: false,
+        max_deviation_km: 0,
+        status: 'completed',
+        started_at: new Date(Date.now() - 86_400_000).toISOString(),
+        ended_at: new Date(Date.now() - 83_700_000).toISOString(),
+        notes: null,
+        created_at: new Date(Date.now() - 86_400_000).toISOString(),
+        updated_at: new Date(Date.now() - 83_700_000).toISOString(),
+      },
+    ]);
     vi.spyOn(api, 'fetchLocationSharingSessions').mockResolvedValue([]);
     vi.spyOn(api, 'fetchTrustedContacts').mockResolvedValue([]);
     const revokeSpy = vi.spyOn(api, 'revokeLocationSharingSession').mockResolvedValue(undefined);
@@ -345,6 +392,9 @@ describe('Live Trip Sharing & Recipient Speed/Movement Monitor', () => {
       expect(screen.getByText(/Live Speed/i)).toBeInTheDocument();
       expect(screen.getAllByText(/36\.0/i).length).toBeGreaterThan(0);
       expect(screen.getByText(/Share Live Location & Speed/i)).toBeInTheDocument();
+      expect(screen.getByText(/My Trip History \(1\)/i)).toBeInTheDocument();
+      expect(screen.getByText(/Calapan City → Puerto Galera/i)).toBeInTheDocument();
+      expect(screen.getByText(/Include my recent Trip History for shared link recipients/i)).toBeInTheDocument();
     });
 
     // Change duration to 30 mins and create share link

@@ -18,6 +18,7 @@ import {
   Compass,
   ExternalLink,
   Gauge,
+  History,
   LocateFixed,
   Navigation,
   Radio,
@@ -37,12 +38,15 @@ import {
   type LiveTripBreadcrumbPoint,
   type LiveTripTelemetryPacket,
   type SharedAlertBannerPayload,
+  readStoredSharedHistory,
   readStoredSharedTrail,
   subscribeSharedTripStream,
+  writeStoredSharedHistory,
   writeStoredSharedTrail,
 } from '@/lib/liveTripShareChannel';
 import { fetchSharedTripStatus } from '@/services/pamasaheApi';
-import { formatDateSafe, formatDateTimeSafe, haversineDistanceKm } from '@/lib/utils';
+import { formatDateSafe, formatDateTimeSafe, formatPhp, haversineDistanceKm } from '@/lib/utils';
+import type { SharedTripHistoryItem } from '@/types/database';
 import {
   EmptyStateCard,
   GlassButton,
@@ -98,6 +102,9 @@ export function SharedTripPage() {
   const [trailPoints, setTrailPoints] = useState<LiveTripBreadcrumbPoint[]>(() =>
     token ? readStoredSharedTrail(token) : []
   );
+  const [sharedHistory, setSharedHistory] = useState<SharedTripHistoryItem[]>(() =>
+    token ? readStoredSharedHistory(token) : []
+  );
   const [derivedSpeedKmh, setDerivedSpeedKmh] = useState(0);
   const [derivedMaxSpeedKmh, setDerivedMaxSpeedKmh] = useState(0);
   const [derivedHeadingDeg, setDerivedHeadingDeg] = useState<number | null>(null);
@@ -147,14 +154,30 @@ export function SharedTripPage() {
           setTrailPoints(pkt.trail.slice(-150));
           writeStoredSharedTrail(token, pkt.trail);
         }
+        if (pkt.includeHistory === false) {
+          setSharedHistory([]);
+          writeStoredSharedHistory(token, []);
+        } else if (Array.isArray(pkt.tripHistory) && pkt.tripHistory.length > 0) {
+          setSharedHistory(pkt.tripHistory.slice(0, 10));
+          writeStoredSharedHistory(token, pkt.tripHistory);
+        }
       },
       setStreamConnected
     );
   }, [token, data?.available]);
 
-  // Accumulate coordinates & compute derived speed/heading from DB polling fallback
+  // Accumulate coordinates, history & compute derived speed/heading from DB polling fallback
   useEffect(() => {
     if (!token || !data?.available) return;
+
+    if (
+      streamPacket?.includeHistory !== false &&
+      Array.isArray(data.trip_history) &&
+      data.trip_history.length > 0
+    ) {
+      setSharedHistory(data.trip_history);
+      writeStoredSharedHistory(token, data.trip_history);
+    }
 
     if (Array.isArray(data.trail_points) && data.trail_points.length > 0) {
       const normalizedDbTrail: LiveTripBreadcrumbPoint[] = data.trail_points.map(
@@ -615,8 +638,8 @@ export function SharedTripPage() {
       </div>
 
       {/* Live Map + Movement Breadcrumb History */}
-      <div className="grid gap-4 sm:gap-6 lg:grid-cols-12">
-        <GlassCard variant="surface" className="p-4 lg:col-span-8 space-y-3">
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-12 min-w-0">
+        <GlassCard variant="surface" className="min-w-0 p-4 lg:col-span-8 space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className="font-display text-base sm:text-lg font-bold text-[#29262B] flex items-center gap-2">
               <Navigation className="h-4 w-4 text-[#C9182B]" />
@@ -731,7 +754,7 @@ export function SharedTripPage() {
         </GlassCard>
 
         {/* Recent Movement & Speed Log */}
-        <GlassCard variant="strong" className="p-4 lg:col-span-4 space-y-3 h-fit">
+        <GlassCard variant="strong" className="min-w-0 p-4 lg:col-span-4 space-y-3 h-fit">
           <div className="flex items-center justify-between gap-2">
             <h2 className="font-display text-base font-bold text-[#29262B] flex items-center gap-1.5">
               <LocateFixed className="h-4 w-4 text-[#C9182B]" />
@@ -779,6 +802,71 @@ export function SharedTripPage() {
           )}
         </GlassCard>
       </div>
+
+      {/* Shared Commuter Trip History (Visible to Authorized Live Share Recipients) */}
+      <GlassCard variant="strong" className="min-w-0 p-4 sm:p-5 space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 className="font-display text-base sm:text-lg font-bold text-[#29262B] flex items-center gap-2">
+            <History className="h-4 w-4 text-[#C9182B] shrink-0" />
+            <span>{data.commuter_name}&apos;s Recent Trip History ({sharedHistory.length})</span>
+          </h2>
+          <span className="glass-pill-tile rounded-full px-3 py-1 text-[10px] sm:text-[11px] font-bold text-[#5B555E]">
+            Shared with this link
+          </span>
+        </div>
+
+        {sharedHistory.length === 0 ? (
+          <p className="text-xs text-[#5B555E]">
+            {streamPacket?.includeHistory === false
+              ? 'Trip history sharing is currently paused by the commuter.'
+              : 'Past recorded trips from this commuter will appear here automatically while sharing is active.'}
+          </p>
+        ) : (
+          <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+            {sharedHistory.map((item) => (
+              <div
+                key={item.id}
+                className="glass-pill-tile min-w-0 rounded-2xl p-3.5 text-xs space-y-1.5"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <p className="font-display font-extrabold text-[#29262B] leading-snug min-w-0 truncate">
+                    {item.origin_name} → {item.destination_name}
+                  </p>
+                  <span
+                    className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ${
+                      item.status === 'completed'
+                        ? 'bg-[#C9182B] text-white'
+                        : 'bg-white/80 text-[#343039]'
+                    }`}
+                  >
+                    {item.status}
+                  </span>
+                </div>
+                <p className="text-[11px] font-semibold text-[#343039]">
+                  {item.transport_mode} • {item.distance_km.toFixed(2)} km •{' '}
+                  {formatDurationSeconds(item.duration_seconds)}
+                </p>
+                <div className="flex flex-wrap items-center justify-between gap-1 text-[11px]">
+                  <span className="font-bold text-[#B51224]">
+                    {item.avg_speed_kmh !== null ? `${item.avg_speed_kmh} km/h avg` : 'Recorded trip'}
+                    {item.recorded_fare_amount !== null
+                      ? ` • ${formatPhp(item.recorded_fare_amount)}`
+                      : ''}
+                  </span>
+                  <span className="text-[10px] font-medium text-[#5B555E]">
+                    {formatDateSafe(item.started_at, 'MMM d, h:mm a')}
+                  </span>
+                </div>
+                {item.deviation_detected && (
+                  <p className="text-[10px] font-bold text-[#C9182B]">
+                    Route deviation flagged during this trip
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </GlassCard>
     </div>
   );
 }

@@ -442,6 +442,21 @@ export interface SharedTripTrailPoint {
   recorded_at: string;
 }
 
+export interface SharedTripHistoryItem {
+  id: string;
+  origin_name: string;
+  destination_name: string;
+  transport_mode: string;
+  distance_km: number;
+  duration_seconds: number;
+  avg_speed_kmh: number | null;
+  recorded_fare_amount: number | null;
+  deviation_detected: boolean;
+  status: TripStatus;
+  started_at: string;
+  ended_at: string | null;
+}
+
 export interface SharedTripStatus {
   available: boolean;
   reason?: string;
@@ -467,6 +482,7 @@ export interface SharedTripStatus {
   accuracy_meters?: number | null;
   last_recorded_at?: string | null;
   trail_points?: SharedTripTrailPoint[];
+  trip_history?: SharedTripHistoryItem[];
   started_at?: string;
   ended_at?: string | null;
   expires_at?: string;

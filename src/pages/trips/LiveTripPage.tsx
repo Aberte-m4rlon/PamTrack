@@ -22,6 +22,7 @@ import {
   Copy,
   ExternalLink,
   Gauge,
+  History,
   Navigation,
   PhoneCall,
   Play,
@@ -90,7 +91,12 @@ import {
   startTripRecord,
   updateActiveTripProgress,
 } from '@/services/pamasaheApi';
-import type { FareExpenseType, NotificationType, TripRecord } from '@/types/database';
+import type {
+  FareExpenseType,
+  NotificationType,
+  SharedTripHistoryItem,
+  TripRecord,
+} from '@/types/database';
 import { GpsConsentCard } from '@/components/gps/GpsConsentCard';
 import { OfflineTripRadar } from '@/components/gps/OfflineTripRadar';
 import {
@@ -208,6 +214,13 @@ export function LiveTripPage() {
   const [recordedFareInput, setRecordedFareInput] = useState('');
   const [shareContactId, setShareContactId] = useState('');
   const [shareDurationMinutes, setShareDurationMinutes] = useState(60);
+  const [shareIncludeHistory, setShareIncludeHistory] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('pamtrack_share_history_v1') !== 'false';
+    } catch {
+      return true;
+    }
+  });
   const [createdShareToken, setCreatedShareToken] = useState<string | null>(null);
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
   const [currentSpeedKmh, setCurrentSpeedKmh] = useState(0);
@@ -269,6 +282,47 @@ export function LiveTripPage() {
 
   const originMuni = municipalities.find((m) => m.id === originId);
   const destMuni = municipalities.find((m) => m.id === destinationId);
+
+  const sharedHistoryItems = useMemo<SharedTripHistoryItem[]>(() => {
+    return (myTrips ?? [])
+      .filter((t) => t.id !== activeTrip?.id)
+      .slice(0, 12)
+      .map((t) => {
+        const oName =
+          t.origin?.name ||
+          municipalities.find((m) => m.id === t.origin_municipality_id)?.name ||
+          'Origin';
+        const dName =
+          t.destination?.name ||
+          municipalities.find((m) => m.id === t.destination_municipality_id)?.name ||
+          'Destination';
+        const mName =
+          t.transport_type?.name ||
+          transportTypes.find((tt) => tt.id === t.transport_type_id)?.name ||
+          'Public Transport';
+        const avg =
+          t.duration_seconds > 5 && t.distance_km > 0
+            ? Number(Math.min(160, t.distance_km / (t.duration_seconds / 3600)).toFixed(1))
+            : null;
+        return {
+          id: t.id,
+          origin_name: oName,
+          destination_name: dName,
+          transport_mode: mName,
+          distance_km: Number(t.distance_km ?? 0),
+          duration_seconds: Number(t.duration_seconds ?? 0),
+          avg_speed_kmh: avg,
+          recorded_fare_amount:
+            t.recorded_fare_amount !== null && t.recorded_fare_amount !== undefined
+              ? Number(t.recorded_fare_amount)
+              : null,
+          deviation_detected: Boolean(t.deviation_detected),
+          status: t.status,
+          started_at: t.started_at,
+          ended_at: t.ended_at,
+        };
+      });
+  }, [myTrips, activeTrip?.id, municipalities, transportTypes]);
 
   const avgSpeedKmh = useMemo(() => {
     if (elapsedSeconds < 8 || distanceTraveledKm <= 0) return 0;
@@ -431,6 +485,8 @@ export function LiveTripPage() {
           overrides?.alertBanner !== undefined
             ? overrides.alertBanner
             : lastAlertBanner,
+        includeHistory: shareIncludeHistory,
+        tripHistory: shareIncludeHistory ? sharedHistoryItems.slice(0, 10) : [],
         updatedAt: new Date().toISOString(),
       };
     },
@@ -454,6 +510,8 @@ export function LiveTripPage() {
       nearestMunicipality?.municipality.name,
       telemetryTrail,
       lastAlertBanner,
+      shareIncludeHistory,
+      sharedHistoryItems,
     ]
   );
 
@@ -1185,8 +1243,8 @@ export function LiveTripPage() {
       )}
 
       {/* Trip Setup or Active Trip Controls */}
-      <div className="grid gap-4 sm:gap-6 lg:grid-cols-12">
-        <GlassCard variant="strong" className="p-4 sm:p-5 lg:col-span-5 space-y-4 h-fit">
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-12 min-w-0">
+        <GlassCard variant="strong" className="min-w-0 max-w-full overflow-hidden p-3.5 sm:p-5 lg:col-span-5 space-y-4 h-fit">
           {!activeTrip ? (
             <>
               <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#29262B]">
@@ -1389,28 +1447,30 @@ export function LiveTripPage() {
               </div>
 
               {/* Live Location & Speed Sharing */}
-              <div className="glass-pill-tile rounded-2xl p-3.5 space-y-3">
+              <div className="glass-pill-tile min-w-0 max-w-full overflow-hidden rounded-2xl p-3 sm:p-3.5 space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <p className="flex items-center gap-1.5 text-xs font-bold text-[#C9182B]">
-                    <Share2 className="h-3.5 w-3.5" />
-                    {isOffline
-                      ? 'Offline Emergency SMS Share'
-                      : 'Share Live Location & Speed'}
+                  <p className="flex items-center gap-1.5 text-xs font-bold text-[#C9182B] min-w-0">
+                    <Share2 className="h-3.5 w-3.5 shrink-0" />
+                    <span className="truncate">
+                      {isOffline
+                        ? 'Offline Emergency SMS Share'
+                        : 'Share Live Location & Speed'}
+                    </span>
                   </p>
                   {activeShareSessions.length > 0 && isOnline && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-[#C9182B] px-2.5 py-0.5 text-[10px] font-bold uppercase text-white">
+                    <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[#C9182B] px-2.5 py-0.5 text-[10px] font-bold uppercase text-white">
                       <Radio className="h-3 w-3 animate-pulse" />
                       Streaming Live ({activeShareSessions.length})
                     </span>
                   )}
                 </div>
 
-                <div className="grid gap-2 sm:grid-cols-2">
+                <div className="grid gap-2 sm:grid-cols-2 min-w-0">
                   <select
                     value={shareContactId}
                     onChange={(e) => setShareContactId(e.target.value)}
                     aria-label="Select trusted contact"
-                    className="glass-input rounded-xl px-2.5 py-1.5 text-xs"
+                    className="glass-input min-w-0 w-full rounded-xl px-2.5 py-2 text-xs"
                   >
                     <option value="">Any trusted recipient...</option>
                     {(trustedContacts ?? []).map((tc) => (
@@ -1425,7 +1485,7 @@ export function LiveTripPage() {
                       value={shareDurationMinutes}
                       onChange={(e) => setShareDurationMinutes(Number(e.target.value))}
                       aria-label="Share link duration"
-                      className="glass-input rounded-xl px-2.5 py-1.5 text-xs"
+                      className="glass-input min-w-0 w-full rounded-xl px-2.5 py-2 text-xs"
                     >
                       <option value={15}>Valid 15 mins</option>
                       <option value={30}>Valid 30 mins</option>
@@ -1436,10 +1496,33 @@ export function LiveTripPage() {
                   )}
                 </div>
 
-                <div className="flex flex-wrap gap-2">
+                {!isOffline && (
+                  <label className="flex items-start gap-2 text-[11px] font-semibold text-[#343039] cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={shareIncludeHistory}
+                      onChange={(e) => {
+                        const next = e.target.checked;
+                        setShareIncludeHistory(next);
+                        try {
+                          localStorage.setItem(
+                            'pamtrack_share_history_v1',
+                            next ? 'true' : 'false'
+                          );
+                        } catch {}
+                      }}
+                      className="mt-0.5 h-4 w-4 shrink-0 accent-[#C9182B]"
+                    />
+                    <span className="leading-snug">
+                      Include my recent Trip History for shared link recipients
+                    </span>
+                  </label>
+                )}
+
+                <div className="grid grid-cols-1 min-[340px]:grid-cols-2 gap-2 w-full">
                   {isOffline ? (
-                    <a href={smsHref} className="w-full sm:w-auto">
-                      <GlassButton type="button" variant="secondary" size="sm" className="w-full sm:w-auto">
+                    <a href={smsHref} className="min-[340px]:col-span-2 w-full">
+                      <GlassButton type="button" variant="secondary" size="sm" className="w-full">
                         Send SMS Location &amp; Speed
                       </GlassButton>
                     </a>
@@ -1449,20 +1532,23 @@ export function LiveTripPage() {
                         type="button"
                         variant="secondary"
                         size="sm"
+                        className="w-full min-w-0 px-2.5"
                         disabled={shareMutation.isPending}
                         onClick={() => shareMutation.mutate()}
                       >
-                        <Share2 className="h-3.5 w-3.5" />
-                        {shareMutation.isPending
-                          ? 'Creating Link...'
-                          : activeShareSessions.length > 0
-                            ? 'Create New Share Link'
-                            : 'Create Live Share Link'}
+                        <Share2 className="h-3.5 w-3.5 shrink-0" />
+                        <span className="truncate">
+                          {shareMutation.isPending
+                            ? 'Creating...'
+                            : activeShareSessions.length > 0
+                              ? 'New Share Link'
+                              : 'Create Live Share Link'}
+                        </span>
                       </GlassButton>
-                      <a href={smsHref}>
-                        <GlassButton type="button" variant="glass" size="sm">
-                          <PhoneCall className="h-3.5 w-3.5 text-[#C9182B]" />
-                          SMS Link
+                      <a href={smsHref} className="w-full min-w-0">
+                        <GlassButton type="button" variant="glass" size="sm" className="w-full min-w-0 px-2.5">
+                          <PhoneCall className="h-3.5 w-3.5 shrink-0 text-[#C9182B]" />
+                          <span className="truncate">SMS Link</span>
                         </GlassButton>
                       </a>
                     </>
@@ -1470,21 +1556,21 @@ export function LiveTripPage() {
                 </div>
 
                 {activeShareSessions.length > 0 && (
-                  <div className="space-y-2 pt-1">
+                  <div className="space-y-2 pt-1 min-w-0 max-w-full">
                     {activeShareSessions.map((sess) => {
                       const link = `${window.location.origin}/shared-trip/${sess.share_token}`;
                       const isCopied = copiedToken === sess.share_token;
                       return (
                         <div
                           key={sess.id}
-                          className="rounded-xl bg-[#F8E7EA] border border-white/80 p-2.5 text-[11px] space-y-2"
+                          className="min-w-0 max-w-full overflow-hidden rounded-xl bg-[#F8E7EA] border border-white/80 p-2.5 text-[11px] space-y-2"
                         >
                           <div className="flex flex-wrap items-center justify-between gap-1.5">
                             <span className="font-bold text-[#B51224]">
                               Streaming {currentSpeedKmh.toFixed(1)} km/h •{' '}
                               {distanceTraveledKm.toFixed(2)} km
                             </span>
-                            <span className="text-[10px] font-semibold text-[#777078]">
+                            <span className="text-[10px] font-semibold text-[#5B555E]">
                               Until {formatDateTimeSafe(sess.expires_at)}
                             </span>
                           </div>
@@ -1492,25 +1578,25 @@ export function LiveTripPage() {
                             href={link}
                             target="_blank"
                             rel="noreferrer"
-                            className="block truncate font-mono underline text-[#29262B]"
+                            className="block w-full min-w-0 break-all font-mono text-[10.5px] leading-snug underline text-[#29262B]"
                           >
                             {link}
                           </a>
-                          <div className="grid grid-cols-2 gap-1.5 sm:flex sm:flex-wrap">
+                          <div className="grid grid-cols-2 gap-1.5">
                             <GlassButton
                               type="button"
                               variant="primary"
                               size="sm"
-                              className="w-full sm:w-auto"
+                              className="w-full min-w-0 px-2"
                               onClick={() => handleCopyShareLink(sess.share_token)}
                             >
                               {isCopied ? (
                                 <>
-                                  <Check className="h-3 w-3" /> Copied
+                                  <Check className="h-3 w-3 shrink-0" /> Copied
                                 </>
                               ) : (
                                 <>
-                                  <Copy className="h-3 w-3" /> Copy Link
+                                  <Copy className="h-3 w-3 shrink-0" /> Copy Link
                                 </>
                               )}
                             </GlassButton>
@@ -1518,14 +1604,14 @@ export function LiveTripPage() {
                               type="button"
                               variant="secondary"
                               size="sm"
-                              className="w-full sm:w-auto"
+                              className="w-full min-w-0 px-2"
                               onClick={() => handleNativeShare(sess.share_token)}
                             >
-                              <Share2 className="h-3 w-3" /> Share
+                              <Share2 className="h-3 w-3 shrink-0" /> Share
                             </GlassButton>
-                            <a href={link} target="_blank" rel="noreferrer" className="w-full sm:w-auto">
-                              <GlassButton type="button" variant="glass" size="sm" className="w-full sm:w-auto">
-                                <ExternalLink className="h-3 w-3 text-[#C9182B]" /> Monitor
+                            <a href={link} target="_blank" rel="noreferrer" className="w-full min-w-0">
+                              <GlassButton type="button" variant="glass" size="sm" className="w-full min-w-0 px-2">
+                                <ExternalLink className="h-3 w-3 shrink-0 text-[#C9182B]" /> Monitor
                               </GlassButton>
                             </a>
                             {!sess.id.startsWith('pending-') && (
@@ -1533,11 +1619,11 @@ export function LiveTripPage() {
                                 type="button"
                                 variant="danger"
                                 size="sm"
-                                className="w-full sm:w-auto"
+                                className="w-full min-w-0 px-2"
                                 disabled={revokeShareMutation.isPending}
                                 onClick={() => revokeShareMutation.mutate(sess.id)}
                               >
-                                <Trash2 className="h-3 w-3" /> Revoke
+                                <Trash2 className="h-3 w-3 shrink-0" /> Revoke
                               </GlassButton>
                             )}
                           </div>
@@ -1548,25 +1634,28 @@ export function LiveTripPage() {
                 )}
               </div>
 
-              <div className="flex gap-2.5">
+              <div className="grid grid-cols-1 min-[340px]:grid-cols-3 gap-2 w-full">
                 <GlassButton
                   type="button"
                   variant="primary"
-                  className="flex-1"
+                  size="sm"
+                  className="min-[340px]:col-span-2 w-full min-w-0"
                   disabled={endMutation.isPending}
                   onClick={() => endMutation.mutate('completed')}
                 >
-                  <CheckCircle2 className="h-4 w-4" />
-                  End &amp; Save Trip
+                  <CheckCircle2 className="h-4 w-4 shrink-0" />
+                  <span className="truncate">End &amp; Save Trip</span>
                 </GlassButton>
                 <GlassButton
                   type="button"
                   variant="danger"
+                  size="sm"
+                  className="w-full min-w-0"
                   disabled={endMutation.isPending}
                   onClick={() => endMutation.mutate('cancelled')}
                 >
-                  <Square className="h-4 w-4" />
-                  Cancel
+                  <Square className="h-4 w-4 shrink-0" />
+                  <span>Cancel</span>
                 </GlassButton>
               </div>
 
@@ -1588,7 +1677,7 @@ export function LiveTripPage() {
         </GlassCard>
 
         {/* Live Map / Offline Corridor Radar + Offline Alerts */}
-        <div className="lg:col-span-7 space-y-5">
+        <div className="min-w-0 lg:col-span-7 space-y-5">
           <GlassCard variant="surface" className="p-4 space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <h2 className="font-display text-lg font-bold text-[#29262B]">
@@ -1869,6 +1958,63 @@ export function LiveTripPage() {
                     <span className="shrink-0 text-[10px] font-bold text-[#B51224]">
                       {al.synced ? 'Synced' : 'Saved Offline'} • {formatDateSafe(al.createdAt, 'h:mm a')}
                     </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </GlassCard>
+
+          {/* Commuter's Personal Trip History */}
+          <GlassCard variant="strong" className="p-4 sm:p-5 space-y-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <History className="h-4 w-4 text-[#C9182B] shrink-0" />
+                <h2 className="font-display text-base font-bold text-[#29262B]">
+                  My Trip History ({sharedHistoryItems.length})
+                </h2>
+              </div>
+              {sharedHistoryItems.length > 0 && (
+                <span className="glass-pill-tile rounded-full px-2.5 py-0.5 text-[10px] font-bold text-[#B51224]">
+                  {shareIncludeHistory ? 'Shared with Live Link' : 'Private Only'}
+                </span>
+              )}
+            </div>
+
+            {sharedHistoryItems.length === 0 ? (
+              <p className="text-xs text-[#5B555E]">
+                Completed or saved trips appear here and are shared automatically when recipients open your Live Trip link.
+              </p>
+            ) : (
+              <div className="space-y-2 max-h-72 overflow-y-auto pr-0.5">
+                {sharedHistoryItems.map((hist) => (
+                  <div
+                    key={hist.id}
+                    className="glass-pill-tile min-w-0 rounded-2xl px-3.5 py-2.5 text-xs space-y-1"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-1.5">
+                      <p className="font-bold text-[#29262B] truncate">
+                        {hist.origin_name} → {hist.destination_name}
+                      </p>
+                      <span
+                        className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ${
+                          hist.status === 'completed'
+                            ? 'bg-[#C9182B] text-white'
+                            : 'bg-white/80 text-[#343039]'
+                        }`}
+                      >
+                        {hist.status}
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-[#343039]">
+                      <span className="truncate">
+                        {hist.transport_mode} • {hist.distance_km.toFixed(2)} km •{' '}
+                        {formatDurationSeconds(hist.duration_seconds)}
+                        {hist.avg_speed_kmh !== null ? ` • ${hist.avg_speed_kmh} km/h avg` : ''}
+                      </span>
+                      <span className="shrink-0 font-semibold text-[#5B555E]">
+                        {formatDateSafe(hist.started_at, 'MMM d, h:mm a')}
+                      </span>
+                    </div>
                   </div>
                 ))}
               </div>

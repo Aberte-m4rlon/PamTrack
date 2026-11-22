@@ -246,9 +246,9 @@ export function SafetyCenterPage() {
           description="Personal contacts, time-limited sharing tokens, and incident submissions require a registered commuter account protected by Row Level Security."
         />
       ) : (
-        <div className="grid gap-6 lg:grid-cols-12">
+        <div className="grid gap-6 lg:grid-cols-12 min-w-0">
           {/* Trusted Contacts & Time-Limited Sharing */}
-          <div className="lg:col-span-6 space-y-5">
+          <div className="min-w-0 lg:col-span-6 space-y-5">
             <GlassCard variant="strong" className="p-5 space-y-4">
               <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#29262B]">
                 <UserPlus className="h-4 w-4 text-[#C9182B]" />
@@ -399,7 +399,7 @@ export function SafetyCenterPage() {
                   return (
                     <div
                       key={s.id}
-                      className="glass-pill-tile rounded-[20px] p-3 text-xs space-y-1.5"
+                      className="glass-pill-tile min-w-0 max-w-full overflow-hidden rounded-[20px] p-3 text-xs space-y-1.5"
                     >
                       <div className="flex items-center justify-between gap-2">
                         <span
@@ -422,16 +422,16 @@ export function SafetyCenterPage() {
                           </GlassButton>
                         )}
                       </div>
-                      <p className="text-[11px] text-[#777078]">
+                      <p className="text-[11px] text-[#5B555E]">
                         Expires: {formatDateTimeSafe(s.expires_at)}
                       </p>
                       {active && (
-                        <div className="space-y-1.5">
+                        <div className="space-y-1.5 min-w-0 max-w-full">
                           <a
                             href={link}
                             target="_blank"
                             rel="noreferrer"
-                            className="block truncate font-mono text-[11px] text-[#C9182B] underline"
+                            className="block w-full min-w-0 break-all font-mono text-[11px] text-[#C9182B] underline"
                           >
                             {link}
                           </a>
