@@ -271,7 +271,7 @@ export function ReportVehiclePage({
   if (submittedReport) {
     return (
       <GlassCard variant="strong" className="mx-auto max-w-2xl p-6 sm:p-8 space-y-5 text-center">
-        <div className="glass-pill-tile mx-auto flex h-14 w-14 items-center justify-center rounded-full text-[#16A34A]">
+        <div className="glass-pill-tile mx-auto flex h-14 w-14 items-center justify-center rounded-full text-[#DC2626]">
           <CheckCircle2 className="h-8 w-8" />
         </div>
         <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
@@ -359,15 +359,14 @@ export function ReportVehiclePage({
             </Link>
           </div>
         </div>
-        <p className="text-xs sm:text-sm text-[#78716C]">
-          Submit a Reported Incident / Alleged Violation privately for administrator review and
-          guided agency routing. Plate number or vehicle details help verify duplicate reports, and
-          unreviewed allegations are never published as a public blacklist.
+        <p className="text-xs sm:text-sm text-[#4B3B40]">
+          Submit a Reported Incident / Alleged Violation for review. Reports are never published as
+          a public blacklist.
         </p>
       </GlassCard>
 
       {!user && (
-        <GlassCard variant="strong" className="p-5 border-amber-300/65 flex flex-wrap items-center justify-between gap-3">
+        <GlassCard variant="strong" className="p-5 border-[#FECDD3] flex flex-wrap items-center justify-between gap-3">
           <p className="text-xs sm:text-sm font-semibold text-[#24191D]">
             Sign in with your commuter account to submit protected vehicle reports and track status
             updates.
@@ -791,10 +790,9 @@ export function ReportVehiclePage({
             5. Recommended Reporting Authorities &amp; Consent
           </h2>
 
-          <div className="glass-pill-tile rounded-[20px] border-amber-300/65 p-3.5 text-xs text-[#24191D]">
+          <div className="glass-pill-tile rounded-[20px] border-[#FECDD3] p-3.5 text-xs text-[#24191D]">
             <strong>Notice:</strong> Pamasahe Tracker is an independent monitoring system and is{' '}
-            <strong>not</strong> an official LTFRB, LTO, PNP, or LGU filing portal. Complaints
-            are never automatically transmitted externally without your explicit consent.
+            <strong>not</strong> an official LTFRB, LTO, PNP, or LGU filing portal.
           </div>
 
           <div className="space-y-2.5">
@@ -862,7 +860,7 @@ export function ReportVehiclePage({
         </div>
 
         {selectedCategories.length === 0 && (
-          <p className="flex items-center gap-1.5 text-xs font-semibold text-amber-800">
+          <p className="flex items-center gap-1.5 text-xs font-semibold text-[#B91C1C]">
             <AlertTriangle className="h-4 w-4" />
             Select at least one alleged violation category in Section 2 before submitting.
           </p>

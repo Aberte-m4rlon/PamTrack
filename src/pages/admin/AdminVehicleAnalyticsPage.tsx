@@ -77,13 +77,13 @@ export function AdminVehicleAnalyticsPage() {
             </GlassCard>
             <GlassCard variant="strong" className="p-4">
               <p className="text-xs font-bold uppercase text-[#78716C]">Active Review Queue</p>
-              <p className="mt-1 font-display text-2xl font-extrabold text-amber-600">
+              <p className="mt-1 font-display text-2xl font-extrabold text-[#B91C1C]">
                 {stats.openCount}
               </p>
             </GlassCard>
             <GlassCard variant="strong" className="p-4">
               <p className="text-xs font-bold uppercase text-[#78716C]">Agency Referrals</p>
-              <p className="mt-1 font-display text-2xl font-extrabold text-[#2563EB]">
+              <p className="mt-1 font-display text-2xl font-extrabold text-[#DC2626]">
                 {stats.referredCount}
               </p>
             </GlassCard>

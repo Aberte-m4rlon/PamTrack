@@ -133,9 +133,8 @@ export function RouteExplorerPage() {
             <h1 className="font-display text-2xl font-extrabold text-[#24191D] sm:text-3xl">
               Oriental Mindoro Route Map &amp; Fares
             </h1>
-            <p className="text-sm text-[#78716C]">
-              Select any two of the 15 municipalities/city to inspect real OSRM road geometry and
-              view verified official fares or community reference prices directly below.
+            <p className="text-sm text-[#4B3B40]">
+              Pick two LGUs to view the road corridor and fare guide.
             </p>
           </div>
           {originId && destinationId && (
@@ -154,7 +153,7 @@ export function RouteExplorerPage() {
       {quickFareCorridors.length > 0 && (
         <GlassCard variant="surface" className="p-4 space-y-2.5">
           <p className="text-xs font-bold uppercase tracking-wider text-[#DC2626]">
-            Corridors With Available Fare Prices (Click to Load Route &amp; Fare)
+            Popular Corridors
           </p>
           <div className="flex flex-wrap gap-2">
             {quickFareCorridors.map((c) => (
@@ -275,7 +274,7 @@ export function RouteExplorerPage() {
               {selectedCorridorFares.officialFares.length > 0 && (
                 <div className="space-y-2.5">
                   <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-xs font-bold text-[#24191D]">
-                    <CheckCircle2 className="h-4 w-4 text-[#16A34A]" />
+                    <CheckCircle2 className="h-4 w-4 text-[#DC2626]" />
                     <span>Verified Fare Records</span>
                   </div>
                   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -430,16 +429,16 @@ export function RouteExplorerPage() {
 
                     {/* Direct Fare Display on Route Card */}
                     {officialRegular ? (
-                      <div className="glass-pill-tile rounded-[20px] p-3 space-y-1 border-green-300/60">
+                      <div className="glass-pill-tile rounded-[20px] p-3 space-y-1 border-[#FECDD3]">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-green-900">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-[#B91C1C]">
                             Official Verified Fare
                           </span>
                           <FareStatusBadge status="verified_official" compact />
                         </div>
-                        <p className="font-display text-2xl font-extrabold text-[#16A34A]">
+                        <p className="font-display text-2xl font-extrabold text-[#DC2626]">
                           {formatPhp(officialRegular.fare_amount)}{' '}
-                          <span className="text-xs font-semibold text-[#78716C]">
+                          <span className="text-xs font-semibold text-[#4B3B40]">
                             ({PASSENGER_CATEGORY_LABELS[officialRegular.passenger_category]})
                           </span>
                         </p>
@@ -460,17 +459,14 @@ export function RouteExplorerPage() {
                         </div>
                         <p className="font-display text-2xl font-extrabold text-[#DC2626]">
                           {formatPhp(communityRegular.fare_amount)}{' '}
-                          <span className="text-xs font-semibold text-[#78716C]">
+                          <span className="text-xs font-semibold text-[#4B3B40]">
                             ({PASSENGER_CATEGORY_LABELS[communityRegular.passenger_category]})
                           </span>
                         </p>
-                        <p className="text-[11px] text-[#78716C]">
-                          Citizen commuter fare reference across Oriental Mindoro
-                        </p>
                       </div>
                     ) : (
-                      <div className="glass-pill-tile rounded-[20px] p-2.5 text-[11px] font-semibold text-[#78716C]">
-                        No commuter fare estimate published yet for this corridor.
+                      <div className="glass-pill-tile rounded-[20px] p-2.5 text-[11px] font-semibold text-[#4B3B40]">
+                        No fare estimate yet.
                       </div>
                     )}
                   </div>

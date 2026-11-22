@@ -521,7 +521,7 @@ export function FareSearchWidget({
               {officialFares.length > 0 && (
                 <div className="space-y-3">
                   <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-4 py-1.5">
-                    <CheckCircle2 className="h-4 w-4 text-[#16A34A]" />
+                    <CheckCircle2 className="h-4 w-4 text-[#DC2626]" />
                     <h4 className="text-xs font-bold uppercase tracking-wider text-[#24191D]">
                       Verified Fare Records
                     </h4>
@@ -571,9 +571,9 @@ export function FareSearchWidget({
                             {formatDateSafe(fare.last_verified_at || fare.updated_at)}
                           </p>
                           {fare.passenger_category !== 'regular' && (
-                            <p className="flex items-center gap-1.5 text-[#16A34A] font-semibold">
+                            <p className="flex items-center gap-1.5 text-[#B91C1C] font-semibold">
                               <Info className="h-3.5 w-3.5" />
-                              Includes statutory 20% discount guideline.
+                              Includes 20% discount guideline.
                             </p>
                           )}
                         </div>
@@ -615,10 +615,9 @@ export function FareSearchWidget({
                     </h4>
                   </div>
 
-                  <div className="glass-pill-tile rounded-2xl p-3.5 text-xs text-[#78716C]">
-                    <strong className="text-[#24191D]">Citizen Reference Guide:</strong> Shared by
-                    Mindoreño commuters across active Multicab, UV Express, Bus, and Tricycle
-                    corridors—always confirm posted terminal fares upon boarding.
+                  <div className="glass-pill-tile rounded-2xl px-3.5 py-2.5 text-xs text-[#4B3B40]">
+                    <strong className="text-[#24191D]">Citizen Reference Guide:</strong> Confirm
+                    posted terminal fares upon boarding.
                   </div>
 
                   <div className="grid gap-4 md:grid-cols-2">

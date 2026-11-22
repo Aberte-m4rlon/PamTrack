@@ -188,9 +188,8 @@ function SidebarContent({
               <Lock className="h-3.5 w-3.5" />
               <span>Sign In to Unlock More</span>
             </div>
-            <p className="text-[11px] leading-snug text-[#78716C]">
-              Live GPS Map, Nearby Stops, Trip Monitor, Safety Contacts, Vehicle &amp; Fare
-              Reporting.
+            <p className="text-[11px] leading-snug text-[#4B3B40]">
+              Unlock GPS Map, Trips, Safety &amp; Reporting.
             </p>
             <div className="grid grid-cols-2 gap-1.5">
               <Link

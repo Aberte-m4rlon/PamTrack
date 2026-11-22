@@ -141,7 +141,7 @@ export function AdminDashboardPage() {
 
         <div className="flex flex-wrap gap-2">
           <Link to="/admin/verification">
-            <GlassButton variant="emerald" size="sm">
+            <GlassButton variant="secondary" size="sm">
               <FileCheck2 className="h-4 w-4" />
               Open Verification Queue ({pendingReports.length})
             </GlassButton>

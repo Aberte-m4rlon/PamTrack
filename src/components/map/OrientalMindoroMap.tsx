@@ -336,9 +336,9 @@ export function OrientalMindoroMap({
                     {osrmRoute.durationMin} mins driving)
                   </p>
                 ) : (
-                  <p className="text-xs text-amber-800">
-                    Road routing unavailable ({osrmRoute?.error ?? 'offline'}). Straight-line
-                    geodesic reference: {straightLineRefKm} km (not a road distance).
+                  <p className="text-xs text-[#B91C1C]">
+                    Road routing unavailable ({osrmRoute?.error ?? 'offline'}). Straight-line: ~
+                    {straightLineRefKm} km.
                   </p>
                 )}
               </div>

@@ -66,11 +66,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   <p className="font-bold text-[#B91C1C]">
                     Offline Mode Active — Limited Features Available
                   </p>
-                  <p className="text-[#78716C]">
-                    Cached <strong>Fare Finder</strong>, <strong>Fare Matrix</strong>,{' '}
-                    <strong>15 LGUs</strong>, and <strong>Platform Guide</strong> remain usable
-                    offline. Live GPS map tiles, OSRM routing, sign in, and online reporting pause
-                    until reconnected.
+                  <p className="text-[#4B3B40]">
+                    Cached <strong>Fare Finder</strong>, <strong>Fare Matrix</strong>, and{' '}
+                    <strong>15 LGUs</strong> work offline. Live GPS and reporting require internet.
                   </p>
                 </div>
               </div>

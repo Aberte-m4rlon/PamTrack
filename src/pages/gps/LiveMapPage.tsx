@@ -26,7 +26,7 @@ import { GlassButton, GlassCard } from '@/components/glass/GlassPrimitives';
 
 const userGpsIcon = L.divIcon({
   className: 'user-gps-marker',
-  html: `<div style="width:20px;height:20px;border-radius:9999px;background:#2563EB;border:3px solid #fff;box-shadow:0 0 0 6px rgba(37,99,235,0.28);"></div>`,
+  html: `<div style="width:20px;height:20px;border-radius:9999px;background:#DC2626;border:3px solid #fff;box-shadow:0 0 0 6px rgba(220,38,38,0.28);"></div>`,
   iconSize: [20, 20],
   iconAnchor: [10, 10],
 });
@@ -124,9 +124,8 @@ export function LiveMapPage() {
             <h1 className="font-display text-2xl font-extrabold text-[#24191D] sm:text-3xl">
               Live GPS Location &amp; Verified Terminals Map
             </h1>
-            <p className="text-xs sm:text-sm text-[#78716C]">
-              View your live browser GPS position, accuracy circle, verified Oriental Mindoro ports
-              &amp; terminals, and OSRM directions to any selected destination.
+            <p className="text-xs sm:text-sm text-[#4B3B40]">
+              View your live position, nearby stops, and OSRM directions across Oriental Mindoro.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -232,7 +231,7 @@ export function LiveMapPage() {
                 >
                   <Popup>
                     <div className="text-xs space-y-1 text-[#24191D]">
-                      <p className="font-bold text-[#2563EB]">Your Current GPS Position</p>
+                      <p className="font-bold text-[#DC2626]">Your Current GPS Position</p>
                       <p>
                         {currentPosition.latitude.toFixed(5)}°N,{' '}
                         {currentPosition.longitude.toFixed(5)}°E
@@ -245,9 +244,9 @@ export function LiveMapPage() {
                   center={[currentPosition.latitude, currentPosition.longitude]}
                   radius={Math.min(currentPosition.accuracyMeters, 2000)}
                   pathOptions={{
-                    color: '#2563EB',
-                    fillColor: '#60A5FA',
-                    fillOpacity: 0.18,
+                    color: '#DC2626',
+                    fillColor: '#FCA5A5',
+                    fillOpacity: 0.20,
                     weight: 1.5,
                   }}
                 />
@@ -342,7 +341,7 @@ export function LiveMapPage() {
                   mins)
                 </span>
               ) : (
-                <span className="text-amber-800">
+                <span className="text-[#B91C1C]">
                   Straight-line distance:{' '}
                   {haversineDistanceKm(
                     currentPosition.latitude,

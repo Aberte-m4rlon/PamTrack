@@ -15,10 +15,9 @@ export function AuthoritiesDirectoryPage() {
         <h1 className="font-display text-2xl font-extrabold text-[#24191D] sm:text-3xl">
           Reporting Authority Directory
         </h1>
-        <p className="text-sm text-[#78716C]">
-          Authentic official portals and verified public complaint channels for public
-          transportation violations in Oriental Mindoro. Pamasahe Tracker is an independent
-          platform and is <strong className="text-[#24191D]">not</strong> an official LTFRB, LTO, PNP, or LGU system.
+        <p className="text-sm text-[#4B3B40]">
+          Official portals for transport complaints in Oriental Mindoro. Pamasahe Tracker is
+          independent of LTFRB, LTO, PNP, and LGUs.
         </p>
       </GlassCard>
 
@@ -63,7 +62,7 @@ export function AuthoritiesDirectoryPage() {
 
               <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs">
                 <span className="inline-flex items-center gap-1 text-[#78716C]">
-                  <ShieldCheck className="h-3.5 w-3.5 text-[#16A34A]" />
+                  <ShieldCheck className="h-3.5 w-3.5 text-[#DC2626]" />
                   Verified: {formatDateSafe(ag.last_verified_at)}
                 </span>
                 <a

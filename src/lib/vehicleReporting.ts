@@ -96,51 +96,51 @@ export const COMPLAINT_STATUS_META: Record<
   { badgeClass: string; isExternalAgencyStage: boolean }
 > = {
   Draft: {
-    badgeClass: 'bg-slate-200 text-slate-800 border border-slate-300',
+    badgeClass: 'bg-white/70 text-[#4B3B40] border border-white/85',
     isExternalAgencyStage: false,
   },
   'Submitted to Pamasahe Tracker': {
-    badgeClass: 'bg-sky-100 text-sky-900 border border-sky-300',
+    badgeClass: 'bg-white/80 text-[#B91C1C] border border-[#FECDD3]',
     isExternalAgencyStage: false,
   },
   'Pending Initial Review': {
-    badgeClass: 'bg-amber-100 text-amber-900 border border-amber-300',
+    badgeClass: 'bg-[#FFE4E6]/85 text-[#B91C1C] border border-white/85',
     isExternalAgencyStage: false,
   },
   'Under Review': {
-    badgeClass: 'bg-indigo-100 text-indigo-900 border border-indigo-300',
+    badgeClass: 'bg-[#FFE4E6]/90 text-[#991B1B] border border-[#FECDD3]',
     isExternalAgencyStage: false,
   },
   'Additional Information Required': {
-    badgeClass: 'bg-orange-100 text-orange-900 border border-orange-300',
+    badgeClass: 'bg-[#FFE4E6] text-[#B91C1C] border border-[#FCA5A5]',
     isExternalAgencyStage: false,
   },
   'Referred to Appropriate Agency': {
-    badgeClass: 'bg-[#FFE4E6] text-[#B91C1C] border border-[#FCA5A5]',
+    badgeClass: 'bg-[#DC2626]/90 text-white border border-white/65',
     isExternalAgencyStage: true,
   },
   'Acknowledged by Agency': {
-    badgeClass: 'bg-blue-100 text-[#2563EB] border border-blue-300',
+    badgeClass: 'bg-[#FFE4E6]/90 text-[#B91C1C] border border-[#FCA5A5]',
     isExternalAgencyStage: true,
   },
   'Under Agency Investigation': {
-    badgeClass: 'bg-[#2563EB] text-white border border-blue-400',
+    badgeClass: 'bg-[#B91C1C]/90 text-white border border-white/65',
     isExternalAgencyStage: true,
   },
   Resolved: {
-    badgeClass: 'bg-[#16A34A] text-white border border-green-400',
+    badgeClass: 'bg-gradient-to-b from-[#EF4444]/85 to-[#B91C1C]/90 text-white border border-white/65',
     isExternalAgencyStage: false,
   },
   Closed: {
-    badgeClass: 'bg-stone-600 text-white border border-stone-400',
+    badgeClass: 'bg-white/75 text-[#4B3B40] border border-white/85',
     isExternalAgencyStage: false,
   },
   Rejected: {
-    badgeClass: 'bg-red-100 text-[#DC2626] border border-red-300',
+    badgeClass: 'bg-[#991B1B]/90 text-white border border-white/60',
     isExternalAgencyStage: false,
   },
   Withdrawn: {
-    badgeClass: 'bg-stone-200 text-[#78716C] border border-stone-300',
+    badgeClass: 'bg-white/65 text-[#4B3B40] border border-white/80',
     isExternalAgencyStage: false,
   },
 };

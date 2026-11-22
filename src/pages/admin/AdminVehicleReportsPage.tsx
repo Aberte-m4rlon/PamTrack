@@ -298,7 +298,7 @@ export function AdminVehicleReportsPage({
                       {rep.municipality?.name} • {formatDateSafe(rep.incident_date)}
                     </span>
                     {(rep.is_duplicate_flagged || dupCount > 1) && (
-                      <span className="glass-pill-tile inline-flex items-center gap-1 rounded-full border-amber-300/75 px-2.5 py-0.5 font-bold text-amber-900">
+                      <span className="glass-pill-tile inline-flex items-center gap-1 rounded-full border-[#FECDD3] px-2.5 py-0.5 font-bold text-[#B91C1C]">
                         <AlertTriangle className="h-3 w-3" />
                         {dupCount} report(s) on plate
                       </span>

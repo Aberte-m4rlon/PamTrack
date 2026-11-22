@@ -56,7 +56,7 @@ const DEVIATION_THRESHOLD_KM = 2.0;
 
 const liveIcon = L.divIcon({
   className: 'trip-live-pin',
-  html: `<div style="width:18px;height:18px;border-radius:9999px;background:#2563EB;border:3px solid #fff;box-shadow:0 0 0 6px rgba(37,99,235,0.28);"></div>`,
+  html: `<div style="width:18px;height:18px;border-radius:9999px;background:#DC2626;border:3px solid #fff;box-shadow:0 0 0 6px rgba(220,38,38,0.28);"></div>`,
   iconSize: [18, 18],
   iconAnchor: [9, 9],
 });
@@ -389,7 +389,7 @@ export function LiveTripPage() {
       <GpsConsentCard compact />
 
       {!user && (
-        <GlassCard variant="strong" className="p-5 border-amber-300/65 flex flex-wrap items-center justify-between gap-3">
+        <GlassCard variant="strong" className="p-5 border-[#FECDD3] flex flex-wrap items-center justify-between gap-3">
           <p className="text-xs sm:text-sm font-semibold text-[#24191D]">
             Sign in to save live trips, record breadcrumbs, and share active trips with trusted
             contacts.
@@ -522,7 +522,7 @@ export function LiveTripPage() {
           ) : (
             <>
               <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#16A34A] px-3 py-1 text-xs font-bold text-white">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#DC2626] px-3 py-1 text-xs font-bold text-white">
                   <Radio className="h-3.5 w-3.5 animate-pulse" />
                   Active Trip Running
                 </span>
@@ -637,9 +637,8 @@ export function LiveTripPage() {
               </div>
 
               {!trackingActive && (
-                <p className="text-xs text-amber-800">
-                  Browser watch is paused. Click <strong>Start Tracking</strong> above to resume
-                  live coordinate updates.
+                <p className="text-xs text-[#B91C1C]">
+                  Browser watch paused. Tap <strong>Start Tracking</strong> to resume updates.
                 </p>
               )}
             </>
@@ -675,7 +674,7 @@ export function LiveTripPage() {
               {trail.length >= 2 && (
                 <Polyline
                   positions={trail}
-                  pathOptions={{ color: '#2563EB', weight: 5 }}
+                  pathOptions={{ color: '#B91C1C', weight: 5 }}
                 />
               )}
               {currentPosition && (

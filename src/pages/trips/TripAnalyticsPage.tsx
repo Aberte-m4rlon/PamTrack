@@ -165,7 +165,7 @@ export function TripAnalyticsPage() {
           <p className="text-[11px] font-bold uppercase text-[#78716C]">
             Recorded Expenses
           </p>
-          <p className="mt-1 font-display text-2xl font-extrabold text-[#16A34A]">
+          <p className="mt-1 font-display text-2xl font-extrabold text-[#DC2626]">
             {formatPhp(stats.recordedExpensePhp)}
           </p>
           <p className="text-[11px] text-[#78716C]">Official / exact paid</p>
@@ -175,7 +175,7 @@ export function TripAnalyticsPage() {
           <p className="text-[11px] font-bold uppercase text-[#78716C]">
             Estimated Expenses
           </p>
-          <p className="mt-1 font-display text-2xl font-extrabold text-amber-600">
+          <p className="mt-1 font-display text-2xl font-extrabold text-[#B91C1C]">
             {formatPhp(stats.estimatedExpensePhp)}
           </p>
           <p className="text-[11px] text-[#78716C]">Community reference only</p>

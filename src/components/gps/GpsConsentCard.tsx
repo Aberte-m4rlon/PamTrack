@@ -26,10 +26,8 @@ export function GpsConsentCard({ compact = false }: { compact?: boolean }) {
             <span
               className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase ${
                 trackingActive
-                  ? 'bg-[#16A34A] text-white'
-                  : permissionState === 'denied' || permissionState === 'unsupported'
-                    ? 'bg-red-100 text-[#B91C1C]'
-                    : 'bg-[#FFE4E6] text-[#B91C1C]'
+                  ? 'bg-[#DC2626] text-white'
+                  : 'bg-[#FFE4E6] text-[#B91C1C]'
               }`}
             >
               <span
@@ -42,7 +40,7 @@ export function GpsConsentCard({ compact = false }: { compact?: boolean }) {
                 : `Permission: ${permissionState}`}
             </span>
             {consentGranted && (
-              <span className="text-[11px] font-semibold text-[#16A34A]">
+              <span className="text-[11px] font-semibold text-[#B91C1C]">
                 Consent granted
               </span>
             )}
@@ -51,10 +49,8 @@ export function GpsConsentCard({ compact = false }: { compact?: boolean }) {
             Browser GPS Location Control
           </h2>
           {!compact && (
-            <p className="text-xs text-[#78716C] max-w-2xl">
-              Location access is used strictly when you request it to detect your Oriental Mindoro
-              municipality, find nearby verified transport terminals, and monitor active trips. We
-              never track silently.
+            <p className="text-xs text-[#4B3B40] max-w-2xl">
+              Used only when requested for nearby stops and trip checks.
             </p>
           )}
         </div>
@@ -106,11 +102,10 @@ export function GpsConsentCard({ compact = false }: { compact?: boolean }) {
       )}
 
       {lowAccuracyWarning && currentPosition && (
-        <div className="glass-pill-tile flex items-start gap-2 rounded-[20px] border-amber-300/75 p-3 text-xs text-amber-950">
-          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+        <div className="glass-pill-tile flex items-start gap-2 rounded-[20px] border-[#FECDD3] p-3 text-xs text-[#B91C1C]">
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#DC2626]" />
           <span>
-            Low GPS accuracy reported (±{currentPosition.accuracyMeters} m). Move outdoors or wait
-            for a stronger satellite fix before relying on exact terminal distance.
+            Low GPS accuracy (±{currentPosition.accuracyMeters} m). Move outdoors for a clearer fix.
           </span>
         </div>
       )}

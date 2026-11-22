@@ -30,27 +30,27 @@ const HOW_IT_WORKS_STEPS = [
   {
     step: '01',
     title: 'Select Origin',
-    description: 'Pick your starting city or municipality across all 15 LGUs of Oriental Mindoro.',
+    description: 'Pick your starting LGU.',
   },
   {
     step: '02',
     title: 'Select Destination',
-    description: 'Choose where you are traveling from Puerto Galera down to Bulalacao.',
+    description: 'Choose your drop-off town.',
   },
   {
     step: '03',
-    title: 'Choose Transport Mode',
-    description: 'Filter by Multicab, UV Express, Provincial Bus, or Tricycle.',
+    title: 'Pick Transport',
+    description: 'Multicab, UV, Bus, or Tricycle.',
   },
   {
     step: '04',
-    title: 'View Fare & Road Info',
-    description: 'Inspect published fares, discount coverage, and real OpenStreetMap routing.',
+    title: 'Check Route & Fare',
+    description: 'View prices and road distance.',
   },
   {
     step: '05',
-    title: 'Compare Citizen Rates',
-    description: 'Check community fare estimates and 20% student, senior, or PWD discounts before boarding.',
+    title: 'Compare Discounts',
+    description: 'Verify 20% student & senior rates.',
   },
 ];
 
@@ -134,10 +134,9 @@ export function LandingPage() {
                 <span className="text-[#DC2626]">Plan Your Pamasahe.</span>
               </h1>
 
-              <p className="max-w-2xl text-sm leading-relaxed text-[#4B3B40] sm:text-base">
-                The citizen-powered public transportation fare guide for everyday Mindoreño
-                commuters across all{' '}
-                <strong className="text-[#24191D]">15 cities and municipalities of Oriental Mindoro</strong>. Check crowd-sourced commuter fares, statutory 20% discount rates, and real OpenStreetMap routes across Tricycle, Multicab, UV Express, and Provincial Bus corridors.
+              <p className="max-w-xl text-sm leading-relaxed text-[#4B3B40] sm:text-base">
+                Compare commuter fares, 20% discounts, and OSRM routes across all{' '}
+                <strong className="text-[#24191D]">15 cities and municipalities of Oriental Mindoro</strong>.
               </p>
 
               <div className="flex flex-wrap gap-3 pt-1">
@@ -156,15 +155,14 @@ export function LandingPage() {
               </div>
 
               {!user && (
-                <div className="glass-pill-tile flex items-center gap-2.5 rounded-2xl sm:rounded-full px-4 py-2.5 text-xs text-[#4B3B40]">
+                <div className="glass-pill-tile flex items-center gap-2.5 rounded-2xl sm:rounded-full px-4 py-2 text-xs text-[#4B3B40]">
                   <Lock className="h-3.5 w-3.5 text-[#DC2626] shrink-0" />
                   <span className="leading-snug">
-                    <strong className="text-[#24191D]">Limited Guest Mode:</strong> Public fare lookup
-                    &amp; matrix unlocked.{' '}
+                    <strong className="text-[#24191D]">Guest Mode:</strong> Fare lookup unlocked.{' '}
                     <Link to="/login" className="font-bold text-[#DC2626] hover:underline">
                       Sign in
                     </Link>{' '}
-                    to access Live GPS, Trip Monitor, Safety &amp; Reporting.
+                    for Live GPS &amp; Reporting.
                   </span>
                 </div>
               )}
@@ -217,30 +215,30 @@ export function LandingPage() {
           {
             icon: ShieldCheck,
             title: 'What Is Pamasahe Tracker?',
-            body: 'A province-wide fare reference and reporting system built specifically for Oriental Mindoro commuters and regulators.',
+            body: 'Province-wide fare reference built for Oriental Mindoro riders.',
           },
           {
             icon: Users,
             title: 'Why It Was Created',
-            body: 'To reduce fare confusion, deter overcharging, and give daily riders a single reliable place to verify rates and discounts.',
+            body: 'Spot overcharging and compare commuter rates at a glance.',
           },
           {
             icon: Compass,
             title: 'How It Helps Commuters',
-            body: 'Plan inter-municipal trips with OSRM road distances, compare fare categories, and save favorite daily routes.',
+            body: 'View OSRM road routes and 20% discount tables anytime.',
           },
           {
             icon: FileCheck2,
             title: 'Citizen Fare Estimates',
-            body: 'Everyday riders share real terminal and highway fares across all 15 municipalities, helping fellow commuters spot overcharging immediately.',
+            body: 'Real corridor fares shared across all 15 municipalities.',
           },
         ].map((item) => (
-          <GlassCard key={item.title} variant="strong" hoverable className="p-5 space-y-2.5">
+          <GlassCard key={item.title} variant="strong" hoverable className="p-5 space-y-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/95 bg-gradient-to-br from-white/95 to-[#FFE4E6]/90 text-[#DC2626] shadow-sm">
               <item.icon className="h-5 w-5" />
             </div>
             <h2 className="font-display text-base font-bold text-[#24191D]">{item.title}</h2>
-            <p className="text-xs leading-relaxed text-[#78716C]">{item.body}</p>
+            <p className="text-xs leading-relaxed text-[#4B3B40]">{item.body}</p>
           </GlassCard>
         ))}
       </section>
@@ -263,13 +261,12 @@ export function LandingPage() {
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {transportTypes.map((tt) => (
-            <GlassCard key={tt.id} variant="strong" hoverable className="p-5 space-y-2.5">
+            <GlassCard key={tt.id} variant="strong" hoverable className="p-5 space-y-2">
               <div className="liquid-nav-active flex h-11 w-11 items-center justify-center rounded-2xl text-white">
                 <TransportModeIcon code={tt.code} className="h-5 w-5" />
               </div>
               <h3 className="font-display text-base font-bold text-[#24191D]">{tt.name}</h3>
-              <p className="text-xs leading-relaxed text-[#78716C]">{tt.description}</p>
-              <p className="pt-1 text-[11px] font-semibold text-[#B91C1C]">{tt.regulatory_body}</p>
+              <p className="text-[11px] font-semibold text-[#B91C1C]">{tt.regulatory_body}</p>
             </GlassCard>
           ))}
         </div>
@@ -409,64 +406,59 @@ export function LandingPage() {
       <section className="grid gap-5 lg:grid-cols-12">
         <GlassCard variant="strong" className="p-6 space-y-4 lg:col-span-7">
           <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
-            Pangmamamayan • Citizen Commuter Guide
+            Pangmamamayan • Fare Status Guide
           </p>
           <h2 className="font-display text-2xl font-extrabold text-[#24191D]">
             Transparent Citizen Commuter Estimates
           </h2>
-          <p className="text-sm text-[#78716C]">
-            Pamasahe Tracker is an independent citizen-led commuter guide across all 15
-            municipalities of Oriental Mindoro—built for everyday riders without relying on
-            government official logins. Every fare row clearly states its source and update date.
+          <p className="text-sm text-[#4B3B40]">
+            Independent commuter guide across all 15 municipalities with clear status labels.
           </p>
 
           <div className="grid gap-3 sm:grid-cols-2">
-            <div className="glass-pill-tile rounded-[22px] p-3.5 space-y-1.5 border-green-300/60">
+            <div className="glass-pill-tile rounded-[22px] p-3.5 space-y-1.5">
               <FareStatusBadge status="verified_official" />
-              <p className="text-xs text-[#78716C]">
-                Backed by LTFRB Region IV-B orders, Sanggunian tricycle ordinances, or authorized
-                operator tariff sheets.
+              <p className="text-xs text-[#4B3B40]">
+                Backed by LTFRB or LGU fare orders.
               </p>
             </div>
-            <div className="glass-pill-tile rounded-[22px] p-3.5 space-y-1.5 border-amber-300/65">
+            <div className="glass-pill-tile rounded-[22px] p-3.5 space-y-1.5">
               <FareStatusBadge status="community_estimate" />
-              <p className="text-xs text-[#78716C]">
-                Reviewed commuter observations provided for budgeting reference only when official
-                tables are pending.
+              <p className="text-xs text-[#4B3B40]">
+                Commuter budget reference along active corridors.
               </p>
             </div>
             <div className="glass-pill-tile rounded-[22px] p-3.5 space-y-1.5">
               <FareStatusBadge status="pending_verification" />
-              <p className="text-xs text-[#78716C]">
-                Queued for administrator comparison against official documents and evidence.
+              <p className="text-xs text-[#4B3B40]">
+                Queued for verification against transport documents.
               </p>
             </div>
-            <div className="glass-pill-tile rounded-[22px] p-3.5 space-y-1.5 border-[#FCA5A5]/70">
+            <div className="glass-pill-tile rounded-[22px] p-3.5 space-y-1.5">
               <FareStatusBadge status="rejected_or_disputed" />
-              <p className="text-xs text-[#78716C]">
-                Flagged or rejected due to conflicting reports or missing proof.
+              <p className="text-xs text-[#4B3B40]">
+                Flagged due to conflicting reports.
               </p>
             </div>
           </div>
         </GlassCard>
 
         <GlassCard variant="rose" className="p-6 space-y-4 lg:col-span-5">
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-wider">
-            <CheckCircle2 className="h-3.5 w-3.5 text-[#FFE4E6]" />
+          <div className="inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1 text-xs font-bold uppercase tracking-wider">
+            <CheckCircle2 className="h-3.5 w-3.5 text-white" />
             Statutory Discounts
           </div>
           <h3 className="font-display text-xl font-extrabold">
             20% Student, Senior Citizen &amp; PWD Privileges
           </h3>
-          <p className="text-xs leading-relaxed text-[#FFE4E6]/95">
-            Discounted fares are displayed strictly according to verified statutory regulations (RA
-            11314, RA 9994, RA 10754) and published LGU/LTFRB orders.
+          <p className="text-xs leading-relaxed text-white/90">
+            Discounted fares follow RA 11314, RA 9994, and RA 10754 orders.
           </p>
           <ul className="space-y-2 text-xs">
             {OFFICIAL_REGULATORY_REFERENCES.slice(0, 4).map((ref) => (
-              <li key={ref.authority} className="rounded-xl bg-white/15 p-2.5 border border-white/15">
+              <li key={ref.authority} className="rounded-xl bg-white/15 p-2.5 border border-white/20">
                 <p className="font-bold">{ref.authority}</p>
-                <p className="text-[#FFE4E6]/90">{ref.title}</p>
+                <p className="text-white/90">{ref.title}</p>
               </li>
             ))}
           </ul>
@@ -476,25 +468,24 @@ export function LandingPage() {
       {/* 8. CALL TO ACTION */}
       <GlassCard variant="rose" className="p-6 sm:p-8">
         <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
-          <div className="space-y-2 max-w-2xl">
+          <div className="space-y-1.5 max-w-2xl">
             <h2 className="font-display text-2xl font-extrabold sm:text-3xl">
               Help Keep Oriental Mindoro Fares Accurate
             </h2>
-            <p className="text-sm text-[#FFE4E6]/95">
-              Create a commuter account to report actual fares you paid, upload receipt or matrix
-              photos, save favorite routes, and receive instant verification updates.
+            <p className="text-sm text-white/90">
+              Sign in to report fares paid and save daily routes.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
             <Link to="/register">
-              <GlassButton variant="emerald" size="lg">
+              <GlassButton variant="secondary" size="lg">
                 Register as Commuter
                 <ArrowRight className="h-4 w-4" />
               </GlassButton>
             </Link>
             <Link to={user ? '/dashboard/reports' : '/login'}>
-              <GlassButton variant="glass" size="lg">
-                <MessageSquarePlus className="h-4 w-4 text-[#DC2626]" />
+              <GlassButton variant="glass" size="lg" className="text-white">
+                <MessageSquarePlus className="h-4 w-4 text-white" />
                 {user ? 'Submit Fare Report' : 'Sign In to Report Fare'}
               </GlassButton>
             </Link>

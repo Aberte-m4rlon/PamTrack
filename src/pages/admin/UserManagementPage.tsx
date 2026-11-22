@@ -59,7 +59,7 @@ export function UserManagementPage() {
           </p>
         </div>
         {!isSuperAdmin && (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-900">
+          <span className="glass-pill-tile inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold text-[#B91C1C]">
             <Shield className="h-3.5 w-3.5" /> Read-Only (Super Admin required to change roles)
           </span>
         )}

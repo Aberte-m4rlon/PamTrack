@@ -289,11 +289,11 @@ export function StatCard({
 }) {
   const valueTone =
     tone === 'success'
-      ? 'text-[#16A34A]'
+      ? 'text-[#DC2626]'
       : tone === 'warning'
-        ? 'text-amber-600'
+        ? 'text-[#B91C1C]'
         : tone === 'info'
-          ? 'text-[#2563EB]'
+          ? 'text-[#DC2626]'
           : tone === 'neutral'
             ? 'text-[#24191D]'
             : 'text-[#DC2626]';
@@ -335,14 +335,14 @@ export function StatusBadge({
 }) {
   const styles =
     tone === 'success'
-      ? 'bg-[#16A34A]/80 text-white border border-white/55 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_4px_12px_rgba(22,163,74,0.22)] backdrop-blur-md'
+      ? 'bg-gradient-to-b from-[#EF4444]/85 to-[#B91C1C]/90 text-white border border-white/65 shadow-[inset_0_1px_1px_rgba(255,255,255,0.7),0_4px_12px_rgba(185,28,28,0.22)] backdrop-blur-md'
       : tone === 'warning'
-        ? 'bg-amber-400/75 text-[#24191D] border border-white/75 shadow-[inset_0_1px_1px_rgba(255,255,255,0.75),0_4px_12px_rgba(245,158,11,0.18)] backdrop-blur-md'
+        ? 'bg-[#FFE4E6]/85 text-[#B91C1C] border border-[#FECDD3] shadow-[inset_0_1px_1px_rgba(255,255,255,0.88),0_4px_12px_rgba(185,28,28,0.10)] backdrop-blur-md'
         : tone === 'info'
-          ? 'bg-[#2563EB]/80 text-white border border-white/55 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_4px_12px_rgba(37,99,235,0.22)] backdrop-blur-md'
+          ? 'bg-white/75 text-[#B91C1C] border border-white/85 shadow-[inset_0_1px_1px_rgba(255,255,255,0.92),0_4px_12px_rgba(185,28,28,0.10)] backdrop-blur-md'
           : tone === 'neutral'
-            ? 'bg-stone-600/75 text-white border border-white/50 shadow-[inset_0_1px_1px_rgba(255,255,255,0.5),0_4px_12px_rgba(0,0,0,0.14)] backdrop-blur-md'
-            : 'bg-white/45 text-[#B91C1C] border border-white/78 shadow-[inset_0_1px_1px_rgba(255,255,255,0.85),0_4px_12px_rgba(185,28,28,0.12)] backdrop-blur-md';
+            ? 'bg-white/65 text-[#4B3B40] border border-white/80 shadow-[inset_0_1px_1px_rgba(255,255,255,0.85)] backdrop-blur-md'
+            : 'bg-white/75 text-[#B91C1C] border border-[#FECDD3] shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),0_4px_12px_rgba(185,28,28,0.10)] backdrop-blur-md';
 
   return (
     <span

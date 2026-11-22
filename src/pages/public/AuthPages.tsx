@@ -356,8 +356,8 @@ export function ForgotPasswordPage() {
           </h1>
         </div>
         {sent ? (
-          <div className="space-y-3 text-sm text-[#78716C]">
-            <p className="flex items-center gap-2 font-bold text-[#16A34A]">
+          <div className="space-y-3 text-sm text-[#4B3B40]">
+            <p className="flex items-center gap-2 font-bold text-[#DC2626]">
               <CheckCircle2 className="h-5 w-5" /> Reset email sent!
             </p>
             <p>Check your inbox for a password recovery link.</p>

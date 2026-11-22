@@ -12,11 +12,9 @@ export function AboutPage() {
         <h1 className="font-display text-3xl font-extrabold text-[#24191D]">
           Citizen-Driven Fare Monitoring for Oriental Mindoro
         </h1>
-        <p className="text-sm leading-relaxed text-[#78716C] max-w-3xl">
-          <strong className="text-[#24191D]">Pamasahe Tracker – Oriental Mindoro</strong> (&ldquo;Tamang Pamasahe. Ligtas na
-          Biyahe.&rdquo;) is built directly for everyday Mindoreño commuters across Calapan City
-          and all 14 municipalities—providing crowd-sourced fare references across Multicab, UV
-          Express, Bus, and Tricycle corridors with real OpenStreetMap routing and safety tools.
+        <p className="text-sm leading-relaxed text-[#4B3B40] max-w-2xl">
+          <strong className="text-[#24191D]">Pamasahe Tracker</strong> provides commuter fare guides
+          and OpenStreetMap routes across all 15 Oriental Mindoro LGUs.
         </p>
       </GlassCard>
 
@@ -24,21 +22,20 @@ export function AboutPage() {
         <GlassCard variant="strong" className="p-6 space-y-3">
           <div className="flex items-center gap-2 text-[#DC2626]">
             <ShieldCheck className="h-5 w-5" />
-            <h2 className="font-display text-lg font-bold text-[#24191D]">Strict Integrity Principles</h2>
+            <h2 className="font-display text-lg font-bold text-[#24191D]">Core Principles</h2>
           </div>
-          <ul className="list-disc pl-5 space-y-2 text-sm text-[#78716C]">
+          <ul className="list-disc pl-5 space-y-2 text-sm text-[#4B3B40]">
             <li>
-              <strong className="text-[#24191D]">No Invented Official Fares:</strong> Official fares are published exclusively
-              by verified administrators with an authoritative source document reference and
-              effective date.
+              <strong className="text-[#24191D]">Verified Official Sources:</strong> Published
+              with document reference and date.
             </li>
             <li>
-              <strong className="text-[#24191D]">Clear Community Estimate Separation:</strong> Approved commuter reports are
-              labeled strictly as <em>Community Estimates</em> and never auto-promoted to Official.
+              <strong className="text-[#24191D]">Clear Community Estimates:</strong> Crowd-sourced
+              budget guides labeled separately.
             </li>
             <li>
-              <strong className="text-[#24191D]">Real Geospatial Data:</strong> All 15 LGUs use verified coordinates and live
-              OpenStreetMap / OSRM routing rather than fabricated distance formulas.
+              <strong className="text-[#24191D]">Real Geospatial Data:</strong> Live coordinates and
+              OSRM routing across all 15 LGUs.
             </li>
           </ul>
         </GlassCard>

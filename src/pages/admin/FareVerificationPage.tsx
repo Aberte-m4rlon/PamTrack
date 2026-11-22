@@ -330,8 +330,8 @@ export function FareVerificationPage() {
                 </label>
 
                 {/* Official Source Block (Required ONLY for Verified Official Fare) */}
-                <div className="glass-pill-tile rounded-[22px] border-green-300/65 p-4 space-y-3">
-                  <p className="text-xs font-bold uppercase tracking-wider text-[#16A34A]">
+                <div className="glass-pill-tile rounded-[22px] border-[#FECDD3] p-4 space-y-3">
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#B91C1C]">
                     Official Source Verification (Required to Publish Official Fare)
                   </p>
                   <div className="grid gap-2.5 sm:grid-cols-2">

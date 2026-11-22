@@ -38,7 +38,7 @@ export function AdminTripAnalyticsPage() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <GlassCard variant="strong" className="p-4">
               <p className="text-[11px] font-bold uppercase text-[#78716C]">Active Trips</p>
-              <p className="mt-1 font-display text-2xl font-extrabold text-[#16A34A]">
+              <p className="mt-1 font-display text-2xl font-extrabold text-[#DC2626]">
                 {data.active_trips}
               </p>
             </GlassCard>
@@ -60,7 +60,7 @@ export function AdminTripAnalyticsPage() {
               <p className="text-[11px] font-bold uppercase text-[#78716C]">
                 GPS-Consented Accounts
               </p>
-              <p className="mt-1 font-display text-2xl font-extrabold text-[#2563EB]">
+              <p className="mt-1 font-display text-2xl font-extrabold text-[#B91C1C]">
                 {data.gps_consented_users}
               </p>
             </GlassCard>

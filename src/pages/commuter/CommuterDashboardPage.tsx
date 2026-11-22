@@ -106,7 +106,7 @@ export function CommuterDashboardPage() {
 
           <div className="flex flex-wrap gap-2">
             <Link to="/trips">
-              <GlassButton variant="emerald" size="sm">
+              <GlassButton variant="secondary" size="sm">
                 <Radio className="h-4 w-4" />
                 Live Trip Monitor
               </GlassButton>

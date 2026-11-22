@@ -16,9 +16,8 @@ export function MunicipalitiesPage() {
         <h1 className="font-display text-2xl font-extrabold text-[#24191D] sm:text-3xl">
           Oriental Mindoro Municipality Directory
         </h1>
-        <p className="text-sm text-[#78716C]">
-          Verified geographic coordinates and district profiles for Calapan City and all 14
-          municipalities of Oriental Mindoro.
+        <p className="text-sm text-[#4B3B40]">
+          Quick links to fares and maps across Calapan City and all 14 municipalities.
         </p>
       </GlassCard>
 
@@ -59,7 +58,7 @@ export function MunicipalitiesPage() {
                   )}
                 </div>
 
-                <p className="text-xs leading-relaxed text-[#78716C]">{m.description}</p>
+                <p className="text-xs leading-relaxed text-[#4B3B40] line-clamp-2">{m.description}</p>
                 <p className="text-[11px] font-mono text-[#A8A29E]">
                   Coords: {m.latitude.toFixed(4)}° N, {m.longitude.toFixed(4)}° E
                 </p>

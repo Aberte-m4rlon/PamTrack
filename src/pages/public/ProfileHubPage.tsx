@@ -207,10 +207,10 @@ export function ProfileHubPage() {
               ? profile?.full_name || user.email?.split('@')[0]
               : 'Guest Commuter'}
           </h1>
-          <p className="text-xs text-[#FFE4E6]/90">
+          <p className="text-xs text-white/90">
             {user
-              ? `${user.email} • Role: ${role.replace('_', ' ').toUpperCase()}`
-              : 'While logged out, you have access to public fare lookup, official matrix, and 15 LGUs. Sign in to unlock GPS, trips, safety sharing, and reporting.'}
+              ? `${user.email} • ${role.replace('_', ' ').toUpperCase()}`
+              : 'Browse public fares anytime. Sign in for GPS, trips, safety & reporting.'}
           </p>
         </div>
 
@@ -223,13 +223,13 @@ export function ProfileHubPage() {
           ) : (
             <>
               <Link to="/login">
-                <GlassButton variant="glass" size="sm" disabled={isOffline}>
-                  <LogIn className="h-4 w-4 text-[#DC2626]" />
+                <GlassButton variant="glass" size="sm" className="text-white" disabled={isOffline}>
+                  <LogIn className="h-4 w-4 text-white" />
                   Sign In
                 </GlassButton>
               </Link>
               <Link to="/register">
-                <GlassButton variant="emerald" size="sm" disabled={isOffline}>
+                <GlassButton variant="secondary" size="sm" disabled={isOffline}>
                   <UserPlus className="h-4 w-4" />
                   Register
                 </GlassButton>

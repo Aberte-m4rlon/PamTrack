@@ -55,8 +55,8 @@ export function MunicipalityManagementPage() {
                 <span
                   className={`shrink-0 rounded-full border border-white/80 px-2.5 py-0.5 font-bold backdrop-blur-md ${
                     m.is_active
-                      ? 'bg-green-100/80 text-[#16A34A]'
-                      : 'bg-white/70 text-[#78716C]'
+                      ? 'bg-[#FFE4E6]/90 text-[#B91C1C]'
+                      : 'bg-white/75 text-[#4B3B40]'
                   }`}
                 >
                   {m.is_active ? 'Active' : 'Inactive'}
@@ -109,8 +109,8 @@ export function MunicipalityManagementPage() {
                     <span
                       className={`rounded-full border border-white/80 px-2.5 py-0.5 font-bold backdrop-blur-md ${
                         m.is_active
-                          ? 'bg-green-100/80 text-[#16A34A]'
-                          : 'bg-white/70 text-[#78716C]'
+                          ? 'bg-[#FFE4E6]/90 text-[#B91C1C]'
+                          : 'bg-white/75 text-[#4B3B40]'
                       }`}
                     >
                       {m.is_active ? 'Active' : 'Inactive'}

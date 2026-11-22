@@ -43,7 +43,7 @@ export function SystemSettingsPage() {
           System Settings
         </h1>
         {!isSuperAdmin && (
-          <p className="mt-1 text-xs font-semibold text-amber-800">
+          <p className="mt-1 text-xs font-semibold text-[#B91C1C]">
             Read-only preview: Only Super Administrators can modify system_settings via RLS.
           </p>
         )}

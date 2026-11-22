@@ -133,8 +133,8 @@ export function AppHeader({
 
           {trackingActive && (
             <div className="liquid-btn-glass flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold text-[#24191D]">
-              <span className="h-2 w-2 rounded-full bg-[#16A34A] animate-pulse" />
-              <span className="hidden sm:inline text-[#16A34A]">
+              <span className="h-2 w-2 rounded-full bg-[#DC2626] animate-pulse" />
+              <span className="hidden sm:inline text-[#B91C1C]">
                 GPS Active
                 {nearestMunicipality?.withinOrientalMindoro
                   ? ` (${nearestMunicipality.municipality.name})`

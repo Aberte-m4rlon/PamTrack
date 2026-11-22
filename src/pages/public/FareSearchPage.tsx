@@ -22,10 +22,8 @@ export function FareSearchPage() {
         <h1 className="font-display text-2xl font-extrabold text-[#24191D] sm:text-3xl">
           Route &amp; Fare Finder
         </h1>
-        <p className="text-sm text-[#78716C]">
-          Search verified official fares and reviewed community estimates across Oriental Mindoro.
-          If no official fare has been verified for a corridor, the system explicitly states that
-          none is available.
+        <p className="text-sm text-[#4B3B40]">
+          Search commuter fare guides and 20% discounts across all 15 LGUs.
         </p>
       </GlassCard>
 

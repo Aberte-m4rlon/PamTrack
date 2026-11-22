@@ -146,9 +146,8 @@ export function FareMatrixPage() {
           <h1 className="font-display text-2xl font-extrabold text-[#24191D] sm:text-3xl">
             Oriental Mindoro Fare Matrix
           </h1>
-          <p className="text-sm text-[#78716C]">
-            Browse and compare commuter fare estimates and 20% student, senior citizen, and PWD
-            discounted guides across Tricycle, Multicab, UV Express, and Bus corridors.
+          <p className="text-sm text-[#4B3B40]">
+            Province-wide fare estimates and 20% discount guide.
           </p>
         </div>
 
@@ -175,7 +174,7 @@ export function FareMatrixPage() {
             type="text"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            placeholder="Search route or doc ref..."
+            placeholder="Search route..."
             className="glass-input rounded-2xl px-3.5 py-2 text-sm"
           />
 
@@ -285,7 +284,7 @@ export function FareMatrixPage() {
         <EmptyStateCard
           icon={Table2}
           title="No fare matrix records match your filters"
-          description="Official and community fare entries appear here once published or reviewed in Supabase. We never preload fabricated fares."
+          description="Try clearing a filter or search term."
           action={
             <Link to="/fare-search">
               <GlassButton variant="primary" size="sm">

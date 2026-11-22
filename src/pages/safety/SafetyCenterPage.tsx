@@ -204,7 +204,7 @@ export function SafetyCenterPage() {
             </GlassButton>
           </a>
           {user && (
-            <GlassButton type="button" variant="emerald" size="sm" onClick={handleArrivalAlert}>
+            <GlassButton type="button" variant="secondary" size="sm" onClick={handleArrivalAlert}>
               <CheckCircle2 className="h-3.5 w-3.5" />
               Safe Arrival Check-In
             </GlassButton>
@@ -378,8 +378,8 @@ export function SafetyCenterPage() {
                         <span
                           className={`rounded-full border border-white/80 px-2.5 py-0.5 font-bold uppercase text-[10px] backdrop-blur-md ${
                             active
-                              ? 'bg-green-100/80 text-[#16A34A]'
-                              : 'bg-white/70 text-[#78716C]'
+                              ? 'bg-[#DC2626] text-white'
+                              : 'bg-white/75 text-[#4B3B40]'
                           }`}
                         >
                           {active ? 'Active Share' : s.revoked_at ? 'Revoked' : 'Expired'}

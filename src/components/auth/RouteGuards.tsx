@@ -77,14 +77,13 @@ export function OfflineFeatureGate({
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#FFE4E6]/90 text-[#DC2626] border border-[#FCA5A5]/60">
             <WifiOff className="h-6 w-6" />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <h2 className="font-display text-xl font-extrabold text-[#24191D]">
               Internet Connection Required for {featureTitle}
             </h2>
-            <p className="text-sm text-[#78716C] max-w-2xl">
-              To prevent incomplete submissions, broken map tiles, or stale verification checks,{' '}
-              <strong className="text-[#24191D]">{featureTitle}</strong> is paused while offline.
-              Reconnect to Wi-Fi or mobile data to restore full live access.
+            <p className="text-sm text-[#4B3B40] max-w-2xl">
+              Connect to Wi-Fi or mobile data to use{' '}
+              <strong className="text-[#24191D]">{featureTitle}</strong>.
             </p>
           </div>
         </div>
@@ -171,11 +170,9 @@ export function RequireAccountAccess({
             <h2 className="font-display text-xl font-extrabold text-[#24191D]">
               Account Access Locked While Logged Out
             </h2>
-            <p className="text-sm text-[#78716C] max-w-2xl">
-              To keep GPS, reporting, and commuter data secure,{' '}
-              <strong className="text-[#24191D]">{featureTitle}</strong> is locked when logged out.
-              Guests can explore public fare references (Home, Fare Finder, Fare Matrix, Route
-              Overview, and 15 LGUs). Sign in to unlock this workspace.
+            <p className="text-sm text-[#4B3B40] max-w-2xl">
+              Sign in to unlock <strong className="text-[#24191D]">{featureTitle}</strong>. Public
+              fare lookup and matrix remain open to guests.
             </p>
           </div>
         </div>
