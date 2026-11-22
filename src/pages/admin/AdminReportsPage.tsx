@@ -41,7 +41,45 @@ export function AdminReportsPage() {
         />
       ) : (
         <GlassCard variant="strong" className="overflow-hidden">
-          <div className="overflow-x-auto">
+          {/* Mobile Card Layout (< 768px) */}
+          <div className="grid gap-3 p-3.5 md:hidden">
+            {reports.map((rep) => (
+              <div key={rep.id} className="glass-pill-tile rounded-[22px] p-4 space-y-2.5 text-xs">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <p className="font-display text-sm font-extrabold text-[#24191D]">
+                      {rep.origin?.name} → {rep.destination?.name}
+                    </p>
+                    <p className="text-[#78716C]">
+                      {rep.transport_type?.name} •{' '}
+                      {PASSENGER_CATEGORY_LABELS[rep.passenger_category]}
+                    </p>
+                  </div>
+                  <ReportStatusBadge status={rep.status} />
+                </div>
+                <div className="flex items-center justify-between border-y border-white/75 py-2">
+                  <span className="font-display text-lg font-extrabold text-[#DC2626] tabular-nums">
+                    {formatPhp(rep.fare_paid)}
+                  </span>
+                  <span className="text-[#78716C]">{formatDateSafe(rep.travel_date)}</span>
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="truncate text-[#78716C]">
+                    {rep.reporter?.full_name || rep.reporter?.email}
+                  </span>
+                  <Link
+                    to="/admin/verification"
+                    className="liquid-btn-secondary inline-flex shrink-0 items-center rounded-full px-3 py-1 font-bold"
+                  >
+                    Review →
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop/Tablet Table (>= 768px) */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full min-w-[820px] text-left text-xs">
               <thead className="glass-table-head font-bold uppercase tracking-wider text-[#24191D]">
                 <tr>

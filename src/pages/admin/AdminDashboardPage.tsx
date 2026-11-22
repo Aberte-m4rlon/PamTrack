@@ -28,6 +28,7 @@ import {
   useRoutes,
 } from '@/hooks/useReferenceData';
 import { partitionFareRecords } from '@/lib/fareIntegrity';
+import { LIGHT_RED_THEME } from '@/lib/theme';
 import { formatDateTimeSafe } from '@/lib/utils';
 import { fetchAuditLogs, fetchUsersWithRoles } from '@/services/pamasaheApi';
 import {
@@ -186,14 +187,7 @@ export function AdminDashboardPage() {
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(120,113,108,0.16)" />
                 <XAxis dataKey="name" tick={{ fill: '#24191D', fontSize: 11 }} />
                 <YAxis allowDecimals={false} tick={{ fill: '#24191D', fontSize: 11 }} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.92)',
-                    borderColor: 'rgba(252, 165, 165, 0.75)',
-                    borderRadius: '18px',
-                    color: '#24191D',
-                  }}
-                />
+                <Tooltip contentStyle={LIGHT_RED_THEME.charts.tooltipStyle} />
                 <Bar dataKey="count" fill="#DC2626" radius={[12, 12, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>

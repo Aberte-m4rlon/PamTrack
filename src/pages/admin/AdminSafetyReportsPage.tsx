@@ -62,15 +62,15 @@ export function AdminSafetyReportsPage() {
           {reports.map((rep) => (
             <GlassCard key={rep.id} variant="strong" className="p-5 space-y-3 text-xs">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <div>
-                  <span className="rounded-full bg-[#FEE2E2] px-2.5 py-0.5 font-bold uppercase text-[#B91C1C] mr-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="glass-pill-tile rounded-full px-2.5 py-0.5 font-bold uppercase text-[#B91C1C]">
                     {rep.severity}
                   </span>
                   <span className="font-display text-base font-bold text-[#24191D]">
                     {rep.incident_type}
                   </span>
                 </div>
-                <span className="rounded-full bg-[#FFE4E6] px-3 py-1 font-bold uppercase text-[#DC2626]">
+                <span className="glass-pill-tile rounded-full px-3 py-1 font-bold uppercase text-[#DC2626]">
                   {rep.status}
                 </span>
               </div>
@@ -91,7 +91,7 @@ export function AdminSafetyReportsPage() {
                     setNotesMap((prev) => ({ ...prev, [rep.id]: e.target.value }))
                   }
                   placeholder="Administrator response / resolution notes..."
-                  className="glass-input flex-1 min-w-[240px] rounded-xl px-3 py-1.5"
+                  className="glass-input w-full min-w-0 sm:flex-1 sm:min-w-[220px] rounded-2xl px-3.5 py-2"
                 />
                 {(['investigating', 'resolved', 'dismissed'] as SafetyReportStatus[]).map(
                   (nextStatus) => (

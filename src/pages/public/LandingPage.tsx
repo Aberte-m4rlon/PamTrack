@@ -121,7 +121,7 @@ export function LandingPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <GlassCard variant="surface" className="relative overflow-hidden rounded-[32px] p-6 sm:p-10">
+        <GlassCard variant="surface" className="relative overflow-hidden rounded-[26px] sm:rounded-[32px] p-4 sm:p-7 lg:p-10">
           <div className="grid items-center gap-8 lg:grid-cols-12">
             <div className="space-y-5 lg:col-span-7">
               <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#DC2626]">

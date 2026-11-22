@@ -192,13 +192,22 @@ function SidebarContent({
               Live GPS Map, Nearby Stops, Trip Monitor, Safety Contacts, Vehicle &amp; Fare
               Reporting.
             </p>
-            <Link
-              to="/login"
-              onClick={onNavigate}
-              className="liquid-btn-primary inline-flex w-full items-center justify-center rounded-full px-3 py-1.5 text-xs font-bold text-white transition"
-            >
-              Sign In Now
-            </Link>
+            <div className="grid grid-cols-2 gap-1.5">
+              <Link
+                to="/login"
+                onClick={onNavigate}
+                className="liquid-btn-primary inline-flex items-center justify-center whitespace-nowrap rounded-full px-2.5 py-1.5 text-[11px] font-bold text-white transition"
+              >
+                Sign In
+              </Link>
+              <Link
+                to="/register"
+                onClick={onNavigate}
+                className="liquid-btn-secondary inline-flex items-center justify-center whitespace-nowrap rounded-full px-2.5 py-1.5 text-[11px] font-bold transition"
+              >
+                Register
+              </Link>
+            </div>
           </div>
         )}
 
@@ -240,7 +249,7 @@ export function AppSidebar({ collapsed }: { collapsed: boolean }) {
       aria-label="Desktop navigation sidebar"
       className={cn(
         'desktop-sidebar-shell shrink-0 transition-all duration-200',
-        collapsed ? 'w-20' : 'w-64'
+        collapsed ? 'w-20' : 'w-52 lg:w-60 xl:w-64'
       )}
     >
       <div className="sticky top-24 flex max-h-[calc(100vh-7.25rem)] flex-col justify-between gap-4 glass-surface liquid-glass-sheen rounded-[30px] p-3.5">

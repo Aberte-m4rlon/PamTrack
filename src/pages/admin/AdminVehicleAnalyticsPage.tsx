@@ -10,6 +10,7 @@ import {
 } from 'recharts';
 import { BarChart3 } from 'lucide-react';
 import { useAdminVehicleReports } from '@/hooks/useReferenceData';
+import { LIGHT_RED_THEME } from '@/lib/theme';
 import { GlassCard, GlassSkeleton } from '@/components/glass/GlassPrimitives';
 
 export function AdminVehicleAnalyticsPage() {
@@ -100,8 +101,8 @@ export function AdminVehicleAnalyticsPage() {
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(120,113,108,0.16)" />
                     <XAxis dataKey="name" tick={{ fill: '#24191D', fontSize: 10 }} />
                     <YAxis allowDecimals={false} tick={{ fill: '#24191D', fontSize: 11 }} />
-                    <Tooltip />
-                    <Bar dataKey="count" fill="#DC2626" radius={[8, 8, 0, 0]} />
+                    <Tooltip contentStyle={LIGHT_RED_THEME.charts.tooltipStyle} />
+                    <Bar dataKey="count" fill="#DC2626" radius={[12, 12, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -117,7 +118,7 @@ export function AdminVehicleAnalyticsPage() {
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(120,113,108,0.16)" />
                     <XAxis dataKey="name" tick={{ fill: '#24191D', fontSize: 9 }} />
                     <YAxis allowDecimals={false} tick={{ fill: '#24191D', fontSize: 11 }} />
-                    <Tooltip />
+                    <Tooltip contentStyle={LIGHT_RED_THEME.charts.tooltipStyle} />
                     <Bar dataKey="count" fill="#EF4444" radius={[8, 8, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>

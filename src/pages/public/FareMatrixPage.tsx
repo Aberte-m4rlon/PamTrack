@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Download, ExternalLink, Filter, Table2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Download, ExternalLink, Filter, Table2 } from 'lucide-react';
 import {
   useFareRecords,
   useMunicipalities,
@@ -32,6 +32,8 @@ export function FareMatrixPage() {
   const [statusFilter, setStatusFilter] = useState<'all' | FareStatus>('all');
   const [updatedAfter, setUpdatedAfter] = useState('');
   const [searchText, setSearchText] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const MATRIX_PAGE_SIZE = 25;
 
   const allRows = useMemo(
     () =>
@@ -72,6 +74,26 @@ export function FareMatrixPage() {
     updatedAfter,
     searchText,
   ]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [
+    municipalityFilter,
+    originFilter,
+    destinationFilter,
+    transportFilter,
+    statusFilter,
+    updatedAfter,
+    searchText,
+  ]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredRows.length / MATRIX_PAGE_SIZE));
+  const safePage = Math.min(currentPage, totalPages);
+  const startIdx = (safePage - 1) * MATRIX_PAGE_SIZE;
+  const paginatedRows = useMemo(
+    () => filteredRows.slice(startIdx, startIdx + MATRIX_PAGE_SIZE),
+    [filteredRows, startIdx]
+  );
 
   const handleExportCsv = () => {
     const header = [
@@ -276,7 +298,7 @@ export function FareMatrixPage() {
         <GlassCard variant="strong" className="overflow-hidden">
           {/* Mobile Card Layout (<= 767px) */}
           <div className="grid gap-3 p-3.5 md:hidden">
-            {filteredRows.map((row) => (
+            {paginatedRows.map((row) => (
               <div
                 key={row.key}
                 className="glass-pill-tile rounded-[22px] p-4 space-y-2.5"
@@ -341,7 +363,7 @@ export function FareMatrixPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/60">
-                {filteredRows.map((row) => (
+                {paginatedRows.map((row) => (
                   <tr key={row.key} className="hover:bg-white/55 transition">
                     <td className="px-4 py-3 font-bold text-[#24191D]">{row.originName}</td>
                     <td className="px-4 py-3 font-bold text-[#24191D]">{row.destinationName}</td>
@@ -385,6 +407,46 @@ export function FareMatrixPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          <div className="glass-table-head flex flex-wrap items-center justify-between gap-2 border-t border-white/75 px-4 py-3 text-xs">
+            <span className="font-semibold text-[#78716C]">
+              Showing <strong className="text-[#24191D]">{startIdx + 1}</strong>–
+              <strong className="text-[#24191D]">
+                {Math.min(startIdx + MATRIX_PAGE_SIZE, filteredRows.length)}
+              </strong>{' '}
+              of <strong className="text-[#DC2626]">{filteredRows.length}</strong> corridors
+            </span>
+
+            {totalPages > 1 && (
+              <div className="flex items-center gap-1.5">
+                <GlassButton
+                  type="button"
+                  variant="glass"
+                  size="sm"
+                  aria-label="Previous matrix page"
+                  disabled={safePage <= 1}
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                >
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                  Prev
+                </GlassButton>
+                <span className="glass-pill-tile rounded-full px-3 py-1 text-[11px] font-bold text-[#24191D] tabular-nums">
+                  Page {safePage} of {totalPages}
+                </span>
+                <GlassButton
+                  type="button"
+                  variant="glass"
+                  size="sm"
+                  aria-label="Next matrix page"
+                  disabled={safePage >= totalPages}
+                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                >
+                  Next
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </GlassButton>
+              </div>
+            )}
           </div>
         </GlassCard>
       )}

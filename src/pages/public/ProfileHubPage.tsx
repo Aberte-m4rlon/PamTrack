@@ -254,7 +254,7 @@ export function ProfileHubPage() {
           )}
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {unlockedLinks.map((item) => {
             const offlineLocked = isOffline && !item.offlineReady;
             return (
@@ -267,11 +267,11 @@ export function ProfileHubPage() {
                   }`}
                 >
                   <div className="flex items-center gap-3.5 min-w-0">
-                    <div className="rounded-2xl bg-[#FFE4E6]/85 p-2.5 text-[#DC2626] shrink-0">
+                    <div className="glass-pill-tile rounded-2xl p-2.5 text-[#DC2626] shrink-0">
                       <item.icon className="h-5 w-5" />
                     </div>
                     <div className="min-w-0">
-                      <h3 className="font-bold text-sm text-[#24191D] truncate">{item.label}</h3>
+                      <h3 className="font-bold text-sm text-[#24191D] leading-snug">{item.label}</h3>
                       <p className="text-xs text-[#78716C]">{item.desc}</p>
                     </div>
                   </div>
@@ -299,7 +299,7 @@ export function ProfileHubPage() {
             </Link>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {memberLinks.slice(0, 6).map((item) => (
               <Link key={item.to} to="/login" state={{ from: item.to }}>
                 <GlassCard
@@ -308,15 +308,15 @@ export function ProfileHubPage() {
                   className="p-4 flex items-center justify-between gap-3 h-full border-dashed border-[#FCA5A5]/70"
                 >
                   <div className="flex items-center gap-3.5 min-w-0">
-                    <div className="rounded-2xl bg-white/60 p-2.5 text-[#78716C] shrink-0">
+                    <div className="glass-pill-tile rounded-2xl p-2.5 text-[#78716C] shrink-0">
                       <item.icon className="h-5 w-5" />
                     </div>
                     <div className="min-w-0">
-                      <h3 className="font-bold text-sm text-[#24191D] truncate">{item.label}</h3>
+                      <h3 className="font-bold text-sm text-[#24191D] leading-snug">{item.label}</h3>
                       <p className="text-xs text-[#78716C]">{item.desc}</p>
                     </div>
                   </div>
-                  <span className="shrink-0 inline-flex items-center gap-1 rounded-full border border-[#FCA5A5]/70 bg-[#FFE4E6]/90 px-2.5 py-0.5 text-[10px] font-bold text-[#B91C1C]">
+                  <span className="glass-pill-tile shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-bold text-[#B91C1C]">
                     <Lock className="h-3 w-3" />
                     Locked
                   </span>

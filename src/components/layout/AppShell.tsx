@@ -47,8 +47,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         onClose={() => setMobileDrawerOpen(false)}
       />
 
-      {/* Main Content + Desktop/Tablet Floating Sidebar (hidden <= 768px) */}
-      <div className="relative z-10 mx-auto flex w-full max-w-[1480px] flex-1 gap-5 px-3 py-4 sm:px-6 sm:py-5">
+      {/* Main Content + Desktop/Tablet Floating Sidebar (hidden <= 767px) */}
+      <div className="relative z-10 mx-auto flex w-full max-w-[1480px] flex-1 gap-4 lg:gap-5 px-2.5 py-3.5 sm:px-5 sm:py-5 lg:px-6">
         <AppSidebar collapsed={sidebarCollapsed} />
 
         <main className="min-w-0 flex-1 space-y-5">

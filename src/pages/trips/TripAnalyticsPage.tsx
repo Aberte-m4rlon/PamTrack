@@ -15,6 +15,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
 import { useMyTrips } from '@/hooks/useReferenceData';
 import { formatDurationSeconds } from '@/lib/gpsUtils';
+import { LIGHT_RED_THEME } from '@/lib/theme';
 import { formatDateTimeSafe, formatPhp } from '@/lib/utils';
 import { deleteMyLocationHistory } from '@/services/pamasaheApi';
 import {
@@ -204,8 +205,8 @@ export function TripAnalyticsPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(120,113,108,0.16)" />
                   <XAxis dataKey="name" tick={{ fill: '#24191D', fontSize: 11 }} />
                   <YAxis allowDecimals={false} tick={{ fill: '#24191D', fontSize: 11 }} />
-                  <Tooltip />
-                  <Bar dataKey="trips" fill="#DC2626" radius={[10, 10, 0, 0]} />
+                  <Tooltip contentStyle={LIGHT_RED_THEME.charts.tooltipStyle} />
+                  <Bar dataKey="trips" fill="#DC2626" radius={[12, 12, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -223,7 +224,7 @@ export function TripAnalyticsPage() {
               {stats.topDestinations.map(([name, count]) => (
                 <div
                   key={name}
-                  className="flex items-center justify-between rounded-2xl bg-white/85 border border-[#FFE4E6] px-3.5 py-2.5 text-xs font-bold"
+                  className="glass-pill-tile flex items-center justify-between rounded-full px-4 py-2.5 text-xs font-bold"
                 >
                   <span className="text-[#24191D]">{name}</span>
                   <span className="rounded-full bg-[#FFE4E6] px-2.5 py-0.5 text-[#DC2626]">

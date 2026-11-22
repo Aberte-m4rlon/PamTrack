@@ -9,6 +9,7 @@ import {
 } from 'recharts';
 import { Activity, ShieldCheck } from 'lucide-react';
 import { useAdminAggregatedAnalytics } from '@/hooks/useReferenceData';
+import { LIGHT_RED_THEME } from '@/lib/theme';
 import { GlassCard, GlassSkeleton } from '@/components/glass/GlassPrimitives';
 
 export function AdminTripAnalyticsPage() {
@@ -79,8 +80,8 @@ export function AdminTripAnalyticsPage() {
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(120,113,108,0.16)" />
                     <XAxis dataKey="mode_name" tick={{ fill: '#24191D', fontSize: 11 }} />
                     <YAxis allowDecimals={false} tick={{ fill: '#24191D', fontSize: 11 }} />
-                    <Tooltip />
-                    <Bar dataKey="trip_count" fill="#DC2626" radius={[10, 10, 0, 0]} />
+                    <Tooltip contentStyle={LIGHT_RED_THEME.charts.tooltipStyle} />
+                    <Bar dataKey="trip_count" fill="#DC2626" radius={[12, 12, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>

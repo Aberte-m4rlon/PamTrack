@@ -41,7 +41,49 @@ export function MunicipalityManagementPage() {
       </GlassCard>
 
       <GlassCard variant="strong" className="overflow-hidden">
-        <div className="overflow-x-auto">
+        {/* Mobile Card Layout (< 768px) */}
+        <div className="grid gap-3 p-3.5 md:hidden">
+          {municipalities.map((m) => (
+            <div key={m.id} className="glass-pill-tile rounded-[22px] p-4 space-y-2.5 text-xs">
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <Building2 className="h-4 w-4 shrink-0 text-[#DC2626]" />
+                  <p className="truncate font-display text-sm font-extrabold text-[#24191D]">
+                    {m.name} {m.is_capital && '(Capital)'}
+                  </p>
+                </div>
+                <span
+                  className={`shrink-0 rounded-full border border-white/80 px-2.5 py-0.5 font-bold backdrop-blur-md ${
+                    m.is_active
+                      ? 'bg-green-100/80 text-[#16A34A]'
+                      : 'bg-white/70 text-[#78716C]'
+                  }`}
+                >
+                  {m.is_active ? 'Active' : 'Inactive'}
+                </span>
+              </div>
+              <div className="flex flex-wrap items-center justify-between gap-1 text-[#78716C]">
+                <span>{m.district}</span>
+                <span className="font-mono">
+                  {m.latitude.toFixed(4)}°N, {m.longitude.toFixed(4)}°E
+                </span>
+              </div>
+              <GlassButton
+                type="button"
+                variant="secondary"
+                size="sm"
+                className="w-full"
+                disabled={!muniRes?.fromDatabase || toggleActive.isPending}
+                onClick={() => toggleActive.mutate({ id: m.id, isActive: m.is_active })}
+              >
+                {m.is_active ? 'Deactivate' : 'Activate'}
+              </GlassButton>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop/Tablet Table (>= 768px) */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full min-w-[760px] text-left text-xs">
             <thead className="glass-table-head font-bold uppercase tracking-wider text-[#24191D]">
               <tr>

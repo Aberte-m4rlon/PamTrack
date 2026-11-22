@@ -75,7 +75,58 @@ export function UserManagementPage() {
         />
       ) : (
         <GlassCard variant="strong" className="overflow-hidden">
-          <div className="overflow-x-auto">
+          {/* Mobile Card Layout (< 768px) */}
+          <div className="grid gap-3 p-3.5 md:hidden">
+            {users.map((u) => {
+              const nextRole = selectedRoleMap[u.id] ?? u.role;
+              return (
+                <div key={u.id} className="glass-pill-tile rounded-[22px] p-4 space-y-2.5 text-xs">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="truncate font-display text-sm font-extrabold text-[#24191D]">
+                        {u.full_name || 'Unnamed'}
+                      </p>
+                      <p className="truncate text-[#78716C]">{u.email}</p>
+                    </div>
+                    <span className="shrink-0 rounded-full border border-white/90 bg-white/75 px-2.5 py-0.5 font-bold uppercase text-[#DC2626]">
+                      {u.role.replace('_', ' ')}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 pt-1">
+                    <select
+                      disabled={!isSuperAdmin}
+                      value={nextRole}
+                      onChange={(e) =>
+                        setSelectedRoleMap((prev) => ({
+                          ...prev,
+                          [u.id]: e.target.value as AppRole,
+                        }))
+                      }
+                      className="glass-input min-w-0 flex-1 rounded-2xl px-3 py-2 text-xs"
+                    >
+                      {ASSIGNABLE_ROLES.map((r) => (
+                        <option key={r} value={r}>
+                          {r.replace('_', ' ')}
+                        </option>
+                      ))}
+                    </select>
+                    <GlassButton
+                      type="button"
+                      variant="primary"
+                      size="sm"
+                      disabled={!isSuperAdmin || nextRole === u.role || roleMutation.isPending}
+                      onClick={() => roleMutation.mutate({ userId: u.id, role: nextRole })}
+                    >
+                      Save
+                    </GlassButton>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Desktop/Tablet Table (>= 768px) */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full min-w-[760px] text-left text-xs">
               <thead className="glass-table-head font-bold uppercase tracking-wider text-[#24191D]">
                 <tr>
