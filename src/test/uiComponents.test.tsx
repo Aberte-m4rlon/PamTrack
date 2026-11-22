@@ -33,7 +33,7 @@ describe('Pamasahe Tracker Core UI & Role Guards', () => {
     expect(screen.getByText(/Know Your Route\./i)).toBeInTheDocument();
     expect(screen.getByText(/Tamang Pamasahe\. Ligtas na Biyahe\./i)).toBeInTheDocument();
     expect(screen.getByText(/Featured Oriental Mindoro Routes/i)).toBeInTheDocument();
-    expect(screen.getByText(/Published Fares/i)).toBeInTheDocument();
+    expect(screen.getByText('Published Fares')).toBeInTheDocument();
 
     await waitFor(() => {
       expect(screen.getByText('Calapan City')).toBeInTheDocument();
