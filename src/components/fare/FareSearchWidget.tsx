@@ -306,7 +306,7 @@ export function FareSearchWidget({
               onClick={handleSwap}
               title="Swap origin and destination"
               aria-label="Swap origin and destination"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-[#FCA5A5]/60 bg-white/85 text-[#DC2626] transition hover:bg-[#FFE4E6]"
+              className="liquid-btn-secondary inline-flex h-10 w-10 items-center justify-center rounded-full"
             >
               <ArrowLeftRight className="h-4 w-4" />
             </button>
@@ -401,14 +401,14 @@ export function FareSearchWidget({
                   setHasSearched(true);
                   onSelectionChange?.(c.originId, c.destinationId);
                 }}
-                className="inline-flex items-center gap-2 rounded-full border border-white/90 bg-white/85 px-3.5 py-1.5 text-xs font-bold text-[#24191D] hover:bg-gradient-to-r hover:from-[#DC2626] hover:to-[#B91C1C] hover:text-white transition shadow-sm group"
+                className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-bold text-[#24191D] hover:bg-gradient-to-b hover:from-[#EF4444]/85 hover:to-[#B91C1C]/90 hover:text-white transition group"
               >
                 <span>
                   {c.originId === c.destinationId
                     ? `${c.originName} (Local)`
                     : `${c.originName} → ${c.destinationName}`}
                 </span>
-                <span className="rounded-full bg-[#FFE4E6] px-2 py-0.5 text-[11px] font-extrabold text-[#DC2626] group-hover:bg-white/25 group-hover:text-white">
+                <span className="glass-panel rounded-full px-2 py-0.5 text-[11px] font-extrabold text-[#DC2626] group-hover:bg-white/25 group-hover:text-white">
                   {formatPhp(c.sampleAmount)}
                 </span>
               </button>

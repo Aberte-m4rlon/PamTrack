@@ -295,7 +295,7 @@ export function FareMatrixPage() {
           }
         />
       ) : (
-        <GlassCard variant="strong" className="overflow-hidden">
+        <GlassCard variant="strong">
           {/* Mobile Card Layout (<= 767px) */}
           <div className="grid gap-3 p-3.5 md:hidden">
             {paginatedRows.map((row) => (
@@ -308,12 +308,12 @@ export function FareMatrixPage() {
                     <p className="font-display text-sm font-extrabold text-[#24191D]">
                       {row.originName} → {row.destinationName}
                     </p>
-                    <p className="text-xs font-semibold text-[#78716C]">{row.transportTypeName}</p>
+                    <p className="text-xs font-semibold text-[#4B3B40]">{row.transportTypeName}</p>
                   </div>
                   <FareStatusBadge status={row.status} compact />
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 rounded-2xl border border-white/80 bg-white/55 p-2.5 text-xs">
+                <div className="glass-panel grid grid-cols-2 gap-2 rounded-2xl p-2.5 text-xs">
                   <div>
                     <span className="text-[#78716C]">Regular:</span>{' '}
                     <strong className="text-[#DC2626]">{formatPhp(row.regularFare)}</strong>
@@ -346,7 +346,7 @@ export function FareMatrixPage() {
           </div>
 
           {/* Desktop/Tablet Table */}
-          <div className="hidden md:block overflow-x-auto">
+          <div className="hidden md:block overflow-x-auto rounded-t-[28px]">
             <table className="w-full min-w-[980px] text-left text-sm">
               <thead className="glass-table-head text-[11px] font-bold uppercase tracking-wider text-[#24191D]">
                 <tr>
@@ -362,12 +362,12 @@ export function FareMatrixPage() {
                   <th className="px-4 py-3.5">Last Verified</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/60">
+              <tbody className="divide-y divide-white/50">
                 {paginatedRows.map((row) => (
-                  <tr key={row.key} className="hover:bg-white/55 transition">
+                  <tr key={row.key} className="hover:bg-white/35 transition">
                     <td className="px-4 py-3 font-bold text-[#24191D]">{row.originName}</td>
                     <td className="px-4 py-3 font-bold text-[#24191D]">{row.destinationName}</td>
-                    <td className="px-4 py-3 font-medium text-[#78716C]">{row.transportTypeName}</td>
+                    <td className="px-4 py-3 font-medium text-[#4B3B40]">{row.transportTypeName}</td>
                     <td className="px-4 py-3 font-bold text-[#DC2626]">
                       {formatPhp(row.regularFare)}
                     </td>
@@ -409,7 +409,7 @@ export function FareMatrixPage() {
             </table>
           </div>
 
-          <div className="glass-table-head flex flex-wrap items-center justify-between gap-2 border-t border-white/75 px-4 py-3 text-xs">
+          <div className="glass-table-head flex flex-wrap items-center justify-between gap-2 rounded-b-[28px] border-t border-white/65 px-4 py-3 text-xs">
             <span className="font-semibold text-[#78716C]">
               Showing <strong className="text-[#24191D]">{startIdx + 1}</strong>–
               <strong className="text-[#24191D]">

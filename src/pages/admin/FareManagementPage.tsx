@@ -273,7 +273,7 @@ export function FareManagementPage() {
             {(fareRecords ?? []).map((rec) => (
               <div
                 key={rec.id}
-                className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#FFE4E6] bg-white/85 p-3.5 text-xs"
+                className="glass-pill-tile flex flex-wrap items-center justify-between gap-3 rounded-[20px] p-3.5 text-xs"
               >
                 <div className="space-y-0.5">
                   <p className="font-bold text-sm text-[#24191D]">

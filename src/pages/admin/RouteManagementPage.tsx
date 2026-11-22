@@ -230,7 +230,7 @@ export function RouteManagementPage() {
             {(routes ?? []).map((r) => (
               <div
                 key={r.id}
-                className="flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-white/85 border border-[#FFE4E6] p-3.5 text-xs"
+                className="glass-pill-tile flex flex-wrap items-center justify-between gap-2 rounded-[20px] p-3.5 text-xs"
               >
                 <div>
                   <p className="font-bold text-sm text-[#24191D]">{r.route_name}</p>

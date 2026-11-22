@@ -30,7 +30,7 @@ export function AuthoritiesDirectoryPage() {
             <GlassCard key={ag.id} variant="strong" hoverable className="p-5 space-y-3">
               <div className="flex items-start justify-between gap-2">
                 <div className="flex items-center gap-2.5">
-                  <div className="rounded-2xl bg-[#FFE4E6] p-2.5 text-[#DC2626] border border-[#FCA5A5]/45">
+                  <div className="glass-pill-tile rounded-2xl p-2.5 text-[#DC2626]">
                     <Building className="h-5 w-5" />
                   </div>
                   <div>
@@ -42,19 +42,19 @@ export function AuthoritiesDirectoryPage() {
                 </div>
               </div>
 
-              <div className="rounded-2xl bg-[#FFF1F2]/90 border border-[#FFE4E6] p-3 text-xs space-y-1.5">
+              <div className="glass-pill-tile rounded-[20px] p-3 text-xs space-y-1.5">
                 <p className="flex items-start gap-1.5 font-semibold text-[#DC2626]">
                   <PhoneCall className="mt-0.5 h-3.5 w-3.5 shrink-0" />
                   <span>{ag.verified_contact_information}</span>
                 </p>
-                <p className="text-[#78716C]">{ag.submission_instructions}</p>
+                <p className="text-[#4B3B40]">{ag.submission_instructions}</p>
               </div>
 
-              <div className="flex flex-wrap gap-1">
+              <div className="flex flex-wrap gap-1.5">
                 {ag.categories_handled.slice(0, 6).map((cat) => (
                   <span
                     key={cat}
-                    className="rounded-full bg-[#FFE4E6] px-2.5 py-0.5 text-[10px] font-bold text-[#B91C1C]"
+                    className="glass-pill-tile rounded-full px-2.5 py-0.5 text-[10px] font-bold text-[#B91C1C]"
                   >
                     {cat}
                   </span>

@@ -35,7 +35,7 @@ export function MunicipalitiesPage() {
               <div className="space-y-2">
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <div className="rounded-xl bg-[#FFE4E6] p-2 text-[#DC2626]">
+                    <div className="glass-pill-tile rounded-xl p-2 text-[#DC2626]">
                       {m.is_capital ? (
                         <Building2 className="h-4 w-4" />
                       ) : (
@@ -53,7 +53,7 @@ export function MunicipalitiesPage() {
                     </div>
                   </div>
                   {m.is_capital && (
-                    <span className="rounded-full bg-[#DC2626] px-2.5 py-0.5 text-[10px] font-bold uppercase text-white">
+                    <span className="liquid-nav-active rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase text-white">
                       Capital
                     </span>
                   )}

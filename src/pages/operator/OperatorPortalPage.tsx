@@ -195,16 +195,16 @@ export function OperatorPortalPage() {
                 {myOperators.map((op) => (
                   <div
                     key={op.id}
-                    className="flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-white/85 border border-[#FFE4E6] p-3.5 text-xs"
+                    className="glass-pill-tile flex flex-wrap items-center justify-between gap-2 rounded-[20px] p-3.5 text-xs"
                   >
                     <div>
                       <p className="font-bold text-sm text-[#24191D]">{op.operator_name}</p>
-                      <p className="text-[#78716C]">
+                      <p className="text-[#4B3B40]">
                         Franchise: {op.franchise_or_permit_number || 'Pending'} •{' '}
                         {op.office_address || 'No terminal address'}
                       </p>
                     </div>
-                    <span className="rounded-full bg-[#FFE4E6] px-3 py-1 font-bold uppercase text-[#DC2626]">
+                    <span className="glass-panel rounded-full px-3 py-1 font-bold uppercase text-[#DC2626]">
                       {op.verification_status}
                     </span>
                   </div>
@@ -228,7 +228,7 @@ export function OperatorPortalPage() {
                 {relevantReports.map((rep) => (
                   <div
                     key={rep.id}
-                    className="flex items-center justify-between rounded-2xl bg-white/85 border border-[#FFE4E6] p-3 text-xs"
+                    className="glass-pill-tile flex items-center justify-between rounded-[20px] p-3 text-xs"
                   >
                     <div>
                       <p className="font-bold text-[#24191D]">

@@ -74,7 +74,7 @@ export function UserManagementPage() {
           description="Registered Supabase Auth accounts appear here automatically."
         />
       ) : (
-        <GlassCard variant="strong" className="overflow-hidden">
+        <GlassCard variant="strong">
           {/* Mobile Card Layout (< 768px) */}
           <div className="grid gap-3 p-3.5 md:hidden">
             {users.map((u) => {

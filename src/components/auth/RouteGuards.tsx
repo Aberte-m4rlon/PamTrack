@@ -95,19 +95,19 @@ export function OfflineFeatureGate({
           </p>
           <div className="grid gap-2.5 sm:grid-cols-3">
             <Link to="/fare-search">
-              <div className="rounded-2xl border border-white/85 bg-white/60 p-3 hover:bg-white/85 transition flex items-center gap-2.5 text-xs font-bold text-[#24191D]">
+              <div className="glass-pill-tile rounded-2xl p-3 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#24191D]">
                 <Compass className="h-4 w-4 text-[#DC2626] shrink-0" />
                 <span>Cached Fare Finder</span>
               </div>
             </Link>
             <Link to="/fare-matrix">
-              <div className="rounded-2xl border border-white/85 bg-white/60 p-3 hover:bg-white/85 transition flex items-center gap-2.5 text-xs font-bold text-[#24191D]">
+              <div className="glass-pill-tile rounded-2xl p-3 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#24191D]">
                 <Table2 className="h-4 w-4 text-[#DC2626] shrink-0" />
                 <span>Cached Fare Matrix</span>
               </div>
             </Link>
             <Link to="/municipalities">
-              <div className="rounded-2xl border border-white/85 bg-white/60 p-3 hover:bg-white/85 transition flex items-center gap-2.5 text-xs font-bold text-[#24191D]">
+              <div className="glass-pill-tile rounded-2xl p-3 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#24191D]">
                 <MapPin className="h-4 w-4 text-[#DC2626] shrink-0" />
                 <span>15 LGUs Directory</span>
               </div>

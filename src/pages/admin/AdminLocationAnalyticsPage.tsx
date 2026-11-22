@@ -195,7 +195,7 @@ export function AdminLocationAnalyticsPage() {
                 {analytics.municipality_destinations.map((m) => (
                   <div
                     key={m.municipality_name}
-                    className="flex items-center justify-between rounded-2xl bg-white/85 border border-[#FFE4E6] px-3.5 py-2 text-xs font-bold"
+                    className="glass-pill-tile flex items-center justify-between rounded-full px-3.5 py-2 text-xs font-bold"
                   >
                     <span className="text-[#24191D]">{m.municipality_name}</span>
                     <span className="text-[#DC2626]">{m.trip_count} trip(s)</span>
@@ -212,7 +212,7 @@ export function AdminLocationAnalyticsPage() {
             </h2>
             <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
               {(stops ?? []).map((s) => (
-                <div key={s.id} className="rounded-2xl bg-white/85 border border-[#FFE4E6] p-3 text-xs">
+                <div key={s.id} className="glass-pill-tile rounded-[20px] p-3 text-xs">
                   <p className="font-bold text-[#24191D]">{s.stop_name}</p>
                   <p className="text-[#78716C]">
                     {STOP_CATEGORY_LABELS[s.stop_category]} • {s.latitude.toFixed(4)}°N,{' '}

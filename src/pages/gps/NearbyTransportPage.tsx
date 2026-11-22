@@ -76,10 +76,10 @@ export function NearbyTransportPage() {
                 key={cat}
                 type="button"
                 onClick={() => setCategoryFilter(cat)}
-                className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+                className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
                   categoryFilter === cat
-                    ? 'bg-gradient-to-r from-[#DC2626] to-[#B91C1C] text-white shadow-sm'
-                    : 'bg-white/80 text-[#24191D] border border-white hover:bg-[#FFE4E6]/80 hover:text-[#DC2626]'
+                    ? 'liquid-nav-active text-white'
+                    : 'liquid-btn-glass text-[#24191D] hover:text-[#DC2626]'
                 }`}
               >
                 {cat === 'all' ? 'All Categories' : STOP_CATEGORY_LABELS[cat]}
@@ -124,14 +124,14 @@ export function NearbyTransportPage() {
             <GlassCard key={stop.id} variant="strong" hoverable className="p-5 space-y-3">
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <span className="inline-block rounded-full bg-[#FFE4E6] px-2.5 py-0.5 text-[10px] font-bold uppercase text-[#DC2626]">
+                  <span className="glass-pill-tile inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase text-[#DC2626]">
                     {STOP_CATEGORY_LABELS[stop.stop_category]}
                   </span>
                   <h2 className="mt-1.5 font-display text-lg font-bold text-[#24191D]">
                     {stop.stop_name}
                   </h2>
                 </div>
-                <div className="rounded-2xl bg-gradient-to-br from-[#DC2626] to-[#B91C1C] px-3 py-1.5 text-right text-white shadow-sm">
+                <div className="liquid-nav-active rounded-2xl px-3 py-1.5 text-right text-white">
                   <p className="font-display text-base font-extrabold leading-none">
                     {stop.distanceKm} km
                   </p>

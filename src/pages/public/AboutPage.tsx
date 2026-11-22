@@ -79,7 +79,7 @@ export function AboutPage() {
           {OFFICIAL_REGULATORY_REFERENCES.map((ref) => (
             <div
               key={ref.authority}
-              className="rounded-2xl border border-[#FFE4E6] bg-white/85 p-4 space-y-1.5 shadow-sm"
+              className="glass-pill-tile rounded-[22px] p-4 space-y-1.5"
             >
               <p className="text-xs font-bold uppercase tracking-wider text-[#DC2626]">
                 {ref.authority}

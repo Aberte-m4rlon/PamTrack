@@ -40,7 +40,7 @@ export function MunicipalityManagementPage() {
         </h1>
       </GlassCard>
 
-      <GlassCard variant="strong" className="overflow-hidden">
+      <GlassCard variant="strong">
         {/* Mobile Card Layout (< 768px) */}
         <div className="grid gap-3 p-3.5 md:hidden">
           {municipalities.map((m) => (

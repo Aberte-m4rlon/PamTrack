@@ -40,7 +40,7 @@ export function AdminReportsPage() {
           description="Submitted commuter reports across Oriental Mindoro will populate this moderation log."
         />
       ) : (
-        <GlassCard variant="strong" className="overflow-hidden">
+        <GlassCard variant="strong">
           {/* Mobile Card Layout (< 768px) */}
           <div className="grid gap-3 p-3.5 md:hidden">
             {reports.map((rep) => (

@@ -511,7 +511,7 @@ export function ReportVehiclePage({
             {VIOLATION_CATEGORIES.map((grp) => (
               <div
                 key={grp.group}
-                className="rounded-2xl border border-[#FFE4E6] bg-[#FFF1F2]/55 p-3.5 space-y-2"
+                className="glass-panel rounded-[22px] p-3.5 space-y-2"
               >
                 <p className="text-xs font-extrabold uppercase tracking-wider text-[#DC2626]">
                   {grp.group}
@@ -522,10 +522,10 @@ export function ReportVehiclePage({
                     return (
                       <label
                         key={cat}
-                        className={`flex cursor-pointer items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-semibold transition ${
+                        className={`flex cursor-pointer items-center gap-2.5 rounded-full px-3.5 py-2 text-xs font-semibold transition ${
                           checked
-                            ? 'bg-gradient-to-r from-[#DC2626] to-[#B91C1C] text-white shadow-sm'
-                            : 'bg-white/90 text-[#24191D] border border-white hover:bg-[#FFE4E6]/75'
+                            ? 'liquid-nav-active text-white'
+                            : 'glass-pill-tile text-[#24191D] hover:border-white'
                         }`}
                       >
                         <input

@@ -121,7 +121,7 @@ export function LandingPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <GlassCard variant="surface" className="relative overflow-hidden rounded-[26px] sm:rounded-[32px] p-4 sm:p-7 lg:p-10">
+        <GlassCard variant="surface" className="relative rounded-[26px] sm:rounded-[32px] p-4 sm:p-7 lg:p-10">
           <div className="grid items-center gap-8 lg:grid-cols-12">
             <div className="space-y-5 lg:col-span-7">
               <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#DC2626]">
@@ -134,7 +134,7 @@ export function LandingPage() {
                 <span className="text-[#DC2626]">Plan Your Pamasahe.</span>
               </h1>
 
-              <p className="max-w-2xl text-sm leading-relaxed text-[#78716C] sm:text-base">
+              <p className="max-w-2xl text-sm leading-relaxed text-[#4B3B40] sm:text-base">
                 The citizen-powered public transportation fare guide for everyday Mindoreño
                 commuters across all{' '}
                 <strong className="text-[#24191D]">15 cities and municipalities of Oriental Mindoro</strong>. Check crowd-sourced commuter fares, statutory 20% discount rates, and real OpenStreetMap routes across Tricycle, Multicab, UV Express, and Provincial Bus corridors.
@@ -156,7 +156,7 @@ export function LandingPage() {
               </div>
 
               {!user && (
-                <div className="glass-pill-tile flex items-center gap-2.5 rounded-2xl sm:rounded-full px-4 py-2.5 text-xs text-[#78716C]">
+                <div className="glass-pill-tile flex items-center gap-2.5 rounded-2xl sm:rounded-full px-4 py-2.5 text-xs text-[#4B3B40]">
                   <Lock className="h-3.5 w-3.5 text-[#DC2626] shrink-0" />
                   <span className="leading-snug">
                     <strong className="text-[#24191D]">Limited Guest Mode:</strong> Public fare lookup
@@ -172,33 +172,33 @@ export function LandingPage() {
               <div className="grid grid-cols-2 gap-3 pt-1 sm:grid-cols-4 sm:max-w-2xl">
                 <div className="glass-pill-tile rounded-[22px] p-3.5 text-center">
                   <p className="font-display text-2xl font-extrabold tabular-nums text-[#DC2626]">15</p>
-                  <p className="mt-0.5 text-[11px] font-semibold text-[#78716C]">LGUs Covered</p>
+                  <p className="mt-0.5 text-[11px] font-semibold text-[#4B3B40]">LGUs Covered</p>
                 </div>
                 <div className="glass-pill-tile rounded-[22px] p-3.5 text-center">
                   <p className="font-display text-2xl font-extrabold tabular-nums text-[#DC2626]">
                     {transportTypes.length || 4}
                   </p>
-                  <p className="mt-0.5 text-[11px] font-semibold text-[#78716C]">Transport Modes</p>
+                  <p className="mt-0.5 text-[11px] font-semibold text-[#4B3B40]">Transport Modes</p>
                 </div>
                 <div className="glass-pill-tile rounded-[22px] p-3.5 text-center">
                   <p className="font-display text-2xl font-extrabold tabular-nums text-[#B91C1C]">
                     {officialFares.length + communityEstimates.length}
                   </p>
-                  <p className="mt-0.5 text-[11px] font-semibold text-[#78716C]">Published Fares</p>
+                  <p className="mt-0.5 text-[11px] font-semibold text-[#4B3B40]">Published Fares</p>
                 </div>
                 <div className="glass-pill-tile rounded-[22px] p-3.5 text-center">
                   <p className="font-display text-2xl font-extrabold tabular-nums text-[#DC2626]">
                     {coveredPairsCount}
                   </p>
-                  <p className="mt-0.5 text-[11px] font-semibold text-[#78716C]">Covered Pairs</p>
+                  <p className="mt-0.5 text-[11px] font-semibold text-[#4B3B40]">Covered Pairs</p>
                 </div>
               </div>
             </div>
 
             <div className="flex flex-col items-center justify-center lg:col-span-5">
               <div className="relative flex items-center justify-center">
-                <div className="absolute -inset-6 rounded-full bg-gradient-to-tr from-[#FCA5A5]/45 via-white/50 to-[#FFE4E6]/60 blur-2xl" />
-                <div className="relative rounded-full border-2 border-white/95 bg-white/30 p-2.5 backdrop-blur-md shadow-[0_24px_60px_-14px_rgba(185,28,28,0.28)]">
+                <div className="absolute -inset-6 rounded-full bg-gradient-to-tr from-[#FCA5A5]/45 via-white/45 to-[#FFE4E6]/55 blur-2xl" />
+                <div className="glass-panel liquid-glass-sheen relative rounded-full p-2.5 shadow-[0_24px_60px_-14px_rgba(185,28,28,0.28)]">
                   <img
                     src="/assets/pamasahe-tracker-logo.png"
                     alt="Pamasahe Tracker Oriental Mindoro Emblem"

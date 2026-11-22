@@ -237,7 +237,7 @@ export function VehicleComplaintDetailsPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl bg-[#FFF1F2]/75 border border-[#FFE4E6] p-4 text-xs space-y-1.5">
+        <div className="glass-pill-tile rounded-[22px] p-4 text-xs space-y-1.5">
           <p className="font-bold text-[#24191D]">Reported Incident Description</p>
           <p className="whitespace-pre-line text-[#24191D]/90">{report.description}</p>
           {report.additional_remarks && (
@@ -274,7 +274,7 @@ export function VehicleComplaintDetailsPage() {
           )}
 
           {signedPreview && (
-            <div className="rounded-2xl border border-[#FCA5A5]/60 bg-white/95 p-3 space-y-2">
+            <div className="glass-card-strong rounded-[22px] p-3 space-y-2">
               <div className="flex items-center justify-between text-xs font-bold text-[#24191D]">
                 <span>{signedPreview.name}</span>
                 <button
@@ -304,7 +304,7 @@ export function VehicleComplaintDetailsPage() {
 
         {/* Supplement Evidence / Info if still eligible */}
         {canSupplement && (
-          <div className="rounded-2xl border border-[#FFE4E6] bg-white/85 p-4 space-y-3 text-xs">
+          <div className="glass-pill-tile rounded-[22px] p-4 space-y-3 text-xs">
             <p className="font-bold text-[#DC2626]">
               Add Additional Information or Supporting Evidence
             </p>

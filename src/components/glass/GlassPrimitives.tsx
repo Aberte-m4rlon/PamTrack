@@ -314,7 +314,7 @@ export function StatCard({
         {sublabel && <p className="mt-0.5 text-xs font-semibold text-[#78716C]">{sublabel}</p>}
       </div>
       {Icon && (
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-white/95 to-[#FFE4E6]/90 text-[#DC2626] border border-white/95 shadow-sm">
+        <div className="glass-pill-tile flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-[#DC2626]">
           <Icon className="h-5 w-5" />
         </div>
       )}
@@ -335,14 +335,14 @@ export function StatusBadge({
 }) {
   const styles =
     tone === 'success'
-      ? 'bg-[#16A34A]/92 text-white border border-white/45 shadow-sm backdrop-blur-md'
+      ? 'bg-[#16A34A]/80 text-white border border-white/55 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_4px_12px_rgba(22,163,74,0.22)] backdrop-blur-md'
       : tone === 'warning'
-        ? 'bg-amber-400/90 text-[#24191D] border border-white/75 shadow-sm backdrop-blur-md'
+        ? 'bg-amber-400/75 text-[#24191D] border border-white/75 shadow-[inset_0_1px_1px_rgba(255,255,255,0.75),0_4px_12px_rgba(245,158,11,0.18)] backdrop-blur-md'
         : tone === 'info'
-          ? 'bg-[#2563EB]/92 text-white border border-white/45 shadow-sm backdrop-blur-md'
+          ? 'bg-[#2563EB]/80 text-white border border-white/55 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_4px_12px_rgba(37,99,235,0.22)] backdrop-blur-md'
           : tone === 'neutral'
-            ? 'bg-stone-600/85 text-white border border-white/45 shadow-sm backdrop-blur-md'
-            : 'bg-[#FFE4E6]/90 text-[#B91C1C] border border-white/90 shadow-sm backdrop-blur-md';
+            ? 'bg-stone-600/75 text-white border border-white/50 shadow-[inset_0_1px_1px_rgba(255,255,255,0.5),0_4px_12px_rgba(0,0,0,0.14)] backdrop-blur-md'
+            : 'bg-white/45 text-[#B91C1C] border border-white/78 shadow-[inset_0_1px_1px_rgba(255,255,255,0.85),0_4px_12px_rgba(185,28,28,0.12)] backdrop-blur-md';
 
   return (
     <span
@@ -448,7 +448,7 @@ export function GlassSkeleton({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        'animate-pulse rounded-[24px] bg-white/50 backdrop-blur-xl border border-white/85 shadow-sm',
+        'glass-panel animate-pulse rounded-[24px]',
         className
       )}
     />
@@ -470,11 +470,11 @@ export function EmptyStateCard({
 }) {
   return (
     <GlassCard variant="strong" className="p-8 text-center">
-      <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-white/95 to-[#FFE4E6]/90 text-[#DC2626] border border-white shadow-sm">
+      <div className="glass-pill-tile mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full text-[#DC2626]">
         <Icon className="h-6 w-6" />
       </div>
       <h3 className="text-base font-bold text-[#24191D]">{title}</h3>
-      <p className="mx-auto mt-1.5 max-w-md text-sm text-[#78716C]">{description}</p>
+      <p className="mx-auto mt-1.5 max-w-md text-sm text-[#4B3B40]">{description}</p>
       {action && <div className="mt-4 flex justify-center">{action}</div>}
     </GlassCard>
   );
@@ -486,17 +486,17 @@ export function SupabaseSetupBanner({ compact = false }: { compact?: boolean }) 
   return (
     <div
       className={cn(
-        'glass-card-strong liquid-glass-sheen flex flex-col gap-3 rounded-[24px] border border-amber-300/75 bg-white/70 p-4 text-[#24191D] sm:flex-row sm:items-center sm:justify-between',
+        'glass-card-strong liquid-glass-sheen flex flex-col gap-3 rounded-[24px] p-4 text-[#24191D] sm:flex-row sm:items-center sm:justify-between',
         compact && 'p-3'
       )}
     >
       <div className="flex items-start gap-3">
-        <div className="mt-0.5 rounded-full bg-[#FFE4E6]/90 p-2 text-[#B91C1C] border border-white/90 shadow-sm">
+        <div className="glass-pill-tile mt-0.5 rounded-full p-2 text-[#B91C1C]">
           <Database className="h-5 w-5" />
         </div>
         <div>
           <p className="text-sm font-bold">Supabase Backend Credentials Not Configured</p>
-          <p className="text-xs text-[#78716C]">
+          <p className="text-xs text-[#4B3B40]">
             Geospatial map coordinates for all 15 Oriental Mindoro municipalities and OSRM road
             routing are active. Add <code className="font-semibold text-[#24191D]">VITE_SUPABASE_URL</code> and{' '}
             <code className="font-semibold text-[#24191D]">VITE_SUPABASE_ANON_KEY</code> to{' '}

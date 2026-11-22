@@ -41,7 +41,7 @@ export function AuditLogsPage() {
           ) : (
             <div className="space-y-2 max-h-[500px] overflow-y-auto pr-1">
               {(verificationLogs ?? []).map((v) => (
-                <div key={v.id} className="rounded-2xl bg-white/85 border border-[#FFE4E6] p-3 text-xs space-y-0.5">
+                <div key={v.id} className="glass-pill-tile rounded-[20px] p-3 text-xs space-y-0.5">
                   <div className="flex justify-between font-bold text-[#DC2626]">
                     <span>{v.action}</span>
                     <span>{formatDateTimeSafe(v.created_at)}</span>
@@ -67,7 +67,7 @@ export function AuditLogsPage() {
           ) : (
             <div className="space-y-2 max-h-[500px] overflow-y-auto pr-1">
               {(auditLogs ?? []).map((a) => (
-                <div key={a.id} className="rounded-2xl bg-white/85 border border-[#FFE4E6] p-3 text-xs space-y-0.5">
+                <div key={a.id} className="glass-pill-tile rounded-[20px] p-3 text-xs space-y-0.5">
                   <div className="flex justify-between font-bold text-[#24191D]">
                     <span>{a.action}</span>
                     <span className="text-[#DC2626]">{formatDateTimeSafe(a.created_at)}</span>
