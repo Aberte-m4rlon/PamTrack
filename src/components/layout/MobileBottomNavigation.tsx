@@ -53,8 +53,10 @@ export function MobileBottomNavigation() {
             end={tab.end}
             className={({ isActive }) =>
               cn(
-                'flex min-h-[48px] flex-col items-center justify-center gap-0.5 rounded-2xl px-1 py-1 text-[11px] font-bold transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626]',
-                isActive ? 'text-[#DC2626]' : 'text-[#78716C] hover:text-[#DC2626]'
+                'flex min-h-[50px] flex-col items-center justify-center gap-0.5 rounded-2xl px-1 py-1 text-[11px] font-bold transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626]',
+                isActive
+                  ? 'text-[#B91C1C] font-extrabold'
+                  : 'text-[#4B3B40] hover:text-[#DC2626]'
               )
             }
           >

@@ -41,13 +41,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         onToggleMobileDrawer={() => setMobileDrawerOpen((v) => !v)}
       />
 
-      {/* Collapsible Mobile Liquid Glass Drawer (< 768px) */}
+      {/* Collapsible Mobile Liquid Glass Drawer (<= 768px) */}
       <MobileNavigationDrawer
         open={mobileDrawerOpen}
         onClose={() => setMobileDrawerOpen(false)}
       />
 
-      {/* Main Content + Desktop/Tablet Floating Sidebar (hidden <= 767px) */}
+      {/* Main Content + Desktop/Tablet Floating Sidebar (hidden <= 768px) */}
       <div className="relative z-10 mx-auto flex w-full max-w-[1480px] flex-1 gap-4 lg:gap-5 px-2.5 py-3.5 sm:px-5 sm:py-5 lg:px-6">
         <AppSidebar collapsed={sidebarCollapsed} />
 

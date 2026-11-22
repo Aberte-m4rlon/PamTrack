@@ -278,7 +278,7 @@ export function MobileNavigationDrawer({
   if (!open) return null;
 
   return (
-    <div className="md:hidden fixed inset-0 z-50 flex">
+    <div className="min-[769px]:hidden fixed inset-0 z-50 flex">
       <button
         type="button"
         aria-label="Close navigation backdrop"

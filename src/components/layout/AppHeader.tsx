@@ -79,7 +79,7 @@ export function AppHeader({
               onClick={onToggleMobileDrawer}
               aria-label={mobileDrawerOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={mobileDrawerOpen}
-              className="md:hidden liquid-btn-glass flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[#DC2626] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626]"
+              className="min-[769px]:hidden liquid-btn-glass flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[#DC2626] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626]"
             >
               {mobileDrawerOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
