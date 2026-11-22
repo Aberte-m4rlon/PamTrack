@@ -1,5 +1,5 @@
 import { haversineDistanceKm } from '@/lib/utils';
-import type { Municipality, StopCategory, TransportStop } from '@/types/database';
+import type { Municipality, StopCategory, TransportStop, TripStatus } from '@/types/database';
 
 export const STOP_CATEGORY_LABELS: Record<StopCategory, string> = {
   jeepney_stop: 'PUV & Multicab Stop',
@@ -132,4 +132,166 @@ export function formatDurationSeconds(totalSeconds: number): string {
     return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(rem).padStart(2, '0')}`;
   }
   return `${String(mins).padStart(2, '0')}:${String(rem).padStart(2, '0')}`;
+}
+
+/**
+ * Computes initial forward compass bearing (0..359 degrees) between two WGS84 points.
+ */
+export function computeBearingDeg(
+  fromLat: number,
+  fromLng: number,
+  toLat: number,
+  toLng: number
+): number {
+  const toRad = (deg: number) => (deg * Math.PI) / 180;
+  const lat1 = toRad(fromLat);
+  const lat2 = toRad(toLat);
+  const dLng = toRad(toLng - fromLng);
+  const y = Math.sin(dLng) * Math.cos(lat2);
+  const x =
+    Math.cos(lat1) * Math.sin(lat2) -
+    Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng);
+  if (Math.abs(x) < 1e-12 && Math.abs(y) < 1e-12) return 0;
+  const deg = (Math.atan2(y, x) * 180) / Math.PI;
+  return Math.round((deg + 360) % 360);
+}
+
+const COMPASS_SECTORS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'] as const;
+
+export function formatCompassDirection(headingDeg: number | null | undefined): string {
+  if (headingDeg === null || headingDeg === undefined || !Number.isFinite(headingDeg)) {
+    return '—';
+  }
+  const normalized = ((headingDeg % 360) + 360) % 360;
+  const index = Math.round(normalized / 45) % 8;
+  return COMPASS_SECTORS[index];
+}
+
+export interface MovementTelemetryInput {
+  currentLat: number;
+  currentLng: number;
+  currentTimestampMs: number;
+  hardwareSpeedMps?: number | null;
+  hardwareHeadingDeg?: number | null;
+  previousPoint?: {
+    latitude: number;
+    longitude: number;
+    timestampMs: number;
+  } | null;
+}
+
+export interface MovementTelemetryResult {
+  speedKmh: number;
+  speedMps: number;
+  headingDeg: number | null;
+  stepKm: number;
+}
+
+/**
+ * Resolves live movement speed and heading, falling back to consecutive
+ * distance/timestamp deltas when device GPS omits speedMps or headingDeg.
+ */
+export function resolveMovementTelemetry(
+  input: MovementTelemetryInput
+): MovementTelemetryResult {
+  let stepKm = 0;
+  let derivedBearing: number | null = null;
+  let derivedSpeedKmh = 0;
+
+  if (input.previousPoint) {
+    stepKm = haversineDistanceKm(
+      input.previousPoint.latitude,
+      input.previousPoint.longitude,
+      input.currentLat,
+      input.currentLng
+    );
+    const dtSeconds =
+      (input.currentTimestampMs - input.previousPoint.timestampMs) / 1000;
+    // Ignore tiny stationary GPS drift (< 3m) or wild cross-island jumps (> 10 km in one tick)
+    if (stepKm >= 0.003 && stepKm < 10) {
+      derivedBearing = computeBearingDeg(
+        input.previousPoint.latitude,
+        input.previousPoint.longitude,
+        input.currentLat,
+        input.currentLng
+      );
+      if (dtSeconds >= 0.8) {
+        derivedSpeedKmh = Math.min(160, (stepKm / dtSeconds) * 3600);
+      }
+    }
+  }
+
+  const hasHardwareSpeed =
+    typeof input.hardwareSpeedMps === 'number' &&
+    Number.isFinite(input.hardwareSpeedMps) &&
+    input.hardwareSpeedMps >= 0;
+
+  const speedKmhRaw = hasHardwareSpeed
+    ? Math.min(160, (input.hardwareSpeedMps as number) * 3.6)
+    : derivedSpeedKmh;
+
+  const speedKmh = Number(speedKmhRaw.toFixed(1));
+  const speedMps = Number((speedKmhRaw / 3.6).toFixed(2));
+
+  const hasHardwareHeading =
+    typeof input.hardwareHeadingDeg === 'number' &&
+    Number.isFinite(input.hardwareHeadingDeg) &&
+    input.hardwareHeadingDeg >= 0;
+
+  const headingDeg = hasHardwareHeading
+    ? Math.round(((input.hardwareHeadingDeg as number) % 360 + 360) % 360)
+    : derivedBearing;
+
+  return {
+    speedKmh,
+    speedMps,
+    headingDeg,
+    stepKm,
+  };
+}
+
+export interface MovementClassification {
+  label: string;
+  isMoving: boolean;
+}
+
+export function classifyMovementState(
+  speedKmh: number,
+  staleSeconds = 0,
+  tripStatus: TripStatus = 'active'
+): MovementClassification {
+  if (tripStatus === 'completed') {
+    return { label: 'Trip Completed', isMoving: false };
+  }
+  if (tripStatus === 'cancelled') {
+    return { label: 'Trip Cancelled', isMoving: false };
+  }
+  if (staleSeconds > 60) {
+    return { label: 'Signal Delayed', isMoving: false };
+  }
+  if (speedKmh < 1.5) {
+    return { label: 'Stopped / Waiting', isMoving: false };
+  }
+  if (speedKmh < 15) {
+    return { label: 'Slow / Traffic', isMoving: true };
+  }
+  if (speedKmh < 45) {
+    return { label: 'Moving Steadily', isMoving: true };
+  }
+  return { label: 'Fast Travel', isMoving: true };
+}
+
+export function estimateEtaMinutes(
+  remainingKm: number | null,
+  currentSpeedKmh: number,
+  avgSpeedKmh = 0
+): number | null {
+  if (remainingKm === null || !Number.isFinite(remainingKm) || remainingKm <= 0) {
+    return null;
+  }
+  if (remainingKm <= 0.15) return 1;
+  const effectiveSpeed =
+    currentSpeedKmh >= 4 ? currentSpeedKmh : avgSpeedKmh >= 4 ? avgSpeedKmh : 0;
+  if (effectiveSpeed <= 0) return null;
+  return Math.max(1, Math.round((remainingKm / effectiveSpeed) * 60));
 }

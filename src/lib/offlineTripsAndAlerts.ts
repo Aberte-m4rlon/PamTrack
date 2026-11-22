@@ -300,12 +300,19 @@ export function buildOfflineEmergencySmsHref(input: {
   routeLabel: string;
   latitude?: number | null;
   longitude?: number | null;
+  speedKmh?: number | null;
+  shareUrl?: string | null;
 }): string {
   const coords =
     typeof input.latitude === 'number' && typeof input.longitude === 'number'
       ? `${input.latitude.toFixed(5)}, ${input.longitude.toFixed(5)}`
       : 'GPS pending';
-  const body = `PAMASAHE TRACKER ALERT (${input.userName || 'Commuter'}): Route ${input.routeLabel}. Current GPS: ${coords}. Sent offline via Pamasahe Tracker.`;
+  const speedPart =
+    typeof input.speedKmh === 'number' && Number.isFinite(input.speedKmh)
+      ? ` Speed: ${input.speedKmh.toFixed(1)} km/h.`
+      : '';
+  const linkPart = input.shareUrl ? ` Track live: ${input.shareUrl}` : '';
+  const body = `PAMASAHE TRACKER LIVE TRIP (${input.userName || 'Commuter'}): Route ${input.routeLabel}. GPS: ${coords}.${speedPart}${linkPart}`;
   const cleanPhone = (input.phone || '').replace(/[^\d+]/g, '');
   return cleanPhone
     ? `sms:${cleanPhone}?body=${encodeURIComponent(body)}`

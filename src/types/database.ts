@@ -433,6 +433,15 @@ export interface LocationSharingSession {
   trip?: TripRecord | null;
 }
 
+export interface SharedTripTrailPoint {
+  latitude: number;
+  longitude: number;
+  speed_kmh: number | null;
+  heading_deg: number | null;
+  accuracy_meters: number | null;
+  recorded_at: string;
+}
+
 export interface SharedTripStatus {
   available: boolean;
   reason?: string;
@@ -443,9 +452,21 @@ export interface SharedTripStatus {
   transport_mode?: string;
   current_latitude?: number | null;
   current_longitude?: number | null;
+  start_latitude?: number | null;
+  start_longitude?: number | null;
+  destination_latitude?: number | null;
+  destination_longitude?: number | null;
   distance_km?: number;
   duration_seconds?: number;
   deviation_detected?: boolean;
+  max_deviation_km?: number | null;
+  latest_speed_kmh?: number | null;
+  avg_speed_kmh?: number | null;
+  max_speed_kmh?: number | null;
+  heading_deg?: number | null;
+  accuracy_meters?: number | null;
+  last_recorded_at?: string | null;
+  trail_points?: SharedTripTrailPoint[];
   started_at?: string;
   ended_at?: string | null;
   expires_at?: string;

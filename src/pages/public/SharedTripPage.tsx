@@ -1,25 +1,444 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import { AlertTriangle, Clock, Radio, ShieldCheck } from 'lucide-react';
+import {
+  Circle,
+  CircleMarker,
+  MapContainer,
+  Marker,
+  Polyline,
+  Popup,
+  TileLayer,
+  useMap,
+} from 'react-leaflet';
+import L from 'leaflet';
+import {
+  AlertTriangle,
+  Clock,
+  Compass,
+  ExternalLink,
+  Gauge,
+  LocateFixed,
+  Navigation,
+  Radio,
+  ShieldCheck,
+} from 'lucide-react';
+import { ORIENTAL_MINDORO_MAP_CENTER } from '@/data/orientalMindoro';
+import { useMunicipalities } from '@/hooks/useReferenceData';
+import {
+  classifyMovementState,
+  estimateEtaMinutes,
+  findNearestMunicipality,
+  formatCompassDirection,
+  formatDurationSeconds,
+  resolveMovementTelemetry,
+} from '@/lib/gpsUtils';
+import {
+  type LiveTripBreadcrumbPoint,
+  type LiveTripTelemetryPacket,
+  type SharedAlertBannerPayload,
+  readStoredSharedTrail,
+  subscribeSharedTripStream,
+  writeStoredSharedTrail,
+} from '@/lib/liveTripShareChannel';
 import { fetchSharedTripStatus } from '@/services/pamasaheApi';
-import { formatDurationSeconds } from '@/lib/gpsUtils';
-import { formatDateTimeSafe } from '@/lib/utils';
+import { formatDateSafe, formatDateTimeSafe, haversineDistanceKm } from '@/lib/utils';
 import {
   EmptyStateCard,
+  GlassButton,
   GlassCard,
   GlassSkeleton,
 } from '@/components/glass/GlassPrimitives';
 
+function createDirectionalLivePin(speedKmh: number, headingDeg: number | null) {
+  const rotation = typeof headingDeg === 'number' && Number.isFinite(headingDeg) ? headingDeg : 0;
+  const arrowHtml =
+    typeof headingDeg === 'number' && Number.isFinite(headingDeg)
+      ? `<div style="position:absolute;top:-7px;left:50%;transform:translateX(-50%) rotate(${rotation}deg);transform-origin:50% 17px;width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:9px solid #29262B;"></div>`
+      : '';
+
+  return L.divIcon({
+    className: 'shared-trip-live-pin',
+    html: `<div style="position:relative;display:flex;flex-direction:column;align-items:center;">
+      ${arrowHtml}
+      <div style="width:20px;height:20px;border-radius:9999px;background:#C9182B;border:3px solid #FFFFFF;box-shadow:0 0 0 6px rgba(201,24,43,0.26),0 4px 12px rgba(41,38,43,0.28);"></div>
+      <div style="margin-top:3px;padding:1px 6px;border-radius:9999px;background:#29262B;color:#FFFFFF;font-size:10px;font-weight:800;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,0.25);">${speedKmh.toFixed(0)} km/h</div>
+    </div>`,
+    iconSize: [54, 42],
+    iconAnchor: [27, 10],
+    popupAnchor: [0, -10],
+  });
+}
+
+function SharedMapViewportController({
+  lat,
+  lng,
+  follow,
+}: {
+  lat: number | null;
+  lng: number | null;
+  follow: boolean;
+}) {
+  const map = useMap();
+  useEffect(() => {
+    if (follow && lat !== null && lng !== null) {
+      map.panTo([lat, lng], { animate: true });
+    }
+  }, [map, lat, lng, follow]);
+  return null;
+}
+
 export function SharedTripPage() {
   const { token } = useParams<{ token: string }>();
+  const { data: muniRes } = useMunicipalities();
+  const municipalities = muniRes?.data ?? [];
+
+  const [streamPacket, setStreamPacket] = useState<LiveTripTelemetryPacket | null>(null);
+  const [streamConnected, setStreamConnected] = useState(false);
+  const [trailPoints, setTrailPoints] = useState<LiveTripBreadcrumbPoint[]>(() =>
+    token ? readStoredSharedTrail(token) : []
+  );
+  const [derivedSpeedKmh, setDerivedSpeedKmh] = useState(0);
+  const [derivedMaxSpeedKmh, setDerivedMaxSpeedKmh] = useState(0);
+  const [derivedHeadingDeg, setDerivedHeadingDeg] = useState<number | null>(null);
+  const [lastUpdateMs, setLastUpdateMs] = useState<number | null>(null);
+  const [nowMs, setNowMs] = useState(() => Date.now());
+  const [followLive, setFollowLive] = useState(true);
+  const [alertBanner, setAlertBanner] = useState<SharedAlertBannerPayload | null>(null);
+
+  const prevPollPointRef = useRef<{
+    latitude: number;
+    longitude: number;
+    timestampMs: number;
+  } | null>(null);
 
   const { data, isLoading } = useQuery({
     queryKey: ['sharedTrip', token],
     queryFn: () => fetchSharedTripStatus(token!),
     enabled: Boolean(token),
-    refetchInterval: 10000,
+    refetchInterval: (query) => {
+      const result = query.state.data;
+      if (!result || !result.available) return false;
+      return result.trip_status === 'active' ? 3000 : false;
+    },
   });
+
+  // Subscribe to instant Realtime Broadcast packets once share token is validated as active
+  useEffect(() => {
+    if (!token || !data?.available) return;
+    return subscribeSharedTripStream(
+      token,
+      true,
+      (pkt) => {
+        setStreamPacket(pkt);
+        const pktMs = new Date(pkt.updatedAt).getTime();
+        if (Number.isFinite(pktMs)) {
+          setLastUpdateMs(pktMs);
+        } else {
+          setLastUpdateMs(Date.now());
+        }
+        setDerivedMaxSpeedKmh((prev) =>
+          Math.max(prev, pkt.maxSpeedKmh ?? 0, pkt.speedKmh ?? 0)
+        );
+        if (pkt.alertBanner) {
+          setAlertBanner(pkt.alertBanner);
+        }
+        if (Array.isArray(pkt.trail) && pkt.trail.length > 0) {
+          setTrailPoints(pkt.trail.slice(-150));
+          writeStoredSharedTrail(token, pkt.trail);
+        }
+      },
+      setStreamConnected
+    );
+  }, [token, data?.available]);
+
+  // Accumulate coordinates & compute derived speed/heading from DB polling fallback
+  useEffect(() => {
+    if (!token || !data?.available) return;
+
+    if (Array.isArray(data.trail_points) && data.trail_points.length > 0) {
+      const normalizedDbTrail: LiveTripBreadcrumbPoint[] = data.trail_points.map(
+        (pt) => ({
+          latitude: Number(pt.latitude),
+          longitude: Number(pt.longitude),
+          speedKmh: pt.speed_kmh !== null && pt.speed_kmh !== undefined ? Number(pt.speed_kmh) : 0,
+          headingDeg:
+            pt.heading_deg !== null && pt.heading_deg !== undefined
+              ? Number(pt.heading_deg)
+              : null,
+          accuracyMeters:
+            pt.accuracy_meters !== null && pt.accuracy_meters !== undefined
+              ? Number(pt.accuracy_meters)
+              : null,
+          recordedAt: pt.recorded_at,
+        })
+      );
+      setTrailPoints((prev) => {
+        const merged =
+          normalizedDbTrail.length >= prev.length ? normalizedDbTrail : prev;
+        writeStoredSharedTrail(token, merged);
+        return merged;
+      });
+    }
+
+    const lat = data.current_latitude ?? null;
+    const lng = data.current_longitude ?? null;
+    if (lat === null || lng === null) return;
+
+    const sampleMs = data.last_recorded_at
+      ? new Date(data.last_recorded_at).getTime()
+      : Date.now();
+    const resolvedSampleMs = Number.isFinite(sampleMs) ? sampleMs : Date.now();
+
+    const prevSample = prevPollPointRef.current;
+    const moved =
+      !prevSample ||
+      haversineDistanceKm(prevSample.latitude, prevSample.longitude, lat, lng) >= 0.003;
+
+    let computedSpeed =
+      typeof data.latest_speed_kmh === 'number' && Number.isFinite(data.latest_speed_kmh)
+        ? data.latest_speed_kmh
+        : null;
+    let computedHeading =
+      typeof data.heading_deg === 'number' && Number.isFinite(data.heading_deg)
+        ? data.heading_deg
+        : null;
+
+    if (prevSample && moved) {
+      const derived = resolveMovementTelemetry({
+        currentLat: lat,
+        currentLng: lng,
+        currentTimestampMs: resolvedSampleMs > prevSample.timestampMs ? resolvedSampleMs : Date.now(),
+        hardwareSpeedMps: computedSpeed !== null ? computedSpeed / 3.6 : null,
+        hardwareHeadingDeg: computedHeading,
+        previousPoint: prevSample,
+      });
+      if (computedSpeed === null) computedSpeed = derived.speedKmh;
+      if (computedHeading === null) computedHeading = derived.headingDeg;
+    }
+
+    const finalSpeed = computedSpeed ?? 0;
+    setDerivedSpeedKmh(finalSpeed);
+    setDerivedMaxSpeedKmh((prev) =>
+      Math.max(prev, finalSpeed, data.max_speed_kmh ?? 0)
+    );
+    if (computedHeading !== null) {
+      setDerivedHeadingDeg(computedHeading);
+    }
+    setLastUpdateMs((prev) => Math.max(prev ?? 0, resolvedSampleMs));
+
+    if (!prevSample || moved) {
+      prevPollPointRef.current = {
+        latitude: lat,
+        longitude: lng,
+        timestampMs: Date.now(),
+      };
+      const point: LiveTripBreadcrumbPoint = {
+        latitude: lat,
+        longitude: lng,
+        speedKmh: finalSpeed,
+        headingDeg: computedHeading,
+        accuracyMeters: data.accuracy_meters ?? null,
+        recordedAt: new Date(resolvedSampleMs).toISOString(),
+      };
+      setTrailPoints((prev) => {
+        const last = prev[prev.length - 1];
+        if (
+          last &&
+          haversineDistanceKm(last.latitude, last.longitude, point.latitude, point.longitude) <
+            0.003
+        ) {
+          return prev;
+        }
+        const next = [...prev, point].slice(-150);
+        writeStoredSharedTrail(token, next);
+        return next;
+      });
+    }
+  }, [token, data]);
+
+  // Local 1-second clock tick for elapsed time and signal freshness counter
+  useEffect(() => {
+    if (!data?.available) return;
+    const id = setInterval(() => setNowMs(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [data?.available]);
+
+  const effectiveTripStatus =
+    streamPacket?.tripStatus ?? data?.trip_status ?? 'active';
+
+  // Choose freshest telemetry between Realtime Broadcast packet and DB RPC response
+  const streamFresh =
+    Boolean(streamPacket) &&
+    (!data?.last_recorded_at ||
+      new Date(streamPacket!.updatedAt).getTime() >=
+        new Date(data.last_recorded_at).getTime());
+
+  const currentLat = streamFresh
+    ? streamPacket!.latitude
+    : (data?.current_latitude ?? streamPacket?.latitude ?? null);
+  const currentLng = streamFresh
+    ? streamPacket!.longitude
+    : (data?.current_longitude ?? streamPacket?.longitude ?? null);
+
+  const currentSpeedKmh = streamFresh
+    ? streamPacket!.speedKmh
+    : (data?.latest_speed_kmh ?? derivedSpeedKmh);
+
+  const currentHeadingDeg = streamFresh
+    ? streamPacket!.headingDeg
+    : (data?.heading_deg ?? derivedHeadingDeg);
+
+  const distanceKm = Math.max(
+    streamPacket?.distanceKm ?? 0,
+    data?.distance_km ?? 0
+  );
+
+  const elapsedSeconds = useMemo(() => {
+    if (effectiveTripStatus !== 'active') {
+      return Math.max(streamPacket?.elapsedSeconds ?? 0, data?.duration_seconds ?? 0);
+    }
+    if (data?.started_at) {
+      const startMs = new Date(data.started_at).getTime();
+      if (Number.isFinite(startMs)) {
+        return Math.max(0, Math.floor((nowMs - startMs) / 1000));
+      }
+    }
+    return Math.max(streamPacket?.elapsedSeconds ?? 0, data?.duration_seconds ?? 0);
+  }, [
+    effectiveTripStatus,
+    data?.started_at,
+    data?.duration_seconds,
+    streamPacket?.elapsedSeconds,
+    nowMs,
+  ]);
+
+  const avgSpeedKmh = useMemo(() => {
+    if (streamFresh && (streamPacket?.avgSpeedKmh ?? 0) > 0) {
+      return streamPacket!.avgSpeedKmh;
+    }
+    if (typeof data?.avg_speed_kmh === 'number' && data.avg_speed_kmh > 0) {
+      return data.avg_speed_kmh;
+    }
+    if (elapsedSeconds >= 8 && distanceKm > 0) {
+      return Number(Math.min(160, distanceKm / (elapsedSeconds / 3600)).toFixed(1));
+    }
+    return 0;
+  }, [streamFresh, streamPacket, data?.avg_speed_kmh, elapsedSeconds, distanceKm]);
+
+  const maxSpeedKmh = Math.max(
+    derivedMaxSpeedKmh,
+    currentSpeedKmh,
+    streamPacket?.maxSpeedKmh ?? 0,
+    data?.max_speed_kmh ?? 0
+  );
+
+  const originMuni = useMemo(
+    () =>
+      municipalities.find(
+        (m) => m.name.toLowerCase() === (data?.origin_name ?? '').toLowerCase()
+      ) ?? null,
+    [municipalities, data?.origin_name]
+  );
+
+  const destMuni = useMemo(
+    () =>
+      municipalities.find(
+        (m) => m.name.toLowerCase() === (data?.destination_name ?? '').toLowerCase()
+      ) ?? null,
+    [municipalities, data?.destination_name]
+  );
+
+  const originCoords: [number, number] | null = useMemo(() => {
+    if (streamPacket?.originCoords) return streamPacket.originCoords;
+    if (
+      typeof data?.start_latitude === 'number' &&
+      typeof data?.start_longitude === 'number'
+    ) {
+      return [data.start_latitude, data.start_longitude];
+    }
+    if (originMuni) return [originMuni.latitude, originMuni.longitude];
+    return null;
+  }, [streamPacket?.originCoords, data?.start_latitude, data?.start_longitude, originMuni]);
+
+  const destCoords: [number, number] | null = useMemo(() => {
+    if (streamPacket?.destinationCoords) return streamPacket.destinationCoords;
+    if (
+      typeof data?.destination_latitude === 'number' &&
+      typeof data?.destination_longitude === 'number'
+    ) {
+      return [data.destination_latitude, data.destination_longitude];
+    }
+    if (destMuni) return [destMuni.latitude, destMuni.longitude];
+    return null;
+  }, [
+    streamPacket?.destinationCoords,
+    data?.destination_latitude,
+    data?.destination_longitude,
+    destMuni,
+  ]);
+
+  const remainingKm = useMemo(() => {
+    if (streamFresh && streamPacket?.remainingKm !== null && streamPacket?.remainingKm !== undefined) {
+      return streamPacket.remainingKm;
+    }
+    if (currentLat === null || currentLng === null || !destCoords) return null;
+    return Number(
+      haversineDistanceKm(currentLat, currentLng, destCoords[0], destCoords[1]).toFixed(2)
+    );
+  }, [streamFresh, streamPacket?.remainingKm, currentLat, currentLng, destCoords]);
+
+  const etaMinutes = useMemo(
+    () => estimateEtaMinutes(remainingKm, currentSpeedKmh, avgSpeedKmh),
+    [remainingKm, currentSpeedKmh, avgSpeedKmh]
+  );
+
+  const nearestLgu = useMemo(() => {
+    if (streamFresh && streamPacket?.nearestLguName) {
+      return streamPacket.nearestLguName;
+    }
+    if (currentLat === null || currentLng === null) return null;
+    return (
+      findNearestMunicipality(currentLat, currentLng, municipalities)?.municipality.name ??
+      null
+    );
+  }, [streamFresh, streamPacket?.nearestLguName, currentLat, currentLng, municipalities]);
+
+  const staleSeconds =
+    lastUpdateMs !== null ? Math.max(0, Math.floor((nowMs - lastUpdateMs) / 1000)) : 0;
+
+  const movementState = useMemo(
+    () => classifyMovementState(currentSpeedKmh, staleSeconds, effectiveTripStatus),
+    [currentSpeedKmh, staleSeconds, effectiveTripStatus]
+  );
+
+  const deviationDetected = Boolean(
+    streamPacket?.deviationDetected || data?.deviation_detected
+  );
+  const deviationKm = Math.max(
+    streamPacket?.deviationKm ?? 0,
+    data?.max_deviation_km ?? 0
+  );
+  const accuracyMeters = streamFresh
+    ? (streamPacket?.accuracyMeters ?? data?.accuracy_meters ?? null)
+    : (data?.accuracy_meters ?? streamPacket?.accuracyMeters ?? null);
+
+  const compass = formatCompassDirection(currentHeadingDeg);
+
+  const livePin = useMemo(
+    () => createDirectionalLivePin(currentSpeedKmh, currentHeadingDeg),
+    [currentSpeedKmh, currentHeadingDeg]
+  );
+
+  const mapPolylinePositions = useMemo<[number, number][]>(
+    () => trailPoints.map((pt) => [pt.latitude, pt.longitude]),
+    [trailPoints]
+  );
+
+  const plannedPolyline = useMemo<[number, number][]>(() => {
+    if (originCoords && destCoords) return [originCoords, destCoords];
+    return [];
+  }, [originCoords, destCoords]);
 
   if (isLoading) return <GlassSkeleton className="h-64" />;
 
@@ -36,69 +455,330 @@ export function SharedTripPage() {
     );
   }
 
+  const googleMapsHref =
+    currentLat !== null && currentLng !== null
+      ? `https://www.google.com/maps?q=${currentLat.toFixed(6)},${currentLng.toFixed(6)}`
+      : null;
+
+  const speedGaugePercent = Math.min(100, Math.round((currentSpeedKmh / 90) * 100));
+
   return (
-    <div className="space-y-6">
-      <GlassCard variant="rose" className="p-4 sm:p-6 space-y-2">
-        <div className="glass-pill-tile inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold uppercase text-[#C9182B]">
-          <Radio className="h-3.5 w-3.5 animate-pulse" />
-          Temporary Trusted Trip Share
+    <div className="space-y-4 sm:space-y-6">
+      {/* Commuter Header & Connection Status */}
+      <GlassCard variant="rose" className="p-4 sm:p-6 space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="inline-flex items-center gap-2 rounded-full bg-[#C9182B] px-3 py-1 text-[11px] font-bold uppercase text-white">
+            <Radio
+              className={`h-3.5 w-3.5 ${effectiveTripStatus === 'active' ? 'animate-pulse' : ''}`}
+            />
+            {effectiveTripStatus !== 'active'
+              ? `Trip ${effectiveTripStatus}`
+              : streamConnected
+                ? 'Live Realtime Monitor'
+                : 'Live Polling Monitor (3s)'}
+          </div>
+
+          <span className="glass-pill-tile rounded-full px-3 py-1 text-[11px] font-bold text-[#343039]">
+            {lastUpdateMs !== null
+              ? `Last movement: ${staleSeconds <= 2 ? 'Just now' : `${staleSeconds}s ago`}`
+              : 'Waiting for GPS ping'}
+          </span>
         </div>
-        <h1 className="font-display text-xl sm:text-2xl font-extrabold text-[#29262B]">
-          {data.commuter_name}&apos;s Trip: {data.origin_name} → {data.destination_name}
-        </h1>
-        <p className="text-xs text-[#343039] font-medium">
-          Mode: {data.transport_mode ?? 'Public Transport'} • Status: {data.trip_status} • Link
-          expires {formatDateTimeSafe(data.expires_at ?? null)}
-        </p>
+
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div className="space-y-1 min-w-0">
+            <h1 className="font-display text-xl sm:text-2xl font-extrabold text-[#29262B]">
+              {data.commuter_name}&apos;s Live Trip: {data.origin_name ?? 'Origin'} →{' '}
+              {data.destination_name ?? 'Destination'}
+            </h1>
+            <p className="text-xs text-[#343039] font-medium">
+              Mode: {data.transport_mode ?? 'Public Transport'} • Status:{' '}
+              <span className="font-bold uppercase text-[#C9182B]">{effectiveTripStatus}</span> •
+              Expires {formatDateTimeSafe(data.expires_at ?? null)}
+            </p>
+          </div>
+
+          {googleMapsHref && (
+            <a href={googleMapsHref} target="_blank" rel="noreferrer" className="shrink-0">
+              <GlassButton type="button" variant="secondary" size="sm">
+                <ExternalLink className="h-3.5 w-3.5 text-[#C9182B]" />
+                Open Pin in Maps
+              </GlassButton>
+            </a>
+          )}
+        </div>
       </GlassCard>
 
-      <div className="grid gap-4 sm:grid-cols-3">
-        <GlassCard variant="strong" className="p-4">
-          <p className="text-xs font-bold uppercase text-[#777078]">Distance Covered</p>
-          <p className="font-display text-2xl font-extrabold text-[#C9182B]">
-            {(data.distance_km ?? 0).toFixed(2)} km
+      {/* SOS / Emergency or Route Deviation Warning */}
+      {(alertBanner || deviationDetected) && (
+        <div
+          role="alert"
+          className="rounded-3xl border border-white/80 bg-[#C9182B] px-4 py-3.5 text-white shadow-glass flex flex-wrap items-start justify-between gap-3"
+        >
+          <div className="flex items-start gap-2.5 text-xs sm:text-sm">
+            <AlertTriangle className="h-5 w-5 shrink-0 mt-0.5" />
+            <div>
+              <p className="font-extrabold uppercase tracking-wide">
+                {alertBanner?.title || 'Route Deviation Warning'}
+              </p>
+              <p className="text-white/95 text-xs">
+                {alertBanner?.message ||
+                  `Commuter's live GPS moved ${deviationKm > 0 ? `${deviationKm.toFixed(2)} km ` : ''}off the planned corridor.`}
+              </p>
+            </div>
+          </div>
+          {googleMapsHref && (
+            <a href={googleMapsHref} target="_blank" rel="noreferrer">
+              <GlassButton type="button" variant="secondary" size="sm">
+                Locate Pin
+              </GlassButton>
+            </a>
+          )}
+        </div>
+      )}
+
+      {/* Real-Time Speedometer & Movement Dashboard */}
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
+        <GlassCard variant="strong" className="p-4 space-y-2 col-span-2 sm:col-span-1">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-[11px] font-bold uppercase text-[#777078] flex items-center gap-1">
+              <Gauge className="h-3.5 w-3.5 text-[#C9182B]" />
+              Current Speed
+            </p>
+            <span className="rounded-full bg-[#F8E7EA] px-2.5 py-0.5 text-[10px] font-bold text-[#B51224]">
+              {movementState.label}
+            </span>
+          </div>
+          <p
+            data-testid="shared-current-speed"
+            className="font-display text-3xl font-extrabold text-[#C9182B] tabular-nums"
+          >
+            {currentSpeedKmh.toFixed(1)} <span className="text-sm font-bold">km/h</span>
+          </p>
+          <div className="h-2 w-full overflow-hidden rounded-full bg-[#F8E7EA]">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-[#C9182B] to-[#B51224] transition-all duration-500"
+              style={{ width: `${speedGaugePercent}%` }}
+            />
+          </div>
+          <p className="text-[11px] font-semibold text-[#343039] flex items-center gap-1">
+            <Compass className="h-3.5 w-3.5 text-[#C9182B]" />
+            Heading:{' '}
+            {currentHeadingDeg !== null
+              ? `${compass} (${Math.round(currentHeadingDeg)}°)`
+              : 'Waiting for movement'}
           </p>
         </GlassCard>
-        <GlassCard variant="strong" className="p-4">
-          <p className="text-xs font-bold uppercase text-[#777078]">Elapsed Time</p>
-          <p className="font-display text-2xl font-extrabold text-[#C9182B] flex items-center gap-1.5">
-            <Clock className="h-5 w-5" />
-            {formatDurationSeconds(data.duration_seconds ?? 0)}
+
+        <GlassCard variant="strong" className="p-4 space-y-1.5">
+          <p className="text-[11px] font-bold uppercase text-[#777078]">Avg / Peak Speed</p>
+          <p className="font-display text-2xl font-extrabold text-[#29262B] tabular-nums">
+            {avgSpeedKmh.toFixed(1)}{' '}
+            <span className="text-xs font-bold text-[#777078]">km/h avg</span>
+          </p>
+          <p className="text-xs font-bold text-[#C9182B] tabular-nums">
+            Peak recorded: {maxSpeedKmh.toFixed(1)} km/h
+          </p>
+          <p className="text-[11px] text-[#777078]">
+            Based on live GPS trail deltas
           </p>
         </GlassCard>
-        <GlassCard variant="strong" className="p-4">
-          <p className="text-xs font-bold uppercase text-[#777078]">Route Check</p>
-          <p className="font-bold text-sm text-[#29262B]">
-            {data.deviation_detected ? (
-              <span className="inline-flex items-center gap-1 text-[#C9182B]">
-                <AlertTriangle className="h-4 w-4" /> Route Deviation Flagged
-              </span>
-            ) : (
-              'On planned corridor'
-            )}
+
+        <GlassCard variant="strong" className="p-4 space-y-1.5">
+          <p className="text-[11px] font-bold uppercase text-[#777078]">Distance &amp; ETA</p>
+          <p className="font-display text-2xl font-extrabold text-[#C9182B] tabular-nums">
+            {distanceKm.toFixed(2)} km
+          </p>
+          <p className="text-xs font-semibold text-[#29262B]">
+            {remainingKm !== null ? `${remainingKm.toFixed(1)} km to destination` : 'Active corridor'}
+          </p>
+          <p className="text-[11px] font-bold text-[#B51224]">
+            {etaMinutes !== null ? `Est. Arrival: ~${etaMinutes} min` : 'ETA updates while moving'}
+          </p>
+        </GlassCard>
+
+        <GlassCard variant="strong" className="p-4 space-y-1.5 col-span-2 sm:col-span-1">
+          <p className="text-[11px] font-bold uppercase text-[#777078]">Elapsed &amp; Corridor</p>
+          <p className="font-display text-2xl font-extrabold text-[#29262B] flex items-center gap-1.5 tabular-nums">
+            <Clock className="h-5 w-5 text-[#C9182B]" />
+            {formatDurationSeconds(elapsedSeconds)}
+          </p>
+          <p className="text-xs font-semibold text-[#343039] truncate">
+            {nearestLgu ? `Near ${nearestLgu}` : 'Monitoring Oriental Mindoro'}
+          </p>
+          <p className="text-[11px] font-bold text-[#C9182B]">
+            {deviationDetected
+              ? `Off planned route (${deviationKm.toFixed(1)} km)`
+              : `On planned corridor${accuracyMeters ? ` • ±${Math.round(accuracyMeters)}m` : ''}`}
           </p>
         </GlassCard>
       </div>
 
-      {data.current_latitude && data.current_longitude && (
-        <GlassCard variant="surface" className="p-4">
-          <div className="h-[380px] overflow-hidden rounded-3xl">
+      {/* Live Map + Movement Breadcrumb History */}
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-12">
+        <GlassCard variant="surface" className="p-4 lg:col-span-8 space-y-3">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h2 className="font-display text-base sm:text-lg font-bold text-[#29262B] flex items-center gap-2">
+              <Navigation className="h-4 w-4 text-[#C9182B]" />
+              Live Commuter Position &amp; Movement Trail
+            </h2>
+            <div className="flex items-center gap-2">
+              <span className="glass-pill-tile rounded-full px-2.5 py-1 text-[11px] font-bold text-[#343039]">
+                {trailPoints.length} track point{trailPoints.length === 1 ? '' : 's'}
+              </span>
+              <button
+                type="button"
+                onClick={() => setFollowLive((v) => !v)}
+                className={`rounded-full px-3 py-1 text-[11px] font-bold transition ${
+                  followLive
+                    ? 'bg-[#C9182B] text-white'
+                    : 'glass-pill-tile text-[#343039]'
+                }`}
+              >
+                {followLive ? 'Auto-Following' : 'Follow Commuter'}
+              </button>
+            </div>
+          </div>
+
+          <div className="h-[340px] sm:h-[420px] overflow-hidden rounded-3xl border border-white/80 shadow-glass">
             <MapContainer
-              center={[data.current_latitude, data.current_longitude]}
-              zoom={13}
-              className="h-full w-full"
+              center={
+                currentLat !== null && currentLng !== null
+                  ? [currentLat, currentLng]
+                  : originCoords ?? ORIENTAL_MINDORO_MAP_CENTER
+              }
+              zoom={currentLat !== null && currentLng !== null ? 14 : 10}
+              scrollWheelZoom
+              className="h-full w-full z-0"
             >
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              <Marker position={[data.current_latitude, data.current_longitude]}>
-                <Popup>{data.commuter_name}&apos;s latest shared GPS update</Popup>
-              </Marker>
+              <SharedMapViewportController
+                lat={currentLat}
+                lng={currentLng}
+                follow={followLive}
+              />
+
+              {plannedPolyline.length >= 2 && (
+                <Polyline
+                  positions={plannedPolyline}
+                  pathOptions={{ color: '#777078', weight: 3, dashArray: '8 6' }}
+                />
+              )}
+
+              {mapPolylinePositions.length >= 2 && (
+                <Polyline
+                  positions={mapPolylinePositions}
+                  pathOptions={{ color: '#C9182B', weight: 5 }}
+                />
+              )}
+
+              {originCoords && (
+                <CircleMarker
+                  center={originCoords}
+                  radius={7}
+                  pathOptions={{
+                    color: '#C9182B',
+                    fillColor: '#FFFFFF',
+                    fillOpacity: 1,
+                    weight: 3,
+                  }}
+                >
+                  <Popup>Origin: {data.origin_name ?? 'Start'}</Popup>
+                </CircleMarker>
+              )}
+
+              {destCoords && (
+                <CircleMarker
+                  center={destCoords}
+                  radius={7}
+                  pathOptions={{
+                    color: '#FFFFFF',
+                    fillColor: '#B51224',
+                    fillOpacity: 1,
+                    weight: 2.5,
+                  }}
+                >
+                  <Popup>Destination: {data.destination_name ?? 'Target'}</Popup>
+                </CircleMarker>
+              )}
+
+              {currentLat !== null && currentLng !== null && (
+                <>
+                  <Circle
+                    center={[currentLat, currentLng]}
+                    radius={Math.max(15, Math.min(350, accuracyMeters ?? 25))}
+                    pathOptions={{
+                      color: '#C9182B',
+                      fillColor: '#C9182B',
+                      fillOpacity: 0.12,
+                      weight: 1,
+                    }}
+                  />
+                  <Marker position={[currentLat, currentLng]} icon={livePin}>
+                    <Popup>
+                      <strong>{data.commuter_name}</strong> •{' '}
+                      <strong>{currentSpeedKmh.toFixed(1)} km/h</strong> ({movementState.label})
+                      {compass !== '—' ? ` • Moving ${compass}` : ''}
+                    </Popup>
+                  </Marker>
+                </>
+              )}
             </MapContainer>
           </div>
         </GlassCard>
-      )}
+
+        {/* Recent Movement & Speed Log */}
+        <GlassCard variant="strong" className="p-4 lg:col-span-4 space-y-3 h-fit">
+          <div className="flex items-center justify-between gap-2">
+            <h2 className="font-display text-base font-bold text-[#29262B] flex items-center gap-1.5">
+              <LocateFixed className="h-4 w-4 text-[#C9182B]" />
+              Movement Log
+            </h2>
+            {currentLat !== null && currentLng !== null && (
+              <span className="text-[10px] font-mono font-semibold text-[#777078]">
+                {currentLat.toFixed(4)}°N, {currentLng.toFixed(4)}°E
+              </span>
+            )}
+          </div>
+
+          {trailPoints.length === 0 ? (
+            <p className="text-xs text-[#777078]">
+              Waiting for commuter movement checkpoints. Speed and location trail will populate
+              automatically as they travel.
+            </p>
+          ) : (
+            <div className="space-y-2 max-h-[360px] overflow-y-auto pr-0.5">
+              {[...trailPoints]
+                .reverse()
+                .slice(0, 8)
+                .map((pt, idx) => (
+                  <div
+                    key={`${pt.recordedAt}-${idx}`}
+                    className="glass-pill-tile rounded-2xl px-3 py-2 text-xs flex items-center justify-between gap-2"
+                  >
+                    <div className="min-w-0">
+                      <p className="font-bold text-[#29262B]">
+                        {pt.speedKmh.toFixed(1)} km/h{' '}
+                        {pt.headingDeg !== null
+                          ? `• ${formatCompassDirection(pt.headingDeg)}`
+                          : ''}
+                      </p>
+                      <p className="text-[10px] font-mono text-[#777078] truncate">
+                        {pt.latitude.toFixed(5)}, {pt.longitude.toFixed(5)}
+                      </p>
+                    </div>
+                    <span className="shrink-0 text-[10px] font-bold text-[#B51224] tabular-nums">
+                      {formatDateSafe(pt.recordedAt, 'h:mm:ss a')}
+                    </span>
+                  </div>
+                ))}
+            </div>
+          )}
+        </GlassCard>
+      </div>
     </div>
   );
 }

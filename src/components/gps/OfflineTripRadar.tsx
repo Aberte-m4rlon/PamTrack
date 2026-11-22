@@ -1,5 +1,6 @@
 import { LocateFixed, WifiOff } from 'lucide-react';
 import type { GpsPositionSnapshot } from '@/contexts/GpsContext';
+import { formatCompassDirection } from '@/lib/gpsUtils';
 
 interface OfflineTripRadarProps {
   originName?: string;
@@ -13,6 +14,10 @@ interface OfflineTripRadarProps {
   remainingDestKm: number | null;
   deviationKm: number;
   nearestLguName?: string | null;
+  speedKmh?: number | null;
+  avgSpeedKmh?: number | null;
+  headingDeg?: number | null;
+  movementLabel?: string | null;
 }
 
 /**
@@ -32,6 +37,10 @@ export function OfflineTripRadar({
   remainingDestKm,
   deviationKm,
   nearestLguName,
+  speedKmh: explicitSpeedKmh,
+  avgSpeedKmh,
+  headingDeg,
+  movementLabel,
 }: OfflineTripRadarProps) {
   const allPoints: [number, number][] = [
     ...plannedPolyline,
@@ -65,12 +74,21 @@ export function OfflineTripRadar({
     : null;
   const originXY = originCoords ? project(originCoords) : null;
   const destXY = destCoords ? project(destCoords) : null;
-  const speedKmh =
+  const fallbackSpeed =
     currentPosition?.speedMps !== null &&
     currentPosition?.speedMps !== undefined &&
     currentPosition.speedMps >= 0
-      ? Math.round(currentPosition.speedMps * 3.6)
+      ? Number((currentPosition.speedMps * 3.6).toFixed(1))
       : 0;
+  const speedKmh =
+    typeof explicitSpeedKmh === 'number' && Number.isFinite(explicitSpeedKmh)
+      ? explicitSpeedKmh
+      : fallbackSpeed;
+  const effectiveHeading =
+    typeof headingDeg === 'number' && Number.isFinite(headingDeg)
+      ? headingDeg
+      : currentPosition?.headingDeg ?? null;
+  const compass = formatCompassDirection(effectiveHeading);
 
   return (
     <div
@@ -176,8 +194,18 @@ export function OfflineTripRadar({
           </p>
         </div>
         <div className="glass-panel rounded-2xl p-2.5 text-center">
-          <p className="text-[10px] font-bold uppercase text-[#343039]">Speed</p>
-          <p className="font-display text-base font-extrabold text-[#29262B]">{speedKmh} km/h</p>
+          <p className="text-[10px] font-bold uppercase text-[#343039]">
+            {movementLabel ? 'Live Speed' : 'Speed'}
+          </p>
+          <p className="font-display text-base font-extrabold text-[#29262B]">
+            {speedKmh.toFixed(1)} km/h
+          </p>
+          {(compass !== '—' || (avgSpeedKmh ?? 0) > 0) && (
+            <p className="text-[10px] font-semibold text-[#777078] truncate">
+              {compass !== '—' ? `${compass}` : ''}{' '}
+              {(avgSpeedKmh ?? 0) > 0 ? `• Avg ${(avgSpeedKmh ?? 0).toFixed(0)}` : ''}
+            </p>
+          )}
         </div>
         <div className="glass-panel rounded-2xl p-2.5 text-center">
           <p className="text-[10px] font-bold uppercase text-[#343039]">

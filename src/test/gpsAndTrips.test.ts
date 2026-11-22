@@ -4,10 +4,15 @@ import {
   VERIFIED_TRANSPORT_STOPS_FALLBACK,
 } from '@/data/orientalMindoro';
 import {
+  classifyMovementState,
+  computeBearingDeg,
   computeRouteDeviationKm,
+  estimateEtaMinutes,
   findNearestMunicipality,
+  formatCompassDirection,
   formatDurationSeconds,
   isInsideOrientalMindoro,
+  resolveMovementTelemetry,
   sortStopsByDistance,
 } from '@/lib/gpsUtils';
 
@@ -63,5 +68,54 @@ describe('GPS Geospatial, Route Deviation, and Terminal Distance Utilities', () 
   it('formats elapsed trip durations cleanly', () => {
     expect(formatDurationSeconds(65)).toBe('01:05');
     expect(formatDurationSeconds(3665)).toBe('01:01:05');
+  });
+
+  it('derives speed km/h and compass heading accurately even when device omits speed/heading', () => {
+    // 1.113 km north over 100s => ~40.1 km/h due North (0 deg)
+    const bearing = computeBearingDeg(13.4, 121.18, 13.41, 121.18);
+    expect(bearing).toBe(0);
+    expect(formatCompassDirection(bearing)).toBe('N');
+    expect(formatCompassDirection(48)).toBe('NE');
+
+    const derived = resolveMovementTelemetry({
+      currentLat: 13.41,
+      currentLng: 121.18,
+      currentTimestampMs: 200_000,
+      hardwareSpeedMps: null,
+      hardwareHeadingDeg: null,
+      previousPoint: {
+        latitude: 13.4,
+        longitude: 121.18,
+        timestampMs: 100_000,
+      },
+    });
+    expect(derived.speedKmh).toBeGreaterThan(38);
+    expect(derived.speedKmh).toBeLessThan(43);
+    expect(derived.headingDeg).toBe(0);
+
+    // Hardware speed takes priority when valid
+    const withHardware = resolveMovementTelemetry({
+      currentLat: 13.41,
+      currentLng: 121.18,
+      currentTimestampMs: 200_000,
+      hardwareSpeedMps: 15, // 54 km/h
+      hardwareHeadingDeg: 135,
+    });
+    expect(withHardware.speedKmh).toBe(54);
+    expect(withHardware.headingDeg).toBe(135);
+    expect(formatCompassDirection(135)).toBe('SE');
+  });
+
+  it('classifies movement speed states and estimates remaining ETA cleanly', () => {
+    expect(classifyMovementState(0.4, 0, 'active').label).toBe('Stopped / Waiting');
+    expect(classifyMovementState(10, 0, 'active').label).toBe('Slow / Traffic');
+    expect(classifyMovementState(32, 0, 'active').label).toBe('Moving Steadily');
+    expect(classifyMovementState(58, 0, 'active').label).toBe('Fast Travel');
+    expect(classifyMovementState(30, 90, 'active').label).toBe('Signal Delayed');
+    expect(classifyMovementState(0, 0, 'completed').label).toBe('Trip Completed');
+
+    expect(estimateEtaMinutes(15, 30, 25)).toBe(30);
+    expect(estimateEtaMinutes(12, 0, 24)).toBe(30);
+    expect(estimateEtaMinutes(12, 0, 0)).toBeNull();
   });
 });

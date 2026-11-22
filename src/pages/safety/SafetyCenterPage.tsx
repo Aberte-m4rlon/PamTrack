@@ -426,14 +426,33 @@ export function SafetyCenterPage() {
                         Expires: {formatDateTimeSafe(s.expires_at)}
                       </p>
                       {active && (
-                        <a
-                          href={link}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="block truncate font-mono text-[11px] text-[#C9182B] underline"
-                        >
-                          {link}
-                        </a>
+                        <div className="space-y-1.5">
+                          <a
+                            href={link}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="block truncate font-mono text-[11px] text-[#C9182B] underline"
+                          >
+                            {link}
+                          </a>
+                          <div className="flex flex-wrap gap-1.5">
+                            <GlassButton
+                              type="button"
+                              variant="secondary"
+                              size="sm"
+                              onClick={() => {
+                                navigator.clipboard?.writeText(link).then(() => {
+                                  pushToast({
+                                    title: 'Live movement share link copied',
+                                    variant: 'success',
+                                  });
+                                });
+                              }}
+                            >
+                              Copy Live Monitor Link
+                            </GlassButton>
+                          </div>
+                        </div>
                       )}
                     </div>
                   );
