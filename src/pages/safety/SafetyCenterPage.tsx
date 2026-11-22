@@ -372,14 +372,14 @@ export function SafetyCenterPage() {
                   return (
                     <div
                       key={s.id}
-                      className="rounded-2xl bg-white/85 border border-[#FFE4E6] p-3 text-xs space-y-1.5"
+                      className="glass-pill-tile rounded-[20px] p-3 text-xs space-y-1.5"
                     >
                       <div className="flex items-center justify-between gap-2">
                         <span
-                          className={`rounded-full px-2 py-0.5 font-bold uppercase text-[10px] ${
+                          className={`rounded-full border border-white/80 px-2.5 py-0.5 font-bold uppercase text-[10px] backdrop-blur-md ${
                             active
-                              ? 'bg-green-100 text-[#16A34A]'
-                              : 'bg-stone-200 text-[#78716C]'
+                              ? 'bg-green-100/80 text-[#16A34A]'
+                              : 'bg-white/70 text-[#78716C]'
                           }`}
                         >
                           {active ? 'Active Share' : s.revoked_at ? 'Revoked' : 'Expired'}

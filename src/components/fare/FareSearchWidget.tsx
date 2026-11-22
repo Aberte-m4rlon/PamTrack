@@ -520,7 +520,7 @@ export function FareSearchWidget({
               {/* Official Fare Records (shown only when published) */}
               {officialFares.length > 0 && (
                 <div className="space-y-3">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-green-300/80 bg-white/85 px-3.5 py-1.5 backdrop-blur-md shadow-sm">
+                  <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-4 py-1.5">
                     <CheckCircle2 className="h-4 w-4 text-[#16A34A]" />
                     <h4 className="text-xs font-bold uppercase tracking-wider text-[#24191D]">
                       Verified Fare Records
@@ -532,7 +532,7 @@ export function FareSearchWidget({
                       <GlassCard key={fare.id} variant="strong" hoverable className="p-5 space-y-3">
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex items-center gap-2.5">
-                            <div className="rounded-2xl bg-[#FFE4E6] p-2.5 text-[#DC2626]">
+                            <div className="liquid-nav-active rounded-2xl p-2.5 text-white">
                               <TransportModeIcon code={fare.transport_type?.code} />
                             </div>
                             <div>
@@ -608,14 +608,14 @@ export function FareSearchWidget({
               {/* Citizen Commuter Fare Estimates Section */}
               {communityEstimates.length > 0 && (
                 <div className="space-y-3">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-[#FCA5A5]/70 bg-white/75 px-3.5 py-1.5 backdrop-blur-md shadow-sm">
+                  <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-4 py-1.5">
                     <AlertTriangle className="h-4 w-4 text-[#DC2626]" />
                     <h4 className="text-xs font-bold uppercase tracking-wider text-[#24191D]">
                       Commuter Fare Guide (Citizen Estimates)
                     </h4>
                   </div>
 
-                  <div className="rounded-2xl border border-white/85 bg-white/55 backdrop-blur-md p-3 text-xs text-[#78716C]">
+                  <div className="glass-pill-tile rounded-2xl p-3.5 text-xs text-[#78716C]">
                     <strong className="text-[#24191D]">Citizen Reference Guide:</strong> Shared by
                     Mindoreño commuters across active Multicab, UV Express, Bus, and Tricycle
                     corridors—always confirm posted terminal fares upon boarding.
@@ -631,7 +631,7 @@ export function FareSearchWidget({
                       >
                         <div className="flex items-center justify-between gap-2">
                           <div className="flex items-center gap-2.5">
-                            <div className="rounded-2xl bg-[#FFE4E6] p-2.5 text-[#DC2626]">
+                            <div className="liquid-nav-active rounded-2xl p-2.5 text-white">
                               <TransportModeIcon code={est.transport_type?.code} />
                             </div>
                             <div>

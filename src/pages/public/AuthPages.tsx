@@ -43,11 +43,13 @@ export function LoginPage() {
     <div className="mx-auto max-w-md py-6">
       <GlassCard variant="strong" className="p-6 sm:p-8 space-y-6">
         <div className="text-center space-y-2">
-          <img
-            src="/assets/pamasahe-tracker-icon.png"
-            alt="Pamasahe Tracker Logo"
-            className="mx-auto h-16 w-16 rounded-full"
-          />
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border-2 border-white/95 bg-white/50 p-1 shadow-md backdrop-blur-md">
+            <img
+              src="/assets/pamasahe-tracker-icon.png"
+              alt="Pamasahe Tracker Logo"
+              className="h-full w-full rounded-full object-contain"
+            />
+          </div>
           <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
             Sign In to Pamasahe Tracker
           </h1>
@@ -182,11 +184,13 @@ export function RegisterPage() {
     <div className="mx-auto max-w-lg py-4">
       <GlassCard variant="strong" className="p-6 sm:p-8 space-y-6">
         <div className="text-center space-y-2">
-          <img
-            src="/assets/pamasahe-tracker-icon.png"
-            alt="Pamasahe Tracker Logo"
-            className="mx-auto h-14 w-14 rounded-full ring-2 ring-[#FFE4E6]"
-          />
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border-2 border-white/95 bg-white/50 p-1 shadow-md backdrop-blur-md">
+            <img
+              src="/assets/pamasahe-tracker-icon.png"
+              alt="Pamasahe Tracker Logo"
+              className="h-full w-full rounded-full object-contain"
+            />
+          </div>
           <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
             Create Commuter Account
           </h1>

@@ -165,7 +165,7 @@ export function RouteExplorerPage() {
                   setOriginId(c.originId);
                   setDestinationId(c.destinationId);
                 }}
-                className="inline-flex items-center gap-2 rounded-full border border-white/85 bg-white/60 backdrop-blur-md px-3.5 py-1.5 text-xs font-bold text-[#24191D] hover:bg-gradient-to-r hover:from-[#DC2626] hover:to-[#B91C1C] hover:text-white transition shadow-sm group"
+                className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-bold text-[#24191D] hover:bg-gradient-to-b hover:from-[#EF4444] hover:to-[#B91C1C] hover:text-white transition group"
               >
                 <span>
                   {c.originId === c.destinationId
@@ -274,7 +274,7 @@ export function RouteExplorerPage() {
             <div className="space-y-4">
               {selectedCorridorFares.officialFares.length > 0 && (
                 <div className="space-y-2.5">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-green-300/80 bg-white/70 backdrop-blur-md px-3.5 py-1 text-xs font-bold text-[#24191D]">
+                  <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-xs font-bold text-[#24191D]">
                     <CheckCircle2 className="h-4 w-4 text-[#16A34A]" />
                     <span>Verified Fare Records</span>
                   </div>
@@ -283,7 +283,7 @@ export function RouteExplorerPage() {
                       <GlassCard key={fare.id} variant="strong" hoverable className="p-4 space-y-2.5">
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex items-center gap-2">
-                            <span className="rounded-xl bg-[#FFE4E6] p-2 text-[#DC2626]">
+                            <span className="liquid-nav-active rounded-xl p-2 text-white">
                               <TransportModeIcon code={fare.transport_type?.code} className="h-4 w-4" />
                             </span>
                             <div>
@@ -320,7 +320,7 @@ export function RouteExplorerPage() {
 
               {selectedCorridorFares.communityEstimates.length > 0 && (
                 <div className="space-y-2.5">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-[#FCA5A5]/70 bg-white/75 backdrop-blur-md px-3.5 py-1 text-xs font-bold text-[#24191D]">
+                  <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-xs font-bold text-[#24191D]">
                     <AlertTriangle className="h-4 w-4 text-[#DC2626]" />
                     <span>Commuter Fare Guide (Citizen Estimates)</span>
                   </div>
@@ -329,11 +329,12 @@ export function RouteExplorerPage() {
                       <GlassCard
                         key={est.id}
                         variant="strong"
+                        hoverable
                         className="p-4 space-y-2"
                       >
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex items-center gap-2">
-                            <span className="rounded-xl bg-[#FFE4E6] p-2 text-[#DC2626]">
+                            <span className="liquid-nav-active rounded-xl p-2 text-white">
                               <TransportModeIcon code={est.transport_type?.code} className="h-4 w-4" />
                             </span>
                             <div>
@@ -429,7 +430,7 @@ export function RouteExplorerPage() {
 
                     {/* Direct Fare Display on Route Card */}
                     {officialRegular ? (
-                      <div className="rounded-2xl border border-green-300/80 bg-green-50/75 backdrop-blur-md p-3 space-y-1">
+                      <div className="glass-pill-tile rounded-[20px] p-3 space-y-1 border-green-300/60">
                         <div className="flex items-center justify-between gap-2">
                           <span className="text-[10px] font-bold uppercase tracking-wider text-green-900">
                             Official Verified Fare
@@ -450,26 +451,26 @@ export function RouteExplorerPage() {
                         )}
                       </div>
                     ) : communityRegular ? (
-                      <div className="rounded-2xl border border-amber-300/80 bg-amber-50/80 backdrop-blur-md p-3 space-y-1">
+                      <div className="glass-pill-tile rounded-[20px] p-3 space-y-1">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-amber-900">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-[#B91C1C]">
                             Community Estimate
                           </span>
                           <FareStatusBadge status="community_estimate" compact />
                         </div>
-                        <p className="font-display text-2xl font-extrabold text-amber-800">
+                        <p className="font-display text-2xl font-extrabold text-[#DC2626]">
                           {formatPhp(communityRegular.fare_amount)}{' '}
-                          <span className="text-xs font-semibold text-amber-900/80">
+                          <span className="text-xs font-semibold text-[#78716C]">
                             ({PASSENGER_CATEGORY_LABELS[communityRegular.passenger_category]})
                           </span>
                         </p>
-                        <p className="text-[11px] text-amber-900/85">
-                          Unverified reference only — no official fare yet
+                        <p className="text-[11px] text-[#78716C]">
+                          Citizen commuter fare reference across Oriental Mindoro
                         </p>
                       </div>
                     ) : (
-                      <div className="rounded-2xl border border-white/85 bg-white/55 backdrop-blur-md p-2.5 text-[11px] font-semibold text-[#78716C]">
-                        No verified official fare published yet for this corridor.
+                      <div className="glass-pill-tile rounded-[20px] p-2.5 text-[11px] font-semibold text-[#78716C]">
+                        No commuter fare estimate published yet for this corridor.
                       </div>
                     )}
                   </div>

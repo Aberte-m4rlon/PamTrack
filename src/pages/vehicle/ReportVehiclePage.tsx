@@ -271,7 +271,7 @@ export function ReportVehiclePage({
   if (submittedReport) {
     return (
       <GlassCard variant="strong" className="mx-auto max-w-2xl p-6 sm:p-8 space-y-5 text-center">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-green-100 text-[#16A34A]">
+        <div className="glass-pill-tile mx-auto flex h-14 w-14 items-center justify-center rounded-full text-[#16A34A]">
           <CheckCircle2 className="h-8 w-8" />
         </div>
         <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
@@ -306,7 +306,7 @@ export function ReportVehiclePage({
               setSubmittedReport(null);
               reset({
                 plateNotAvailable: false,
-                vehicleType: 'Jeepney',
+                vehicleType: 'Multicab',
                 incidentDate: new Date().toISOString().slice(0, 10),
                 isConfidentialIdentity: false,
                 externalShareConsent: false,
@@ -367,7 +367,7 @@ export function ReportVehiclePage({
       </GlassCard>
 
       {!user && (
-        <GlassCard variant="strong" className="p-5 border-amber-300 bg-amber-50/90 flex flex-wrap items-center justify-between gap-3">
+        <GlassCard variant="strong" className="p-5 border-amber-300/65 flex flex-wrap items-center justify-between gap-3">
           <p className="text-xs sm:text-sm font-semibold text-[#24191D]">
             Sign in with your commuter account to submit protected vehicle reports and track status
             updates.
@@ -766,7 +766,7 @@ export function ReportVehiclePage({
                     <button
                       type="button"
                       onClick={() => removeEvidence(item.id)}
-                      className="rounded-xl p-1.5 text-red-600 hover:bg-red-50"
+                      className="liquid-btn-danger rounded-full p-1.5"
                       aria-label="Remove evidence"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -778,7 +778,7 @@ export function ReportVehiclePage({
           )}
 
           {uploadProgress && (
-            <div className="rounded-2xl bg-[#FFE4E6] p-3 text-xs font-bold text-[#DC2626]">
+            <div className="glass-pill-tile rounded-2xl p-3 text-xs font-bold text-[#DC2626]">
               Uploading evidence {uploadProgress.done} / {uploadProgress.total}...
             </div>
           )}
@@ -791,7 +791,7 @@ export function ReportVehiclePage({
             5. Recommended Reporting Authorities &amp; Consent
           </h2>
 
-          <div className="rounded-2xl border border-amber-300 bg-amber-50/90 p-3 text-xs text-amber-950">
+          <div className="glass-pill-tile rounded-[20px] border-amber-300/65 p-3.5 text-xs text-[#24191D]">
             <strong>Notice:</strong> Pamasahe Tracker is an independent monitoring system and is{' '}
             <strong>not</strong> an official LTFRB, LTO, PNP, or LGU filing portal. Complaints
             are never automatically transmitted externally without your explicit consent.
@@ -801,7 +801,7 @@ export function ReportVehiclePage({
             {recommendedAgencies.map((rec) => (
               <div
                 key={rec.agency.id}
-                className="rounded-2xl border border-[#FFE4E6] bg-white/85 p-3.5 text-xs space-y-1"
+                className="glass-pill-tile rounded-[20px] p-3.5 text-xs space-y-1"
               >
                 <div className="flex items-center justify-between gap-2">
                   <p className="font-bold text-sm text-[#24191D]">{rec.agency.agency_name}</p>

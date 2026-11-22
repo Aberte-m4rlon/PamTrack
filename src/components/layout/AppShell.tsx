@@ -1,40 +1,54 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { WifiOff } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNetwork } from '@/contexts/NetworkContext';
 import { formatDateTimeSafe } from '@/lib/utils';
 import { SupabaseSetupBanner } from '@/components/glass/GlassPrimitives';
 import { AppHeader } from '@/components/layout/AppHeader';
-import { AppSidebar } from '@/components/layout/AppSidebar';
+import { AppSidebar, MobileNavigationDrawer } from '@/components/layout/AppSidebar';
 import { MobileBottomNavigation } from '@/components/layout/MobileBottomNavigation';
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const { user, isConfigured } = useAuth();
   const { isOffline, lastSyncedAt } = useNetwork();
+  const location = useLocation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    setMobileDrawerOpen(false);
+  }, [location.pathname]);
 
   return (
     <div className="pamasahe-scenic-bg relative min-h-screen text-[#24191D] flex flex-col mobile-safe-content-pad">
-      {/* Fixed Frosted Scenic Backdrop + Soft Rose Ambient Glows */}
+      {/* Fixed Frosted Scenic Backdrop + Subtle Blush Ambient Light */}
       <div aria-hidden="true" className="pamasahe-backdrop-canvas" />
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 overflow-hidden z-0"
       >
-        <div className="absolute -left-24 -top-20 h-96 w-96 rounded-full bg-[#FCA5A5]/25 blur-3xl" />
-        <div className="absolute right-[-6%] top-24 h-80 w-80 rounded-full bg-[#FFE4E6]/65 blur-3xl" />
-        <div className="absolute bottom-[-8%] left-1/3 h-96 w-96 rounded-full bg-[#DC2626]/12 blur-3xl" />
+        <div className="absolute -left-24 -top-20 h-96 w-96 rounded-full bg-[#FCA5A5]/24 blur-3xl" />
+        <div className="absolute right-[-6%] top-20 h-80 w-80 rounded-full bg-white/55 blur-3xl" />
+        <div className="absolute bottom-[-8%] left-1/3 h-96 w-96 rounded-full bg-[#DC2626]/10 blur-3xl" />
       </div>
 
-      {/* Top Frosted Header */}
+      {/* Top Floating Liquid Glass Header */}
       <AppHeader
         sidebarCollapsed={sidebarCollapsed}
         onToggleSidebar={() => setSidebarCollapsed((v) => !v)}
+        mobileDrawerOpen={mobileDrawerOpen}
+        onToggleMobileDrawer={() => setMobileDrawerOpen((v) => !v)}
       />
 
-      {/* Main Content + Desktop/Tablet Collapsible Sidebar (strictly hidden <= 768px) */}
-      <div className="relative z-10 mx-auto flex w-full max-w-[1480px] flex-1 gap-6 px-3 py-5 sm:px-6 sm:py-6">
+      {/* Collapsible Mobile Liquid Glass Drawer (< 768px) */}
+      <MobileNavigationDrawer
+        open={mobileDrawerOpen}
+        onClose={() => setMobileDrawerOpen(false)}
+      />
+
+      {/* Main Content + Desktop/Tablet Floating Sidebar (hidden <= 768px) */}
+      <div className="relative z-10 mx-auto flex w-full max-w-[1480px] flex-1 gap-5 px-3 py-4 sm:px-6 sm:py-5">
         <AppSidebar collapsed={sidebarCollapsed} />
 
         <main className="min-w-0 flex-1 space-y-5">
@@ -42,10 +56,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <div
               role="status"
               aria-live="polite"
-              className="glass-card-strong flex flex-col gap-2 rounded-2xl border border-[#FCA5A5]/75 bg-[#FFF1F2]/75 px-4 py-3 text-xs text-[#24191D] sm:flex-row sm:items-center sm:justify-between"
+              className="glass-card-strong liquid-glass-sheen flex flex-col gap-2 rounded-[24px] px-4 py-3 text-xs text-[#24191D] sm:flex-row sm:items-center sm:justify-between"
             >
               <div className="flex items-start gap-2.5">
-                <div className="mt-0.5 rounded-xl bg-[#FFE4E6] p-1.5 text-[#DC2626]">
+                <div className="mt-0.5 rounded-full border border-white/90 bg-[#FFE4E6]/90 p-1.5 text-[#DC2626] shadow-sm">
                   <WifiOff className="h-4 w-4" />
                 </div>
                 <div>
@@ -61,7 +75,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 </div>
               </div>
               {lastSyncedAt && (
-                <span className="shrink-0 rounded-full border border-white/85 bg-white/65 px-2.5 py-1 text-[11px] font-semibold text-[#78716C]">
+                <span className="shrink-0 rounded-full border border-white/90 bg-white/75 px-3 py-1 text-[11px] font-semibold text-[#78716C]">
                   Synced {formatDateTimeSafe(lastSyncedAt)}
                 </span>
               )}
@@ -73,14 +87,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </main>
       </div>
 
-      {/* Consistent Glass Footer */}
+      {/* Consistent Liquid Glass Footer */}
       <footer className="glass-footer relative z-10 mt-auto">
         <div className="mx-auto flex max-w-[1480px] flex-col gap-4 px-4 py-6 text-xs text-[#78716C] sm:px-6 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-3">
             <img
               src="/assets/pamasahe-tracker-icon.png"
               alt="Pamasahe Tracker Icon"
-              className="h-8 w-8 rounded-full ring-2 ring-white/90"
+              className="h-8 w-8 rounded-full ring-2 ring-white/95 shadow-sm"
             />
             <div>
               <p className="font-bold text-[#24191D]">Pamasahe Tracker – Oriental Mindoro</p>
@@ -126,7 +140,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </footer>
 
-      {/* Fixed Bottom Navigation for Mobile (< 768px) */}
+      {/* Floating Bottom Liquid Glass Dock for Mobile (<= 768px) */}
       <MobileBottomNavigation />
     </div>
   );

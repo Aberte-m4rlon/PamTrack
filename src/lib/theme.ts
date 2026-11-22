@@ -17,6 +17,13 @@ export const LIGHT_RED_THEME = {
     error: '#DC2626',
     information: '#2563EB',
   },
+  liquidGlass: {
+    specularRim: 'rgba(255, 255, 255, 0.92)',
+    innerHighlight: 'inset 0 2px 1.5px rgba(255, 255, 255, 0.96)',
+    crimsonGlow: '0 10px 24px -6px rgba(220, 38, 38, 0.42)',
+    blushTint: 'rgba(255, 228, 230, 0.56)',
+    backdropBlur: '24px',
+  },
   charts: {
     primaryBar: '#DC2626',
     secondaryBar: '#EF4444',
@@ -24,10 +31,11 @@ export const LIGHT_RED_THEME = {
     gridStroke: 'rgba(120, 113, 108, 0.16)',
     tickFill: '#24191D',
     tooltipStyle: {
-      backgroundColor: 'rgba(255, 255, 255, 0.94)',
+      backgroundColor: 'rgba(255, 255, 255, 0.92)',
       borderColor: 'rgba(252, 165, 165, 0.75)',
-      borderRadius: '14px',
+      borderRadius: '18px',
       color: '#24191D',
+      backdropFilter: 'blur(18px)',
     },
   },
   map: {

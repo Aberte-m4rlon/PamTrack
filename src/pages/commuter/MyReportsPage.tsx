@@ -416,7 +416,7 @@ export function MyReportsPage() {
                   {rep.remarks && <p className="text-xs text-[#24191D]/85">{rep.remarks}</p>}
 
                   {rep.admin_feedback && (
-                    <div className="rounded-2xl bg-[#FFE4E6]/85 border border-[#FCA5A5]/50 p-3 text-xs text-[#24191D]">
+                    <div className="glass-pill-tile rounded-[20px] p-3 text-xs text-[#24191D]">
                       <strong>Administrator Feedback:</strong> {rep.admin_feedback}
                     </div>
                   )}
@@ -429,7 +429,7 @@ export function MyReportsPage() {
                           key={ev.id}
                           type="button"
                           onClick={() => handleViewEvidence(ev.storage_path)}
-                          className="inline-flex items-center gap-1.5 rounded-xl bg-white/85 px-2.5 py-1 text-[11px] font-bold text-[#DC2626] border border-[#FCA5A5]/50 hover:bg-[#FFE4E6]"
+                          className="liquid-btn-secondary inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold"
                         >
                           <Eye className="h-3.5 w-3.5" />
                           {ev.file_name}
@@ -458,7 +458,7 @@ export function MyReportsPage() {
                   )}
 
                   {editingReport?.id === rep.id && (
-                    <div className="space-y-2.5 rounded-2xl border border-[#FCA5A5]/50 bg-[#FFF1F2] p-3.5">
+                    <div className="glass-pill-tile space-y-2.5 rounded-[22px] p-3.5">
                       <p className="text-xs font-bold text-[#DC2626]">Edit Pending Report</p>
                       <input
                         type="number"

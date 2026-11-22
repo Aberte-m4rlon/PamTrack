@@ -34,19 +34,20 @@ export function GlassCard({
 }: GlassCardProps) {
   const variantClass =
     variant === 'panel'
-      ? 'glass-panel'
+      ? 'glass-panel liquid-glass-sheen'
       : variant === 'strong'
-        ? 'glass-card-strong'
+        ? 'glass-card-strong liquid-glass-sheen'
         : variant === 'rose' || variant === 'green'
           ? 'glass-rose-tint text-white'
-          : 'glass-surface';
+          : 'glass-surface liquid-glass-sheen';
 
   return (
     <div
       className={cn(
         variantClass,
-        'rounded-3xl transition-all duration-200',
-        hoverable && 'hover:-translate-y-0.5 hover:shadow-glass-lg',
+        'rounded-[28px] transition-all duration-200',
+        hoverable &&
+          'hover:-translate-y-0.5 hover:shadow-glass-lg hover:border-white',
         className
       )}
       {...props}
@@ -69,29 +70,24 @@ export function GlassButton({
   ...props
 }: GlassButtonProps) {
   const variantStyles: Record<NonNullable<GlassButtonProps['variant']>, string> = {
-    primary:
-      'bg-gradient-to-r from-[#DC2626] to-[#B91C1C] hover:from-[#B91C1C] hover:to-[#991B1B] text-white shadow-md shadow-[#DC2626]/25 border border-white/30 backdrop-blur-md',
-    secondary:
-      'bg-white/65 hover:bg-white/85 text-[#DC2626] border border-white/85 backdrop-blur-xl shadow-sm',
-    emerald:
-      'bg-white/85 hover:bg-white text-[#B91C1C] border border-white/95 backdrop-blur-xl shadow-md',
-    glass:
-      'bg-white/55 hover:bg-white/80 text-[#24191D] border border-white/85 backdrop-blur-xl shadow-sm',
-    danger:
-      'bg-[#FEE2E2]/80 hover:bg-[#FECACA]/90 text-[#B91C1C] border border-[#FCA5A5]/80 backdrop-blur-md shadow-sm',
-    ghost: 'bg-transparent hover:bg-white/45 text-[#24191D]',
+    primary: 'liquid-btn-primary',
+    secondary: 'liquid-btn-secondary',
+    emerald: 'liquid-btn-secondary text-[#B91C1C]',
+    glass: 'liquid-btn-glass',
+    danger: 'liquid-btn-danger',
+    ghost: 'bg-transparent hover:bg-white/55 text-[#24191D]',
   };
 
   const sizeStyles: Record<NonNullable<GlassButtonProps['size']>, string> = {
-    sm: 'px-3.5 py-2 text-xs rounded-xl min-h-[36px]',
-    md: 'px-4 py-2.5 text-sm rounded-2xl min-h-[42px]',
-    lg: 'px-6 py-3 text-base rounded-2xl min-h-[48px]',
+    sm: 'px-3.5 py-1.5 text-xs min-h-[36px]',
+    md: 'px-4.5 py-2.5 text-sm min-h-[42px]',
+    lg: 'px-6 py-3 text-base min-h-[48px]',
   };
 
   return (
     <button
       className={cn(
-        'inline-flex items-center justify-center gap-2 font-semibold transition-all duration-150 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626] focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-55',
+        'inline-flex items-center justify-center gap-2 rounded-full font-semibold tracking-tight transition-all duration-150 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626] focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-55',
         variantStyles[variant],
         sizeStyles[size],
         className
@@ -136,6 +132,68 @@ export const GlassSelect = React.forwardRef<
   </select>
 ));
 GlassSelect.displayName = 'GlassSelect';
+
+export const GlassTextarea = React.forwardRef<
+  HTMLTextAreaElement,
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>
+>(({ className, ...props }, ref) => (
+  <textarea
+    ref={ref}
+    className={cn('glass-input w-full rounded-2xl px-3.5 py-2.5 text-sm', className)}
+    {...props}
+  />
+));
+GlassTextarea.displayName = 'GlassTextarea';
+
+export function GlassTabs<T extends string>({
+  tabs,
+  value,
+  onChange,
+  className,
+}: {
+  tabs: Array<{ value: T; label: string; count?: number }>;
+  value: T;
+  onChange: (value: T) => void;
+  className?: string;
+}) {
+  return (
+    <div
+      role="tablist"
+      className={cn('liquid-segmented inline-flex flex-wrap items-center gap-1 rounded-full p-1', className)}
+    >
+      {tabs.map((tab) => {
+        const active = tab.value === value;
+        return (
+          <button
+            key={tab.value}
+            type="button"
+            role="tab"
+            aria-selected={active}
+            onClick={() => onChange(tab.value)}
+            className={cn(
+              'inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition-all',
+              active
+                ? 'liquid-nav-active text-white'
+                : 'text-[#78716C] hover:bg-white/60 hover:text-[#DC2626]'
+            )}
+          >
+            <span>{tab.label}</span>
+            {typeof tab.count === 'number' && (
+              <span
+                className={cn(
+                  'rounded-full px-1.5 py-0.5 text-[10px] font-extrabold',
+                  active ? 'bg-white/25 text-white' : 'bg-[#FFE4E6]/85 text-[#B91C1C]'
+                )}
+              >
+                {tab.count}
+              </span>
+            )}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
 
 export function PageHeader({
   eyebrow,
@@ -241,16 +299,22 @@ export function StatCard({
             : 'text-[#DC2626]';
 
   const content = (
-    <GlassCard variant="strong" hoverable={Boolean(to)} className="p-4 flex items-center justify-between gap-3 h-full">
+    <GlassCard
+      variant="strong"
+      hoverable={Boolean(to)}
+      className="p-4 flex items-center justify-between gap-3 h-full rounded-[24px]"
+    >
       <div className="min-w-0">
         <p className="text-[11px] font-bold uppercase tracking-wider text-[#78716C] truncate">
           {label}
         </p>
-        <p className={cn('mt-1 font-display text-2xl font-extrabold', valueTone)}>{value}</p>
+        <p className={cn('mt-1 font-display text-2xl font-extrabold tabular-nums', valueTone)}>
+          {value}
+        </p>
         {sublabel && <p className="mt-0.5 text-xs font-semibold text-[#78716C]">{sublabel}</p>}
       </div>
       {Icon && (
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#FFE4E6] text-[#DC2626] border border-[#FCA5A5]/45">
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-white/95 to-[#FFE4E6]/90 text-[#DC2626] border border-white/95 shadow-sm">
           <Icon className="h-5 w-5" />
         </div>
       )}
@@ -271,14 +335,14 @@ export function StatusBadge({
 }) {
   const styles =
     tone === 'success'
-      ? 'bg-[#16A34A] text-white border border-green-400/60'
+      ? 'bg-[#16A34A]/92 text-white border border-white/45 shadow-sm backdrop-blur-md'
       : tone === 'warning'
-        ? 'bg-amber-400 text-[#24191D] border border-amber-300'
+        ? 'bg-amber-400/90 text-[#24191D] border border-white/75 shadow-sm backdrop-blur-md'
         : tone === 'info'
-          ? 'bg-[#2563EB] text-white border border-blue-400/60'
+          ? 'bg-[#2563EB]/92 text-white border border-white/45 shadow-sm backdrop-blur-md'
           : tone === 'neutral'
-            ? 'bg-stone-500 text-white border border-stone-300/60'
-            : 'bg-[#FFE4E6] text-[#B91C1C] border border-[#FCA5A5]/75';
+            ? 'bg-stone-600/85 text-white border border-white/45 shadow-sm backdrop-blur-md'
+            : 'bg-[#FFE4E6]/90 text-[#B91C1C] border border-white/90 shadow-sm backdrop-blur-md';
 
   return (
     <span
@@ -303,7 +367,7 @@ export function ResponsiveTable({
   return (
     <div
       className={cn(
-        'glass-card-strong overflow-x-auto rounded-3xl border border-white/85',
+        'glass-card-strong liquid-glass-sheen overflow-x-auto rounded-[28px]',
         className
       )}
     >
@@ -333,7 +397,7 @@ export function FareStatusBadge({
     <span
       title={meta.description}
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold tracking-wide uppercase',
+        'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold tracking-wide uppercase backdrop-blur-md',
         meta.badgeClass
       )}
     >
@@ -348,7 +412,7 @@ export function ReportStatusBadge({ status }: { status: ReportStatus }) {
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide',
+        'inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide backdrop-blur-md',
         meta.badgeClass
       )}
     >
@@ -384,7 +448,7 @@ export function GlassSkeleton({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        'animate-pulse rounded-2xl bg-white/45 backdrop-blur-xl border border-white/75',
+        'animate-pulse rounded-[24px] bg-white/50 backdrop-blur-xl border border-white/85 shadow-sm',
         className
       )}
     />
@@ -406,7 +470,7 @@ export function EmptyStateCard({
 }) {
   return (
     <GlassCard variant="strong" className="p-8 text-center">
-      <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FFE4E6] text-[#DC2626] border border-[#FCA5A5]/50 shadow-inner">
+      <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-white/95 to-[#FFE4E6]/90 text-[#DC2626] border border-white shadow-sm">
         <Icon className="h-6 w-6" />
       </div>
       <h3 className="text-base font-bold text-[#24191D]">{title}</h3>
@@ -422,12 +486,12 @@ export function SupabaseSetupBanner({ compact = false }: { compact?: boolean }) 
   return (
     <div
       className={cn(
-        'glass-card-strong flex flex-col gap-3 rounded-2xl border border-amber-300/80 bg-amber-50/90 p-4 text-[#24191D] sm:flex-row sm:items-center sm:justify-between',
+        'glass-card-strong liquid-glass-sheen flex flex-col gap-3 rounded-[24px] border border-amber-300/75 bg-white/70 p-4 text-[#24191D] sm:flex-row sm:items-center sm:justify-between',
         compact && 'p-3'
       )}
     >
       <div className="flex items-start gap-3">
-        <div className="mt-0.5 rounded-xl bg-amber-400/30 p-2 text-[#B91C1C]">
+        <div className="mt-0.5 rounded-full bg-[#FFE4E6]/90 p-2 text-[#B91C1C] border border-white/90 shadow-sm">
           <Database className="h-5 w-5" />
         </div>
         <div>
@@ -462,8 +526,8 @@ export function GlassModal({
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-50 bg-[#24191D]/35 backdrop-blur-sm" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-[92vw] max-w-lg -translate-x-1/2 -translate-y-1/2 glass-card-strong rounded-3xl p-6 shadow-2xl border border-white/90">
+        <Dialog.Overlay className="fixed inset-0 z-50 bg-[#24191D]/30 backdrop-blur-md" />
+        <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-[92vw] max-w-lg -translate-x-1/2 -translate-y-1/2 glass-card-strong liquid-glass-sheen rounded-[30px] p-6 shadow-2xl">
           <div className="flex items-start justify-between gap-3">
             <div>
               <Dialog.Title className="font-display text-lg font-bold text-[#24191D]">
@@ -479,7 +543,7 @@ export function GlassModal({
               <button
                 type="button"
                 aria-label="Close modal"
-                className="rounded-xl p-1.5 text-[#78716C] hover:bg-[#FFE4E6] hover:text-[#DC2626] transition"
+                className="liquid-btn-glass rounded-full p-2 text-[#78716C] hover:text-[#DC2626] transition"
               >
                 <X className="h-4 w-4" />
               </button>

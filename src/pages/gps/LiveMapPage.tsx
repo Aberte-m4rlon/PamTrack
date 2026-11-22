@@ -156,10 +156,10 @@ export function LiveMapPage() {
                   key={cat}
                   type="button"
                   onClick={() => setCategoryFilter(cat)}
-                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+                  className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
                     categoryFilter === cat
-                      ? 'bg-gradient-to-r from-[#DC2626] to-[#B91C1C] text-white shadow-sm'
-                      : 'bg-white/80 text-[#24191D] border border-white hover:bg-[#FFE4E6]/80 hover:text-[#DC2626]'
+                      ? 'liquid-nav-active text-white'
+                      : 'liquid-btn-glass text-[#24191D] hover:text-[#DC2626]'
                   }`}
                 >
                   {cat === 'all'

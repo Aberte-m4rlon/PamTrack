@@ -298,7 +298,7 @@ export function AdminVehicleReportsPage({
                       {rep.municipality?.name} • {formatDateSafe(rep.incident_date)}
                     </span>
                     {(rep.is_duplicate_flagged || dupCount > 1) && (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 font-bold text-amber-900">
+                      <span className="glass-pill-tile inline-flex items-center gap-1 rounded-full border-amber-300/75 px-2.5 py-0.5 font-bold text-amber-900">
                         <AlertTriangle className="h-3 w-3" />
                         {dupCount} report(s) on plate
                       </span>
@@ -385,7 +385,7 @@ export function AdminVehicleReportsPage({
                 ))}
               </div>
 
-              <div className="rounded-2xl bg-[#FFF1F2]/75 border border-[#FFE4E6] p-3.5 space-y-1">
+              <div className="glass-pill-tile rounded-[20px] p-3.5 space-y-1">
                 <p className="font-bold text-[#24191D]">Reported Incident Narrative</p>
                 <p className="whitespace-pre-line text-[#24191D]/90">{selected.description}</p>
               </div>
@@ -472,7 +472,7 @@ export function AdminVehicleReportsPage({
                 </div>
 
                 {selectedAgencyId && (
-                  <div className="grid gap-2 sm:grid-cols-2 rounded-2xl border border-[#FCA5A5]/50 bg-[#FFF1F2] p-3">
+                  <div className="glass-pill-tile grid gap-2 sm:grid-cols-2 rounded-[20px] p-3">
                     <select
                       value={referralStatus}
                       onChange={(e) => setReferralStatus(e.target.value as ReferralStatus)}

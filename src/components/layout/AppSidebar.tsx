@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import {
   Activity,
@@ -31,6 +31,7 @@ import {
   User,
   Users,
   WifiOff,
+  X,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNetwork } from '@/contexts/NetworkContext';
@@ -109,7 +110,13 @@ const ADMIN_NAV: SidebarNavItem[] = [
   { to: '/admin/settings', label: 'System Settings', icon: SlidersHorizontal },
 ];
 
-export function AppSidebar({ collapsed }: { collapsed: boolean }) {
+function SidebarContent({
+  collapsed = false,
+  onNavigate,
+}: {
+  collapsed?: boolean;
+  onNavigate?: () => void;
+}) {
   const { user, profile, role, isAdmin, isOperator } = useAuth();
   const { isOffline } = useNetwork();
   const { data: notifications } = useNotifications();
@@ -129,6 +136,7 @@ export function AppSidebar({ collapsed }: { collapsed: boolean }) {
             key={item.to}
             to={item.to}
             end={item.end}
+            onClick={onNavigate}
             title={
               offlineLocked
                 ? `${item.label} (Requires Internet)`
@@ -138,13 +146,13 @@ export function AppSidebar({ collapsed }: { collapsed: boolean }) {
             }
             className={({ isActive }) =>
               cn(
-                'flex items-center justify-between rounded-2xl px-3 py-2.5 text-sm font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626]',
+                'flex items-center justify-between rounded-full px-3.5 py-2 text-[13px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626]',
                 collapsed && 'justify-center px-2',
                 isActive
-                  ? 'bg-gradient-to-r from-[#DC2626] to-[#B91C1C] text-white shadow-md shadow-[#DC2626]/25'
+                  ? 'liquid-nav-active text-white'
                   : offlineLocked
-                    ? 'text-[#78716C]/70 hover:bg-white/45 hover:text-[#DC2626]'
-                    : 'text-[#24191D]/90 hover:bg-white/65 hover:text-[#DC2626]'
+                    ? 'text-[#78716C]/70 hover:bg-white/55 hover:text-[#DC2626]'
+                    : 'text-[#24191D]/90 hover:bg-white/70 hover:text-[#DC2626] hover:shadow-sm'
               )
             }
           >
@@ -156,7 +164,7 @@ export function AppSidebar({ collapsed }: { collapsed: boolean }) {
               <WifiOff className="h-3.5 w-3.5 shrink-0 opacity-70" aria-label="Requires internet" />
             )}
             {!collapsed && !offlineLocked && item.to === '/dashboard/notifications' && unreadCount > 0 && (
-              <span className="rounded-full bg-[#DC2626] px-2 py-0.5 text-[10px] font-bold text-white ring-1 ring-white/80">
+              <span className="liquid-nav-active rounded-full px-2 py-0.5 text-[10px] font-bold text-white">
                 {unreadCount}
               </span>
             )}
@@ -167,6 +175,67 @@ export function AppSidebar({ collapsed }: { collapsed: boolean }) {
   );
 
   return (
+    <>
+      <div className="space-y-4 overflow-y-auto pr-0.5">
+        {renderNavSection(
+          user ? 'Public & Explorer' : 'Public Guest Access',
+          user ? AUTH_PUBLIC_NAV : GUEST_PUBLIC_NAV
+        )}
+
+        {!user && !collapsed && (
+          <div className="glass-pill-tile rounded-[22px] p-3.5 space-y-2.5">
+            <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#B91C1C]">
+              <Lock className="h-3.5 w-3.5" />
+              <span>Sign In to Unlock More</span>
+            </div>
+            <p className="text-[11px] leading-snug text-[#78716C]">
+              Live GPS Map, Nearby Stops, Trip Monitor, Safety Contacts, Vehicle &amp; Fare
+              Reporting.
+            </p>
+            <Link
+              to="/login"
+              onClick={onNavigate}
+              className="liquid-btn-primary inline-flex w-full items-center justify-center rounded-full px-3 py-1.5 text-xs font-bold text-white transition"
+            >
+              Sign In Now
+            </Link>
+          </div>
+        )}
+
+        {user && renderNavSection('Commuter & GPS', COMMUTER_NAV)}
+        {isOperator && renderNavSection('Transport Operator', OPERATOR_NAV)}
+        {isAdmin && renderNavSection('Administrator Portal', ADMIN_NAV)}
+      </div>
+
+      {!collapsed && (
+        <div className="glass-pill-tile rounded-[22px] p-3">
+          {user ? (
+            <div className="space-y-0.5">
+              <p className="truncate text-xs font-bold text-[#24191D]">
+                {profile?.full_name || user.email?.split('@')[0]}
+              </p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-[#DC2626]">
+                {role.replace('_', ' ')}
+              </p>
+            </div>
+          ) : (
+            <div>
+              <p className="font-display text-xs font-extrabold italic text-[#B91C1C]">
+                Tamang Pamasahe.
+              </p>
+              <p className="font-display text-xs font-extrabold italic text-[#DC2626]">
+                Ligtas na Biyahe.
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+    </>
+  );
+}
+
+export function AppSidebar({ collapsed }: { collapsed: boolean }) {
+  return (
     <aside
       aria-label="Desktop navigation sidebar"
       className={cn(
@@ -174,61 +243,66 @@ export function AppSidebar({ collapsed }: { collapsed: boolean }) {
         collapsed ? 'w-20' : 'w-64'
       )}
     >
-      <div className="sticky top-20 flex max-h-[calc(100vh-6rem)] flex-col justify-between gap-4 glass-surface rounded-3xl p-3.5">
-        <div className="space-y-5 overflow-y-auto pr-0.5">
-          {renderNavSection(
-            user ? 'Public & Explorer' : 'Public Guest Access',
-            user ? AUTH_PUBLIC_NAV : GUEST_PUBLIC_NAV
-          )}
-
-          {!user && !collapsed && (
-            <div className="rounded-2xl border border-white/80 bg-white/45 backdrop-blur-lg p-3 space-y-2">
-              <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#B91C1C]">
-                <Lock className="h-3.5 w-3.5" />
-                <span>Sign In to Unlock More</span>
-              </div>
-              <p className="text-[11px] leading-snug text-[#78716C]">
-                Live GPS Map, Nearby Stops, Trip Monitor, Safety Contacts, Vehicle &amp; Fare
-                Reporting.
-              </p>
-              <Link
-                to="/login"
-                className="inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#DC2626] to-[#B91C1C] px-3 py-1.5 text-xs font-bold text-white shadow-sm hover:opacity-95 transition"
-              >
-                Sign In Now
-              </Link>
-            </div>
-          )}
-
-          {user && renderNavSection('Commuter & GPS', COMMUTER_NAV)}
-          {isOperator && renderNavSection('Transport Operator', OPERATOR_NAV)}
-          {isAdmin && renderNavSection('Administrator Portal', ADMIN_NAV)}
-        </div>
-
-        {!collapsed && (
-          <div className="rounded-2xl border border-white/85 bg-white/55 backdrop-blur-md p-3">
-            {user ? (
-              <div className="space-y-0.5">
-                <p className="truncate text-xs font-bold text-[#24191D]">
-                  {profile?.full_name || user.email?.split('@')[0]}
-                </p>
-                <p className="text-[10px] font-bold uppercase tracking-wider text-[#DC2626]">
-                  {role.replace('_', ' ')}
-                </p>
-              </div>
-            ) : (
-              <div>
-                <p className="font-display text-xs font-extrabold italic text-[#B91C1C]">
-                  Tamang Pamasahe.
-                </p>
-                <p className="font-display text-xs font-extrabold italic text-[#DC2626]">
-                  Ligtas na Biyahe.
-                </p>
-              </div>
-            )}
-          </div>
-        )}
+      <div className="sticky top-24 flex max-h-[calc(100vh-7.25rem)] flex-col justify-between gap-4 glass-surface liquid-glass-sheen rounded-[30px] p-3.5">
+        <SidebarContent collapsed={collapsed} />
       </div>
     </aside>
+  );
+}
+
+export function MobileNavigationDrawer({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div className="md:hidden fixed inset-0 z-50 flex">
+      <button
+        type="button"
+        aria-label="Close navigation backdrop"
+        onClick={onClose}
+        className="fixed inset-0 bg-[#24191D]/30 backdrop-blur-sm"
+      />
+      <nav
+        aria-label="Mobile navigation drawer"
+        className="relative z-10 m-3 flex max-h-[calc(100vh-1.5rem)] w-[min(82vw,20rem)] flex-col justify-between gap-4 glass-card-strong liquid-glass-sheen rounded-[30px] p-4 shadow-2xl"
+      >
+        <div className="flex items-center justify-between border-b border-white/75 pb-3">
+          <div className="flex items-center gap-2 min-w-0">
+            <img
+              src="/assets/pamasahe-tracker-icon.png"
+              alt="Pamasahe Tracker"
+              className="h-8 w-8 rounded-full border border-white/95"
+            />
+            <span className="truncate font-display text-sm font-extrabold text-[#24191D]">
+              Pamasahe Tracker
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close navigation drawer"
+            className="liquid-btn-glass rounded-full p-1.5 text-[#78716C] hover:text-[#DC2626]"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+
+        <SidebarContent onNavigate={onClose} />
+      </nav>
+    </div>
   );
 }

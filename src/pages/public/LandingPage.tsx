@@ -115,16 +115,16 @@ export function LandingPage() {
 
   return (
     <div className="space-y-8 pb-6">
-      {/* 1. HERO SECTION (Light Red / Rose Glassmorphism) */}
+      {/* 1. HERO SECTION (Light Red Liquid Glass) */}
       <motion.section
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <GlassCard variant="surface" className="relative overflow-hidden p-6 sm:p-10">
+        <GlassCard variant="surface" className="relative overflow-hidden rounded-[32px] p-6 sm:p-10">
           <div className="grid items-center gap-8 lg:grid-cols-12">
             <div className="space-y-5 lg:col-span-7">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/85 bg-white/60 backdrop-blur-md px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-[#DC2626] shadow-sm">
+              <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#DC2626]">
                 <Sparkles className="h-3.5 w-3.5 text-[#EF4444]" />
                 Tamang Pamasahe. Ligtas na Biyahe.
               </div>
@@ -156,9 +156,9 @@ export function LandingPage() {
               </div>
 
               {!user && (
-                <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-white/85 bg-white/50 backdrop-blur-md px-3.5 py-2 text-xs text-[#78716C]">
+                <div className="glass-pill-tile flex items-center gap-2.5 rounded-2xl sm:rounded-full px-4 py-2.5 text-xs text-[#78716C]">
                   <Lock className="h-3.5 w-3.5 text-[#DC2626] shrink-0" />
-                  <span>
+                  <span className="leading-snug">
                     <strong className="text-[#24191D]">Limited Guest Mode:</strong> Public fare lookup
                     &amp; matrix unlocked.{' '}
                     <Link to="/login" className="font-bold text-[#DC2626] hover:underline">
@@ -169,40 +169,42 @@ export function LandingPage() {
                 </div>
               )}
 
-              <div className="grid grid-cols-2 gap-3 pt-2 sm:grid-cols-4 sm:max-w-xl">
-                <div className="rounded-2xl border border-white/85 bg-white/55 backdrop-blur-lg p-3 text-center shadow-sm">
-                  <p className="font-display text-xl font-extrabold text-[#DC2626]">15</p>
-                  <p className="text-[11px] font-semibold text-[#78716C]">LGUs Covered</p>
+              <div className="grid grid-cols-2 gap-3 pt-1 sm:grid-cols-4 sm:max-w-2xl">
+                <div className="glass-pill-tile rounded-[22px] p-3.5 text-center">
+                  <p className="font-display text-2xl font-extrabold tabular-nums text-[#DC2626]">15</p>
+                  <p className="mt-0.5 text-[11px] font-semibold text-[#78716C]">LGUs Covered</p>
                 </div>
-                <div className="rounded-2xl border border-white/85 bg-white/55 backdrop-blur-lg p-3 text-center shadow-sm">
-                  <p className="font-display text-xl font-extrabold text-[#DC2626]">
+                <div className="glass-pill-tile rounded-[22px] p-3.5 text-center">
+                  <p className="font-display text-2xl font-extrabold tabular-nums text-[#DC2626]">
                     {transportTypes.length || 4}
                   </p>
-                  <p className="text-[11px] font-semibold text-[#78716C]">Transport Modes</p>
+                  <p className="mt-0.5 text-[11px] font-semibold text-[#78716C]">Transport Modes</p>
                 </div>
-                <div className="rounded-2xl border border-white/85 bg-white/55 backdrop-blur-lg p-3 text-center shadow-sm">
-                  <p className="font-display text-xl font-extrabold text-[#DC2626]">
+                <div className="glass-pill-tile rounded-[22px] p-3.5 text-center">
+                  <p className="font-display text-2xl font-extrabold tabular-nums text-[#B91C1C]">
                     {officialFares.length + communityEstimates.length}
                   </p>
-                  <p className="text-[11px] font-semibold text-[#78716C]">Published Fares</p>
+                  <p className="mt-0.5 text-[11px] font-semibold text-[#78716C]">Published Fares</p>
                 </div>
-                <div className="rounded-2xl border border-white/85 bg-white/55 backdrop-blur-lg p-3 text-center shadow-sm">
-                  <p className="font-display text-xl font-extrabold text-[#16A34A]">
+                <div className="glass-pill-tile rounded-[22px] p-3.5 text-center">
+                  <p className="font-display text-2xl font-extrabold tabular-nums text-[#DC2626]">
                     {coveredPairsCount}
                   </p>
-                  <p className="text-[11px] font-semibold text-[#78716C]">Covered Pairs</p>
+                  <p className="mt-0.5 text-[11px] font-semibold text-[#78716C]">Covered Pairs</p>
                 </div>
               </div>
             </div>
 
             <div className="flex flex-col items-center justify-center lg:col-span-5">
               <div className="relative flex items-center justify-center">
-                <div className="absolute -inset-4 rounded-full bg-[#FCA5A5]/40 blur-2xl" />
-                <img
-                  src="/assets/pamasahe-tracker-logo.png"
-                  alt="Pamasahe Tracker Oriental Mindoro Emblem"
-                  className="relative h-56 w-56 rounded-full object-contain drop-shadow-2xl ring-4 ring-white/80 sm:h-72 sm:w-72"
-                />
+                <div className="absolute -inset-6 rounded-full bg-gradient-to-tr from-[#FCA5A5]/45 via-white/50 to-[#FFE4E6]/60 blur-2xl" />
+                <div className="relative rounded-full border-2 border-white/95 bg-white/30 p-2.5 backdrop-blur-md shadow-[0_24px_60px_-14px_rgba(185,28,28,0.28)]">
+                  <img
+                    src="/assets/pamasahe-tracker-logo.png"
+                    alt="Pamasahe Tracker Oriental Mindoro Emblem"
+                    className="h-52 w-52 rounded-full object-contain drop-shadow-xl sm:h-72 sm:w-72"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -234,7 +236,7 @@ export function LandingPage() {
           },
         ].map((item) => (
           <GlassCard key={item.title} variant="strong" hoverable className="p-5 space-y-2.5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#FFE4E6] text-[#DC2626] border border-[#FCA5A5]/45">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/95 bg-gradient-to-br from-white/95 to-[#FFE4E6]/90 text-[#DC2626] shadow-sm">
               <item.icon className="h-5 w-5" />
             </div>
             <h2 className="font-display text-base font-bold text-[#24191D]">{item.title}</h2>
@@ -245,7 +247,7 @@ export function LandingPage() {
 
       {/* 3. TRANSPORTATION SERVICES */}
       <section className="space-y-4">
-        <div className="glass-surface rounded-3xl px-5 py-4 flex flex-wrap items-end justify-between gap-2">
+        <div className="glass-surface liquid-glass-sheen rounded-[26px] px-5 py-4 flex flex-wrap items-end justify-between gap-2">
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
               Public Transport Coverage
@@ -259,10 +261,10 @@ export function LandingPage() {
           </Link>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {transportTypes.map((tt) => (
-            <GlassCard key={tt.id} variant="strong" hoverable className="p-4 space-y-2.5">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#DC2626] to-[#B91C1C] text-white shadow-md shadow-[#DC2626]/20">
+            <GlassCard key={tt.id} variant="strong" hoverable className="p-5 space-y-2.5">
+              <div className="liquid-nav-active flex h-11 w-11 items-center justify-center rounded-2xl text-white">
                 <TransportModeIcon code={tt.code} className="h-5 w-5" />
               </div>
               <h3 className="font-display text-base font-bold text-[#24191D]">{tt.name}</h3>
@@ -274,7 +276,7 @@ export function LandingPage() {
       </section>
 
       {/* 4. HOW IT WORKS */}
-      <section className="glass-surface rounded-3xl p-6 space-y-5">
+      <section className="glass-surface liquid-glass-sheen rounded-[30px] p-6 space-y-5">
         <div>
           <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
             5-Step Commuter Guide
@@ -286,9 +288,9 @@ export function LandingPage() {
           {HOW_IT_WORKS_STEPS.map((s) => (
             <div
               key={s.step}
-              className="rounded-2xl border border-white/85 bg-white/55 backdrop-blur-lg p-4 space-y-2 shadow-sm"
+              className="glass-pill-tile rounded-[22px] p-4 space-y-2"
             >
-              <span className="inline-block rounded-full bg-[#FFE4E6] px-2.5 py-0.5 text-xs font-extrabold text-[#DC2626] border border-[#FCA5A5]/50">
+              <span className="inline-block rounded-full border border-white/95 bg-[#FFE4E6]/90 px-2.5 py-0.5 text-xs font-extrabold text-[#DC2626] shadow-sm">
                 {s.step}
               </span>
               <h3 className="font-bold text-sm text-[#24191D]">{s.title}</h3>
@@ -300,7 +302,7 @@ export function LandingPage() {
 
       {/* 5. FEATURED CITIZEN ROUTES */}
       <section className="space-y-4">
-        <div className="glass-surface rounded-3xl px-5 py-4 flex flex-wrap items-end justify-between gap-2">
+        <div className="glass-surface liquid-glass-sheen rounded-[26px] px-5 py-4 flex flex-wrap items-end justify-between gap-2">
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
               Citizen Commuter Fare Guide
@@ -369,7 +371,7 @@ export function LandingPage() {
       </section>
 
       {/* 6. ORIENTAL MINDORO COVERAGE (ALL 15 LGUs) */}
-      <section className="glass-surface rounded-3xl p-6 space-y-4">
+      <section className="glass-surface liquid-glass-sheen rounded-[30px] p-6 space-y-4">
         <div className="flex flex-wrap items-end justify-between gap-2">
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
@@ -389,7 +391,7 @@ export function LandingPage() {
             <Link
               key={m.id}
               to={`/fare-search?origin=${encodeURIComponent(m.id)}`}
-              className="group flex items-center justify-between rounded-2xl border border-white/85 bg-white/55 backdrop-blur-lg px-3.5 py-2.5 text-xs font-bold text-[#24191D] transition hover:bg-gradient-to-r hover:from-[#DC2626] hover:to-[#B91C1C] hover:text-white shadow-sm"
+              className="glass-pill-tile group flex items-center justify-between rounded-full px-4 py-2.5 text-xs font-bold text-[#24191D] transition hover:bg-gradient-to-b hover:from-[#EF4444] hover:to-[#B91C1C] hover:text-white"
             >
               <span className="flex items-center gap-2 truncate">
                 <MapPin className="h-3.5 w-3.5 shrink-0 text-[#DC2626] group-hover:text-white" />
@@ -419,27 +421,27 @@ export function LandingPage() {
           </p>
 
           <div className="grid gap-3 sm:grid-cols-2">
-            <div className="rounded-2xl border border-green-300 bg-green-50/90 p-3.5 space-y-1.5">
+            <div className="glass-pill-tile rounded-[22px] p-3.5 space-y-1.5 border-green-300/60">
               <FareStatusBadge status="verified_official" />
               <p className="text-xs text-[#78716C]">
                 Backed by LTFRB Region IV-B orders, Sanggunian tricycle ordinances, or authorized
                 operator tariff sheets.
               </p>
             </div>
-            <div className="rounded-2xl border border-amber-300 bg-amber-50/90 p-3.5 space-y-1.5">
+            <div className="glass-pill-tile rounded-[22px] p-3.5 space-y-1.5 border-amber-300/65">
               <FareStatusBadge status="community_estimate" />
               <p className="text-xs text-[#78716C]">
                 Reviewed commuter observations provided for budgeting reference only when official
                 tables are pending.
               </p>
             </div>
-            <div className="rounded-2xl border border-stone-300 bg-stone-50/90 p-3.5 space-y-1.5">
+            <div className="glass-pill-tile rounded-[22px] p-3.5 space-y-1.5">
               <FareStatusBadge status="pending_verification" />
               <p className="text-xs text-[#78716C]">
                 Queued for administrator comparison against official documents and evidence.
               </p>
             </div>
-            <div className="rounded-2xl border border-red-300 bg-red-50/90 p-3.5 space-y-1.5">
+            <div className="glass-pill-tile rounded-[22px] p-3.5 space-y-1.5 border-[#FCA5A5]/70">
               <FareStatusBadge status="rejected_or_disputed" />
               <p className="text-xs text-[#78716C]">
                 Flagged or rejected due to conflicting reports or missing proof.

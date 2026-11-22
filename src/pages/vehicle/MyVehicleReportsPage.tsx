@@ -209,7 +209,7 @@ export function MyVehicleReportsPage() {
                 </div>
 
                 {rep.admin_remarks && (
-                  <div className="rounded-2xl bg-[#FFF1F2] border border-[#FCA5A5]/45 p-3 text-xs text-[#24191D]">
+                  <div className="glass-pill-tile rounded-[20px] p-3 text-xs text-[#24191D]">
                     <strong>Administrator Remarks:</strong> {rep.admin_remarks}
                   </div>
                 )}

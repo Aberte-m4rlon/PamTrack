@@ -279,7 +279,7 @@ export function FareMatrixPage() {
             {filteredRows.map((row) => (
               <div
                 key={row.key}
-                className="rounded-2xl border border-[#FCA5A5]/45 bg-white/90 p-4 space-y-2.5 shadow-sm"
+                className="glass-pill-tile rounded-[22px] p-4 space-y-2.5"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div>
@@ -291,7 +291,7 @@ export function FareMatrixPage() {
                   <FareStatusBadge status={row.status} compact />
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 rounded-xl bg-[#FFF1F2] p-2.5 text-xs">
+                <div className="grid grid-cols-2 gap-2 rounded-2xl border border-white/80 bg-white/55 p-2.5 text-xs">
                   <div>
                     <span className="text-[#78716C]">Regular:</span>{' '}
                     <strong className="text-[#DC2626]">{formatPhp(row.regularFare)}</strong>
@@ -326,7 +326,7 @@ export function FareMatrixPage() {
           {/* Desktop/Tablet Table */}
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full min-w-[980px] text-left text-sm">
-              <thead className="border-b border-[#FCA5A5]/45 bg-[#FFE4E6]/85 text-[11px] font-bold uppercase tracking-wider text-[#24191D]">
+              <thead className="glass-table-head text-[11px] font-bold uppercase tracking-wider text-[#24191D]">
                 <tr>
                   <th className="px-4 py-3.5">Origin</th>
                   <th className="px-4 py-3.5">Destination</th>
@@ -340,9 +340,9 @@ export function FareMatrixPage() {
                   <th className="px-4 py-3.5">Last Verified</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#FCA5A5]/25">
+              <tbody className="divide-y divide-white/60">
                 {filteredRows.map((row) => (
-                  <tr key={row.key} className="hover:bg-[#FFF1F2]/75 transition">
+                  <tr key={row.key} className="hover:bg-white/55 transition">
                     <td className="px-4 py-3 font-bold text-[#24191D]">{row.originName}</td>
                     <td className="px-4 py-3 font-bold text-[#24191D]">{row.destinationName}</td>
                     <td className="px-4 py-3 font-medium text-[#78716C]">{row.transportTypeName}</td>

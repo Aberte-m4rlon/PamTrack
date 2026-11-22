@@ -328,7 +328,7 @@ export function CommuterDashboardPage() {
                 <Link
                   key={fare.id}
                   to={`/fares/${fare.id}`}
-                  className="flex items-center justify-between rounded-2xl border border-[#FFE4E6] bg-white/85 p-3 hover:bg-[#FFF1F2] transition"
+                  className="glass-pill-tile flex items-center justify-between rounded-[20px] p-3 hover:border-white transition"
                 >
                   <div>
                     <p className="text-sm font-bold text-[#24191D]">
@@ -371,7 +371,7 @@ export function CommuterDashboardPage() {
                 <Link
                   key={fav.id}
                   to={`/fare-search?origin=${fav.origin_municipality_id}&destination=${fav.destination_municipality_id}`}
-                  className="flex items-center justify-between rounded-2xl bg-white/85 border border-[#FFE4E6] p-3 text-xs font-bold hover:bg-[#FFF1F2] transition"
+                  className="glass-pill-tile flex items-center justify-between rounded-[20px] p-3 text-xs font-bold hover:border-white transition"
                 >
                   <span className="text-[#24191D]">
                     {fav.origin?.name} → {fav.destination?.name}
@@ -402,7 +402,7 @@ export function CommuterDashboardPage() {
               {myReports.slice(0, 4).map((rep) => (
                 <div
                   key={rep.id}
-                  className="flex items-center justify-between rounded-2xl bg-white/85 border border-[#FFE4E6] p-3 text-xs"
+                  className="glass-pill-tile flex items-center justify-between rounded-[20px] p-3 text-xs"
                 >
                   <div>
                     <p className="font-bold text-[#24191D]">
@@ -435,7 +435,7 @@ export function CommuterDashboardPage() {
                 <Link
                   key={`${item.originId}-${item.destinationId}-${i}`}
                   to={`/fare-search?origin=${item.originId}&destination=${item.destinationId}`}
-                  className="flex items-center justify-between rounded-2xl bg-white/85 border border-[#FFE4E6] px-3.5 py-2.5 text-xs font-semibold hover:bg-[#FFF1F2] transition"
+                  className="glass-pill-tile flex items-center justify-between rounded-full px-4 py-2.5 text-xs font-semibold hover:border-white transition"
                 >
                   <span className="text-[#24191D]">
                     {item.originName} → {item.destinationName}
@@ -464,8 +464,10 @@ export function CommuterDashboardPage() {
               {(notifications ?? []).slice(0, 3).map((n) => (
                 <div
                   key={n.id}
-                  className={`rounded-2xl p-3 text-xs ${
-                    n.is_read ? 'bg-white/75 border border-stone-200' : 'bg-[#FFF1F2] border border-[#FCA5A5]'
+                  className={`rounded-[20px] p-3 text-xs border backdrop-blur-md ${
+                    n.is_read
+                      ? 'bg-white/60 border-white/85'
+                      : 'bg-[#FFE4E6]/75 border-white/95 shadow-sm'
                   }`}
                 >
                   <p className="font-bold text-[#24191D]">{n.title}</p>

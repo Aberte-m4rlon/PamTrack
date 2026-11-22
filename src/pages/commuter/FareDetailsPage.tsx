@@ -63,17 +63,17 @@ export function FareDetailsPage() {
               {fare.transport_type?.name} • {PASSENGER_CATEGORY_LABELS[fare.passenger_category]}
             </p>
           </div>
-          <div className="rounded-3xl bg-[#FFE4E6] px-6 py-4 text-right border border-[#FCA5A5]/60">
+          <div className="glass-pill-tile rounded-[24px] px-6 py-4 text-right">
             <p className="text-[11px] font-bold uppercase tracking-wider text-[#B91C1C]">
               Published Amount
             </p>
-            <p className="font-display text-4xl font-extrabold text-[#DC2626]">
+            <p className="font-display text-4xl font-extrabold text-[#DC2626] tabular-nums">
               {formatPhp(fare.fare_amount)}
             </p>
           </div>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 border-t border-[#FCA5A5]/35 pt-5 text-sm">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 border-t border-white/75 pt-5 text-sm">
           <div className="space-y-1">
             <p className="text-xs font-bold uppercase tracking-wider text-[#78716C] flex items-center gap-1.5">
               <ShieldCheck className="h-3.5 w-3.5 text-[#DC2626]" /> Issuing Authority
@@ -117,7 +117,7 @@ export function FareDetailsPage() {
         )}
 
         {fare.notes && (
-          <div className="rounded-2xl bg-[#FFF1F2] border border-[#FFE4E6] p-4 text-xs text-[#24191D]">
+          <div className="glass-pill-tile rounded-[20px] p-4 text-xs text-[#24191D]">
             <strong>Notes:</strong> {fare.notes}
           </div>
         )}

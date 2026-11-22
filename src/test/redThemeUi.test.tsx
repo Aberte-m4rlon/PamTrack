@@ -1,6 +1,7 @@
 import React from 'react';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Car } from 'lucide-react';
@@ -10,6 +11,7 @@ import { ToastProvider } from '@/contexts/ToastContext';
 import { LIGHT_RED_THEME } from '@/lib/theme';
 import {
   GlassModal,
+  GlassTabs,
   PageHeader,
   PrimaryButton,
   ResponsiveTable,
@@ -51,6 +53,8 @@ describe('Light Red Glassmorphism Design System & Shared Components', () => {
     expect(LIGHT_RED_THEME.colors.warning).toBe('#F59E0B');
     expect(LIGHT_RED_THEME.colors.error).toBe('#DC2626');
     expect(LIGHT_RED_THEME.colors.information).toBe('#2563EB');
+    expect(LIGHT_RED_THEME.liquidGlass.specularRim).toBe('rgba(255, 255, 255, 0.92)');
+    expect(LIGHT_RED_THEME.liquidGlass.backdropBlur).toBe('24px');
   });
 
   it('renders PageHeader, StatCard, StatusBadge, Buttons, ResponsiveTable, and GlassModal', () => {
@@ -66,6 +70,14 @@ describe('Light Red Glassmorphism Design System & Shared Components', () => {
         <StatCard label="Vehicle Complaints" value={12} icon={Car} to="/report-vehicle" />
         <StatusBadge tone="red">Priority</StatusBadge>
         <SecondaryButton>Secondary Action</SecondaryButton>
+        <GlassTabs
+          value="all"
+          onChange={() => {}}
+          tabs={[
+            { value: 'all', label: 'All Corridors', count: 8 },
+            { value: 'multicab', label: 'Multicab' },
+          ]}
+        />
         <ResponsiveTable>
           <table>
             <tbody>
@@ -85,6 +97,7 @@ describe('Light Red Glassmorphism Design System & Shared Components', () => {
     expect(screen.getByText('Priority')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Publish' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Secondary Action' })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: /All Corridors/i })).toBeInTheDocument();
     expect(screen.getByText('Calapan City')).toBeInTheDocument();
     first.unmount();
 
@@ -98,7 +111,8 @@ describe('Light Red Glassmorphism Design System & Shared Components', () => {
     expect(screen.getByLabelText('Close modal')).toBeInTheDocument();
   });
 
-  it('renders AppShell header, sidebar, and mandatory 5-tab mobile bottom nav cleanly', () => {
+  it('renders AppShell header, sidebar, collapsible mobile drawer, and mandatory 5-tab mobile bottom nav cleanly', async () => {
+    const user = userEvent.setup();
     renderWithProviders(<AppRoutes />, ['/']);
 
     expect(screen.getByLabelText('Desktop navigation sidebar')).toBeInTheDocument();
@@ -108,5 +122,12 @@ describe('Light Red Glassmorphism Design System & Shared Components', () => {
     expect(mobileNav).toHaveTextContent('Live Map');
     expect(mobileNav).toHaveTextContent('Trips');
     expect(mobileNav).toHaveTextContent('Profile');
+
+    // Collapsible mobile navigation drawer stays closed at rest and opens cleanly on toggle
+    expect(screen.queryByLabelText('Mobile navigation drawer')).not.toBeInTheDocument();
+    await user.click(screen.getByLabelText('Open navigation menu'));
+    expect(screen.getByLabelText('Mobile navigation drawer')).toBeInTheDocument();
+    await user.click(screen.getByLabelText('Close navigation drawer'));
+    expect(screen.queryByLabelText('Mobile navigation drawer')).not.toBeInTheDocument();
   });
 });

@@ -77,7 +77,7 @@ export function UserManagementPage() {
         <GlassCard variant="strong" className="overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[760px] text-left text-xs">
-              <thead className="border-b border-[#FCA5A5]/45 bg-[#FFE4E6]/85 font-bold uppercase tracking-wider text-[#24191D]">
+              <thead className="glass-table-head font-bold uppercase tracking-wider text-[#24191D]">
                 <tr>
                   <th className="px-4 py-3">User</th>
                   <th className="px-4 py-3">Email</th>
@@ -85,17 +85,17 @@ export function UserManagementPage() {
                   <th className="px-4 py-3">Assign Role</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#FCA5A5]/25">
+              <tbody className="divide-y divide-white/60">
                 {users.map((u) => {
                   const nextRole = selectedRoleMap[u.id] ?? u.role;
                   return (
-                    <tr key={u.id} className="hover:bg-[#FFF1F2]/75 transition">
+                    <tr key={u.id} className="hover:bg-white/55 transition">
                       <td className="px-4 py-3 font-bold text-sm text-[#24191D]">
                         {u.full_name || 'Unnamed'}
                       </td>
                       <td className="px-4 py-3 text-[#78716C]">{u.email}</td>
                       <td className="px-4 py-3">
-                        <span className="rounded-full bg-[#FFE4E6] px-2.5 py-0.5 font-bold uppercase text-[#DC2626]">
+                        <span className="glass-pill-tile rounded-full px-3 py-0.5 font-bold uppercase text-[#DC2626]">
                           {u.role.replace('_', ' ')}
                         </span>
                       </td>

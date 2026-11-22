@@ -178,10 +178,10 @@ export function OrientalMindoroMap({
               key={dist}
               type="button"
               onClick={() => setDistrictFilter(dist)}
-              className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+              className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
                 districtFilter === dist
-                  ? 'bg-gradient-to-r from-[#DC2626] to-[#B91C1C] text-white shadow-sm'
-                  : 'bg-white/80 text-[#24191D] border border-white hover:bg-[#FFE4E6]/80 hover:text-[#DC2626]'
+                  ? 'liquid-nav-active text-white'
+                  : 'liquid-btn-glass text-[#24191D] hover:text-[#DC2626]'
               }`}
             >
               {dist === 'all' ? `All 15 LGUs (${municipalities.length})` : dist}
@@ -264,7 +264,7 @@ export function OrientalMindoroMap({
                           <button
                             type="button"
                             onClick={() => onSelectOrigin(muni.id)}
-                            className="flex-1 rounded-xl bg-[#EF4444] px-2.5 py-1.5 text-[11px] font-bold text-white hover:bg-[#DC2626]"
+                            className="liquid-btn-primary flex-1 rounded-full px-2.5 py-1.5 text-[11px] font-bold text-white"
                           >
                             Set Origin
                           </button>
@@ -273,7 +273,7 @@ export function OrientalMindoroMap({
                           <button
                             type="button"
                             onClick={() => onSelectDestination(muni.id)}
-                            className="flex-1 rounded-xl bg-[#B91C1C] px-2.5 py-1.5 text-[11px] font-bold text-white hover:bg-[#991B1B]"
+                            className="liquid-btn-primary flex-1 rounded-full px-2.5 py-1.5 text-[11px] font-bold text-white"
                           >
                             Set Destination
                           </button>
@@ -319,7 +319,7 @@ export function OrientalMindoroMap({
         <GlassCard variant="strong" className="p-3.5">
           <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
             <div className="flex items-center gap-2.5">
-              <div className="rounded-xl bg-[#FFE4E6] p-2 text-[#DC2626]">
+              <div className="glass-pill-tile rounded-xl p-2 text-[#DC2626]">
                 <RouteIcon className="h-4 w-4" />
               </div>
               <div>
@@ -343,7 +343,7 @@ export function OrientalMindoroMap({
                 )}
               </div>
             </div>
-            <div className="flex items-center gap-1.5 rounded-xl bg-[#FFF1F2] border border-[#FCA5A5]/45 px-3 py-1.5 text-[11px] font-semibold text-[#78716C]">
+            <div className="glass-pill-tile flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[11px] font-semibold text-[#78716C]">
               <Compass className="h-3.5 w-3.5 text-[#DC2626]" />
               <span>Distance is never used to invent an official fare</span>
             </div>

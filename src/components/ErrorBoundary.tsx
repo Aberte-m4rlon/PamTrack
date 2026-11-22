@@ -29,8 +29,8 @@ export class GlassErrorBoundary extends React.Component<
 
     return (
       <div className="pamasahe-scenic-bg min-h-screen flex items-center justify-center p-4 text-[#24191D]">
-        <div className="glass-card-strong max-w-lg w-full rounded-3xl p-6 sm:p-8 space-y-4 text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FFE4E6] text-[#DC2626] border border-[#FCA5A5]/60">
+        <div className="glass-card-strong liquid-glass-sheen max-w-lg w-full rounded-[30px] p-6 sm:p-8 space-y-4 text-center">
+          <div className="glass-pill-tile mx-auto flex h-12 w-12 items-center justify-center rounded-full text-[#DC2626]">
             <ShieldAlert className="h-6 w-6" />
           </div>
           <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
@@ -40,7 +40,7 @@ export class GlassErrorBoundary extends React.Component<
             Pamasahe Tracker encountered a temporary display error and prevented a blank screen.
           </p>
           {this.state.errorMessage && (
-            <p className="rounded-2xl border border-[#FCA5A5]/50 bg-[#FFF1F2] px-3 py-2 text-xs font-mono text-[#B91C1C] break-words">
+            <p className="glass-pill-tile rounded-2xl px-3 py-2 text-xs font-mono text-[#B91C1C] break-words">
               {this.state.errorMessage}
             </p>
           )}
@@ -48,7 +48,7 @@ export class GlassErrorBoundary extends React.Component<
             <button
               type="button"
               onClick={() => window.location.reload()}
-              className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-[#DC2626] to-[#B91C1C] px-4 py-2.5 text-sm font-semibold text-white shadow-md hover:opacity-95 transition"
+              className="liquid-btn-primary inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition"
             >
               <RefreshCw className="h-4 w-4" />
               Reload Application
@@ -59,7 +59,7 @@ export class GlassErrorBoundary extends React.Component<
                 this.setState({ hasError: false, errorMessage: null });
                 window.location.href = '/';
               }}
-              className="inline-flex items-center gap-2 rounded-2xl border border-[#FCA5A5]/70 bg-white/75 px-4 py-2.5 text-sm font-semibold text-[#DC2626] hover:bg-[#FFE4E6] transition"
+              className="liquid-btn-secondary inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition"
             >
               Return Home
             </button>

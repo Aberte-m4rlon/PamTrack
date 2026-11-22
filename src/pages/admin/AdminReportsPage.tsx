@@ -43,7 +43,7 @@ export function AdminReportsPage() {
         <GlassCard variant="strong" className="overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[820px] text-left text-xs">
-              <thead className="border-b border-[#FCA5A5]/45 bg-[#FFE4E6]/85 font-bold uppercase tracking-wider text-[#24191D]">
+              <thead className="glass-table-head font-bold uppercase tracking-wider text-[#24191D]">
                 <tr>
                   <th className="px-4 py-3">Corridor</th>
                   <th className="px-4 py-3">Mode &amp; Category</th>
@@ -54,9 +54,9 @@ export function AdminReportsPage() {
                   <th className="px-4 py-3">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#FCA5A5]/25">
+              <tbody className="divide-y divide-white/60">
                 {reports.map((rep) => (
-                  <tr key={rep.id} className="hover:bg-[#FFF1F2]/75 transition">
+                  <tr key={rep.id} className="hover:bg-white/55 transition">
                     <td className="px-4 py-3 font-bold text-[#24191D]">
                       {rep.origin?.name} → {rep.destination?.name}
                     </td>

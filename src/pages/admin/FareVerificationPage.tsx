@@ -230,9 +230,9 @@ export function FareVerificationPage() {
                     • Travel Date: {formatDateSafe(selectedReport.travel_date)}
                   </p>
                 </div>
-                <div className="rounded-2xl bg-[#FFE4E6] px-4 py-2 text-right border border-[#FCA5A5]/50">
+                <div className="glass-pill-tile rounded-[20px] px-4 py-2 text-right">
                   <p className="text-[10px] font-bold uppercase text-[#B91C1C]">Reported Paid</p>
-                  <p className="font-display text-2xl font-extrabold text-[#DC2626]">
+                  <p className="font-display text-2xl font-extrabold text-[#DC2626] tabular-nums">
                     {formatPhp(selectedReport.fare_paid)}
                   </p>
                 </div>
@@ -278,7 +278,7 @@ export function FareVerificationPage() {
               </div>
 
               {/* Comparison Against Existing Records */}
-              <div className="rounded-2xl border border-[#FFE4E6] bg-[#FFF1F2]/75 p-4 space-y-2">
+              <div className="glass-pill-tile rounded-[22px] p-4 space-y-2">
                 <p className="text-xs font-bold uppercase tracking-wider text-[#DC2626]">
                   Existing Records for Same Corridor &amp; Mode ({comparableFares.length})
                 </p>
@@ -330,7 +330,7 @@ export function FareVerificationPage() {
                 </label>
 
                 {/* Official Source Block (Required ONLY for Verified Official Fare) */}
-                <div className="rounded-2xl border border-green-300/80 bg-green-50/75 p-4 space-y-3">
+                <div className="glass-pill-tile rounded-[22px] border-green-300/65 p-4 space-y-3">
                   <p className="text-xs font-bold uppercase tracking-wider text-[#16A34A]">
                     Official Source Verification (Required to Publish Official Fare)
                   </p>

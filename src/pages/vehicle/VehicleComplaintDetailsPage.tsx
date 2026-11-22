@@ -357,7 +357,7 @@ export function VehicleComplaintDetailsPage() {
             {report.referrals?.map((ref) => (
               <div
                 key={ref.id}
-                className="rounded-2xl border border-[#FCA5A5] bg-[#FFF1F2] p-3 text-xs space-y-1"
+                className="glass-pill-tile rounded-[20px] p-3 text-xs space-y-1"
               >
                 <div className="flex justify-between font-bold text-[#B91C1C]">
                   <span>{ref.agency?.agency_name}</span>
@@ -374,7 +374,7 @@ export function VehicleComplaintDetailsPage() {
 
         <div className="grid gap-3 md:grid-cols-2">
           {recommendedAgencies.map((rec) => (
-            <div key={rec.agency.id} className="rounded-2xl border border-[#FFE4E6] bg-white/85 p-4 text-xs space-y-1.5">
+            <div key={rec.agency.id} className="glass-pill-tile rounded-[22px] p-4 text-xs space-y-1.5">
               <p className="font-bold text-sm text-[#24191D]">{rec.agency.agency_name}</p>
               <p className="text-[#78716C]">{rec.agency.submission_instructions}</p>
               <p className="font-semibold text-[#DC2626]">

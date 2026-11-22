@@ -20,7 +20,7 @@ export const FARE_STATUS_META: Record<
     label: 'VERIFIED OFFICIAL FARE',
     shortLabel: 'Verified Official',
     badgeClass:
-      'bg-[#16A34A] text-white border border-green-400/70 shadow-sm',
+      'bg-[#16A34A]/92 text-white border border-white/50 shadow-sm',
     dotClass: 'bg-[#16A34A]',
     description:
       'Backed by an official LTFRB fare order, LGU ordinance, or authorized operator tariff verified by an administrator.',
@@ -29,7 +29,7 @@ export const FARE_STATUS_META: Record<
     label: 'COMMUNITY ESTIMATE',
     shortLabel: 'Community Estimate',
     badgeClass:
-      'bg-amber-400/95 text-[#24191D] border border-amber-300 shadow-sm',
+      'bg-gradient-to-b from-amber-300/95 to-amber-400/95 text-[#24191D] border border-white/80 shadow-sm',
     dotClass: 'bg-amber-500',
     description:
       'Derived from reviewed commuter reports. Helpful for budgeting, but NOT an officially issued government fare.',
@@ -38,7 +38,7 @@ export const FARE_STATUS_META: Record<
     label: 'PENDING VERIFICATION',
     shortLabel: 'Pending Verification',
     badgeClass:
-      'bg-stone-500/90 text-white border border-stone-300/60 shadow-sm',
+      'bg-stone-600/85 text-white border border-white/45 shadow-sm',
     dotClass: 'bg-stone-300',
     description:
       'Submitted and awaiting administrator review against official transport documents.',
@@ -47,7 +47,7 @@ export const FARE_STATUS_META: Record<
     label: 'REJECTED OR DISPUTED',
     shortLabel: 'Rejected / Disputed',
     badgeClass:
-      'bg-[#DC2626] text-white border border-red-400/70 shadow-sm',
+      'bg-gradient-to-b from-[#EF4444] to-[#B91C1C] text-white border border-white/45 shadow-sm',
     dotClass: 'bg-[#DC2626]',
     description:
       'Disputed or rejected due to conflicting reports or lack of valid supporting documentation.',
@@ -55,7 +55,7 @@ export const FARE_STATUS_META: Record<
   archived: {
     label: 'ARCHIVED',
     shortLabel: 'Archived',
-    badgeClass: 'bg-stone-700/80 text-white border border-stone-400/50',
+    badgeClass: 'bg-stone-700/80 text-white border border-white/40',
     dotClass: 'bg-stone-400',
     description: 'Superseded historical fare record retained for audit traceability.',
   },
@@ -67,27 +67,27 @@ export const REPORT_STATUS_META: Record<
 > = {
   pending: {
     label: 'Pending',
-    badgeClass: 'bg-stone-500/90 text-white border border-stone-300/60',
+    badgeClass: 'bg-stone-600/85 text-white border border-white/45 shadow-sm',
   },
   under_review: {
     label: 'Under Review',
-    badgeClass: 'bg-[#2563EB] text-white border border-blue-300/60',
+    badgeClass: 'bg-[#2563EB]/92 text-white border border-white/45 shadow-sm',
   },
   approved_community_estimate: {
     label: 'Approved as Community Estimate',
-    badgeClass: 'bg-amber-400/95 text-[#24191D] border border-amber-300',
+    badgeClass: 'bg-gradient-to-b from-amber-300/95 to-amber-400/95 text-[#24191D] border border-white/80 shadow-sm',
   },
   verified_official: {
     label: 'Verified Official',
-    badgeClass: 'bg-[#16A34A] text-white border border-green-400/60',
+    badgeClass: 'bg-[#16A34A]/92 text-white border border-white/45 shadow-sm',
   },
   rejected: {
     label: 'Rejected',
-    badgeClass: 'bg-[#DC2626] text-white border border-red-400/60',
+    badgeClass: 'bg-gradient-to-b from-[#EF4444] to-[#B91C1C] text-white border border-white/45 shadow-sm',
   },
   disputed: {
     label: 'Disputed',
-    badgeClass: 'bg-[#B91C1C] text-white border border-red-400/60',
+    badgeClass: 'bg-[#B91C1C]/95 text-white border border-white/45 shadow-sm',
   },
 };
 

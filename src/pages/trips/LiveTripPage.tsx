@@ -389,7 +389,7 @@ export function LiveTripPage() {
       <GpsConsentCard compact />
 
       {!user && (
-        <GlassCard variant="strong" className="p-5 border-amber-300 bg-amber-50/90 flex flex-wrap items-center justify-between gap-3">
+        <GlassCard variant="strong" className="p-5 border-amber-300/65 flex flex-wrap items-center justify-between gap-3">
           <p className="text-xs sm:text-sm font-semibold text-[#24191D]">
             Sign in to save live trips, record breadcrumbs, and share active trips with trusted
             contacts.
@@ -542,9 +542,9 @@ export function LiveTripPage() {
                     {distanceTraveledKm.toFixed(2)} km
                   </p>
                 </div>
-                <div className="rounded-2xl bg-[#FFE4E6] p-3 text-center">
+                <div className="glass-pill-tile rounded-[20px] p-3 text-center">
                   <p className="text-[10px] font-bold uppercase text-[#B91C1C]">Elapsed</p>
-                  <p className="font-display text-2xl font-extrabold text-[#DC2626] flex items-center justify-center gap-1">
+                  <p className="font-display text-2xl font-extrabold text-[#DC2626] flex items-center justify-center gap-1 tabular-nums">
                     <Clock className="h-4 w-4" />
                     {formatDurationSeconds(elapsedSeconds)}
                   </p>
@@ -552,7 +552,7 @@ export function LiveTripPage() {
               </div>
 
               {deviationDetected && (
-                <div className="flex items-start gap-2 rounded-2xl border border-red-300 bg-red-50/90 p-3 text-xs text-[#B91C1C]">
+                <div className="glass-pill-tile flex items-start gap-2 rounded-[20px] border-[#FCA5A5]/70 p-3 text-xs text-[#B91C1C]">
                   <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#DC2626]" />
                   <span>
                     <strong>Route Deviation Alert:</strong> Max recorded offset from planned

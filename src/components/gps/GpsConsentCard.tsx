@@ -99,14 +99,14 @@ export function GpsConsentCard({ compact = false }: { compact?: boolean }) {
       </div>
 
       {gpsError && (
-        <div className="flex items-start gap-2 rounded-2xl border border-red-300 bg-red-50/90 p-3 text-xs text-[#B91C1C]">
+        <div className="glass-pill-tile flex items-start gap-2 rounded-[20px] border-[#FCA5A5]/70 p-3 text-xs text-[#B91C1C]">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#DC2626]" />
           <span>{gpsError}</span>
         </div>
       )}
 
       {lowAccuracyWarning && currentPosition && (
-        <div className="flex items-start gap-2 rounded-2xl border border-amber-300 bg-amber-50/90 p-3 text-xs text-amber-950">
+        <div className="glass-pill-tile flex items-start gap-2 rounded-[20px] border-amber-300/75 p-3 text-xs text-amber-950">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
           <span>
             Low GPS accuracy reported (±{currentPosition.accuracyMeters} m). Move outdoors or wait
@@ -116,7 +116,7 @@ export function GpsConsentCard({ compact = false }: { compact?: boolean }) {
       )}
 
       {currentPosition ? (
-        <div className="grid gap-3 sm:grid-cols-3 rounded-2xl border border-[#FFE4E6] bg-white/85 p-3 text-xs">
+        <div className="glass-pill-tile grid gap-3 sm:grid-cols-3 rounded-[20px] p-3 text-xs">
           <div>
             <p className="font-bold uppercase text-[10px] text-[#78716C]">Coordinates</p>
             <p className="font-mono font-bold text-[#24191D]">

@@ -43,7 +43,7 @@ export function MunicipalityManagementPage() {
       <GlassCard variant="strong" className="overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[760px] text-left text-xs">
-            <thead className="border-b border-[#FCA5A5]/45 bg-[#FFE4E6]/85 font-bold uppercase tracking-wider text-[#24191D]">
+            <thead className="glass-table-head font-bold uppercase tracking-wider text-[#24191D]">
               <tr>
                 <th className="px-4 py-3">LGU Name</th>
                 <th className="px-4 py-3">District</th>
@@ -52,9 +52,9 @@ export function MunicipalityManagementPage() {
                 <th className="px-4 py-3">Toggle</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#FCA5A5]/25">
+            <tbody className="divide-y divide-white/60">
               {municipalities.map((m) => (
-                <tr key={m.id} className="hover:bg-[#FFF1F2]/75 transition">
+                <tr key={m.id} className="hover:bg-white/55 transition">
                   <td className="px-4 py-3 font-bold text-sm flex items-center gap-2 text-[#24191D]">
                     <Building2 className="h-4 w-4 text-[#DC2626]" />
                     {m.name} {m.is_capital && '(Capital)'}
@@ -65,10 +65,10 @@ export function MunicipalityManagementPage() {
                   </td>
                   <td className="px-4 py-3">
                     <span
-                      className={`rounded-full px-2.5 py-0.5 font-bold ${
+                      className={`rounded-full border border-white/80 px-2.5 py-0.5 font-bold backdrop-blur-md ${
                         m.is_active
-                          ? 'bg-green-100 text-[#16A34A]'
-                          : 'bg-stone-200 text-[#78716C]'
+                          ? 'bg-green-100/80 text-[#16A34A]'
+                          : 'bg-white/70 text-[#78716C]'
                       }`}
                     >
                       {m.is_active ? 'Active' : 'Inactive'}

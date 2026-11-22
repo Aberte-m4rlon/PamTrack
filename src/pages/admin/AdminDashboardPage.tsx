@@ -157,16 +157,16 @@ export function AdminDashboardPage() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((s) => (
           <Link key={s.label} to={s.to}>
-            <GlassCard variant="strong" hoverable className="p-4 flex items-center justify-between">
+            <GlassCard variant="strong" hoverable className="p-4 flex items-center justify-between rounded-[24px]">
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-wider text-[#78716C]">
                   {s.label}
                 </p>
-                <p className="mt-1 font-display text-2xl font-extrabold text-[#DC2626]">
+                <p className="mt-1 font-display text-2xl font-extrabold text-[#DC2626] tabular-nums">
                   {s.value}
                 </p>
               </div>
-              <div className="rounded-2xl bg-[#FFE4E6] p-2.5 text-[#DC2626]">
+              <div className="glass-pill-tile rounded-2xl p-2.5 text-[#DC2626]">
                 <s.icon className="h-5 w-5" />
               </div>
             </GlassCard>
@@ -186,8 +186,15 @@ export function AdminDashboardPage() {
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(120,113,108,0.16)" />
                 <XAxis dataKey="name" tick={{ fill: '#24191D', fontSize: 11 }} />
                 <YAxis allowDecimals={false} tick={{ fill: '#24191D', fontSize: 11 }} />
-                <Tooltip />
-                <Bar dataKey="count" fill="#DC2626" radius={[10, 10, 0, 0]} />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.92)',
+                    borderColor: 'rgba(252, 165, 165, 0.75)',
+                    borderRadius: '18px',
+                    color: '#24191D',
+                  }}
+                />
+                <Bar dataKey="count" fill="#DC2626" radius={[12, 12, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -214,7 +221,7 @@ export function AdminDashboardPage() {
               {auditLogs.slice(0, 8).map((log) => (
                 <div
                   key={log.id}
-                  className="rounded-2xl border border-[#FFE4E6] bg-white/85 p-3 text-xs"
+                  className="glass-pill-tile rounded-[20px] p-3 text-xs"
                 >
                   <div className="flex items-center justify-between gap-2">
                     <span className="font-bold text-[#DC2626]">
