@@ -45,7 +45,7 @@ export function GlassCard({
     <div
       className={cn(
         variantClass,
-        'rounded-[28px] transition-all duration-200',
+        'rounded-[22px] sm:rounded-[28px] transition-all duration-200',
         hoverable &&
           'hover:-translate-y-0.5 hover:shadow-glass-lg hover:border-white',
         className
@@ -79,9 +79,9 @@ export function GlassButton({
   };
 
   const sizeStyles: Record<NonNullable<GlassButtonProps['size']>, string> = {
-    sm: 'px-3.5 py-1.5 text-xs min-h-[36px]',
-    md: 'px-4.5 py-2.5 text-sm min-h-[42px]',
-    lg: 'px-6 py-3 text-base min-h-[48px]',
+    sm: 'px-3.5 py-2 text-xs min-h-[40px] sm:min-h-[36px] sm:py-1.5',
+    md: 'px-5 py-2.5 text-sm min-h-[42px]',
+    lg: 'px-5 sm:px-6 py-3 text-sm sm:text-base min-h-[46px] sm:min-h-[48px]',
   };
 
   return (
@@ -214,9 +214,9 @@ export function PageHeader({
   return (
     <GlassCard
       variant={variant}
-      className="p-5 sm:p-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+      className="p-4 sm:p-6 flex flex-col gap-3 sm:gap-4 sm:flex-row sm:items-center sm:justify-between"
     >
-      <div className="space-y-1.5">
+      <div className="space-y-1 sm:space-y-1.5 min-w-0">
         {breadcrumbs && breadcrumbs.length > 0 && (
           <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1 text-xs font-semibold">
             {breadcrumbs.map((b, i) => (
@@ -246,7 +246,7 @@ export function PageHeader({
         {eyebrow && (
           <p
             className={cn(
-              'text-xs font-bold uppercase tracking-widest',
+              'text-[11px] sm:text-xs font-bold uppercase tracking-widest',
               isRose ? 'text-[#F8E7EA]' : 'text-[#C9182B]'
             )}
           >
@@ -255,19 +255,19 @@ export function PageHeader({
         )}
         <h1
           className={cn(
-            'font-display text-2xl font-extrabold sm:text-3xl',
+            'font-display text-xl font-extrabold leading-tight sm:text-3xl',
             isRose ? 'text-white' : 'text-[#29262B]'
           )}
         >
           {title}
         </h1>
         {description && (
-          <p className={cn('text-xs sm:text-sm max-w-3xl', isRose ? 'text-[#F8E7EA]/90' : 'text-[#777078]')}>
+          <p className={cn('text-xs sm:text-sm max-w-3xl leading-relaxed', isRose ? 'text-[#F8E7EA]/90' : 'text-[#777078]')}>
             {description}
           </p>
         )}
       </div>
-      {actions && <div className="flex flex-wrap items-center gap-2 shrink-0">{actions}</div>}
+      {actions && <div className="w-full sm:w-auto flex flex-wrap items-center gap-2 shrink-0">{actions}</div>}
     </GlassCard>
   );
 }

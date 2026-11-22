@@ -114,29 +114,29 @@ export function LiveMapPage() {
   }, [focusUserTrigger, currentPosition]);
 
   return (
-    <div className="space-y-5">
-      <GlassCard variant="strong" className="p-5 sm:p-6 space-y-2">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
+    <div className="space-y-4 sm:space-y-5">
+      <GlassCard variant="strong" className="p-4 sm:p-6 space-y-2">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
               Real-Time Geospatial View
             </p>
-            <h1 className="font-display text-2xl font-extrabold text-[#29262B] sm:text-3xl">
+            <h1 className="font-display text-xl leading-tight font-extrabold text-[#29262B] sm:text-3xl">
               Live GPS Location &amp; Verified Terminals Map
             </h1>
             <p className="text-xs sm:text-sm text-[#343039]">
               View your live position, nearby stops, and OSRM directions across Oriental Mindoro.
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <Link to="/nearby">
-              <GlassButton variant="secondary" size="sm">
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap w-full sm:w-auto">
+            <Link to="/nearby" className="w-full sm:w-auto">
+              <GlassButton variant="secondary" size="sm" className="w-full">
                 <Navigation className="h-3.5 w-3.5" />
-                Nearby Stops List
+                Nearby Stops
               </GlassButton>
             </Link>
-            <Link to="/trips">
-              <GlassButton variant="primary" size="sm">
+            <Link to="/trips" className="w-full sm:w-auto">
+              <GlassButton variant="primary" size="sm" className="w-full">
                 Start Live Trip
               </GlassButton>
             </Link>
@@ -146,16 +146,16 @@ export function LiveMapPage() {
 
       <GpsConsentCard />
 
-      <GlassCard variant="surface" className="p-4 sm:p-5 space-y-3">
+      <GlassCard variant="surface" className="p-3.5 sm:p-5 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 sm:pb-0 sm:flex-wrap">
             {(['all', 'port_hub', 'jeepney_stop', 'bus_terminal', 'uv_express_terminal', 'tricycle_terminal'] as const).map(
               (cat) => (
                 <button
                   key={cat}
                   type="button"
                   onClick={() => setCategoryFilter(cat)}
-                  className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
+                  className={`min-h-[40px] sm:min-h-[34px] shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 sm:py-1.5 text-xs font-semibold transition ${
                     categoryFilter === cat
                       ? 'liquid-nav-active text-white'
                       : 'liquid-btn-glass text-[#29262B] hover:text-[#C9182B]'

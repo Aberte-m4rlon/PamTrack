@@ -51,32 +51,32 @@ export function NearbyTransportPage() {
   }, [stops, categoryFilter, referencePoint]);
 
   return (
-    <div className="space-y-6">
-      <GlassCard variant="strong" className="p-6 space-y-2">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
+    <div className="space-y-4 sm:space-y-6">
+      <GlassCard variant="strong" className="p-4 sm:p-6 space-y-1.5 sm:space-y-2">
+        <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
           Verified Real-World Terminals
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#29262B] sm:text-3xl">
+        <h1 className="font-display text-xl leading-tight font-extrabold text-[#29262B] sm:text-3xl">
           Nearby Transportation Finder
         </h1>
-        <p className="text-sm text-[#777078]">
+        <p className="text-xs sm:text-sm text-[#777078]">
           Discover verified ports, multicab stops, bus terminals, UV Express hubs, and tricycle
-          terminals sorted by distance from your current GPS location (or selected municipality).
+          terminals sorted by distance from your GPS location.
         </p>
       </GlassCard>
 
       <GpsConsentCard compact />
 
       {/* Filter & Fallback Controls */}
-      <GlassCard variant="surface" className="p-4 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap gap-1.5">
+      <GlassCard variant="surface" className="p-3.5 sm:p-4 flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-3">
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 sm:pb-0 sm:flex-wrap">
           {(['all', 'port_hub', 'jeepney_stop', 'tricycle_terminal', 'uv_express_terminal', 'bus_terminal'] as const).map(
             (cat) => (
               <button
                 key={cat}
                 type="button"
                 onClick={() => setCategoryFilter(cat)}
-                className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
+                className={`min-h-[40px] sm:min-h-[34px] shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 sm:py-1.5 text-xs font-semibold transition ${
                   categoryFilter === cat
                     ? 'liquid-nav-active text-white'
                     : 'liquid-btn-glass text-[#29262B] hover:text-[#C9182B]'
@@ -90,11 +90,11 @@ export function NearbyTransportPage() {
 
         {!currentPosition && (
           <div className="flex items-center gap-2 text-xs">
-            <span className="font-semibold text-[#777078]">Reference LGU:</span>
+            <span className="font-semibold text-[#777078] shrink-0">Reference LGU:</span>
             <select
               value={fallbackMuniId}
               onChange={(e) => setFallbackMuniId(e.target.value)}
-              className="glass-input rounded-xl px-3 py-1.5 text-xs font-semibold"
+              className="glass-input min-h-[40px] flex-1 sm:flex-initial rounded-xl px-3 py-1.5 text-xs font-semibold"
             >
               {municipalities.map((m) => (
                 <option key={m.id} value={m.id}>

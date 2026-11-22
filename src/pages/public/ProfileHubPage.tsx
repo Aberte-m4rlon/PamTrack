@@ -204,13 +204,13 @@ export function ProfileHubPage() {
     : publicAvailableLinks;
 
   return (
-    <div className="space-y-6">
-      <GlassCard variant="rose" className="p-6 flex flex-wrap items-center justify-between gap-4">
-        <div className="space-y-1">
-          <p className="text-xs font-bold uppercase tracking-widest text-[#F8E7EA]">
+    <div className="space-y-4 sm:space-y-6">
+      <GlassCard variant="rose" className="p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3.5 sm:gap-4">
+        <div className="space-y-1 min-w-0">
+          <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#F8E7EA]">
             {user ? 'Account & Features Hub' : 'Limited Guest Access • Sign In Required for Full Tools'}
           </p>
-          <h1 className="font-display text-2xl font-extrabold">
+          <h1 className="font-display text-xl sm:text-2xl font-extrabold">
             {user
               ? profile?.full_name || user.email?.split('@')[0]
               : 'Guest Commuter'}
@@ -222,23 +222,30 @@ export function ProfileHubPage() {
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 w-full sm:w-auto">
           {user ? (
-            <GlassButton type="button" variant="glass" size="sm" onClick={signOut} disabled={isOffline}>
+            <GlassButton
+              type="button"
+              variant="secondary"
+              size="sm"
+              className="w-full sm:w-auto"
+              onClick={signOut}
+              disabled={isOffline}
+            >
               <LogOut className="h-4 w-4 text-[#C9182B]" />
               Sign Out
             </GlassButton>
           ) : (
             <>
-              <Link to="/login">
-                <GlassButton variant="glass" size="sm" className="text-white" disabled={isOffline}>
-                  <LogIn className="h-4 w-4 text-white" />
+              <Link to="/login" className="flex-1 sm:flex-initial">
+                <GlassButton variant="secondary" size="sm" className="w-full" disabled={isOffline}>
+                  <LogIn className="h-4 w-4 text-[#C9182B]" />
                   Sign In
                 </GlassButton>
               </Link>
-              <Link to="/register">
-                <GlassButton variant="secondary" size="sm" disabled={isOffline}>
-                  <UserPlus className="h-4 w-4" />
+              <Link to="/register" className="flex-1 sm:flex-initial">
+                <GlassButton variant="glass" size="sm" className="w-full" disabled={isOffline}>
+                  <UserPlus className="h-4 w-4 text-[#C9182B]" />
                   Register
                 </GlassButton>
               </Link>
@@ -251,7 +258,7 @@ export function ProfileHubPage() {
 
       <section className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2 px-1">
-          <h2 className="font-display text-lg font-extrabold text-[#29262B]">
+          <h2 className="font-display text-base sm:text-lg font-extrabold text-[#29262B]">
             {isOffline ? 'Available Tools (Offline Mode)' : 'Unlocked Features'}
           </h2>
           {isOffline && (
@@ -262,7 +269,7 @@ export function ProfileHubPage() {
           )}
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-2.5 sm:gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {unlockedLinks.map((item) => {
             const offlineLocked = isOffline && !item.offlineReady;
             return (
@@ -270,13 +277,13 @@ export function ProfileHubPage() {
                 <GlassCard
                   variant="strong"
                   hoverable
-                  className={`p-4 flex items-center justify-between gap-3 h-full ${
+                  className={`p-3.5 sm:p-4 flex items-center justify-between gap-3 h-full ${
                     offlineLocked ? 'opacity-65' : ''
                   }`}
                 >
-                  <div className="flex items-center gap-3.5 min-w-0">
+                  <div className="flex items-center gap-3 min-w-0">
                     <div className="glass-pill-tile rounded-2xl p-2.5 text-[#C9182B] shrink-0">
-                      <item.icon className="h-5 w-5" />
+                      <item.icon className="h-4 w-4 sm:h-5 sm:w-5" />
                     </div>
                     <div className="min-w-0">
                       <h3 className="font-bold text-sm text-[#29262B] leading-snug">{item.label}</h3>
@@ -299,25 +306,25 @@ export function ProfileHubPage() {
       {!user && (
         <section className="space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-2 px-1">
-            <h2 className="font-display text-lg font-extrabold text-[#29262B]">
+            <h2 className="font-display text-base sm:text-lg font-extrabold text-[#29262B]">
               Sign In Required (Locked While Logged Out)
             </h2>
-            <Link to="/login" className="text-xs font-bold text-[#C9182B] hover:underline">
+            <Link to="/login" className="inline-flex min-h-[36px] items-center text-xs font-bold text-[#C9182B] hover:underline">
               Sign In to Unlock All →
             </Link>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-2.5 sm:gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {memberLinks.slice(0, 6).map((item) => (
               <Link key={item.to} to="/login" state={{ from: item.to }}>
                 <GlassCard
                   variant="panel"
                   hoverable
-                  className="p-4 flex items-center justify-between gap-3 h-full border-dashed border-[#E9E5E8]/70"
+                  className="p-3.5 sm:p-4 flex items-center justify-between gap-3 h-full border-dashed border-[#E9E5E8]/70"
                 >
-                  <div className="flex items-center gap-3.5 min-w-0">
+                  <div className="flex items-center gap-3 min-w-0">
                     <div className="glass-pill-tile rounded-2xl p-2.5 text-[#777078] shrink-0">
-                      <item.icon className="h-5 w-5" />
+                      <item.icon className="h-4 w-4 sm:h-5 sm:w-5" />
                     </div>
                     <div className="min-w-0">
                       <h3 className="font-bold text-sm text-[#29262B] leading-snug">{item.label}</h3>

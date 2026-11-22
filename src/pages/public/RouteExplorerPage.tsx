@@ -123,25 +123,26 @@ export function RouteExplorerPage() {
   const destinationName = municipalities.find((m) => m.id === destinationId)?.name;
 
   return (
-    <div className="space-y-6">
-      <GlassCard variant="strong" className="p-6 space-y-2">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
+    <div className="space-y-4 sm:space-y-6">
+      <GlassCard variant="strong" className="p-4 sm:p-6 space-y-1.5 sm:space-y-2">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
               Interactive OpenStreetMap Explorer &amp; Fare Guide
             </p>
-            <h1 className="font-display text-2xl font-extrabold text-[#29262B] sm:text-3xl">
+            <h1 className="font-display text-xl leading-tight font-extrabold text-[#29262B] sm:text-3xl">
               Oriental Mindoro Route Map &amp; Fares
             </h1>
-            <p className="text-sm text-[#343039]">
+            <p className="text-xs sm:text-sm text-[#343039]">
               Pick two LGUs to view the road corridor and fare guide.
             </p>
           </div>
           {originId && destinationId && (
             <Link
               to={`/fare-search?origin=${encodeURIComponent(originId)}&destination=${encodeURIComponent(destinationId)}`}
+              className="w-full sm:w-auto shrink-0"
             >
-              <GlassButton variant="primary">
+              <GlassButton variant="primary" className="w-full sm:w-auto">
                 <Search className="h-4 w-4" />
                 Compare All Filters
               </GlassButton>
@@ -151,11 +152,11 @@ export function RouteExplorerPage() {
       </GlassCard>
 
       {quickFareCorridors.length > 0 && (
-        <GlassCard variant="surface" className="p-4 space-y-2.5">
-          <p className="text-xs font-bold uppercase tracking-wider text-[#C9182B]">
+        <GlassCard variant="surface" className="p-3.5 sm:p-4 space-y-2">
+          <p className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#C9182B]">
             Popular Corridors
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex sm:flex-wrap gap-2 overflow-x-auto pb-1 -mx-1 px-1 sm:mx-0 sm:px-0 sm:pb-0 sm:overflow-visible">
             {quickFareCorridors.map((c) => (
               <button
                 key={`${c.originId}-${c.destinationId}`}
@@ -164,14 +165,14 @@ export function RouteExplorerPage() {
                   setOriginId(c.originId);
                   setDestinationId(c.destinationId);
                 }}
-                className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-bold text-[#29262B] hover:bg-gradient-to-b hover:from-[#C9182B] hover:to-[#B51224] hover:text-white transition group"
+                className="glass-pill-tile inline-flex min-h-[40px] shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-3.5 py-2 text-xs font-bold text-[#29262B] hover:bg-gradient-to-b hover:from-[#C9182B] hover:to-[#B51224] hover:text-white transition group"
               >
                 <span>
                   {c.originId === c.destinationId
                     ? `${c.originName} (Local)`
                     : `${c.originName} → ${c.destinationName}`}
                 </span>
-                <span className="rounded-full bg-[#F8E7EA] px-2 py-0.5 text-[11px] font-extrabold text-[#C9182B] group-hover:bg-white/25 group-hover:text-white">
+                <span className="rounded-full bg-[#F8E7EA] px-2 py-0.5 text-[11px] font-extrabold text-[#C9182B] group-hover:bg-white/25 group-hover:text-white tabular-nums">
                   {formatPhp(c.sampleAmount)}
                 </span>
               </button>
@@ -180,17 +181,17 @@ export function RouteExplorerPage() {
         </GlassCard>
       )}
 
-      <GlassCard variant="surface" className="p-4 sm:p-5 space-y-4">
-        <div className="grid gap-3 sm:grid-cols-2">
+      <GlassCard variant="surface" className="p-3.5 sm:p-5 space-y-3.5 sm:space-y-4">
+        <div className="grid gap-2.5 sm:gap-3 sm:grid-cols-2">
           <div>
-            <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
+            <label className="mb-1 block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#777078]">
               Map Origin
             </label>
             <select
               value={originId}
               onChange={(e) => setOriginId(e.target.value)}
               aria-label="Route map origin municipality"
-              className="glass-input w-full rounded-2xl px-3.5 py-2 text-sm font-medium"
+              className="glass-input min-h-[42px] w-full rounded-2xl px-3.5 py-2.5 text-sm font-medium"
             >
               <option value="">Choose origin on map or dropdown...</option>
               {municipalities.map((m) => (
@@ -201,14 +202,14 @@ export function RouteExplorerPage() {
             </select>
           </div>
           <div>
-            <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
+            <label className="mb-1 block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#777078]">
               Map Destination
             </label>
             <select
               value={destinationId}
               onChange={(e) => setDestinationId(e.target.value)}
               aria-label="Route map destination municipality"
-              className="glass-input w-full rounded-2xl px-3.5 py-2 text-sm font-medium"
+              className="glass-input min-h-[42px] w-full rounded-2xl px-3.5 py-2.5 text-sm font-medium"
             >
               <option value="">Choose destination on map or dropdown...</option>
               {municipalities.map((m) => (
@@ -221,7 +222,7 @@ export function RouteExplorerPage() {
         </div>
 
         {muniLoading ? (
-          <GlassSkeleton className="h-[340px] sm:h-[430px]" />
+          <GlassSkeleton className="h-[280px] sm:h-[430px]" />
         ) : (
           <OrientalMindoroMap
             municipalities={municipalities}
@@ -229,7 +230,7 @@ export function RouteExplorerPage() {
             destinationId={destinationId}
             onSelectOrigin={setOriginId}
             onSelectDestination={setDestinationId}
-            heightClassName="h-[340px] sm:h-[460px]"
+            heightClassName="h-[280px] sm:h-[460px]"
           />
         )}
       </GlassCard>
@@ -432,7 +433,7 @@ export function RouteExplorerPage() {
                       <div className="glass-pill-tile rounded-[20px] p-3 space-y-1 border-[#E9E5E8]">
                         <div className="flex items-center justify-between gap-2">
                           <span className="text-[10px] font-bold uppercase tracking-wider text-[#B51224]">
-                            Official Verified Fare
+                            Approved Tariff Rate
                           </span>
                           <FareStatusBadge status="verified_official" compact />
                         </div>
@@ -453,7 +454,7 @@ export function RouteExplorerPage() {
                       <div className="glass-pill-tile rounded-[20px] p-3 space-y-1">
                         <div className="flex items-center justify-between gap-2">
                           <span className="text-[10px] font-bold uppercase tracking-wider text-[#B51224]">
-                            Community Estimate
+                            Citizen Guide Rate
                           </span>
                           <FareStatusBadge status="community_estimate" compact />
                         </div>

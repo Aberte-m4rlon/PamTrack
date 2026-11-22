@@ -40,17 +40,17 @@ export function LoginPage() {
   };
 
   return (
-    <div className="mx-auto max-w-md py-6">
-      <GlassCard variant="strong" className="p-6 sm:p-8 space-y-6">
-        <div className="text-center space-y-2">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border-2 border-white/95 bg-white/50 p-1 shadow-md backdrop-blur-md">
+    <div className="mx-auto max-w-md py-2 sm:py-6">
+      <GlassCard variant="strong" className="p-5 sm:p-8 space-y-5 sm:space-y-6">
+        <div className="text-center space-y-1.5 sm:space-y-2">
+          <div className="mx-auto flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full border-2 border-white/95 bg-white/50 p-1 shadow-md backdrop-blur-md">
             <img
               src="/assets/pamasahe-tracker-icon.png"
               alt="Pamasahe Tracker Logo"
               className="h-full w-full rounded-full object-contain"
             />
           </div>
-          <h1 className="font-display text-2xl font-extrabold text-[#29262B]">
+          <h1 className="font-display text-xl sm:text-2xl font-extrabold text-[#29262B]">
             Sign In to Pamasahe Tracker
           </h1>
           <p className="text-xs text-[#777078]">
@@ -67,7 +67,7 @@ export function LoginPage() {
               type="email"
               {...register('email')}
               placeholder="commuter@example.com"
-              className="glass-input w-full rounded-2xl px-3.5 py-2.5 text-sm"
+              className="glass-input min-h-[42px] w-full rounded-2xl px-3.5 py-2.5 text-sm"
             />
             {errors.email && (
               <p className="mt-1 text-xs font-semibold text-[#C9182B]">{errors.email.message}</p>
@@ -75,11 +75,14 @@ export function LoginPage() {
           </div>
 
           <div>
-            <div className="mb-1 flex items-center justify-between">
+            <div className="mb-1 flex items-center justify-between gap-2">
               <label className="text-xs font-bold uppercase tracking-wider text-[#777078]">
                 Password
               </label>
-              <Link to="/forgot-password" className="text-xs font-bold text-[#C9182B] hover:underline">
+              <Link
+                to="/forgot-password"
+                className="inline-flex min-h-[34px] items-center text-xs font-bold text-[#C9182B] hover:underline"
+              >
                 Forgot password?
               </Link>
             </div>
@@ -87,7 +90,7 @@ export function LoginPage() {
               type="password"
               {...register('password')}
               placeholder="••••••••"
-              className="glass-input w-full rounded-2xl px-3.5 py-2.5 text-sm"
+              className="glass-input min-h-[42px] w-full rounded-2xl px-3.5 py-2.5 text-sm"
             />
             {errors.password && (
               <p className="mt-1 text-xs font-semibold text-[#C9182B]">{errors.password.message}</p>
@@ -107,7 +110,10 @@ export function LoginPage() {
 
         <p className="text-center text-xs text-[#777078]">
           Don&apos;t have an account yet?{' '}
-          <Link to="/register" className="font-bold text-[#C9182B] hover:underline">
+          <Link
+            to="/register"
+            className="inline-flex min-h-[34px] items-center font-bold text-[#C9182B] hover:underline"
+          >
             Register as Commuter
           </Link>
         </p>
@@ -181,9 +187,9 @@ export function RegisterPage() {
   }
 
   return (
-    <div className="mx-auto max-w-lg py-4">
-      <GlassCard variant="strong" className="p-6 sm:p-8 space-y-6">
-        <div className="text-center space-y-2">
+    <div className="mx-auto max-w-lg py-2 sm:py-4">
+      <GlassCard variant="strong" className="p-5 sm:p-8 space-y-5 sm:space-y-6">
+        <div className="text-center space-y-1.5 sm:space-y-2">
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border-2 border-white/95 bg-white/50 p-1 shadow-md backdrop-blur-md">
             <img
               src="/assets/pamasahe-tracker-icon.png"
@@ -191,7 +197,7 @@ export function RegisterPage() {
               className="h-full w-full rounded-full object-contain"
             />
           </div>
-          <h1 className="font-display text-2xl font-extrabold text-[#29262B]">
+          <h1 className="font-display text-xl sm:text-2xl font-extrabold text-[#29262B]">
             Create Commuter Account
           </h1>
           <p className="text-xs text-[#777078]">
@@ -199,7 +205,7 @@ export function RegisterPage() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5 sm:space-y-4">
           <div>
             <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
               Full Name
@@ -208,14 +214,14 @@ export function RegisterPage() {
               type="text"
               {...register('fullName')}
               placeholder="Juan Dela Cruz"
-              className="glass-input w-full rounded-2xl px-3.5 py-2.5 text-sm"
+              className="glass-input min-h-[42px] w-full rounded-2xl px-3.5 py-2.5 text-sm"
             />
             {errors.fullName && (
               <p className="mt-1 text-xs font-semibold text-[#C9182B]">{errors.fullName.message}</p>
             )}
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-3.5 sm:gap-4 sm:grid-cols-2">
             <div>
               <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
                 Email Address
@@ -224,7 +230,7 @@ export function RegisterPage() {
                 type="email"
                 {...register('email')}
                 placeholder="juan@example.com"
-                className="glass-input w-full rounded-2xl px-3.5 py-2.5 text-sm"
+                className="glass-input min-h-[42px] w-full rounded-2xl px-3.5 py-2.5 text-sm"
               />
               {errors.email && (
                 <p className="mt-1 text-xs font-semibold text-[#C9182B]">{errors.email.message}</p>
@@ -237,7 +243,7 @@ export function RegisterPage() {
               </label>
               <select
                 {...register('homeMunicipalityId')}
-                className="glass-input w-full rounded-2xl px-3 py-2.5 text-sm"
+                className="glass-input min-h-[42px] w-full rounded-2xl px-3 py-2.5 text-sm"
               >
                 <option value="">Select LGU...</option>
                 {municipalities.map((m) => (
@@ -249,7 +255,7 @@ export function RegisterPage() {
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-3.5 sm:gap-4 sm:grid-cols-2">
             <div>
               <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
                 Password
@@ -258,7 +264,7 @@ export function RegisterPage() {
                 type="password"
                 {...register('password')}
                 placeholder="Min 8 chars, 1 upper, 1 number"
-                className="glass-input w-full rounded-2xl px-3.5 py-2.5 text-sm"
+                className="glass-input min-h-[42px] w-full rounded-2xl px-3.5 py-2.5 text-sm"
               />
               {errors.password && (
                 <p className="mt-1 text-xs font-semibold text-[#C9182B]">{errors.password.message}</p>
@@ -272,7 +278,7 @@ export function RegisterPage() {
                 type="password"
                 {...register('confirmPassword')}
                 placeholder="Repeat password"
-                className="glass-input w-full rounded-2xl px-3.5 py-2.5 text-sm"
+                className="glass-input min-h-[42px] w-full rounded-2xl px-3.5 py-2.5 text-sm"
               />
               {errors.confirmPassword && (
                 <p className="mt-1 text-xs font-semibold text-[#C9182B]">
@@ -282,15 +288,19 @@ export function RegisterPage() {
             </div>
           </div>
 
-          <label className="flex items-start gap-2.5 text-xs text-[#777078]">
-            <input type="checkbox" {...register('acceptTerms')} className="mt-0.5 rounded accent-[#C9182B]" />
-            <span>
+          <label className="flex items-start gap-3 py-1 text-xs text-[#777078] cursor-pointer">
+            <input
+              type="checkbox"
+              {...register('acceptTerms')}
+              className="mt-0.5 h-5 w-5 shrink-0 rounded border-[#E9E5E8] accent-[#C9182B]"
+            />
+            <span className="leading-relaxed">
               I agree to the{' '}
-              <Link to="/terms" className="font-bold text-[#C9182B] underline">
+              <Link to="/terms" className="inline-flex min-h-[32px] items-center font-bold text-[#C9182B] underline">
                 Terms and Conditions
               </Link>{' '}
               and{' '}
-              <Link to="/privacy" className="font-bold text-[#C9182B] underline">
+              <Link to="/privacy" className="inline-flex min-h-[32px] items-center font-bold text-[#C9182B] underline">
                 Privacy Policy
               </Link>
               .
@@ -313,7 +323,7 @@ export function RegisterPage() {
 
         <p className="text-center text-xs text-[#777078]">
           Already registered?{' '}
-          <Link to="/login" className="font-bold text-[#C9182B] hover:underline">
+          <Link to="/login" className="inline-flex min-h-[34px] items-center font-bold text-[#C9182B] hover:underline">
             Sign In
           </Link>
         </p>

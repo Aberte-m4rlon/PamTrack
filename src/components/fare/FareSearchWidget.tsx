@@ -275,11 +275,11 @@ export function FareSearchWidget({
   );
 
   return (
-    <div className="space-y-5">
-      <GlassCard variant="strong" className={compact ? 'p-4 sm:p-5' : 'p-5 sm:p-6'}>
-        <form onSubmit={handleSearch} className="grid grid-cols-1 gap-3.5 md:grid-cols-12 md:items-end">
-          <div className="min-w-0 md:col-span-5">
-            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#777078]">
+    <div className="space-y-4 sm:space-y-5">
+      <GlassCard variant="strong" className={compact ? 'p-3.5 sm:p-5' : 'p-4 sm:p-6'}>
+        <form onSubmit={handleSearch} className="grid grid-cols-2 gap-2.5 sm:gap-3.5 md:grid-cols-12 md:items-end">
+          <div className="col-span-2 min-w-0 md:col-span-5">
+            <label className="mb-1 block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#777078]">
               Origin
             </label>
             <select
@@ -289,7 +289,7 @@ export function FareSearchWidget({
                 onSelectionChange?.(e.target.value, destinationId);
               }}
               aria-label="Origin municipality"
-              className="glass-input w-full min-w-0 truncate rounded-2xl pl-3.5 pr-9 py-2.5 text-sm font-medium"
+              className="glass-input min-h-[42px] w-full min-w-0 truncate rounded-2xl pl-3.5 pr-9 py-2.5 text-sm font-medium"
             >
               <option value="">Select origin...</option>
               {municipalities.map((m) => (
@@ -300,20 +300,22 @@ export function FareSearchWidget({
             </select>
           </div>
 
-          <div className="flex justify-center md:col-span-2 lg:col-span-1 md:pb-0.5">
+          <div className="col-span-2 flex items-center gap-2 md:col-span-2 lg:col-span-1 md:justify-center md:pb-0.5">
+            <div className="h-px flex-1 bg-white/75 md:hidden" />
             <button
               type="button"
               onClick={handleSwap}
               title="Swap origin and destination"
               aria-label="Swap origin and destination"
-              className="liquid-btn-secondary inline-flex h-10 w-10 items-center justify-center rounded-full"
+              className="liquid-btn-secondary inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
             >
               <ArrowLeftRight className="h-4 w-4" />
             </button>
+            <div className="h-px flex-1 bg-white/75 md:hidden" />
           </div>
 
-          <div className="min-w-0 md:col-span-5 lg:col-span-6">
-            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#777078]">
+          <div className="col-span-2 min-w-0 md:col-span-5 lg:col-span-6">
+            <label className="mb-1 block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#777078]">
               Destination
             </label>
             <select
@@ -323,7 +325,7 @@ export function FareSearchWidget({
                 onSelectionChange?.(originId, e.target.value);
               }}
               aria-label="Destination municipality"
-              className="glass-input w-full min-w-0 truncate rounded-2xl pl-3.5 pr-9 py-2.5 text-sm font-medium"
+              className="glass-input min-h-[42px] w-full min-w-0 truncate rounded-2xl pl-3.5 pr-9 py-2.5 text-sm font-medium"
             >
               <option value="">Select destination...</option>
               {municipalities.map((m) => (
@@ -334,15 +336,15 @@ export function FareSearchWidget({
             </select>
           </div>
 
-          <div className="min-w-0 md:col-span-4">
-            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#777078]">
+          <div className="col-span-1 min-w-0 md:col-span-4">
+            <label className="mb-1 block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#777078]">
               Transport Type
             </label>
             <select
               value={transportTypeId}
               onChange={(e) => setTransportTypeId(e.target.value)}
               aria-label="Transportation type"
-              className="glass-input w-full min-w-0 truncate rounded-2xl pl-3.5 pr-9 py-2.5 text-sm font-medium"
+              className="glass-input min-h-[42px] w-full min-w-0 truncate rounded-2xl pl-3 pr-8 sm:pl-3.5 sm:pr-9 py-2.5 text-xs sm:text-sm font-medium"
             >
               <option value="all">All Modes</option>
               {transportTypes.map((tt) => (
@@ -353,15 +355,15 @@ export function FareSearchWidget({
             </select>
           </div>
 
-          <div className="min-w-0 md:col-span-5">
-            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#777078]">
+          <div className="col-span-1 min-w-0 md:col-span-5">
+            <label className="mb-1 block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#777078]">
               Passenger
             </label>
             <select
               value={passengerCategory}
               onChange={(e) => setPassengerCategory(e.target.value as PassengerCategory)}
               aria-label="Passenger category"
-              className="glass-input w-full min-w-0 truncate rounded-2xl pl-3.5 pr-9 py-2.5 text-sm font-medium"
+              className="glass-input min-h-[42px] w-full min-w-0 truncate rounded-2xl pl-3 pr-8 sm:pl-3.5 sm:pr-9 py-2.5 text-xs sm:text-sm font-medium"
             >
               {Object.entries(PASSENGER_CATEGORY_LABELS).map(([k, label]) => (
                 <option key={k} value={k}>
@@ -371,7 +373,7 @@ export function FareSearchWidget({
             </select>
           </div>
 
-          <div className="min-w-0 md:col-span-3">
+          <div className="col-span-2 min-w-0 md:col-span-3 pt-0.5 md:pt-0">
             <GlassButton type="submit" variant="primary" className="w-full">
               <Search className="h-4 w-4 shrink-0" />
               <span>Search</span>
@@ -381,16 +383,19 @@ export function FareSearchWidget({
       </GlassCard>
 
       {quickAvailableCorridors.length > 0 && (
-        <GlassCard variant="surface" className="p-4 space-y-2.5">
+        <GlassCard variant="surface" className="p-3.5 sm:p-4 space-y-2.5">
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <p className="text-xs font-bold uppercase tracking-wider text-[#C9182B]">
-              Routes With Available Fare Records (Click to View Price)
+            <p className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#C9182B]">
+              Popular Fare Corridors
             </p>
-            <Link to="/fare-matrix" className="text-xs font-bold text-[#C9182B] hover:underline">
+            <Link
+              to="/fare-matrix"
+              className="inline-flex min-h-[34px] items-center text-xs font-bold text-[#C9182B] hover:underline"
+            >
               See Full Fare Matrix →
             </Link>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex sm:flex-wrap gap-2 overflow-x-auto pb-1 -mx-1 px-1 sm:mx-0 sm:px-0 sm:pb-0 sm:overflow-visible">
             {quickAvailableCorridors.map((c) => (
               <button
                 key={`${c.originId}-${c.destinationId}`}
@@ -401,14 +406,14 @@ export function FareSearchWidget({
                   setHasSearched(true);
                   onSelectionChange?.(c.originId, c.destinationId);
                 }}
-                className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-bold text-[#29262B] hover:bg-gradient-to-b hover:from-[#C9182B]/85 hover:to-[#B51224]/90 hover:text-white transition group"
+                className="glass-pill-tile inline-flex min-h-[40px] shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-3.5 py-2 text-xs font-bold text-[#29262B] hover:bg-gradient-to-b hover:from-[#C9182B]/85 hover:to-[#B51224]/90 hover:text-white transition group"
               >
                 <span>
                   {c.originId === c.destinationId
                     ? `${c.originName} (Local)`
                     : `${c.originName} → ${c.destinationName}`}
                 </span>
-                <span className="glass-panel rounded-full px-2 py-0.5 text-[11px] font-extrabold text-[#C9182B] group-hover:bg-white/25 group-hover:text-white">
+                <span className="glass-panel rounded-full px-2 py-0.5 text-[11px] font-extrabold text-[#C9182B] group-hover:bg-white/25 group-hover:text-white tabular-nums">
                   {formatPhp(c.sampleAmount)}
                 </span>
               </button>

@@ -72,41 +72,41 @@ export function OfflineFeatureGate({
         breadcrumbs={[{ label: 'Home', to: '/' }, { label: featureTitle }]}
       />
 
-      <GlassCard variant="strong" className="p-6 sm:p-8 space-y-5">
-        <div className="flex flex-col sm:flex-row items-start gap-4">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#F8E7EA]/90 text-[#C9182B] border border-[#E9E5E8]/60">
-            <WifiOff className="h-6 w-6" />
+      <GlassCard variant="strong" className="p-4 sm:p-8 space-y-4 sm:space-y-5">
+        <div className="flex items-start gap-3.5 sm:gap-4">
+          <div className="flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-2xl bg-[#F8E7EA]/90 text-[#C9182B] border border-[#E9E5E8]/60">
+            <WifiOff className="h-5 w-5 sm:h-6 sm:w-6" />
           </div>
-          <div className="space-y-1.5">
-            <h2 className="font-display text-xl font-extrabold text-[#29262B]">
+          <div className="space-y-1.5 min-w-0">
+            <h2 className="font-display text-lg sm:text-xl font-extrabold text-[#29262B] leading-snug">
               Internet Connection Required for {featureTitle}
             </h2>
-            <p className="text-sm text-[#343039] max-w-2xl">
+            <p className="text-xs sm:text-sm text-[#343039] max-w-2xl leading-relaxed">
               Connect to Wi-Fi or mobile data to use{' '}
               <strong className="text-[#29262B]">{featureTitle}</strong>.
             </p>
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/85 bg-white/50 backdrop-blur-md p-4 space-y-3">
+        <div className="rounded-2xl border border-white/85 bg-white/50 backdrop-blur-md p-3.5 sm:p-4 space-y-2.5 sm:space-y-3">
           <p className="text-xs font-bold uppercase tracking-wider text-[#C9182B]">
             Features Available Right Now in Offline Mode
           </p>
           <div className="grid gap-2.5 sm:grid-cols-3">
             <Link to="/fare-search">
-              <div className="glass-pill-tile rounded-2xl p-3 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#29262B]">
+              <div className="glass-pill-tile min-h-[42px] rounded-2xl p-3 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#29262B]">
                 <Compass className="h-4 w-4 text-[#C9182B] shrink-0" />
                 <span>Cached Fare Finder</span>
               </div>
             </Link>
             <Link to="/fare-matrix">
-              <div className="glass-pill-tile rounded-2xl p-3 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#29262B]">
+              <div className="glass-pill-tile min-h-[42px] rounded-2xl p-3 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#29262B]">
                 <Table2 className="h-4 w-4 text-[#C9182B] shrink-0" />
                 <span>Cached Fare Matrix</span>
               </div>
             </Link>
             <Link to="/municipalities">
-              <div className="glass-pill-tile rounded-2xl p-3 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#29262B]">
+              <div className="glass-pill-tile min-h-[42px] rounded-2xl p-3 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#29262B]">
                 <MapPin className="h-4 w-4 text-[#C9182B] shrink-0" />
                 <span>15 LGUs Directory</span>
               </div>
@@ -158,19 +158,19 @@ export function RequireAccountAccess({
         breadcrumbs={[{ label: 'Home', to: '/' }, { label: featureTitle }]}
       />
 
-      <GlassCard variant="strong" className="p-6 sm:p-8 space-y-5">
-        <div className="flex flex-col sm:flex-row items-start gap-4">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#C9182B] to-[#B51224] text-white shadow-md shadow-[#C9182B]/25">
+      <GlassCard variant="strong" className="p-4 sm:p-8 space-y-4 sm:space-y-5">
+        <div className="flex items-start gap-3.5 sm:gap-4">
+          <div className="flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#C9182B] to-[#B51224] text-white shadow-md shadow-[#C9182B]/25">
             <Lock className="h-5 w-5" />
           </div>
-          <div className="space-y-2 flex-1">
+          <div className="space-y-1.5 sm:space-y-2 flex-1 min-w-0">
             <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F8E7EA]/90 px-3 py-0.5 text-[11px] font-bold uppercase tracking-wider text-[#B51224] border border-[#E9E5E8]/60">
               Sign In Required
             </div>
-            <h2 className="font-display text-xl font-extrabold text-[#29262B]">
+            <h2 className="font-display text-lg sm:text-xl font-extrabold text-[#29262B] leading-snug">
               Account Access Locked While Logged Out
             </h2>
-            <p className="text-sm text-[#343039] max-w-2xl">
+            <p className="text-xs sm:text-sm text-[#343039] max-w-2xl leading-relaxed">
               Sign in to unlock <strong className="text-[#29262B]">{featureTitle}</strong>. Public
               fare lookup and matrix remain open to guests.
             </p>
@@ -178,7 +178,7 @@ export function RequireAccountAccess({
         </div>
 
         {unlocks && unlocks.length > 0 && (
-          <div className="rounded-2xl border border-white/85 bg-white/50 backdrop-blur-md p-4">
+          <div className="rounded-2xl border border-white/85 bg-white/50 backdrop-blur-md p-3.5 sm:p-4">
             <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[#C9182B]">
               Unlocked With Your Commuter Account
             </p>
@@ -193,22 +193,22 @@ export function RequireAccountAccess({
           </div>
         )}
 
-        <div className="flex flex-wrap items-center gap-3 pt-1">
-          <Link to="/login" state={{ from: location.pathname }}>
-            <GlassButton variant="primary">
-              <LogIn className="h-4 w-4" />
+        <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2.5 sm:gap-3 pt-1">
+          <Link to="/login" state={{ from: location.pathname }} className="w-full sm:w-auto">
+            <GlassButton variant="primary" className="w-full sm:w-auto">
+              <LogIn className="h-4 w-4 shrink-0" />
               Sign In to Unlock
             </GlassButton>
           </Link>
-          <Link to="/register" state={{ from: location.pathname }}>
-            <GlassButton variant="secondary">
-              <UserPlus className="h-4 w-4" />
+          <Link to="/register" state={{ from: location.pathname }} className="w-full sm:w-auto">
+            <GlassButton variant="secondary" className="w-full sm:w-auto">
+              <UserPlus className="h-4 w-4 shrink-0" />
               Create Commuter Account
             </GlassButton>
           </Link>
-          <Link to="/fare-search">
-            <GlassButton variant="glass">
-              <Compass className="h-4 w-4 text-[#C9182B]" />
+          <Link to="/fare-search" className="w-full sm:w-auto">
+            <GlassButton variant="glass" className="w-full sm:w-auto">
+              <Compass className="h-4 w-4 shrink-0 text-[#C9182B]" />
               Use Public Fare Finder
             </GlassButton>
           </Link>

@@ -60,10 +60,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       />
 
       {/* Main Content + Desktop/Tablet Floating Sidebar (hidden <= 768px) */}
-      <div className="relative z-10 mx-auto flex w-full max-w-[1480px] flex-1 gap-4 lg:gap-5 px-2.5 py-3.5 sm:px-5 sm:py-5 lg:px-6">
+      <div className="relative z-10 mx-auto flex w-full max-w-[1480px] flex-1 gap-4 lg:gap-5 px-2.5 py-2.5 sm:px-5 sm:py-5 lg:px-6">
         <AppSidebar collapsed={sidebarCollapsed} />
 
-        <main className="min-w-0 flex-1 space-y-5">
+        <main className="min-w-0 flex-1 space-y-4 sm:space-y-5">
           {isOffline && (
             <div
               role="status"
@@ -100,50 +100,52 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       {/* Consistent Liquid Glass Footer */}
       <footer className="glass-footer relative z-10 mt-auto">
-        <div className="mx-auto flex max-w-[1480px] flex-col gap-4 px-4 py-6 text-xs text-[#777078] sm:px-6 md:flex-row md:items-center md:justify-between">
+        <div className="mx-auto flex max-w-[1480px] flex-col gap-3 px-4 py-4 sm:py-6 text-xs text-[#777078] sm:px-6 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-3">
             <img
               src="/assets/pamasahe-tracker-icon.png"
               alt="Pamasahe Tracker Icon"
-              className="h-8 w-8 rounded-full ring-2 ring-white/95 shadow-sm"
+              className="h-8 w-8 rounded-full ring-2 ring-white/95 shadow-sm shrink-0"
             />
-            <div>
+            <div className="min-w-0">
               <p className="font-bold text-[#29262B]">Pamasahe Tracker – Oriental Mindoro</p>
-              <p>Tamang Pamasahe. Ligtas na Biyahe. • Serving Calapan City &amp; 14 Municipalities</p>
+              <p className="leading-snug">
+                Tamang Pamasahe. Ligtas na Biyahe. • Calapan City &amp; 14 Municipalities
+              </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 font-semibold text-[#29262B]/85">
-            <Link to="/about" className="hover:text-[#C9182B] transition-colors">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 font-semibold text-[#29262B]/85">
+            <Link to="/about" className="inline-flex min-h-[38px] items-center hover:text-[#C9182B] transition-colors">
               About
             </Link>
-            <Link to="/fare-matrix" className="hover:text-[#C9182B] transition-colors">
+            <Link to="/fare-matrix" className="inline-flex min-h-[38px] items-center hover:text-[#C9182B] transition-colors">
               Official Sources
             </Link>
-            <Link to="/municipalities" className="hover:text-[#C9182B] transition-colors">
+            <Link to="/municipalities" className="inline-flex min-h-[38px] items-center hover:text-[#C9182B] transition-colors">
               15 LGUs
             </Link>
             {user && (
               <>
-                <Link to="/authorities" className="hover:text-[#C9182B] transition-colors">
+                <Link to="/authorities" className="inline-flex min-h-[38px] items-center hover:text-[#C9182B] transition-colors">
                   Authority Directory
                 </Link>
-                <Link to="/safety" className="hover:text-[#C9182B] transition-colors">
+                <Link to="/safety" className="inline-flex min-h-[38px] items-center hover:text-[#C9182B] transition-colors">
                   Safety Center
                 </Link>
               </>
             )}
-            <Link to="/privacy" className="hover:text-[#C9182B] transition-colors">
+            <Link to="/privacy" className="inline-flex min-h-[38px] items-center hover:text-[#C9182B] transition-colors">
               Privacy Policy
             </Link>
-            <Link to="/terms" className="hover:text-[#C9182B] transition-colors">
+            <Link to="/terms" className="inline-flex min-h-[38px] items-center hover:text-[#C9182B] transition-colors">
               Terms &amp; Conditions
             </Link>
             <a
               href="https://ltfrb.gov.ph/"
               target="_blank"
               rel="noreferrer"
-              className="font-bold text-[#C9182B] underline underline-offset-2 hover:text-[#B51224]"
+              className="inline-flex min-h-[38px] items-center font-bold text-[#C9182B] underline underline-offset-2 hover:text-[#B51224]"
             >
               LTFRB Official Portal ↗
             </a>

@@ -14,15 +14,15 @@ export function FareSearchPage() {
   const [destinationId, setDestinationId] = useState(searchParams.get('destination') ?? '');
 
   return (
-    <div className="space-y-6">
-      <GlassCard variant="strong" className="p-6 space-y-2">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
+    <div className="space-y-4 sm:space-y-6">
+      <GlassCard variant="strong" className="p-4 sm:p-6 space-y-1.5 sm:space-y-2">
+        <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
           Official &amp; Community Fare Lookup
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#29262B] sm:text-3xl">
+        <h1 className="font-display text-xl leading-tight font-extrabold text-[#29262B] sm:text-3xl">
           Route &amp; Fare Finder
         </h1>
-        <p className="text-sm text-[#343039]">
+        <p className="text-xs sm:text-sm text-[#343039]">
           Search commuter fare guides and 20% discounts across all 15 LGUs.
         </p>
       </GlassCard>
@@ -36,8 +36,8 @@ export function FareSearchPage() {
         }}
       />
 
-      <GlassCard variant="surface" className="p-4 sm:p-5 space-y-3">
-        <h2 className="font-display text-lg font-bold text-[#29262B]">
+      <GlassCard variant="surface" className="p-3.5 sm:p-5 space-y-3">
+        <h2 className="font-display text-base sm:text-lg font-bold text-[#29262B]">
           Corridor Map Preview
         </h2>
         <OrientalMindoroMap
@@ -46,7 +46,7 @@ export function FareSearchPage() {
           destinationId={destinationId}
           onSelectOrigin={setOriginId}
           onSelectDestination={setDestinationId}
-          heightClassName="h-[340px] sm:h-[360px]"
+          heightClassName="h-[270px] sm:h-[360px]"
         />
       </GlassCard>
     </div>

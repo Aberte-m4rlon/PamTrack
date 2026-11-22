@@ -33,7 +33,16 @@ export function FareMatrixPage() {
   const [updatedAfter, setUpdatedAfter] = useState('');
   const [searchText, setSearchText] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const MATRIX_PAGE_SIZE = 25;
+
+  const activeFilterCount =
+    (municipalityFilter !== 'all' ? 1 : 0) +
+    (originFilter !== 'all' ? 1 : 0) +
+    (destinationFilter !== 'all' ? 1 : 0) +
+    (transportFilter !== 'all' ? 1 : 0) +
+    (statusFilter !== 'all' ? 1 : 0) +
+    (updatedAfter ? 1 : 0);
 
   const allRows = useMemo(
     () =>
@@ -137,16 +146,16 @@ export function FareMatrixPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <GlassCard variant="strong" className="p-6 flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
+    <div className="space-y-4 sm:space-y-6">
+      <GlassCard variant="strong" className="p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+        <div className="min-w-0 space-y-1">
+          <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
             Province-Wide Citizen Commuter Fare Table
           </p>
-          <h1 className="font-display text-2xl font-extrabold text-[#29262B] sm:text-3xl">
+          <h1 className="font-display text-xl leading-tight font-extrabold text-[#29262B] sm:text-3xl">
             Oriental Mindoro Fare Matrix
           </h1>
-          <p className="text-sm text-[#343039]">
+          <p className="text-xs sm:text-sm text-[#343039]">
             Province-wide fare estimates and 20% discount guide.
           </p>
         </div>
@@ -154,6 +163,8 @@ export function FareMatrixPage() {
         <GlassButton
           type="button"
           variant="secondary"
+          size="sm"
+          className="w-full sm:w-auto sm:min-h-[42px] sm:px-5 sm:text-sm shrink-0"
           onClick={handleExportCsv}
           disabled={filteredRows.length === 0}
         >
@@ -162,27 +173,57 @@ export function FareMatrixPage() {
         </GlassButton>
       </GlassCard>
 
-      {/* Filter Bar */}
-      <GlassCard variant="surface" className="p-4 sm:p-5 space-y-3">
-        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#C9182B]">
-          <Filter className="h-3.5 w-3.5" />
-          Filter Fare Matrix
+      {/* Filter Bar (Compact Search + Collapsible Mobile Filters) */}
+      <GlassCard variant="surface" className="p-3.5 sm:p-5 space-y-3">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#C9182B]">
+            <Filter className="h-3.5 w-3.5 shrink-0" />
+            <span>Filter Fare Matrix</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setFiltersOpen((v) => !v)}
+            className="liquid-btn-glass inline-flex min-h-[40px] items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-bold text-[#343039] md:hidden"
+            aria-expanded={filtersOpen}
+          >
+            <Filter className="h-3.5 w-3.5 text-[#C9182B]" />
+            <span>{filtersOpen ? 'Hide Filters' : 'Filters'}</span>
+            {activeFilterCount > 0 && (
+              <span className="liquid-nav-active rounded-full px-1.5 py-0.5 text-[10px] font-extrabold text-white tabular-nums">
+                {activeFilterCount}
+              </span>
+            )}
+          </button>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+        <div className="md:hidden">
+          <input
+            type="text"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            placeholder="Search route, town, or authority..."
+            className="glass-input min-h-[42px] w-full rounded-2xl px-3.5 py-2.5 text-sm"
+          />
+        </div>
+
+        <div
+          className={`${
+            filtersOpen ? 'grid' : 'hidden md:grid'
+          } gap-2.5 sm:gap-3 grid-cols-1 min-[360px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-6`}
+        >
           <input
             type="text"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             placeholder="Search route..."
-            className="glass-input rounded-2xl px-3.5 py-2 text-sm"
+            className="glass-input hidden md:block min-h-[42px] rounded-2xl px-3.5 py-2 text-sm"
           />
 
           <select
             value={municipalityFilter}
             onChange={(e) => setMunicipalityFilter(e.target.value)}
             aria-label="Filter by any municipality"
-            className="glass-input rounded-2xl px-3 py-2 text-sm"
+            className="glass-input min-h-[42px] rounded-2xl px-3 py-2 text-sm"
           >
             <option value="all">Any Municipality</option>
             {municipalities.map((m) => (
@@ -196,7 +237,7 @@ export function FareMatrixPage() {
             value={originFilter}
             onChange={(e) => setOriginFilter(e.target.value)}
             aria-label="Filter by origin"
-            className="glass-input rounded-2xl px-3 py-2 text-sm"
+            className="glass-input min-h-[42px] rounded-2xl px-3 py-2 text-sm"
           >
             <option value="all">All Origins</option>
             {municipalities.map((m) => (
@@ -210,7 +251,7 @@ export function FareMatrixPage() {
             value={destinationFilter}
             onChange={(e) => setDestinationFilter(e.target.value)}
             aria-label="Filter by destination"
-            className="glass-input rounded-2xl px-3 py-2 text-sm"
+            className="glass-input min-h-[42px] rounded-2xl px-3 py-2 text-sm"
           >
             <option value="all">All Destinations</option>
             {municipalities.map((m) => (
@@ -224,7 +265,7 @@ export function FareMatrixPage() {
             value={transportFilter}
             onChange={(e) => setTransportFilter(e.target.value)}
             aria-label="Filter by transport type"
-            className="glass-input rounded-2xl px-3 py-2 text-sm"
+            className="glass-input min-h-[42px] rounded-2xl px-3 py-2 text-sm"
           >
             <option value="all">All Modes</option>
             {transportTypes.map((tt) => (
@@ -238,7 +279,7 @@ export function FareMatrixPage() {
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as 'all' | FareStatus)}
             aria-label="Filter by fare status"
-            className="glass-input rounded-2xl px-3 py-2 text-sm"
+            className="glass-input min-h-[42px] rounded-2xl px-3 py-2 text-sm"
           >
             <option value="all">All Statuses</option>
             <option value="verified_official">Verified Official Fare</option>
@@ -248,14 +289,18 @@ export function FareMatrixPage() {
           </select>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div
+          className={`${
+            filtersOpen ? 'flex' : 'hidden md:flex'
+          } flex-wrap items-center justify-between gap-2 text-xs`}
+        >
           <div className="flex items-center gap-2">
             <label className="font-semibold text-[#777078]">Updated since:</label>
             <input
               type="date"
               value={updatedAfter}
               onChange={(e) => setUpdatedAfter(e.target.value)}
-              className="glass-input rounded-xl px-2.5 py-1 text-xs"
+              className="glass-input min-h-[40px] rounded-xl px-2.5 py-1.5 text-xs"
             />
           </div>
 
@@ -270,7 +315,7 @@ export function FareMatrixPage() {
               setUpdatedAfter('');
               setSearchText('');
             }}
-            className="font-bold text-[#C9182B] hover:underline"
+            className="inline-flex min-h-[38px] items-center px-2 font-bold text-[#C9182B] hover:underline"
           >
             Reset All Filters
           </button>
@@ -296,46 +341,48 @@ export function FareMatrixPage() {
       ) : (
         <GlassCard variant="strong">
           {/* Mobile Card Layout (<= 767px) */}
-          <div className="grid gap-3 p-3.5 md:hidden">
+          <div className="grid gap-2.5 p-3 md:hidden">
             {paginatedRows.map((row) => (
               <div
                 key={row.key}
-                className="glass-pill-tile rounded-[22px] p-4 space-y-2.5"
+                className="glass-pill-tile rounded-[20px] p-3.5 space-y-2.5"
               >
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <p className="font-display text-sm font-extrabold text-[#29262B]">
+                <div className="flex flex-col min-[380px]:flex-row min-[380px]:items-start min-[380px]:justify-between gap-1.5 min-[380px]:gap-2">
+                  <div className="min-w-0">
+                    <p className="font-display text-sm font-extrabold text-[#29262B] leading-snug">
                       {row.originName} → {row.destinationName}
                     </p>
                     <p className="text-xs font-semibold text-[#343039]">{row.transportTypeName}</p>
                   </div>
-                  <FareStatusBadge status={row.status} compact />
+                  <div className="shrink-0">
+                    <FareStatusBadge status={row.status} compact />
+                  </div>
                 </div>
 
-                <div className="glass-panel grid grid-cols-2 gap-2 rounded-2xl p-2.5 text-xs">
-                  <div>
-                    <span className="text-[#777078]">Regular:</span>{' '}
+                <div className="glass-panel grid grid-cols-2 gap-x-3 gap-y-1.5 rounded-2xl px-3 py-2.5 text-xs tabular-nums">
+                  <div className="flex items-center justify-between gap-1 whitespace-nowrap">
+                    <span className="text-[#777078]">Regular</span>
                     <strong className="text-[#C9182B]">{formatPhp(row.regularFare)}</strong>
                   </div>
-                  <div>
-                    <span className="text-[#777078]">Student:</span>{' '}
+                  <div className="flex items-center justify-between gap-1 whitespace-nowrap">
+                    <span className="text-[#777078]">Student</span>
                     <strong className="text-[#29262B]">{formatPhp(row.studentFare)}</strong>
                   </div>
-                  <div>
-                    <span className="text-[#777078]">Senior:</span>{' '}
+                  <div className="flex items-center justify-between gap-1 whitespace-nowrap">
+                    <span className="text-[#777078]">Senior</span>
                     <strong className="text-[#29262B]">{formatPhp(row.seniorFare)}</strong>
                   </div>
-                  <div>
-                    <span className="text-[#777078]">PWD:</span>{' '}
+                  <div className="flex items-center justify-between gap-1 whitespace-nowrap">
+                    <span className="text-[#777078]">PWD</span>
                     <strong className="text-[#29262B]">{formatPhp(row.pwdFare)}</strong>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between text-[11px] text-[#777078]">
-                  <span className="truncate">{row.issuingAuthority || 'Unverified'}</span>
+                <div className="flex items-center justify-between gap-2 text-[11px] text-[#777078]">
+                  <span className="min-w-0 truncate">{row.issuingAuthority || 'Unverified'}</span>
                   <Link
                     to={`/fares/${row.primaryRecordId}`}
-                    className="font-bold text-[#C9182B] hover:underline shrink-0"
+                    className="inline-flex min-h-[34px] items-center font-bold text-[#C9182B] hover:underline shrink-0 whitespace-nowrap"
                   >
                     Details ({formatDateSafe(row.lastVerifiedAt)}) →
                   </Link>

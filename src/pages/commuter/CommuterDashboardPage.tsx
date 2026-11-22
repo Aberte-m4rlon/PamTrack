@@ -77,12 +77,12 @@ export function CommuterDashboardPage() {
   ).slice(0, 3);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Welcome & Profile Banner */}
-      <GlassCard variant="rose" className="p-6">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="space-y-1.5">
-            <div className="flex flex-wrap items-center gap-2">
+      <GlassCard variant="rose" className="p-4 sm:p-6">
+        <div className="flex flex-col gap-3.5 sm:gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="space-y-1.5 min-w-0">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-wider">
                 <Sparkles className="h-3.5 w-3.5 text-[#F8E7EA]" />
                 Commuter Portal • {role.replace('_', ' ')}
@@ -92,7 +92,7 @@ export function CommuterDashboardPage() {
                 {trackingActive ? 'GPS Tracking Active' : 'GPS Standby'}
               </span>
             </div>
-            <h1 className="font-display text-2xl font-extrabold sm:text-3xl">
+            <h1 className="font-display text-xl leading-tight font-extrabold sm:text-3xl">
               Mabuhay, {profile?.full_name || user?.email?.split('@')[0] || 'Commuter'}!
             </h1>
             <p className="text-xs text-[#F8E7EA]/95 sm:text-sm">
@@ -104,28 +104,28 @@ export function CommuterDashboardPage() {
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            <Link to="/trips">
-              <GlassButton variant="secondary" size="sm">
-                <Radio className="h-4 w-4" />
-                Live Trip Monitor
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+            <Link to="/trips" className="w-full sm:w-auto">
+              <GlassButton variant="secondary" size="sm" className="w-full">
+                <Radio className="h-4 w-4 shrink-0" />
+                <span className="truncate">Live Trip</span>
               </GlassButton>
             </Link>
-            <Link to="/report-vehicle">
-              <GlassButton variant="glass" size="sm">
-                Report Vehicle
+            <Link to="/report-vehicle" className="w-full sm:w-auto">
+              <GlassButton variant="glass" size="sm" className="w-full">
+                <span className="truncate">Report Vehicle</span>
               </GlassButton>
             </Link>
-            <Link to="/dashboard/reports">
-              <GlassButton variant="glass" size="sm">
-                <MessageSquarePlus className="h-4 w-4 text-[#C9182B]" />
-                Report Fare
+            <Link to="/dashboard/reports" className="w-full sm:w-auto">
+              <GlassButton variant="glass" size="sm" className="w-full">
+                <MessageSquarePlus className="h-4 w-4 shrink-0 text-[#C9182B]" />
+                <span className="truncate">Report Fare</span>
               </GlassButton>
             </Link>
-            <Link to="/dashboard/profile">
-              <GlassButton variant="glass" size="sm">
-                <UserCheck className="h-4 w-4 text-[#C9182B]" />
-                Profile
+            <Link to="/dashboard/profile" className="w-full sm:w-auto">
+              <GlassButton variant="glass" size="sm" className="w-full">
+                <UserCheck className="h-4 w-4 shrink-0 text-[#C9182B]" />
+                <span className="truncate">Profile</span>
               </GlassButton>
             </Link>
           </div>
@@ -136,7 +136,7 @@ export function CommuterDashboardPage() {
       <GpsConsentCard compact />
 
       {/* Travel & Portal KPI Summary */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-2.5 sm:gap-4 lg:grid-cols-4">
         <GlassCard variant="strong" className="p-4">
           <p className="text-xs font-bold uppercase tracking-wider text-[#777078]">
             Trips &amp; Distance

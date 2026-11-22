@@ -576,11 +576,11 @@ export function LiveTripPage() {
   });
 
   return (
-    <div className="space-y-6">
-      <GlassCard variant="strong" className="p-5 sm:p-6 flex flex-wrap items-center justify-between gap-3">
-        <div>
+    <div className="space-y-4 sm:space-y-6">
+      <GlassCard variant="strong" className="p-4 sm:p-6 flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-3">
+        <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
+            <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
               GPS Trip Monitoring
             </p>
             {isOffline && (
@@ -590,22 +590,22 @@ export function LiveTripPage() {
               </span>
             )}
           </div>
-          <h1 className="font-display text-2xl font-extrabold text-[#29262B] sm:text-3xl">
+          <h1 className="font-display text-xl leading-tight font-extrabold text-[#29262B] sm:text-3xl">
             Live Trip Monitor
           </h1>
           <p className="text-xs sm:text-sm text-[#343039]">
             Track moving GPS location, distance, and route/arrival alerts online or offline.
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Link to="/trips/analytics">
-            <GlassButton variant="glass" size="sm">
-              Trip History &amp; Analytics
+        <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap w-full sm:w-auto">
+          <Link to="/trips/analytics" className="w-full sm:w-auto">
+            <GlassButton variant="glass" size="sm" className="w-full">
+              Trip Analytics
             </GlassButton>
           </Link>
-          <Link to="/safety">
-            <GlassButton variant="secondary" size="sm">
-              <ShieldAlert className="h-3.5 w-3.5" />
+          <Link to="/safety" className="w-full sm:w-auto">
+            <GlassButton variant="secondary" size="sm" className="w-full">
+              <ShieldAlert className="h-3.5 w-3.5 shrink-0" />
               Safety Center
             </GlassButton>
           </Link>
@@ -615,12 +615,12 @@ export function LiveTripPage() {
       <GpsConsentCard compact />
 
       {!user && (
-        <GlassCard variant="strong" className="p-5 border-[#E9E5E8] flex flex-wrap items-center justify-between gap-3">
+        <GlassCard variant="strong" className="p-4 sm:p-5 border-[#E9E5E8] flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-3">
           <p className="text-xs sm:text-sm font-semibold text-[#29262B]">
             Sign in to record trips and trigger offline alerts.
           </p>
-          <Link to="/login">
-            <GlassButton variant="primary" size="sm">
+          <Link to="/login" className="w-full sm:w-auto">
+            <GlassButton variant="primary" size="sm" className="w-full sm:w-auto">
               Sign In to Start Trip
             </GlassButton>
           </Link>
@@ -628,8 +628,8 @@ export function LiveTripPage() {
       )}
 
       {/* Trip Setup or Active Trip Controls */}
-      <div className="grid gap-6 lg:grid-cols-12">
-        <GlassCard variant="strong" className="p-5 lg:col-span-5 space-y-4 h-fit">
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-12">
+        <GlassCard variant="strong" className="p-4 sm:p-5 lg:col-span-5 space-y-4 h-fit">
           {!activeTrip ? (
             <>
               <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#29262B]">
