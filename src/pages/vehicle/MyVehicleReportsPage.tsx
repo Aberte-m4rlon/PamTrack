@@ -77,13 +77,13 @@ export function MyVehicleReportsPage() {
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
             Private Complaint Tracker
           </p>
-          <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
+          <h1 className="font-display text-2xl font-extrabold text-[#29262B]">
             My Vehicle &amp; Violation Reports
           </h1>
-          <p className="text-xs sm:text-sm text-[#78716C]">
+          <p className="text-xs sm:text-sm text-[#777078]">
             Track your reference numbers, view administrator remarks, add requested evidence, or
             download your complaint summary packet.
           </p>
@@ -99,7 +99,7 @@ export function MyVehicleReportsPage() {
       {/* Filters */}
       <GlassCard variant="surface" className="p-4 grid gap-3 sm:grid-cols-3">
         <div className="relative">
-          <Search className="absolute left-3 top-3 h-4 w-4 text-[#A8A29E]" />
+          <Search className="absolute left-3 top-3 h-4 w-4 text-[#777078]" />
           <input
             type="text"
             value={searchQuery}
@@ -170,16 +170,16 @@ export function MyVehicleReportsPage() {
               <GlassCard key={rep.id} variant="strong" className="p-5 space-y-3">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
-                    <p className="font-mono text-xs font-extrabold text-[#DC2626]">
+                    <p className="font-mono text-xs font-extrabold text-[#C9182B]">
                       {rep.reference_number}
                     </p>
-                    <h2 className="font-display text-lg font-extrabold text-[#24191D]">
+                    <h2 className="font-display text-lg font-extrabold text-[#29262B]">
                       {rep.vehicle_type} •{' '}
                       {rep.plate_not_available
                         ? 'Plate Not Available'
                         : rep.plate_number || 'Unlisted'}
                     </h2>
-                    <p className="text-xs text-[#78716C]">
+                    <p className="text-xs text-[#777078]">
                       {rep.municipality?.name} • Incident Date: {formatDateSafe(rep.incident_date)}
                     </p>
                   </div>
@@ -189,7 +189,7 @@ export function MyVehicleReportsPage() {
                     >
                       {rep.complaint_status}
                     </span>
-                    <p className="text-[10px] font-semibold text-[#A8A29E]">
+                    <p className="text-[10px] font-semibold text-[#777078]">
                       {meta.isExternalAgencyStage
                         ? 'External Agency Stage'
                         : 'Internal Pamasahe Tracker Status'}
@@ -201,7 +201,7 @@ export function MyVehicleReportsPage() {
                   {(rep.categories ?? []).map((c) => (
                     <span
                       key={c.id}
-                      className="rounded-full bg-[#FFE4E6] px-2.5 py-0.5 text-[11px] font-semibold text-[#B91C1C]"
+                      className="rounded-full bg-[#F8E7EA] px-2.5 py-0.5 text-[11px] font-semibold text-[#B51224]"
                     >
                       Alleged: {c.category}
                     </span>
@@ -209,7 +209,7 @@ export function MyVehicleReportsPage() {
                 </div>
 
                 {rep.admin_remarks && (
-                  <div className="glass-pill-tile rounded-[20px] p-3 text-xs text-[#24191D]">
+                  <div className="glass-pill-tile rounded-[20px] p-3 text-xs text-[#29262B]">
                     <strong>Administrator Remarks:</strong> {rep.admin_remarks}
                   </div>
                 )}

@@ -72,10 +72,10 @@ export function GlassButton({
   const variantStyles: Record<NonNullable<GlassButtonProps['variant']>, string> = {
     primary: 'liquid-btn-primary',
     secondary: 'liquid-btn-secondary',
-    emerald: 'liquid-btn-secondary text-[#B91C1C]',
+    emerald: 'liquid-btn-secondary text-[#B51224]',
     glass: 'liquid-btn-glass',
     danger: 'liquid-btn-danger',
-    ghost: 'bg-transparent hover:bg-white/55 text-[#24191D]',
+    ghost: 'bg-transparent hover:bg-white/55 text-[#29262B]',
   };
 
   const sizeStyles: Record<NonNullable<GlassButtonProps['size']>, string> = {
@@ -87,7 +87,7 @@ export function GlassButton({
   return (
     <button
       className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-full font-semibold tracking-tight transition-all duration-150 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626] focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-55',
+        'inline-flex items-center justify-center gap-2 rounded-full font-semibold tracking-tight transition-all duration-150 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9182B] focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-55',
         variantStyles[variant],
         sizeStyles[size],
         className
@@ -174,7 +174,7 @@ export function GlassTabs<T extends string>({
               'inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition-all',
               active
                 ? 'liquid-nav-active text-white'
-                : 'text-[#78716C] hover:bg-white/60 hover:text-[#DC2626]'
+                : 'text-[#343039] hover:bg-[#F7F3EF]/80 hover:text-[#C9182B]'
             )}
           >
             <span>{tab.label}</span>
@@ -182,7 +182,7 @@ export function GlassTabs<T extends string>({
               <span
                 className={cn(
                   'rounded-full px-1.5 py-0.5 text-[10px] font-extrabold',
-                  active ? 'bg-white/25 text-white' : 'bg-[#FFE4E6]/85 text-[#B91C1C]'
+                  active ? 'bg-white/25 text-white' : 'bg-[#F8E7EA]/85 text-[#B51224]'
                 )}
               >
                 {tab.count}
@@ -223,7 +223,7 @@ export function PageHeader({
               <React.Fragment key={b.label}>
                 {i > 0 && (
                   <ChevronRight
-                    className={cn('h-3.5 w-3.5', isRose ? 'text-white/70' : 'text-[#A8A29E]')}
+                    className={cn('h-3.5 w-3.5', isRose ? 'text-white/70' : 'text-[#777078]')}
                   />
                 )}
                 {b.to ? (
@@ -231,13 +231,13 @@ export function PageHeader({
                     to={b.to}
                     className={cn(
                       'hover:underline',
-                      isRose ? 'text-[#FFE4E6]' : 'text-[#DC2626]'
+                      isRose ? 'text-[#F8E7EA]' : 'text-[#C9182B]'
                     )}
                   >
                     {b.label}
                   </Link>
                 ) : (
-                  <span className={isRose ? 'text-white/90' : 'text-[#78716C]'}>{b.label}</span>
+                  <span className={isRose ? 'text-white/90' : 'text-[#777078]'}>{b.label}</span>
                 )}
               </React.Fragment>
             ))}
@@ -247,7 +247,7 @@ export function PageHeader({
           <p
             className={cn(
               'text-xs font-bold uppercase tracking-widest',
-              isRose ? 'text-[#FFE4E6]' : 'text-[#DC2626]'
+              isRose ? 'text-[#F8E7EA]' : 'text-[#C9182B]'
             )}
           >
             {eyebrow}
@@ -256,13 +256,13 @@ export function PageHeader({
         <h1
           className={cn(
             'font-display text-2xl font-extrabold sm:text-3xl',
-            isRose ? 'text-white' : 'text-[#24191D]'
+            isRose ? 'text-white' : 'text-[#29262B]'
           )}
         >
           {title}
         </h1>
         {description && (
-          <p className={cn('text-xs sm:text-sm max-w-3xl', isRose ? 'text-[#FFE4E6]/90' : 'text-[#78716C]')}>
+          <p className={cn('text-xs sm:text-sm max-w-3xl', isRose ? 'text-[#F8E7EA]/90' : 'text-[#777078]')}>
             {description}
           </p>
         )}
@@ -289,14 +289,14 @@ export function StatCard({
 }) {
   const valueTone =
     tone === 'success'
-      ? 'text-[#DC2626]'
+      ? 'text-[#C9182B]'
       : tone === 'warning'
-        ? 'text-[#B91C1C]'
+        ? 'text-[#B51224]'
         : tone === 'info'
-          ? 'text-[#DC2626]'
+          ? 'text-[#C9182B]'
           : tone === 'neutral'
-            ? 'text-[#24191D]'
-            : 'text-[#DC2626]';
+            ? 'text-[#29262B]'
+            : 'text-[#C9182B]';
 
   const content = (
     <GlassCard
@@ -305,16 +305,16 @@ export function StatCard({
       className="p-4 flex items-center justify-between gap-3 h-full rounded-[24px]"
     >
       <div className="min-w-0">
-        <p className="text-[11px] font-bold uppercase tracking-wider text-[#78716C] truncate">
+        <p className="text-[11px] font-bold uppercase tracking-wider text-[#777078] truncate">
           {label}
         </p>
         <p className={cn('mt-1 font-display text-2xl font-extrabold tabular-nums', valueTone)}>
           {value}
         </p>
-        {sublabel && <p className="mt-0.5 text-xs font-semibold text-[#78716C]">{sublabel}</p>}
+        {sublabel && <p className="mt-0.5 text-xs font-semibold text-[#777078]">{sublabel}</p>}
       </div>
       {Icon && (
-        <div className="glass-pill-tile flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-[#DC2626]">
+        <div className="glass-pill-tile flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-[#C9182B]">
           <Icon className="h-5 w-5" />
         </div>
       )}
@@ -335,14 +335,14 @@ export function StatusBadge({
 }) {
   const styles =
     tone === 'success'
-      ? 'bg-gradient-to-b from-[#EF4444]/85 to-[#B91C1C]/90 text-white border border-white/65 shadow-[inset_0_1px_1px_rgba(255,255,255,0.7),0_4px_12px_rgba(185,28,28,0.22)] backdrop-blur-md'
+      ? 'bg-gradient-to-b from-[#C9182B]/90 to-[#B51224]/95 text-white border border-white/65 shadow-[inset_0_1px_1px_rgba(255,255,255,0.72),0_4px_12px_rgba(181,18,36,0.22)] backdrop-blur-md'
       : tone === 'warning'
-        ? 'bg-[#FFE4E6]/85 text-[#B91C1C] border border-[#FECDD3] shadow-[inset_0_1px_1px_rgba(255,255,255,0.88),0_4px_12px_rgba(185,28,28,0.10)] backdrop-blur-md'
+        ? 'bg-[#F8E7EA]/90 text-[#B51224] border border-[#E9E5E8] shadow-[inset_0_1px_1px_rgba(255,255,255,0.88),0_4px_12px_rgba(41,38,43,0.08)] backdrop-blur-md'
         : tone === 'info'
-          ? 'bg-white/75 text-[#B91C1C] border border-white/85 shadow-[inset_0_1px_1px_rgba(255,255,255,0.92),0_4px_12px_rgba(185,28,28,0.10)] backdrop-blur-md'
+          ? 'bg-[#F7F3EF]/85 text-[#343039] border border-white/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.92),0_4px_12px_rgba(41,38,43,0.08)] backdrop-blur-md'
           : tone === 'neutral'
-            ? 'bg-white/65 text-[#4B3B40] border border-white/80 shadow-[inset_0_1px_1px_rgba(255,255,255,0.85)] backdrop-blur-md'
-            : 'bg-white/75 text-[#B91C1C] border border-[#FECDD3] shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),0_4px_12px_rgba(185,28,28,0.10)] backdrop-blur-md';
+            ? 'bg-white/75 text-[#343039] border border-[#E9E5E8] shadow-[inset_0_1px_1px_rgba(255,255,255,0.85)] backdrop-blur-md'
+            : 'bg-[#F7F3EF]/85 text-[#B51224] border border-[#E9E5E8] shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),0_4px_12px_rgba(181,18,36,0.10)] backdrop-blur-md';
 
   return (
     <span
@@ -470,11 +470,11 @@ export function EmptyStateCard({
 }) {
   return (
     <GlassCard variant="strong" className="p-8 text-center">
-      <div className="glass-pill-tile mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full text-[#DC2626]">
+      <div className="glass-pill-tile mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full text-[#C9182B]">
         <Icon className="h-6 w-6" />
       </div>
-      <h3 className="text-base font-bold text-[#24191D]">{title}</h3>
-      <p className="mx-auto mt-1.5 max-w-md text-sm text-[#4B3B40]">{description}</p>
+      <h3 className="text-base font-bold text-[#29262B]">{title}</h3>
+      <p className="mx-auto mt-1.5 max-w-md text-sm text-[#343039]">{description}</p>
       {action && <div className="mt-4 flex justify-center">{action}</div>}
     </GlassCard>
   );
@@ -486,22 +486,22 @@ export function SupabaseSetupBanner({ compact = false }: { compact?: boolean }) 
   return (
     <div
       className={cn(
-        'glass-card-strong liquid-glass-sheen flex flex-col gap-3 rounded-[24px] p-4 text-[#24191D] sm:flex-row sm:items-center sm:justify-between',
+        'glass-card-strong liquid-glass-sheen flex flex-col gap-3 rounded-[24px] p-4 text-[#29262B] sm:flex-row sm:items-center sm:justify-between',
         compact && 'p-3'
       )}
     >
       <div className="flex items-start gap-3">
-        <div className="glass-pill-tile mt-0.5 rounded-full p-2 text-[#B91C1C]">
+        <div className="glass-pill-tile mt-0.5 rounded-full p-2 text-[#B51224]">
           <Database className="h-5 w-5" />
         </div>
         <div>
           <p className="text-sm font-bold">Supabase Backend Credentials Not Configured</p>
-          <p className="text-xs text-[#4B3B40]">
+          <p className="text-xs text-[#343039]">
             Geospatial map coordinates for all 15 Oriental Mindoro municipalities and OSRM road
-            routing are active. Add <code className="font-semibold text-[#24191D]">VITE_SUPABASE_URL</code> and{' '}
-            <code className="font-semibold text-[#24191D]">VITE_SUPABASE_ANON_KEY</code> to{' '}
-            <code className="font-semibold text-[#24191D]">.env</code> and run the SQL migrations in{' '}
-            <code className="font-semibold text-[#24191D]">supabase/migrations/</code> to enable live authentication,
+            routing are active. Add <code className="font-semibold text-[#29262B]">VITE_SUPABASE_URL</code> and{' '}
+            <code className="font-semibold text-[#29262B]">VITE_SUPABASE_ANON_KEY</code> to{' '}
+            <code className="font-semibold text-[#29262B]">.env</code> and run the SQL migrations in{' '}
+            <code className="font-semibold text-[#29262B]">supabase/migrations/</code> to enable live authentication,
             official fare records, and reporting.
           </p>
         </div>
@@ -526,15 +526,15 @@ export function GlassModal({
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-50 bg-[#24191D]/30 backdrop-blur-md" />
+        <Dialog.Overlay className="fixed inset-0 z-50 bg-[#29262B]/30 backdrop-blur-md" />
         <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-[92vw] max-w-lg -translate-x-1/2 -translate-y-1/2 glass-card-strong liquid-glass-sheen rounded-[30px] p-6 shadow-2xl">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <Dialog.Title className="font-display text-lg font-bold text-[#24191D]">
+              <Dialog.Title className="font-display text-lg font-bold text-[#29262B]">
                 {title}
               </Dialog.Title>
               {description && (
-                <Dialog.Description className="mt-1 text-sm text-[#78716C]">
+                <Dialog.Description className="mt-1 text-sm text-[#777078]">
                   {description}
                 </Dialog.Description>
               )}
@@ -543,7 +543,7 @@ export function GlassModal({
               <button
                 type="button"
                 aria-label="Close modal"
-                className="liquid-btn-glass rounded-full p-2 text-[#78716C] hover:text-[#DC2626] transition"
+                className="liquid-btn-glass rounded-full p-2 text-[#777078] hover:text-[#C9182B] transition"
               >
                 <X className="h-4 w-4" />
               </button>

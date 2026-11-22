@@ -49,17 +49,17 @@ export function UserManagementPage() {
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
             Identity &amp; Role-Based Access Control
           </p>
-          <h1 className="font-display text-2xl font-extrabold text-[#24191D]">User Management</h1>
-          <p className="text-sm text-[#78716C]">
+          <h1 className="font-display text-2xl font-extrabold text-[#29262B]">User Management</h1>
+          <p className="text-sm text-[#777078]">
             Role modifications are exclusively permitted for Super Administrators and enforced by
             PostgreSQL security functions.
           </p>
         </div>
         {!isSuperAdmin && (
-          <span className="glass-pill-tile inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold text-[#B91C1C]">
+          <span className="glass-pill-tile inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold text-[#B51224]">
             <Shield className="h-3.5 w-3.5" /> Read-Only (Super Admin required to change roles)
           </span>
         )}
@@ -83,12 +83,12 @@ export function UserManagementPage() {
                 <div key={u.id} className="glass-pill-tile rounded-[22px] p-4 space-y-2.5 text-xs">
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
-                      <p className="truncate font-display text-sm font-extrabold text-[#24191D]">
+                      <p className="truncate font-display text-sm font-extrabold text-[#29262B]">
                         {u.full_name || 'Unnamed'}
                       </p>
-                      <p className="truncate text-[#78716C]">{u.email}</p>
+                      <p className="truncate text-[#777078]">{u.email}</p>
                     </div>
-                    <span className="shrink-0 rounded-full border border-white/90 bg-white/75 px-2.5 py-0.5 font-bold uppercase text-[#DC2626]">
+                    <span className="shrink-0 rounded-full border border-white/90 bg-white/75 px-2.5 py-0.5 font-bold uppercase text-[#C9182B]">
                       {u.role.replace('_', ' ')}
                     </span>
                   </div>
@@ -128,7 +128,7 @@ export function UserManagementPage() {
           {/* Desktop/Tablet Table (>= 768px) */}
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full min-w-[760px] text-left text-xs">
-              <thead className="glass-table-head font-bold uppercase tracking-wider text-[#24191D]">
+              <thead className="glass-table-head font-bold uppercase tracking-wider text-[#29262B]">
                 <tr>
                   <th className="px-4 py-3">User</th>
                   <th className="px-4 py-3">Email</th>
@@ -141,12 +141,12 @@ export function UserManagementPage() {
                   const nextRole = selectedRoleMap[u.id] ?? u.role;
                   return (
                     <tr key={u.id} className="hover:bg-white/55 transition">
-                      <td className="px-4 py-3 font-bold text-sm text-[#24191D]">
+                      <td className="px-4 py-3 font-bold text-sm text-[#29262B]">
                         {u.full_name || 'Unnamed'}
                       </td>
-                      <td className="px-4 py-3 text-[#78716C]">{u.email}</td>
+                      <td className="px-4 py-3 text-[#777078]">{u.email}</td>
                       <td className="px-4 py-3">
-                        <span className="glass-pill-tile rounded-full px-3 py-0.5 font-bold uppercase text-[#DC2626]">
+                        <span className="glass-pill-tile rounded-full px-3 py-0.5 font-bold uppercase text-[#C9182B]">
                           {u.role.replace('_', ' ')}
                         </span>
                       </td>

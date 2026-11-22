@@ -41,10 +41,10 @@ export function AdminSafetyReportsPage() {
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
           Commuter Safety Moderation
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
+        <h1 className="font-display text-2xl font-extrabold text-[#29262B]">
           Safety Incident Reports
         </h1>
       </GlassCard>
@@ -63,20 +63,20 @@ export function AdminSafetyReportsPage() {
             <GlassCard key={rep.id} variant="strong" className="p-5 space-y-3 text-xs">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="glass-pill-tile rounded-full px-2.5 py-0.5 font-bold uppercase text-[#B91C1C]">
+                  <span className="glass-pill-tile rounded-full px-2.5 py-0.5 font-bold uppercase text-[#B51224]">
                     {rep.severity}
                   </span>
-                  <span className="font-display text-base font-bold text-[#24191D]">
+                  <span className="font-display text-base font-bold text-[#29262B]">
                     {rep.incident_type}
                   </span>
                 </div>
-                <span className="glass-pill-tile rounded-full px-3 py-1 font-bold uppercase text-[#DC2626]">
+                <span className="glass-pill-tile rounded-full px-3 py-1 font-bold uppercase text-[#C9182B]">
                   {rep.status}
                 </span>
               </div>
 
-              <p className="text-sm text-[#24191D]/85">{rep.description}</p>
-              <p className="text-[#78716C]">
+              <p className="text-sm text-[#29262B]/85">{rep.description}</p>
+              <p className="text-[#777078]">
                 Submitted {formatDateTimeSafe(rep.created_at)}
                 {rep.vehicle_or_operator_details
                   ? ` • Vehicle: ${rep.vehicle_or_operator_details}`

@@ -124,7 +124,7 @@ function SidebarContent({
   const renderNavSection = (title: string, items: SidebarNavItem[]) => (
     <div className="space-y-1">
       {!collapsed && (
-        <p className="px-3 pb-1 text-[10px] font-bold uppercase tracking-widest text-[#78716C]">
+        <p className="px-3 pb-1 text-[10px] font-bold uppercase tracking-widest text-[#777078]">
           {title}
         </p>
       )}
@@ -145,27 +145,36 @@ function SidebarContent({
             }
             className={({ isActive }) =>
               cn(
-                'flex items-center justify-between rounded-full px-3.5 py-2 text-[13px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626]',
+                'group flex items-center justify-between rounded-full px-3.5 py-2 text-[13px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9182B]',
                 collapsed && 'justify-center px-2',
                 isActive
                   ? 'liquid-nav-active text-white'
                   : offlineLocked
-                    ? 'text-[#78716C]/70 hover:bg-white/55 hover:text-[#DC2626]'
-                    : 'text-[#24191D]/90 hover:bg-white/70 hover:text-[#DC2626] hover:shadow-sm'
+                    ? 'text-[#777078]/75 hover:bg-[#F7F3EF]/75 hover:text-[#C9182B]'
+                    : 'text-[#29262B] hover:bg-[#F7F3EF]/80 hover:text-[#C9182B] hover:shadow-sm'
               )
             }
           >
-            <span className="flex items-center gap-2.5 min-w-0">
-              <item.icon className="h-4 w-4 shrink-0" />
-              {!collapsed && <span className="truncate">{item.label}</span>}
-            </span>
-            {!collapsed && offlineLocked && (
-              <WifiOff className="h-3.5 w-3.5 shrink-0 opacity-70" aria-label="Requires internet" />
-            )}
-            {!collapsed && !offlineLocked && item.to === '/dashboard/notifications' && unreadCount > 0 && (
-              <span className="liquid-nav-active rounded-full px-2 py-0.5 text-[10px] font-bold text-white">
-                {unreadCount}
-              </span>
+            {({ isActive }) => (
+              <>
+                <span className="flex items-center gap-2.5 min-w-0">
+                  <item.icon
+                    className={cn(
+                      'h-4 w-4 shrink-0 transition-colors',
+                      isActive ? 'text-white' : 'text-[#343039] group-hover:text-[#C9182B]'
+                    )}
+                  />
+                  {!collapsed && <span className="truncate">{item.label}</span>}
+                </span>
+                {!collapsed && offlineLocked && (
+                  <WifiOff className="h-3.5 w-3.5 shrink-0 opacity-70" aria-label="Requires internet" />
+                )}
+                {!collapsed && !offlineLocked && item.to === '/dashboard/notifications' && unreadCount > 0 && (
+                  <span className="liquid-nav-active rounded-full px-2 py-0.5 text-[10px] font-bold text-white">
+                    {unreadCount}
+                  </span>
+                )}
+              </>
             )}
           </NavLink>
         );
@@ -183,11 +192,11 @@ function SidebarContent({
 
         {!user && !collapsed && (
           <div className="glass-pill-tile rounded-[22px] p-3.5 space-y-2.5">
-            <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#B91C1C]">
-              <Lock className="h-3.5 w-3.5" />
+            <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#343039]">
+              <Lock className="h-3.5 w-3.5 text-[#C9182B]" />
               <span>Sign In to Unlock More</span>
             </div>
-            <p className="text-[11px] leading-snug text-[#4B3B40]">
+            <p className="text-[11px] leading-snug text-[#777078]">
               Unlock GPS Map, Trips, Safety &amp; Reporting.
             </p>
             <div className="grid grid-cols-2 gap-1.5">
@@ -218,19 +227,19 @@ function SidebarContent({
         <div className="glass-pill-tile rounded-[22px] p-3">
           {user ? (
             <div className="space-y-0.5">
-              <p className="truncate text-xs font-bold text-[#24191D]">
+              <p className="truncate text-xs font-bold text-[#29262B]">
                 {profile?.full_name || user.email?.split('@')[0]}
               </p>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-[#DC2626]">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-[#C9182B]">
                 {role.replace('_', ' ')}
               </p>
             </div>
           ) : (
             <div>
-              <p className="font-display text-xs font-extrabold italic text-[#B91C1C]">
+              <p className="font-display text-xs font-extrabold italic text-[#B51224]">
                 Tamang Pamasahe.
               </p>
-              <p className="font-display text-xs font-extrabold italic text-[#DC2626]">
+              <p className="font-display text-xs font-extrabold italic text-[#C9182B]">
                 Ligtas na Biyahe.
               </p>
             </div>

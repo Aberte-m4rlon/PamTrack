@@ -39,11 +39,23 @@ export const LIGHT_RED_THEME = {
     },
   },
   map: {
-    originPin: '#DC2626',
-    destinationPin: '#B91C1C',
-    capitalPin: '#991B1B',
-    defaultPin: '#EF4444',
+    originPin: '#C9182B',
+    destinationPin: '#B51224',
+    capitalPin: '#343039',
+    defaultPin: '#C9182B',
     gpsUserPin: '#2563EB',
-    routeLine: '#DC2626',
+    routeLine: '#C9182B',
   },
+} as const;
+
+export const RED_CHARCOAL_GLASS_PALETTE = {
+  deepCrimson: '#C9182B',
+  richRed: '#B51224',
+  softCharcoal: '#343039',
+  darkCharcoal: '#29262B',
+  blushPink: '#F8E7EA',
+  pearlWhite: '#F7F3EF',
+  frostedWhite: '#FFFFFF',
+  mutedGray: '#777078',
+  silverWhite: '#E9E5E8',
 } as const;

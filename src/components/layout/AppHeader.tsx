@@ -70,7 +70,7 @@ export function AppHeader({
           <button
             type="button"
             onClick={onToggleSidebar}
-            className="desktop-sidebar-shell liquid-btn-glass rounded-full p-2 text-[#DC2626] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626]"
+            className="desktop-sidebar-shell liquid-btn-glass rounded-full p-2 text-[#C9182B] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9182B]"
             aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             title={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
@@ -82,7 +82,7 @@ export function AppHeader({
           </button>
 
           <Link to="/" className="flex items-center gap-2 sm:gap-2.5 group min-w-0">
-            <div className="relative flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full border border-white/95 bg-white/75 p-0.5 shadow-sm transition-transform group-hover:scale-105">
+            <div className="relative flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full border border-white/95 bg-[#F7F3EF]/85 p-0.5 shadow-sm transition-transform group-hover:scale-105">
               <img
                 src="/assets/pamasahe-tracker-icon.png"
                 alt="Pamasahe Tracker Logo"
@@ -90,12 +90,12 @@ export function AppHeader({
               />
             </div>
             <div className="min-w-0">
-              <span className="block truncate font-display text-[13px] sm:text-base font-extrabold tracking-tight text-[#24191D]">
+              <span className="block truncate font-display text-[13px] sm:text-base font-extrabold tracking-tight text-[#29262B]">
                 Pamasahe Tracker
               </span>
-              <span className="hidden truncate text-[11px] font-semibold text-[#78716C] sm:block">
+              <span className="hidden truncate text-[11px] font-semibold text-[#777078] sm:block">
                 Oriental Mindoro •{' '}
-                <span className="text-[#DC2626]">Tamang Pamasahe. Ligtas na Biyahe.</span>
+                <span className="text-[#C9182B]">Tamang Pamasahe. Ligtas na Biyahe.</span>
               </span>
             </div>
           </Link>
@@ -105,7 +105,7 @@ export function AppHeader({
           {isOffline && (
             <div
               role="status"
-              className="inline-flex items-center gap-1 rounded-full border border-white/90 bg-[#FFE4E6]/85 backdrop-blur-md px-2 py-1 text-[11px] font-bold text-[#B91C1C] shadow-sm"
+              className="inline-flex items-center gap-1 rounded-full border border-white/90 bg-[#F8E7EA]/85 backdrop-blur-md px-2 py-1 text-[11px] font-bold text-[#B51224] shadow-sm"
               title="Offline Mode: showing cached fare tools only"
             >
               <WifiOff className="h-3.5 w-3.5 shrink-0" />
@@ -114,9 +114,9 @@ export function AppHeader({
           )}
 
           {trackingActive && (
-            <div className="liquid-btn-glass flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold text-[#24191D]">
-              <span className="h-2 w-2 rounded-full bg-[#DC2626] animate-pulse" />
-              <span className="hidden sm:inline text-[#B91C1C]">
+            <div className="liquid-btn-glass flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold text-[#29262B]">
+              <span className="h-2 w-2 rounded-full bg-[#C9182B] animate-pulse" />
+              <span className="hidden sm:inline text-[#B51224]">
                 GPS Active
                 {nearestMunicipality?.withinOrientalMindoro
                   ? ` (${nearestMunicipality.municipality.name})`
@@ -126,7 +126,7 @@ export function AppHeader({
                 type="button"
                 onClick={stopTracking}
                 title="Stop GPS Tracking immediately"
-                className="ml-0.5 inline-flex items-center gap-0.5 rounded-full bg-[#FFE4E6] px-2 py-0.5 text-[10px] font-bold text-[#B91C1C] hover:bg-[#FECACA] transition"
+                className="ml-0.5 inline-flex items-center gap-0.5 rounded-full bg-[#F8E7EA] px-2 py-0.5 text-[10px] font-bold text-[#B51224] hover:bg-[#E9E5E8] transition"
               >
                 <Square className="h-2.5 w-2.5 fill-current" />
                 Stop
@@ -136,7 +136,7 @@ export function AppHeader({
 
           <Link to="/fare-search" className="hidden md:inline-flex">
             <GlassButton variant="secondary" size="sm">
-              <Search className="h-3.5 w-3.5" />
+              <Search className="h-3.5 w-3.5 text-[#C9182B]" />
               Check Fare
             </GlassButton>
           </Link>
@@ -150,7 +150,7 @@ export function AppHeader({
                     setNotifOpen((v) => !v);
                     setMenuOpen(false);
                   }}
-                  className="liquid-btn-glass relative flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full text-[#24191D] hover:text-[#DC2626] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626]"
+                  className="liquid-btn-glass relative flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full text-[#29262B] hover:text-[#C9182B] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9182B]"
                   aria-label="Notifications"
                 >
                   <Bell className="h-4 w-4" />
@@ -164,19 +164,19 @@ export function AppHeader({
                 {notifOpen && (
                   <div className="glass-card-strong liquid-glass-sheen absolute right-0 mt-2.5 w-[calc(100vw-1.5rem)] max-w-[20rem] rounded-[28px] p-4 shadow-2xl z-50 space-y-3">
                     <div className="flex items-center justify-between">
-                      <p className="font-display text-sm font-bold text-[#24191D]">
+                      <p className="font-display text-sm font-bold text-[#29262B]">
                         Notifications ({unreadCount} unread)
                       </p>
                       <Link
                         to="/dashboard/notifications"
                         onClick={() => setNotifOpen(false)}
-                        className="text-xs font-bold text-[#DC2626] hover:underline"
+                        className="text-xs font-bold text-[#C9182B] hover:underline"
                       >
                         View all →
                       </Link>
                     </div>
                     {(notifications ?? []).slice(0, 4).length === 0 ? (
-                      <p className="rounded-2xl border border-white/85 bg-white/60 p-3 text-xs text-[#78716C]">
+                      <p className="rounded-2xl border border-white/85 bg-white/60 p-3 text-xs text-[#777078]">
                         No notifications yet. Fare verification and vehicle status alerts appear here.
                       </p>
                     ) : (
@@ -187,14 +187,14 @@ export function AppHeader({
                             className={`rounded-2xl p-2.5 text-xs border transition ${
                               n.is_read
                                 ? 'bg-white/60 border-white/80'
-                                : 'bg-[#FFE4E6]/65 border-white/95'
+                                : 'bg-[#F8E7EA]/65 border-white/95'
                             }`}
                           >
-                            <p className="font-bold text-[#24191D]">{n.title}</p>
-                            <p className="mt-0.5 text-[11px] text-[#78716C] line-clamp-2">
+                            <p className="font-bold text-[#29262B]">{n.title}</p>
+                            <p className="mt-0.5 text-[11px] text-[#777078] line-clamp-2">
                               {n.message}
                             </p>
-                            <p className="mt-1 text-[10px] text-[#A8A29E]">
+                            <p className="mt-1 text-[10px] text-[#777078]">
                               {formatDateTimeSafe(n.created_at)}
                             </p>
                           </li>
@@ -213,41 +213,41 @@ export function AppHeader({
                     setNotifOpen(false);
                   }}
                   aria-label="User profile menu"
-                  className="liquid-btn-secondary flex min-h-[38px] items-center gap-2 rounded-full px-2 py-1 sm:px-3 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626]"
+                  className="liquid-btn-secondary flex min-h-[38px] items-center gap-2 rounded-full px-2 py-1 sm:px-3 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9182B]"
                 >
                   <div className="liquid-nav-active flex h-7 w-7 items-center justify-center rounded-full text-white">
                     <UserCheck className="h-3.5 w-3.5" />
                   </div>
                   <div className="hidden md:block text-left">
-                    <p className="text-xs font-bold leading-none text-[#24191D]">
+                    <p className="text-xs font-bold leading-none text-[#29262B]">
                       {profile?.full_name || user.email?.split('@')[0]}
                     </p>
-                    <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#DC2626]">
+                    <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#C9182B]">
                       {role.replace('_', ' ')}
                     </p>
                   </div>
-                  <ChevronDown className="hidden md:block h-3.5 w-3.5 text-[#78716C]" />
+                  <ChevronDown className="hidden md:block h-3.5 w-3.5 text-[#777078]" />
                 </button>
 
                 {menuOpen && (
-                  <div className="glass-card-strong liquid-glass-sheen absolute right-0 mt-2.5 w-[calc(100vw-2rem)] max-w-[15.5rem] rounded-[28px] p-2.5 shadow-2xl z-50 space-y-1 text-xs font-semibold text-[#24191D]">
+                  <div className="glass-card-strong liquid-glass-sheen absolute right-0 mt-2.5 w-[calc(100vw-2rem)] max-w-[15.5rem] rounded-[28px] p-2.5 shadow-2xl z-50 space-y-1 text-xs font-semibold text-[#29262B]">
                     <div className="px-3 py-2 border-b border-white/75">
                       <p className="font-bold truncate">{profile?.full_name || user.email}</p>
-                      <p className="text-[10px] uppercase tracking-wider text-[#DC2626]">
+                      <p className="text-[10px] uppercase tracking-wider text-[#C9182B]">
                         {role.replace('_', ' ')}
                       </p>
                     </div>
                     <Link
                       to="/dashboard"
                       onClick={() => setMenuOpen(false)}
-                      className="flex items-center gap-2 rounded-full px-3 py-2 hover:bg-white/75 hover:text-[#DC2626] transition"
+                      className="flex items-center gap-2 rounded-full px-3 py-2 hover:bg-white/75 hover:text-[#C9182B] transition"
                     >
                       <LayoutDashboard className="h-3.5 w-3.5" /> Commuter Dashboard
                     </Link>
                     <Link
                       to="/safety"
                       onClick={() => setMenuOpen(false)}
-                      className="flex items-center gap-2 rounded-full px-3 py-2 hover:bg-white/75 hover:text-[#DC2626] transition"
+                      className="flex items-center gap-2 rounded-full px-3 py-2 hover:bg-white/75 hover:text-[#C9182B] transition"
                     >
                       <ShieldAlert className="h-3.5 w-3.5" /> Safety Center
                     </Link>
@@ -255,7 +255,7 @@ export function AppHeader({
                       <Link
                         to="/operator"
                         onClick={() => setMenuOpen(false)}
-                        className="flex items-center gap-2 rounded-full px-3 py-2 hover:bg-white/75 hover:text-[#DC2626] transition"
+                        className="flex items-center gap-2 rounded-full px-3 py-2 hover:bg-white/75 hover:text-[#C9182B] transition"
                       >
                         <Truck className="h-3.5 w-3.5" /> Operator Portal
                       </Link>
@@ -264,7 +264,7 @@ export function AppHeader({
                       <Link
                         to="/admin"
                         onClick={() => setMenuOpen(false)}
-                        className="flex items-center gap-2 rounded-full px-3 py-2 hover:bg-white/75 hover:text-[#DC2626] transition"
+                        className="flex items-center gap-2 rounded-full px-3 py-2 hover:bg-white/75 hover:text-[#C9182B] transition"
                       >
                         <ShieldCheck className="h-3.5 w-3.5" /> Administrator Portal
                       </Link>
@@ -272,14 +272,14 @@ export function AppHeader({
                     <Link
                       to="/dashboard/profile"
                       onClick={() => setMenuOpen(false)}
-                      className="flex items-center gap-2 rounded-full px-3 py-2 hover:bg-white/75 hover:text-[#DC2626] transition"
+                      className="flex items-center gap-2 rounded-full px-3 py-2 hover:bg-white/75 hover:text-[#C9182B] transition"
                     >
                       <Settings className="h-3.5 w-3.5" /> Profile Settings
                     </Link>
                     <button
                       type="button"
                       onClick={handleLogout}
-                      className="flex w-full items-center gap-2 rounded-full px-3 py-2 text-[#B91C1C] hover:bg-[#FFE4E6]/75 transition"
+                      className="flex w-full items-center gap-2 rounded-full px-3 py-2 text-[#B51224] hover:bg-[#F8E7EA]/75 transition"
                     >
                       <LogOut className="h-3.5 w-3.5" /> Sign Out
                     </button>
@@ -291,7 +291,7 @@ export function AppHeader({
             <div className="flex items-center gap-1.5 sm:gap-2">
               <Link to="/login">
                 <GlassButton variant="secondary" size="sm">
-                  <LogIn className="h-3.5 w-3.5" />
+                  <LogIn className="h-3.5 w-3.5 text-[#C9182B]" />
                   Sign In
                 </GlassButton>
               </Link>

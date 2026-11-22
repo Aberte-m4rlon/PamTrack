@@ -167,11 +167,11 @@ export function AdminVehicleReportsPage({
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6 space-y-2">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
           Administrator Complaint Review
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">{pageTitle}</h1>
-        <p className="text-xs sm:text-sm text-[#78716C]">
+        <h1 className="font-display text-2xl font-extrabold text-[#29262B]">{pageTitle}</h1>
+        <p className="text-xs sm:text-sm text-[#777078]">
           Search by plate number or reference ID, inspect private photo/video evidence, detect
           duplicates, and prepare agency referrals. Alleged violations remain confidential until
           formally adjudicated.
@@ -181,7 +181,7 @@ export function AdminVehicleReportsPage({
       {/* Filter Bar */}
       <GlassCard variant="surface" className="p-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         <div className="relative">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-[#A8A29E]" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-[#777078]" />
           <input
             type="text"
             value={plateSearch}
@@ -270,16 +270,16 @@ export function AdminVehicleReportsPage({
                   }}
                   className={`w-full text-left glass-card-strong rounded-3xl p-4 space-y-2 border transition ${
                     selected?.id === rep.id
-                      ? 'border-[#DC2626] ring-2 ring-[#FCA5A5]/65'
+                      ? 'border-[#C9182B] ring-2 ring-[#E9E5E8]/65'
                       : 'border-white/80 hover:bg-white/95'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <p className="font-mono text-[11px] font-extrabold text-[#DC2626]">
+                      <p className="font-mono text-[11px] font-extrabold text-[#C9182B]">
                         {rep.reference_number}
                       </p>
-                      <p className="font-bold text-sm text-[#24191D]">
+                      <p className="font-bold text-sm text-[#29262B]">
                         {rep.vehicle_type} •{' '}
                         {rep.plate_not_available
                           ? 'Plate N/A'
@@ -293,12 +293,12 @@ export function AdminVehicleReportsPage({
                     </span>
                   </div>
 
-                  <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-[#78716C]">
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-[#777078]">
                     <span>
                       {rep.municipality?.name} • {formatDateSafe(rep.incident_date)}
                     </span>
                     {(rep.is_duplicate_flagged || dupCount > 1) && (
-                      <span className="glass-pill-tile inline-flex items-center gap-1 rounded-full border-[#FECDD3] px-2.5 py-0.5 font-bold text-[#B91C1C]">
+                      <span className="glass-pill-tile inline-flex items-center gap-1 rounded-full border-[#E9E5E8] px-2.5 py-0.5 font-bold text-[#B51224]">
                         <AlertTriangle className="h-3 w-3" />
                         {dupCount} report(s) on plate
                       </span>
@@ -320,19 +320,19 @@ export function AdminVehicleReportsPage({
             />
           ) : (
             <GlassCard variant="strong" className="p-6 space-y-5 text-xs">
-              <div className="flex flex-wrap items-start justify-between gap-3 border-b border-[#FCA5A5]/35 pb-3">
+              <div className="flex flex-wrap items-start justify-between gap-3 border-b border-[#E9E5E8]/35 pb-3">
                 <div>
-                  <p className="font-mono text-sm font-extrabold text-[#DC2626]">
+                  <p className="font-mono text-sm font-extrabold text-[#C9182B]">
                     {selected.reference_number}
                   </p>
-                  <h2 className="font-display text-xl font-extrabold text-[#24191D]">
+                  <h2 className="font-display text-xl font-extrabold text-[#29262B]">
                     Reported {selected.vehicle_type} (
                     {selected.plate_not_available
                       ? 'Plate Not Available'
                       : selected.plate_number}
                     )
                   </h2>
-                  <p className="text-[#78716C]">
+                  <p className="text-[#777078]">
                     {selected.municipality?.name} • {selected.incident_location} •{' '}
                     {formatDateSafe(selected.incident_date)} {selected.incident_time ?? ''}
                   </p>
@@ -351,7 +351,7 @@ export function AdminVehicleReportsPage({
                 </GlassButton>
               </div>
 
-              <div className="grid gap-2 sm:grid-cols-2 text-[#24191D]">
+              <div className="grid gap-2 sm:grid-cols-2 text-[#29262B]">
                 <p>
                   <strong>Body / Color / Model:</strong>{' '}
                   {[selected.body_number, selected.vehicle_color, selected.vehicle_model]
@@ -378,7 +378,7 @@ export function AdminVehicleReportsPage({
                 {(selected.categories ?? []).map((c) => (
                   <span
                     key={c.id}
-                    className="rounded-full bg-[#FFE4E6] px-2.5 py-0.5 font-bold text-[#B91C1C]"
+                    className="rounded-full bg-[#F8E7EA] px-2.5 py-0.5 font-bold text-[#B51224]"
                   >
                     [{c.category_group}] {c.category}
                   </span>
@@ -386,13 +386,13 @@ export function AdminVehicleReportsPage({
               </div>
 
               <div className="glass-pill-tile rounded-[20px] p-3.5 space-y-1">
-                <p className="font-bold text-[#24191D]">Reported Incident Narrative</p>
-                <p className="whitespace-pre-line text-[#24191D]/90">{selected.description}</p>
+                <p className="font-bold text-[#29262B]">Reported Incident Narrative</p>
+                <p className="whitespace-pre-line text-[#29262B]/90">{selected.description}</p>
               </div>
 
               {/* Evidence Inspection */}
               <div className="space-y-2">
-                <p className="font-bold text-[#24191D]">Supporting Evidence ({selected.evidence?.length ?? 0})</p>
+                <p className="font-bold text-[#29262B]">Supporting Evidence ({selected.evidence?.length ?? 0})</p>
                 <div className="flex flex-wrap gap-2">
                   {(selected.evidence ?? []).map((ev) => (
                     <GlassButton
@@ -410,13 +410,13 @@ export function AdminVehicleReportsPage({
                   ))}
                 </div>
                 {previewMedia && (
-                  <div className="rounded-2xl border border-[#FCA5A5]/60 bg-white/95 p-3 space-y-2">
-                    <div className="flex justify-between font-bold text-[#24191D]">
+                  <div className="rounded-2xl border border-[#E9E5E8]/60 bg-white/95 p-3 space-y-2">
+                    <div className="flex justify-between font-bold text-[#29262B]">
                       <span>{previewMedia.name}</span>
                       <button
                         type="button"
                         onClick={() => setPreviewMedia(null)}
-                        className="text-[#DC2626] hover:underline"
+                        className="text-[#C9182B] hover:underline"
                       >
                         Close
                       </button>
@@ -439,8 +439,8 @@ export function AdminVehicleReportsPage({
               </div>
 
               {/* Admin Decision & Agency Referral Controls */}
-              <div className="space-y-3 border-t border-[#FCA5A5]/35 pt-4">
-                <p className="font-bold uppercase text-[#DC2626]">
+              <div className="space-y-3 border-t border-[#E9E5E8]/35 pt-4">
+                <p className="font-bold uppercase text-[#C9182B]">
                   Update Internal / Agency Status &amp; Referral
                 </p>
 

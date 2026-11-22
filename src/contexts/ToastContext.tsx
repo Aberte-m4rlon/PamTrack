@@ -45,30 +45,30 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             key={t.id}
             className={cn(
               'pointer-events-auto glass-card-strong flex items-start gap-3 rounded-2xl p-4 shadow-glass-lg transition-all',
-              t.variant === 'error' && 'border-[#FCA5A5] bg-[#FFF1F2]/95',
-              t.variant === 'success' && 'border-[#FECDD3] bg-white/95',
+              t.variant === 'error' && 'border-[#E9E5E8] bg-[#F7F3EF]/95',
+              t.variant === 'success' && 'border-[#E9E5E8] bg-white/95',
               t.variant === 'info' && 'border-white/90 bg-white/90'
             )}
           >
             {t.variant === 'success' && (
-              <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#DC2626]" />
+              <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#C9182B]" />
             )}
             {t.variant === 'error' && (
-              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-[#B91C1C]" />
+              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-[#B51224]" />
             )}
             {t.variant === 'info' && (
-              <Info className="mt-0.5 h-5 w-5 shrink-0 text-[#DC2626]" />
+              <Info className="mt-0.5 h-5 w-5 shrink-0 text-[#C9182B]" />
             )}
             <div className="flex-1 text-sm">
-              <p className="font-semibold text-[#24191D]">{t.title}</p>
+              <p className="font-semibold text-[#29262B]">{t.title}</p>
               {t.description && (
-                <p className="mt-0.5 text-xs text-[#78716C]">{t.description}</p>
+                <p className="mt-0.5 text-xs text-[#777078]">{t.description}</p>
               )}
             </div>
             <button
               type="button"
               onClick={() => dismiss(t.id)}
-              className="rounded-lg p-1 text-[#78716C] hover:bg-[#FFE4E6] hover:text-[#DC2626]"
+              className="rounded-lg p-1 text-[#777078] hover:bg-[#F8E7EA] hover:text-[#C9182B]"
               aria-label="Close notification"
             >
               <X className="h-4 w-4" />

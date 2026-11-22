@@ -80,7 +80,7 @@ const ARRIVAL_ALERT_KM = 1.0;
 
 const liveIcon = L.divIcon({
   className: 'trip-live-pin',
-  html: `<div style="width:18px;height:18px;border-radius:9999px;background:#DC2626;border:3px solid #fff;box-shadow:0 0 0 6px rgba(220,38,38,0.28);"></div>`,
+  html: `<div style="width:18px;height:18px;border-radius:9999px;background:#C9182B;border:3px solid #fff;box-shadow:0 0 0 6px rgba(220,38,38,0.28);"></div>`,
   iconSize: [18, 18],
   iconAnchor: [9, 9],
 });
@@ -580,20 +580,20 @@ export function LiveTripPage() {
       <GlassCard variant="strong" className="p-5 sm:p-6 flex flex-wrap items-center justify-between gap-3">
         <div>
           <div className="flex flex-wrap items-center gap-2">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
               GPS Trip Monitoring
             </p>
             {isOffline && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-[#FFE4E6] px-2.5 py-0.5 text-[10px] font-bold uppercase text-[#B91C1C]">
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#F8E7EA] px-2.5 py-0.5 text-[10px] font-bold uppercase text-[#B51224]">
                 <WifiOff className="h-3 w-3" />
                 Offline Tracking Active
               </span>
             )}
           </div>
-          <h1 className="font-display text-2xl font-extrabold text-[#24191D] sm:text-3xl">
+          <h1 className="font-display text-2xl font-extrabold text-[#29262B] sm:text-3xl">
             Live Trip Monitor
           </h1>
-          <p className="text-xs sm:text-sm text-[#4B3B40]">
+          <p className="text-xs sm:text-sm text-[#343039]">
             Track moving GPS location, distance, and route/arrival alerts online or offline.
           </p>
         </div>
@@ -615,8 +615,8 @@ export function LiveTripPage() {
       <GpsConsentCard compact />
 
       {!user && (
-        <GlassCard variant="strong" className="p-5 border-[#FECDD3] flex flex-wrap items-center justify-between gap-3">
-          <p className="text-xs sm:text-sm font-semibold text-[#24191D]">
+        <GlassCard variant="strong" className="p-5 border-[#E9E5E8] flex flex-wrap items-center justify-between gap-3">
+          <p className="text-xs sm:text-sm font-semibold text-[#29262B]">
             Sign in to record trips and trigger offline alerts.
           </p>
           <Link to="/login">
@@ -632,14 +632,14 @@ export function LiveTripPage() {
         <GlassCard variant="strong" className="p-5 lg:col-span-5 space-y-4 h-fit">
           {!activeTrip ? (
             <>
-              <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
-                <Navigation className="h-5 w-5 text-[#DC2626]" />
+              <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#29262B]">
+                <Navigation className="h-5 w-5 text-[#C9182B]" />
                 Configure New Trip
               </h2>
 
               <div className="space-y-3">
                 <div>
-                  <label className="mb-1 block text-xs font-bold uppercase text-[#78716C]">
+                  <label className="mb-1 block text-xs font-bold uppercase text-[#777078]">
                     1. Origin Municipality / City
                   </label>
                   <select
@@ -657,7 +657,7 @@ export function LiveTripPage() {
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-xs font-bold uppercase text-[#78716C]">
+                  <label className="mb-1 block text-xs font-bold uppercase text-[#777078]">
                     2. Destination Municipality / City
                   </label>
                   <select
@@ -675,7 +675,7 @@ export function LiveTripPage() {
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-xs font-bold uppercase text-[#78716C]">
+                  <label className="mb-1 block text-xs font-bold uppercase text-[#777078]">
                     3. Transportation Type
                   </label>
                   <select
@@ -695,7 +695,7 @@ export function LiveTripPage() {
                 {/* Available Fare Preview */}
                 {originId && destinationId && (
                   <div className="glass-pill-tile rounded-2xl p-3.5 space-y-2 text-xs">
-                    <p className="font-bold uppercase text-[#DC2626]">
+                    <p className="font-bold uppercase text-[#C9182B]">
                       4. Available Fare Records
                     </p>
                     {officialFares.length > 0 ? (
@@ -719,7 +719,7 @@ export function LiveTripPage() {
                         </div>
                       ))
                     ) : (
-                      <p className="text-[#4B3B40]">No fare guide recorded for this corridor yet.</p>
+                      <p className="text-[#343039]">No fare guide recorded for this corridor yet.</p>
                     )}
                   </div>
                 )}
@@ -743,31 +743,31 @@ export function LiveTripPage() {
           ) : (
             <>
               <div className="flex items-center justify-between gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#DC2626] px-3 py-1 text-xs font-bold text-white">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#C9182B] px-3 py-1 text-xs font-bold text-white">
                   <Radio className="h-3.5 w-3.5 animate-pulse" />
                   {activeTrip.id.startsWith('offline-') || isOffline
                     ? 'Offline Trip Running'
                     : 'Active Trip Running'}
                 </span>
-                <span className="text-xs font-semibold text-[#DC2626]">
+                <span className="text-xs font-semibold text-[#C9182B]">
                   Started {formatDateSafe(activeTrip.started_at, 'h:mm a')}
                 </span>
               </div>
 
-              <h2 className="font-display text-xl font-extrabold text-[#24191D]">
+              <h2 className="font-display text-xl font-extrabold text-[#29262B]">
                 {originMuni?.name ?? 'Origin'} → {destMuni?.name ?? 'Destination'}
               </h2>
 
               <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-2xl bg-[#FFE4E6] p-3 text-center">
-                  <p className="text-[10px] font-bold uppercase text-[#B91C1C]">Distance</p>
-                  <p className="font-display text-2xl font-extrabold text-[#DC2626]">
+                <div className="rounded-2xl bg-[#F8E7EA] p-3 text-center">
+                  <p className="text-[10px] font-bold uppercase text-[#B51224]">Distance</p>
+                  <p className="font-display text-2xl font-extrabold text-[#C9182B]">
                     {distanceTraveledKm.toFixed(2)} km
                   </p>
                 </div>
                 <div className="glass-pill-tile rounded-[20px] p-3 text-center">
-                  <p className="text-[10px] font-bold uppercase text-[#B91C1C]">Elapsed</p>
-                  <p className="font-display text-2xl font-extrabold text-[#DC2626] flex items-center justify-center gap-1 tabular-nums">
+                  <p className="text-[10px] font-bold uppercase text-[#B51224]">Elapsed</p>
+                  <p className="font-display text-2xl font-extrabold text-[#C9182B] flex items-center justify-center gap-1 tabular-nums">
                     <Clock className="h-4 w-4" />
                     {formatDurationSeconds(elapsedSeconds)}
                   </p>
@@ -777,9 +777,9 @@ export function LiveTripPage() {
               {deviationDetected && (
                 <div
                   role="alert"
-                  className="glass-pill-tile flex items-start gap-2 rounded-[20px] border-[#FCA5A5] p-3 text-xs text-[#B91C1C]"
+                  className="glass-pill-tile flex items-start gap-2 rounded-[20px] border-[#E9E5E8] p-3 text-xs text-[#B51224]"
                 >
-                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#DC2626]" />
+                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#C9182B]" />
                   <span>
                     <strong>Route Deviation Alert:</strong> Max recorded offset is{' '}
                     {deviationKm.toFixed(2)} km.
@@ -788,7 +788,7 @@ export function LiveTripPage() {
               )}
 
               <div>
-                <label className="mb-1 block text-xs font-bold uppercase text-[#78716C]">
+                <label className="mb-1 block text-xs font-bold uppercase text-[#777078]">
                   Actual Fare Paid (PHP, optional)
                 </label>
                 <input
@@ -803,7 +803,7 @@ export function LiveTripPage() {
 
               {/* Online Web Share OR Offline SMS Quick Alert */}
               <div className="glass-pill-tile rounded-2xl p-3.5 space-y-2.5">
-                <p className="flex items-center gap-1.5 text-xs font-bold text-[#DC2626]">
+                <p className="flex items-center gap-1.5 text-xs font-bold text-[#C9182B]">
                   <Share2 className="h-3.5 w-3.5" />
                   {isOffline ? 'Offline Emergency SMS Share' : 'Share Active Trip (60-Min Link)'}
                 </p>
@@ -839,9 +839,9 @@ export function LiveTripPage() {
                   )}
                 </div>
                 {shareUrl && (
-                  <div className="rounded-xl bg-[#FFE4E6] p-2 text-[11px] break-all">
-                    <p className="font-bold text-[#B91C1C]">Shareable URL:</p>
-                    <a href={shareUrl} target="_blank" rel="noreferrer" className="underline text-[#24191D]">
+                  <div className="rounded-xl bg-[#F8E7EA] p-2 text-[11px] break-all">
+                    <p className="font-bold text-[#B51224]">Shareable URL:</p>
+                    <a href={shareUrl} target="_blank" rel="noreferrer" className="underline text-[#29262B]">
                       {shareUrl}
                     </a>
                   </div>
@@ -871,7 +871,7 @@ export function LiveTripPage() {
               </div>
 
               {!trackingActive && (
-                <p className="text-xs text-[#B91C1C]">
+                <p className="text-xs text-[#B51224]">
                   Browser watch paused. Tap <strong>Start Tracking</strong> to resume updates.
                 </p>
               )}
@@ -883,11 +883,11 @@ export function LiveTripPage() {
         <div className="lg:col-span-7 space-y-5">
           <GlassCard variant="surface" className="p-4 space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <h2 className="font-display text-lg font-bold text-[#24191D]">
+              <h2 className="font-display text-lg font-bold text-[#29262B]">
                 {isOffline ? 'Offline Moving GPS Monitor' : 'Live Trip & Corridor Map'}
               </h2>
               {nearestMunicipality && (
-                <span className="glass-pill-tile rounded-full px-3 py-1 text-[11px] font-bold text-[#B91C1C]">
+                <span className="glass-pill-tile rounded-full px-3 py-1 text-[11px] font-bold text-[#B51224]">
                   Near: {nearestMunicipality.municipality.name}
                 </span>
               )}
@@ -928,13 +928,13 @@ export function LiveTripPage() {
                   {plannedPolyline.length >= 2 && (
                     <Polyline
                       positions={plannedPolyline}
-                      pathOptions={{ color: '#DC2626', weight: 4, dashArray: '8 6' }}
+                      pathOptions={{ color: '#C9182B', weight: 4, dashArray: '8 6' }}
                     />
                   )}
                   {trail.length >= 2 && (
                     <Polyline
                       positions={trail}
-                      pathOptions={{ color: '#B91C1C', weight: 5 }}
+                      pathOptions={{ color: '#B51224', weight: 5 }}
                     />
                   )}
                   {currentPosition && (
@@ -956,8 +956,8 @@ export function LiveTripPage() {
           <GlassCard variant="strong" className="p-4 sm:p-5 space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <BellRing className="h-4 w-4 text-[#DC2626]" />
-                <h2 className="font-display text-base font-bold text-[#24191D]">
+                <BellRing className="h-4 w-4 text-[#C9182B]" />
+                <h2 className="font-display text-base font-bold text-[#29262B]">
                   Trip &amp; Safety Alerts {isOffline ? '(Offline Ready)' : ''}
                 </h2>
               </div>
@@ -971,12 +971,12 @@ export function LiveTripPage() {
                     setOfflineAlertSoundEnabled(next);
                   }}
                   aria-label={soundEnabled ? 'Mute alert sound' : 'Enable alert sound'}
-                  className="liquid-btn-glass inline-flex items-center gap-1 rounded-full px-3 py-1 text-[11px] font-bold text-[#24191D]"
+                  className="liquid-btn-glass inline-flex items-center gap-1 rounded-full px-3 py-1 text-[11px] font-bold text-[#29262B]"
                 >
                   {soundEnabled ? (
-                    <Volume2 className="h-3.5 w-3.5 text-[#DC2626]" />
+                    <Volume2 className="h-3.5 w-3.5 text-[#C9182B]" />
                   ) : (
-                    <VolumeX className="h-3.5 w-3.5 text-[#4B3B40]" />
+                    <VolumeX className="h-3.5 w-3.5 text-[#343039]" />
                   )}
                   {soundEnabled ? 'Sound On' : 'Muted'}
                 </button>
@@ -1053,7 +1053,7 @@ export function LiveTripPage() {
 
               <a href={smsHref}>
                 <GlassButton type="button" variant="glass" size="sm">
-                  <PhoneCall className="h-3.5 w-3.5 text-[#DC2626]" />
+                  <PhoneCall className="h-3.5 w-3.5 text-[#C9182B]" />
                   Offline SMS SOS
                 </GlassButton>
               </a>
@@ -1067,10 +1067,10 @@ export function LiveTripPage() {
                     className="glass-pill-tile flex items-start justify-between gap-2 rounded-2xl px-3.5 py-2.5 text-xs"
                   >
                     <div className="min-w-0">
-                      <p className="font-bold text-[#24191D]">{al.title}</p>
-                      <p className="text-[#4B3B40] truncate">{al.message}</p>
+                      <p className="font-bold text-[#29262B]">{al.title}</p>
+                      <p className="text-[#343039] truncate">{al.message}</p>
                     </div>
-                    <span className="shrink-0 text-[10px] font-bold text-[#B91C1C]">
+                    <span className="shrink-0 text-[10px] font-bold text-[#B51224]">
                       {al.synced ? 'Synced' : 'Saved Offline'} • {formatDateSafe(al.createdAt, 'h:mm a')}
                     </span>
                   </div>

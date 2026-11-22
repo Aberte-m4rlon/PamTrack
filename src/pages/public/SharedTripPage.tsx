@@ -46,7 +46,7 @@ export function SharedTripPage() {
         <h1 className="font-display text-2xl font-extrabold">
           {data.commuter_name}&apos;s Trip: {data.origin_name} → {data.destination_name}
         </h1>
-        <p className="text-xs text-[#FFE4E6]/90">
+        <p className="text-xs text-[#F8E7EA]/90">
           Mode: {data.transport_mode ?? 'Public Transport'} • Status: {data.trip_status} • Link
           expires {formatDateTimeSafe(data.expires_at ?? null)}
         </p>
@@ -54,23 +54,23 @@ export function SharedTripPage() {
 
       <div className="grid gap-4 sm:grid-cols-3">
         <GlassCard variant="strong" className="p-4">
-          <p className="text-xs font-bold uppercase text-[#78716C]">Distance Covered</p>
-          <p className="font-display text-2xl font-extrabold text-[#DC2626]">
+          <p className="text-xs font-bold uppercase text-[#777078]">Distance Covered</p>
+          <p className="font-display text-2xl font-extrabold text-[#C9182B]">
             {(data.distance_km ?? 0).toFixed(2)} km
           </p>
         </GlassCard>
         <GlassCard variant="strong" className="p-4">
-          <p className="text-xs font-bold uppercase text-[#78716C]">Elapsed Time</p>
-          <p className="font-display text-2xl font-extrabold text-[#DC2626] flex items-center gap-1.5">
+          <p className="text-xs font-bold uppercase text-[#777078]">Elapsed Time</p>
+          <p className="font-display text-2xl font-extrabold text-[#C9182B] flex items-center gap-1.5">
             <Clock className="h-5 w-5" />
             {formatDurationSeconds(data.duration_seconds ?? 0)}
           </p>
         </GlassCard>
         <GlassCard variant="strong" className="p-4">
-          <p className="text-xs font-bold uppercase text-[#78716C]">Route Check</p>
-          <p className="font-bold text-sm text-[#24191D]">
+          <p className="text-xs font-bold uppercase text-[#777078]">Route Check</p>
+          <p className="font-bold text-sm text-[#29262B]">
             {data.deviation_detected ? (
-              <span className="inline-flex items-center gap-1 text-[#DC2626]">
+              <span className="inline-flex items-center gap-1 text-[#C9182B]">
                 <AlertTriangle className="h-4 w-4" /> Route Deviation Flagged
               </span>
             ) : (

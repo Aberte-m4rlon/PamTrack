@@ -78,12 +78,12 @@ export function OfflineTripRadar({
       className="glass-pill-tile rounded-3xl p-4 space-y-3"
     >
       <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFE4E6] px-3 py-1 font-bold text-[#B91C1C]">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F8E7EA] px-3 py-1 font-bold text-[#B51224]">
           <WifiOff className="h-3.5 w-3.5" />
           Offline GPS Corridor Monitor
         </span>
-        <span className="inline-flex items-center gap-1 font-semibold text-[#4B3B40]">
-          <LocateFixed className="h-3.5 w-3.5 text-[#DC2626]" />
+        <span className="inline-flex items-center gap-1 font-semibold text-[#343039]">
+          <LocateFixed className="h-3.5 w-3.5 text-[#C9182B]" />
           {currentPosition
             ? `${currentPosition.latitude.toFixed(4)}°N, ${currentPosition.longitude.toFixed(4)}°E (±${currentPosition.accuracyMeters}m)`
             : 'Waiting for GPS fix...'}
@@ -99,12 +99,12 @@ export function OfflineTripRadar({
         >
           <defs>
             <linearGradient id="offlineRadarBg" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#FFF1F2" stopOpacity="0.9" />
-              <stop offset="100%" stopColor="#FFE4E6" stopOpacity="0.65" />
+              <stop offset="0%" stopColor="#F7F3EF" stopOpacity="0.9" />
+              <stop offset="100%" stopColor="#F8E7EA" stopOpacity="0.65" />
             </linearGradient>
           </defs>
           <rect width="400" height="240" fill="url(#offlineRadarBg)" />
-          <g stroke="#FCA5A5" strokeOpacity="0.35" strokeWidth="1">
+          <g stroke="#E9E5E8" strokeOpacity="0.35" strokeWidth="1">
             <line x1="0" y1="60" x2="400" y2="60" />
             <line x1="0" y1="120" x2="400" y2="120" />
             <line x1="0" y1="180" x2="400" y2="180" />
@@ -116,7 +116,7 @@ export function OfflineTripRadar({
           {plannedPolyline.length >= 2 && (
             <polyline
               fill="none"
-              stroke="#FCA5A5"
+              stroke="#E9E5E8"
               strokeWidth="4"
               strokeDasharray="6 6"
               strokeLinecap="round"
@@ -127,7 +127,7 @@ export function OfflineTripRadar({
           {trail.length >= 2 && (
             <polyline
               fill="none"
-              stroke="#DC2626"
+              stroke="#C9182B"
               strokeWidth="4"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -137,8 +137,8 @@ export function OfflineTripRadar({
 
           {originXY && (
             <g>
-              <circle cx={originXY[0]} cy={originXY[1]} r="7" fill="#FFFFFF" stroke="#DC2626" strokeWidth="3" />
-              <text x={originXY[0] + 10} y={originXY[1] + 4} fontSize="10" fontWeight="700" fill="#24191D">
+              <circle cx={originXY[0]} cy={originXY[1]} r="7" fill="#FFFFFF" stroke="#C9182B" strokeWidth="3" />
+              <text x={originXY[0] + 10} y={originXY[1] + 4} fontSize="10" fontWeight="700" fill="#29262B">
                 {originName}
               </text>
             </g>
@@ -146,8 +146,8 @@ export function OfflineTripRadar({
 
           {destXY && (
             <g>
-              <circle cx={destXY[0]} cy={destXY[1]} r="7" fill="#B91C1C" stroke="#FFFFFF" strokeWidth="2.5" />
-              <text x={destXY[0] - 10} y={destXY[1] - 10} textAnchor="end" fontSize="10" fontWeight="700" fill="#B91C1C">
+              <circle cx={destXY[0]} cy={destXY[1]} r="7" fill="#B51224" stroke="#FFFFFF" strokeWidth="2.5" />
+              <text x={destXY[0] - 10} y={destXY[1] - 10} textAnchor="end" fontSize="10" fontWeight="700" fill="#B51224">
                 {destName}
               </text>
             </g>
@@ -155,8 +155,8 @@ export function OfflineTripRadar({
 
           {liveXY && (
             <g>
-              <circle cx={liveXY[0]} cy={liveXY[1]} r="13" fill="#DC2626" fillOpacity="0.22" />
-              <circle cx={liveXY[0]} cy={liveXY[1]} r="6.5" fill="#DC2626" stroke="#FFFFFF" strokeWidth="2.5" />
+              <circle cx={liveXY[0]} cy={liveXY[1]} r="13" fill="#C9182B" fillOpacity="0.22" />
+              <circle cx={liveXY[0]} cy={liveXY[1]} r="6.5" fill="#C9182B" stroke="#FFFFFF" strokeWidth="2.5" />
             </g>
           )}
         </svg>
@@ -164,26 +164,26 @@ export function OfflineTripRadar({
 
       <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 text-xs">
         <div className="glass-panel rounded-2xl p-2.5 text-center">
-          <p className="text-[10px] font-bold uppercase text-[#4B3B40]">Moved</p>
-          <p className="font-display text-base font-extrabold text-[#DC2626]">
+          <p className="text-[10px] font-bold uppercase text-[#343039]">Moved</p>
+          <p className="font-display text-base font-extrabold text-[#C9182B]">
             {distanceTraveledKm.toFixed(2)} km
           </p>
         </div>
         <div className="glass-panel rounded-2xl p-2.5 text-center">
-          <p className="text-[10px] font-bold uppercase text-[#4B3B40]">To Dest</p>
-          <p className="font-display text-base font-extrabold text-[#B91C1C]">
+          <p className="text-[10px] font-bold uppercase text-[#343039]">To Dest</p>
+          <p className="font-display text-base font-extrabold text-[#B51224]">
             {remainingDestKm !== null ? `${remainingDestKm.toFixed(1)} km` : '—'}
           </p>
         </div>
         <div className="glass-panel rounded-2xl p-2.5 text-center">
-          <p className="text-[10px] font-bold uppercase text-[#4B3B40]">Speed</p>
-          <p className="font-display text-base font-extrabold text-[#24191D]">{speedKmh} km/h</p>
+          <p className="text-[10px] font-bold uppercase text-[#343039]">Speed</p>
+          <p className="font-display text-base font-extrabold text-[#29262B]">{speedKmh} km/h</p>
         </div>
         <div className="glass-panel rounded-2xl p-2.5 text-center">
-          <p className="text-[10px] font-bold uppercase text-[#4B3B40]">
+          <p className="text-[10px] font-bold uppercase text-[#343039]">
             {nearestLguName ? 'Nearest LGU' : 'Offset'}
           </p>
-          <p className="truncate font-display text-sm font-extrabold text-[#DC2626]">
+          <p className="truncate font-display text-sm font-extrabold text-[#C9182B]">
             {nearestLguName || `${deviationKm.toFixed(1)} km`}
           </p>
         </div>

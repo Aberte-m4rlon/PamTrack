@@ -127,13 +127,13 @@ export function RouteExplorerPage() {
       <GlassCard variant="strong" className="p-6 space-y-2">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
               Interactive OpenStreetMap Explorer &amp; Fare Guide
             </p>
-            <h1 className="font-display text-2xl font-extrabold text-[#24191D] sm:text-3xl">
+            <h1 className="font-display text-2xl font-extrabold text-[#29262B] sm:text-3xl">
               Oriental Mindoro Route Map &amp; Fares
             </h1>
-            <p className="text-sm text-[#4B3B40]">
+            <p className="text-sm text-[#343039]">
               Pick two LGUs to view the road corridor and fare guide.
             </p>
           </div>
@@ -152,7 +152,7 @@ export function RouteExplorerPage() {
 
       {quickFareCorridors.length > 0 && (
         <GlassCard variant="surface" className="p-4 space-y-2.5">
-          <p className="text-xs font-bold uppercase tracking-wider text-[#DC2626]">
+          <p className="text-xs font-bold uppercase tracking-wider text-[#C9182B]">
             Popular Corridors
           </p>
           <div className="flex flex-wrap gap-2">
@@ -164,14 +164,14 @@ export function RouteExplorerPage() {
                   setOriginId(c.originId);
                   setDestinationId(c.destinationId);
                 }}
-                className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-bold text-[#24191D] hover:bg-gradient-to-b hover:from-[#EF4444] hover:to-[#B91C1C] hover:text-white transition group"
+                className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-bold text-[#29262B] hover:bg-gradient-to-b hover:from-[#C9182B] hover:to-[#B51224] hover:text-white transition group"
               >
                 <span>
                   {c.originId === c.destinationId
                     ? `${c.originName} (Local)`
                     : `${c.originName} → ${c.destinationName}`}
                 </span>
-                <span className="rounded-full bg-[#FFE4E6] px-2 py-0.5 text-[11px] font-extrabold text-[#DC2626] group-hover:bg-white/25 group-hover:text-white">
+                <span className="rounded-full bg-[#F8E7EA] px-2 py-0.5 text-[11px] font-extrabold text-[#C9182B] group-hover:bg-white/25 group-hover:text-white">
                   {formatPhp(c.sampleAmount)}
                 </span>
               </button>
@@ -183,7 +183,7 @@ export function RouteExplorerPage() {
       <GlassCard variant="surface" className="p-4 sm:p-5 space-y-4">
         <div className="grid gap-3 sm:grid-cols-2">
           <div>
-            <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
+            <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
               Map Origin
             </label>
             <select
@@ -201,7 +201,7 @@ export function RouteExplorerPage() {
             </select>
           </div>
           <div>
-            <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
+            <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
               Map Destination
             </label>
             <select
@@ -239,10 +239,10 @@ export function RouteExplorerPage() {
         <section className="space-y-4" aria-label="Selected route fare prices">
           <div className="glass-surface rounded-3xl p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[#DC2626]">
+              <p className="text-xs font-bold uppercase tracking-wider text-[#C9182B]">
                 Selected Route Fare Breakdown
               </p>
-              <h2 className="font-display text-xl font-extrabold text-[#24191D]">
+              <h2 className="font-display text-xl font-extrabold text-[#29262B]">
                 {originId === destinationId
                   ? `${originName ?? 'Origin'} (Local / Intra-Municipality)`
                   : `${originName ?? 'Origin'} → ${destinationName ?? 'Destination'}`}
@@ -273,8 +273,8 @@ export function RouteExplorerPage() {
             <div className="space-y-4">
               {selectedCorridorFares.officialFares.length > 0 && (
                 <div className="space-y-2.5">
-                  <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-xs font-bold text-[#24191D]">
-                    <CheckCircle2 className="h-4 w-4 text-[#DC2626]" />
+                  <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-xs font-bold text-[#29262B]">
+                    <CheckCircle2 className="h-4 w-4 text-[#C9182B]" />
                     <span>Verified Fare Records</span>
                   </div>
                   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -286,28 +286,28 @@ export function RouteExplorerPage() {
                               <TransportModeIcon code={fare.transport_type?.code} className="h-4 w-4" />
                             </span>
                             <div>
-                              <p className="font-bold text-sm text-[#24191D]">
+                              <p className="font-bold text-sm text-[#29262B]">
                                 {fare.transport_type?.name ?? 'Public Transport'}
                               </p>
-                              <p className="text-[11px] font-semibold text-[#78716C]">
+                              <p className="text-[11px] font-semibold text-[#777078]">
                                 {PASSENGER_CATEGORY_LABELS[fare.passenger_category]}
                               </p>
                             </div>
                           </div>
                           <FareStatusBadge status="verified_official" compact />
                         </div>
-                        <p className="font-display text-2xl font-extrabold text-[#DC2626]">
+                        <p className="font-display text-2xl font-extrabold text-[#C9182B]">
                           {formatPhp(fare.fare_amount)}
                         </p>
-                        <p className="flex items-center gap-1.5 text-[11px] text-[#78716C]">
-                          <FileText className="h-3.5 w-3.5 text-[#DC2626] shrink-0" />
+                        <p className="flex items-center gap-1.5 text-[11px] text-[#777078]">
+                          <FileText className="h-3.5 w-3.5 text-[#C9182B] shrink-0" />
                           <span>
                             {fare.issuing_authority} ({fare.official_document_reference})
                           </span>
                         </p>
                         <Link
                           to={`/fares/${fare.id}`}
-                          className="inline-block text-xs font-bold text-[#B91C1C] hover:underline"
+                          className="inline-block text-xs font-bold text-[#B51224] hover:underline"
                         >
                           View Details →
                         </Link>
@@ -319,8 +319,8 @@ export function RouteExplorerPage() {
 
               {selectedCorridorFares.communityEstimates.length > 0 && (
                 <div className="space-y-2.5">
-                  <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-xs font-bold text-[#24191D]">
-                    <AlertTriangle className="h-4 w-4 text-[#DC2626]" />
+                  <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-xs font-bold text-[#29262B]">
+                    <AlertTriangle className="h-4 w-4 text-[#C9182B]" />
                     <span>Commuter Fare Guide (Citizen Estimates)</span>
                   </div>
                   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -337,20 +337,20 @@ export function RouteExplorerPage() {
                               <TransportModeIcon code={est.transport_type?.code} className="h-4 w-4" />
                             </span>
                             <div>
-                              <p className="font-bold text-sm text-[#24191D]">
+                              <p className="font-bold text-sm text-[#29262B]">
                                 {est.transport_type?.name ?? 'Public Transport'}
                               </p>
-                              <p className="text-[11px] font-semibold text-[#78716C]">
+                              <p className="text-[11px] font-semibold text-[#777078]">
                                 {PASSENGER_CATEGORY_LABELS[est.passenger_category]}
                               </p>
                             </div>
                           </div>
                           <FareStatusBadge status="community_estimate" compact />
                         </div>
-                        <p className="font-display text-2xl font-extrabold text-[#DC2626]">
+                        <p className="font-display text-2xl font-extrabold text-[#C9182B]">
                           {formatPhp(est.fare_amount)}
                         </p>
-                        <p className="text-[11px] text-[#78716C]">
+                        <p className="text-[11px] text-[#777078]">
                           Updated {formatDateSafe(est.last_verified_at || est.updated_at)} • Citizen
                           commuter reference
                         </p>
@@ -367,8 +367,8 @@ export function RouteExplorerPage() {
       {/* Registered Route Catalog With Fare Prices */}
       <div className="space-y-3">
         <div className="flex items-center gap-2 px-1">
-          <RouteIcon className="h-4 w-4 text-[#DC2626]" />
-          <h2 className="font-display text-xl font-extrabold text-[#24191D]">
+          <RouteIcon className="h-4 w-4 text-[#C9182B]" />
+          <h2 className="font-display text-xl font-extrabold text-[#29262B]">
             Registered Transport Corridors &amp; Fares
           </h2>
         </div>
@@ -403,47 +403,47 @@ export function RouteExplorerPage() {
                 <GlassCard key={route.id} variant="strong" hoverable className="p-4 space-y-3 flex flex-col justify-between">
                   <div className="space-y-2.5">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFE4E6] px-2.5 py-1 text-[11px] font-bold text-[#DC2626]">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F8E7EA] px-2.5 py-1 text-[11px] font-bold text-[#C9182B]">
                         <TransportModeIcon code={route.transport_type?.code} className="h-3.5 w-3.5" />
                         {route.transport_type?.name}
                       </span>
-                      <span className="text-[11px] font-mono text-[#78716C]">
+                      <span className="text-[11px] font-mono text-[#777078]">
                         {route.route_code}
                       </span>
                     </div>
 
-                    <h3 className="font-bold text-sm text-[#24191D]">{route.route_name}</h3>
+                    <h3 className="font-bold text-sm text-[#29262B]">{route.route_name}</h3>
 
-                    <p className="flex items-center gap-1.5 text-xs text-[#78716C]">
-                      <MapPin className="h-3.5 w-3.5 text-[#DC2626] shrink-0" />
+                    <p className="flex items-center gap-1.5 text-xs text-[#777078]">
+                      <MapPin className="h-3.5 w-3.5 text-[#C9182B] shrink-0" />
                       <span>
                         {route.origin?.name} → {route.destination?.name}
                       </span>
                     </p>
 
                     {route.distance_km && (
-                      <p className="text-xs font-semibold text-[#B91C1C]">
+                      <p className="text-xs font-semibold text-[#B51224]">
                         Distance: {route.distance_km} km ({route.distance_source ?? 'survey'})
                       </p>
                     )}
 
                     {/* Direct Fare Display on Route Card */}
                     {officialRegular ? (
-                      <div className="glass-pill-tile rounded-[20px] p-3 space-y-1 border-[#FECDD3]">
+                      <div className="glass-pill-tile rounded-[20px] p-3 space-y-1 border-[#E9E5E8]">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-[#B91C1C]">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-[#B51224]">
                             Official Verified Fare
                           </span>
                           <FareStatusBadge status="verified_official" compact />
                         </div>
-                        <p className="font-display text-2xl font-extrabold text-[#DC2626]">
+                        <p className="font-display text-2xl font-extrabold text-[#C9182B]">
                           {formatPhp(officialRegular.fare_amount)}{' '}
-                          <span className="text-xs font-semibold text-[#4B3B40]">
+                          <span className="text-xs font-semibold text-[#343039]">
                             ({PASSENGER_CATEGORY_LABELS[officialRegular.passenger_category]})
                           </span>
                         </p>
                         {officialDiscounted && (
-                          <p className="text-[11px] font-semibold text-[#24191D]">
+                          <p className="text-[11px] font-semibold text-[#29262B]">
                             Discounted ({PASSENGER_CATEGORY_LABELS[officialDiscounted.passenger_category]}):{' '}
                             {formatPhp(officialDiscounted.fare_amount)}
                           </p>
@@ -452,39 +452,39 @@ export function RouteExplorerPage() {
                     ) : communityRegular ? (
                       <div className="glass-pill-tile rounded-[20px] p-3 space-y-1">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-[#B91C1C]">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-[#B51224]">
                             Community Estimate
                           </span>
                           <FareStatusBadge status="community_estimate" compact />
                         </div>
-                        <p className="font-display text-2xl font-extrabold text-[#DC2626]">
+                        <p className="font-display text-2xl font-extrabold text-[#C9182B]">
                           {formatPhp(communityRegular.fare_amount)}{' '}
-                          <span className="text-xs font-semibold text-[#4B3B40]">
+                          <span className="text-xs font-semibold text-[#343039]">
                             ({PASSENGER_CATEGORY_LABELS[communityRegular.passenger_category]})
                           </span>
                         </p>
                       </div>
                     ) : (
-                      <div className="glass-pill-tile rounded-[20px] p-2.5 text-[11px] font-semibold text-[#4B3B40]">
+                      <div className="glass-pill-tile rounded-[20px] p-2.5 text-[11px] font-semibold text-[#343039]">
                         No fare estimate yet.
                       </div>
                     )}
                   </div>
 
-                  <div className="pt-1 flex justify-between items-center border-t border-[#FCA5A5]/30">
+                  <div className="pt-1 flex justify-between items-center border-t border-[#E9E5E8]/30">
                     <button
                       type="button"
                       onClick={() => {
                         setOriginId(route.origin_municipality_id);
                         setDestinationId(route.destination_municipality_id);
                       }}
-                      className="text-xs font-bold text-[#B91C1C] hover:underline"
+                      className="text-xs font-bold text-[#B51224] hover:underline"
                     >
                       Show on Map &amp; Details
                     </button>
                     <Link
                       to={`/fare-search?origin=${route.origin_municipality_id}&destination=${route.destination_municipality_id}`}
-                      className="text-xs font-bold text-[#DC2626] hover:underline"
+                      className="text-xs font-bold text-[#C9182B] hover:underline"
                     >
                       Full Fare Search →
                     </Link>

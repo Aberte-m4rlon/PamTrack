@@ -207,7 +207,7 @@ export function ProfileHubPage() {
     <div className="space-y-6">
       <GlassCard variant="rose" className="p-6 flex flex-wrap items-center justify-between gap-4">
         <div className="space-y-1">
-          <p className="text-xs font-bold uppercase tracking-widest text-[#FFE4E6]">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#F8E7EA]">
             {user ? 'Account & Features Hub' : 'Limited Guest Access • Sign In Required for Full Tools'}
           </p>
           <h1 className="font-display text-2xl font-extrabold">
@@ -225,7 +225,7 @@ export function ProfileHubPage() {
         <div className="flex flex-wrap gap-2">
           {user ? (
             <GlassButton type="button" variant="glass" size="sm" onClick={signOut} disabled={isOffline}>
-              <LogOut className="h-4 w-4 text-[#DC2626]" />
+              <LogOut className="h-4 w-4 text-[#C9182B]" />
               Sign Out
             </GlassButton>
           ) : (
@@ -251,11 +251,11 @@ export function ProfileHubPage() {
 
       <section className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2 px-1">
-          <h2 className="font-display text-lg font-extrabold text-[#24191D]">
+          <h2 className="font-display text-lg font-extrabold text-[#29262B]">
             {isOffline ? 'Available Tools (Offline Mode)' : 'Unlocked Features'}
           </h2>
           {isOffline && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-[#FFE4E6] px-2.5 py-0.5 text-[11px] font-bold text-[#B91C1C]">
+            <span className="inline-flex items-center gap-1 rounded-full bg-[#F8E7EA] px-2.5 py-0.5 text-[11px] font-bold text-[#B51224]">
               <WifiOff className="h-3 w-3" />
               Cached Offline Tools Highlighted
             </span>
@@ -275,16 +275,16 @@ export function ProfileHubPage() {
                   }`}
                 >
                   <div className="flex items-center gap-3.5 min-w-0">
-                    <div className="glass-pill-tile rounded-2xl p-2.5 text-[#DC2626] shrink-0">
+                    <div className="glass-pill-tile rounded-2xl p-2.5 text-[#C9182B] shrink-0">
                       <item.icon className="h-5 w-5" />
                     </div>
                     <div className="min-w-0">
-                      <h3 className="font-bold text-sm text-[#24191D] leading-snug">{item.label}</h3>
-                      <p className="text-xs text-[#78716C]">{item.desc}</p>
+                      <h3 className="font-bold text-sm text-[#29262B] leading-snug">{item.label}</h3>
+                      <p className="text-xs text-[#777078]">{item.desc}</p>
                     </div>
                   </div>
                   {offlineLocked && (
-                    <span className="shrink-0 rounded-full bg-[#FFE4E6] px-2 py-0.5 text-[10px] font-bold text-[#B91C1C] flex items-center gap-1">
+                    <span className="shrink-0 rounded-full bg-[#F8E7EA] px-2 py-0.5 text-[10px] font-bold text-[#B51224] flex items-center gap-1">
                       <WifiOff className="h-3 w-3" />
                       Online
                     </span>
@@ -299,10 +299,10 @@ export function ProfileHubPage() {
       {!user && (
         <section className="space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-2 px-1">
-            <h2 className="font-display text-lg font-extrabold text-[#24191D]">
+            <h2 className="font-display text-lg font-extrabold text-[#29262B]">
               Sign In Required (Locked While Logged Out)
             </h2>
-            <Link to="/login" className="text-xs font-bold text-[#DC2626] hover:underline">
+            <Link to="/login" className="text-xs font-bold text-[#C9182B] hover:underline">
               Sign In to Unlock All →
             </Link>
           </div>
@@ -313,18 +313,18 @@ export function ProfileHubPage() {
                 <GlassCard
                   variant="panel"
                   hoverable
-                  className="p-4 flex items-center justify-between gap-3 h-full border-dashed border-[#FCA5A5]/70"
+                  className="p-4 flex items-center justify-between gap-3 h-full border-dashed border-[#E9E5E8]/70"
                 >
                   <div className="flex items-center gap-3.5 min-w-0">
-                    <div className="glass-pill-tile rounded-2xl p-2.5 text-[#78716C] shrink-0">
+                    <div className="glass-pill-tile rounded-2xl p-2.5 text-[#777078] shrink-0">
                       <item.icon className="h-5 w-5" />
                     </div>
                     <div className="min-w-0">
-                      <h3 className="font-bold text-sm text-[#24191D] leading-snug">{item.label}</h3>
-                      <p className="text-xs text-[#78716C]">{item.desc}</p>
+                      <h3 className="font-bold text-sm text-[#29262B] leading-snug">{item.label}</h3>
+                      <p className="text-xs text-[#777078]">{item.desc}</p>
                     </div>
                   </div>
-                  <span className="glass-pill-tile shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-bold text-[#B91C1C]">
+                  <span className="glass-pill-tile shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-bold text-[#B51224]">
                     <Lock className="h-3 w-3" />
                     Locked
                   </span>

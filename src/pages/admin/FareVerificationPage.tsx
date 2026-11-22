@@ -129,13 +129,13 @@ export function FareVerificationPage() {
       <GlassCard variant="strong" className="p-6 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
               Core Verification Engine
             </p>
-            <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
+            <h1 className="font-display text-2xl font-extrabold text-[#29262B]">
               Fare Verification Workbench
             </h1>
-            <p className="text-sm text-[#78716C]">
+            <p className="text-sm text-[#777078]">
               Inspect evidence, compare against existing records, approve community estimates, or
               verify official fares with mandatory LTFRB/LGU document references.
             </p>
@@ -179,16 +179,16 @@ export function FareVerificationPage() {
                 }}
                 className={`w-full text-left glass-card-strong rounded-3xl p-4 transition border ${
                   selectedReport?.id === rep.id
-                    ? 'border-[#DC2626] ring-2 ring-[#FCA5A5]/65'
+                    ? 'border-[#C9182B] ring-2 ring-[#E9E5E8]/65'
                     : 'border-white/80 hover:bg-white/95'
                 }`}
               >
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <p className="font-bold text-sm text-[#24191D]">
+                    <p className="font-bold text-sm text-[#29262B]">
                       {rep.origin?.name} → {rep.destination?.name}
                     </p>
-                    <p className="text-xs text-[#78716C]">
+                    <p className="text-xs text-[#777078]">
                       {rep.transport_type?.name} •{' '}
                       {PASSENGER_CATEGORY_LABELS[rep.passenger_category]}
                     </p>
@@ -196,10 +196,10 @@ export function FareVerificationPage() {
                   <ReportStatusBadge status={rep.status} />
                 </div>
                 <div className="mt-2 flex items-center justify-between text-xs">
-                  <span className="font-display text-lg font-extrabold text-[#DC2626]">
+                  <span className="font-display text-lg font-extrabold text-[#C9182B]">
                     {formatPhp(rep.fare_paid)}
                   </span>
-                  <span className="text-[#A8A29E]">
+                  <span className="text-[#777078]">
                     {rep.reporter?.full_name || rep.reporter?.email || 'Commuter'} •{' '}
                     {formatDateSafe(rep.travel_date)}
                   </span>
@@ -219,27 +219,27 @@ export function FareVerificationPage() {
             />
           ) : (
             <GlassCard variant="strong" className="p-6 space-y-5">
-              <div className="flex flex-wrap items-start justify-between gap-2 border-b border-[#FCA5A5]/35 pb-4">
+              <div className="flex flex-wrap items-start justify-between gap-2 border-b border-[#E9E5E8]/35 pb-4">
                 <div>
                   <ReportStatusBadge status={selectedReport.status} />
-                  <h2 className="mt-2 font-display text-xl font-extrabold text-[#24191D]">
+                  <h2 className="mt-2 font-display text-xl font-extrabold text-[#29262B]">
                     {selectedReport.origin?.name} → {selectedReport.destination?.name}
                   </h2>
-                  <p className="text-xs text-[#78716C]">
+                  <p className="text-xs text-[#777078]">
                     Reported by {selectedReport.reporter?.full_name} ({selectedReport.reporter?.email})
                     • Travel Date: {formatDateSafe(selectedReport.travel_date)}
                   </p>
                 </div>
                 <div className="glass-pill-tile rounded-[20px] px-4 py-2 text-right">
-                  <p className="text-[10px] font-bold uppercase text-[#B91C1C]">Reported Paid</p>
-                  <p className="font-display text-2xl font-extrabold text-[#DC2626] tabular-nums">
+                  <p className="text-[10px] font-bold uppercase text-[#B51224]">Reported Paid</p>
+                  <p className="font-display text-2xl font-extrabold text-[#C9182B] tabular-nums">
                     {formatPhp(selectedReport.fare_paid)}
                   </p>
                 </div>
               </div>
 
               {/* Details & Supporting Evidence */}
-              <div className="space-y-2 text-xs text-[#24191D]">
+              <div className="space-y-2 text-xs text-[#29262B]">
                 <p>
                   <strong>Mode &amp; Passenger:</strong> {selectedReport.transport_type?.name} •{' '}
                   {PASSENGER_CATEGORY_LABELS[selectedReport.passenger_category]}
@@ -253,9 +253,9 @@ export function FareVerificationPage() {
                 </p>
 
                 <div className="pt-2">
-                  <p className="font-bold text-[#24191D] mb-1.5">Supporting Evidence Files:</p>
+                  <p className="font-bold text-[#29262B] mb-1.5">Supporting Evidence Files:</p>
                   {(selectedReport.evidence ?? []).length === 0 ? (
-                    <p className="italic text-[#A8A29E]">
+                    <p className="italic text-[#777078]">
                       No supporting files attached by reporter.
                     </p>
                   ) : (
@@ -279,11 +279,11 @@ export function FareVerificationPage() {
 
               {/* Comparison Against Existing Records */}
               <div className="glass-pill-tile rounded-[22px] p-4 space-y-2">
-                <p className="text-xs font-bold uppercase tracking-wider text-[#DC2626]">
+                <p className="text-xs font-bold uppercase tracking-wider text-[#C9182B]">
                   Existing Records for Same Corridor &amp; Mode ({comparableFares.length})
                 </p>
                 {comparableFares.length === 0 ? (
-                  <p className="text-xs text-[#78716C]">
+                  <p className="text-xs text-[#777078]">
                     No existing official or community fare records exist for this corridor yet.
                   </p>
                 ) : (
@@ -305,9 +305,9 @@ export function FareVerificationPage() {
               </div>
 
               {/* Verification Form Controls */}
-              <div className="space-y-3 border-t border-[#FCA5A5]/35 pt-4">
+              <div className="space-y-3 border-t border-[#E9E5E8]/35 pt-4">
                 <div>
-                  <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
+                  <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
                     Administrator Feedback / Notes
                   </label>
                   <textarea
@@ -319,19 +319,19 @@ export function FareVerificationPage() {
                   />
                 </div>
 
-                <label className="flex items-center gap-2 text-xs font-semibold text-[#B91C1C]">
+                <label className="flex items-center gap-2 text-xs font-semibold text-[#B51224]">
                   <input
                     type="checkbox"
                     checked={flagSuspicious}
                     onChange={(e) => setFlagSuspicious(e.target.checked)}
-                    className="accent-[#DC2626]"
+                    className="accent-[#C9182B]"
                   />
                   Flag submission as suspicious / potential duplicate or anomaly
                 </label>
 
                 {/* Official Source Block (Required ONLY for Verified Official Fare) */}
-                <div className="glass-pill-tile rounded-[22px] border-[#FECDD3] p-4 space-y-3">
-                  <p className="text-xs font-bold uppercase tracking-wider text-[#B91C1C]">
+                <div className="glass-pill-tile rounded-[22px] border-[#E9E5E8] p-4 space-y-3">
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#B51224]">
                     Official Source Verification (Required to Publish Official Fare)
                   </p>
                   <div className="grid gap-2.5 sm:grid-cols-2">

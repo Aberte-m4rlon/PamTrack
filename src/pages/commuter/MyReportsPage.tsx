@@ -156,25 +156,25 @@ export function MyReportsPage() {
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6 space-y-1.5">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
           Community Fare Reporting
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
+        <h1 className="font-display text-2xl font-extrabold text-[#29262B]">
           Submit &amp; Track Fare Reports
         </h1>
-        <p className="text-sm text-[#78716C]">
+        <p className="text-sm text-[#777078]">
           Report fares observed across Oriental Mindoro. Pending reports may be edited prior to
           administrator review. Approved community reports remain labeled strictly as{' '}
-          <strong className="text-[#24191D]">Community Estimates</strong> unless matched to an official government order.
+          <strong className="text-[#29262B]">Community Estimates</strong> unless matched to an official government order.
         </p>
       </GlassCard>
 
       <div className="grid gap-6 lg:grid-cols-12">
         {/* Submission Form */}
         <GlassCard variant="strong" className="p-6 lg:col-span-5 space-y-4 h-fit">
-          <div className="flex items-center gap-2 text-[#DC2626]">
+          <div className="flex items-center gap-2 text-[#C9182B]">
             <MessageSquarePlus className="h-5 w-5" />
-            <h2 className="font-display text-lg font-bold text-[#24191D]">
+            <h2 className="font-display text-lg font-bold text-[#29262B]">
               New Fare Report
             </h2>
           </div>
@@ -185,7 +185,7 @@ export function MyReportsPage() {
           >
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
-                <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
+                <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
                   Origin
                 </label>
                 <select
@@ -200,12 +200,12 @@ export function MyReportsPage() {
                   ))}
                 </select>
                 {errors.originMunicipalityId && (
-                  <p className="mt-1 text-xs text-[#DC2626]">{errors.originMunicipalityId.message}</p>
+                  <p className="mt-1 text-xs text-[#C9182B]">{errors.originMunicipalityId.message}</p>
                 )}
               </div>
 
               <div>
-                <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
+                <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
                   Destination
                 </label>
                 <select
@@ -220,7 +220,7 @@ export function MyReportsPage() {
                   ))}
                 </select>
                 {errors.destinationMunicipalityId && (
-                  <p className="mt-1 text-xs text-[#DC2626]">
+                  <p className="mt-1 text-xs text-[#C9182B]">
                     {errors.destinationMunicipalityId.message}
                   </p>
                 )}
@@ -229,7 +229,7 @@ export function MyReportsPage() {
 
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
-                <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
+                <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
                   Transport Type
                 </label>
                 <select
@@ -244,12 +244,12 @@ export function MyReportsPage() {
                   ))}
                 </select>
                 {errors.transportTypeId && (
-                  <p className="mt-1 text-xs text-[#DC2626]">{errors.transportTypeId.message}</p>
+                  <p className="mt-1 text-xs text-[#C9182B]">{errors.transportTypeId.message}</p>
                 )}
               </div>
 
               <div>
-                <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
+                <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
                   Passenger Category
                 </label>
                 <select
@@ -267,7 +267,7 @@ export function MyReportsPage() {
 
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
-                <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
+                <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
                   Fare Paid (PHP)
                 </label>
                 <input
@@ -278,12 +278,12 @@ export function MyReportsPage() {
                   className="glass-input w-full rounded-2xl px-3 py-2 text-sm"
                 />
                 {errors.farePaid && (
-                  <p className="mt-1 text-xs text-[#DC2626]">{errors.farePaid.message}</p>
+                  <p className="mt-1 text-xs text-[#C9182B]">{errors.farePaid.message}</p>
                 )}
               </div>
 
               <div>
-                <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
+                <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
                   Travel Date
                 </label>
                 <input
@@ -292,13 +292,13 @@ export function MyReportsPage() {
                   className="glass-input w-full rounded-2xl px-3 py-2 text-sm"
                 />
                 {errors.travelDate && (
-                  <p className="mt-1 text-xs text-[#DC2626]">{errors.travelDate.message}</p>
+                  <p className="mt-1 text-xs text-[#C9182B]">{errors.travelDate.message}</p>
                 )}
               </div>
             </div>
 
             <div>
-              <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
+              <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
                 Operator / Vehicle Details (Optional)
               </label>
               <input
@@ -310,7 +310,7 @@ export function MyReportsPage() {
             </div>
 
             <div>
-              <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
+              <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
                 Additional Remarks
               </label>
               <textarea
@@ -322,10 +322,10 @@ export function MyReportsPage() {
             </div>
 
             <div>
-              <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
+              <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-[#777078]">
                 Supporting Evidence (Optional — JPG/PNG/WebP/PDF, max 5MB)
               </label>
-              <label className="flex cursor-pointer items-center justify-center gap-2 rounded-2xl border border-dashed border-[#DC2626]/40 bg-[#FFF1F2]/75 p-3 text-xs font-semibold text-[#DC2626] hover:bg-[#FFE4E6]/80 transition">
+              <label className="flex cursor-pointer items-center justify-center gap-2 rounded-2xl border border-dashed border-[#C9182B]/40 bg-[#F7F3EF]/75 p-3 text-xs font-semibold text-[#C9182B] hover:bg-[#F8E7EA]/80 transition">
                 <FileUp className="h-4 w-4" />
                 <span>
                   {evidenceFiles.length > 0
@@ -341,14 +341,14 @@ export function MyReportsPage() {
                 />
               </label>
               {evidenceFiles.length > 0 && (
-                <ul className="mt-1.5 space-y-1 text-[11px] text-[#78716C]">
+                <ul className="mt-1.5 space-y-1 text-[11px] text-[#777078]">
                   {evidenceFiles.map((f) => (
                     <li key={f.name} className="flex items-center justify-between">
                       <span>{f.name}</span>
                       <button
                         type="button"
                         onClick={() => setEvidenceFiles((prev) => prev.filter((x) => x !== f))}
-                        className="text-[#DC2626]"
+                        className="text-[#C9182B]"
                       >
                         <X className="h-3.5 w-3.5" />
                       </button>
@@ -372,7 +372,7 @@ export function MyReportsPage() {
 
         {/* Report History */}
         <div className="lg:col-span-7 space-y-4">
-          <h2 className="font-display text-lg font-bold text-[#24191D] px-1">
+          <h2 className="font-display text-lg font-bold text-[#29262B] px-1">
             My Submitted Reports ({myReports?.length ?? 0})
           </h2>
 
@@ -390,10 +390,10 @@ export function MyReportsPage() {
                 <GlassCard key={rep.id} variant="strong" className="p-5 space-y-3">
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div>
-                      <h3 className="font-display text-base font-extrabold text-[#24191D]">
+                      <h3 className="font-display text-base font-extrabold text-[#29262B]">
                         {rep.origin?.name} → {rep.destination?.name}
                       </h3>
-                      <p className="text-xs text-[#78716C]">
+                      <p className="text-xs text-[#777078]">
                         {rep.transport_type?.name} •{' '}
                         {PASSENGER_CATEGORY_LABELS[rep.passenger_category]} • Travel date:{' '}
                         {formatDateSafe(rep.travel_date)}
@@ -402,21 +402,21 @@ export function MyReportsPage() {
                     <ReportStatusBadge status={rep.status} />
                   </div>
 
-                  <div className="flex flex-wrap items-center justify-between gap-2 border-y border-[#FCA5A5]/35 py-2.5 text-sm">
-                    <span className="font-display text-xl font-extrabold text-[#DC2626]">
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-y border-[#E9E5E8]/35 py-2.5 text-sm">
+                    <span className="font-display text-xl font-extrabold text-[#C9182B]">
                       {formatPhp(rep.fare_paid)}
                     </span>
                     {rep.operator_or_vehicle_details && (
-                      <span className="text-xs text-[#78716C]">
+                      <span className="text-xs text-[#777078]">
                         Vehicle/Operator: {rep.operator_or_vehicle_details}
                       </span>
                     )}
                   </div>
 
-                  {rep.remarks && <p className="text-xs text-[#24191D]/85">{rep.remarks}</p>}
+                  {rep.remarks && <p className="text-xs text-[#29262B]/85">{rep.remarks}</p>}
 
                   {rep.admin_feedback && (
-                    <div className="glass-pill-tile rounded-[20px] p-3 text-xs text-[#24191D]">
+                    <div className="glass-pill-tile rounded-[20px] p-3 text-xs text-[#29262B]">
                       <strong>Administrator Feedback:</strong> {rep.admin_feedback}
                     </div>
                   )}
@@ -459,7 +459,7 @@ export function MyReportsPage() {
 
                   {editingReport?.id === rep.id && (
                     <div className="glass-pill-tile space-y-2.5 rounded-[22px] p-3.5">
-                      <p className="text-xs font-bold text-[#DC2626]">Edit Pending Report</p>
+                      <p className="text-xs font-bold text-[#C9182B]">Edit Pending Report</p>
                       <input
                         type="number"
                         step="0.25"

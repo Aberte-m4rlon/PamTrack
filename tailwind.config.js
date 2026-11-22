@@ -6,15 +6,17 @@ export default {
     extend: {
       colors: {
         brand: {
-          primary: '#DC2626',
-          deep: '#B91C1C',
-          secondary: '#EF4444',
-          soft: '#FCA5A5',
-          rose: '#FFE4E6',
-          blush: '#FFF1F2',
-          ink: '#24191D',
-          muted: '#78716C',
-          subtle: '#A8A29E',
+          primary: '#C9182B',
+          deep: '#B51224',
+          secondary: '#C9182B',
+          charcoal: '#343039',
+          soft: '#E9E5E8',
+          rose: '#F8E7EA',
+          pearl: '#F7F3EF',
+          blush: '#F8E7EA',
+          ink: '#29262B',
+          muted: '#777078',
+          subtle: '#777078',
         },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -22,25 +24,25 @@ export default {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
-          DEFAULT: '#DC2626',
+          DEFAULT: '#C9182B',
           foreground: '#FFFFFF',
         },
         secondary: {
-          DEFAULT: '#EF4444',
+          DEFAULT: '#343039',
           foreground: '#FFFFFF',
         },
         accent: {
-          DEFAULT: '#FFE4E6',
-          foreground: '#24191D',
+          DEFAULT: '#F8E7EA',
+          foreground: '#29262B',
         },
         destructive: {
-          DEFAULT: '#DC2626',
+          DEFAULT: '#C9182B',
           foreground: '#FFFFFF',
         },
       },
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', '"Inter"', 'system-ui', 'sans-serif'],
-        display: ['"Outfit"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        display: ['"Plus Jakarta Sans"', '"Inter"', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         xl: '1rem',
@@ -48,9 +50,9 @@ export default {
         '3xl': '1.5rem',
       },
       boxShadow: {
-        glass: '0 10px 32px -6px rgba(185, 28, 28, 0.10), 0 4px 12px rgba(36, 25, 29, 0.05)',
+        glass: '0 14px 36px -8px rgba(41, 38, 43, 0.14), 0 4px 14px rgba(181, 18, 36, 0.08)',
         'glass-lg':
-          '0 20px 48px -10px rgba(185, 28, 28, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.85)',
+          '0 22px 52px -12px rgba(41, 38, 43, 0.18), inset 0 1.5px 0 rgba(255, 255, 255, 0.92)',
       },
       backdropBlur: {
         glass: '18px',

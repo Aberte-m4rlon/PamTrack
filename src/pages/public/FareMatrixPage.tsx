@@ -140,13 +140,13 @@ export function FareMatrixPage() {
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
             Province-Wide Citizen Commuter Fare Table
           </p>
-          <h1 className="font-display text-2xl font-extrabold text-[#24191D] sm:text-3xl">
+          <h1 className="font-display text-2xl font-extrabold text-[#29262B] sm:text-3xl">
             Oriental Mindoro Fare Matrix
           </h1>
-          <p className="text-sm text-[#4B3B40]">
+          <p className="text-sm text-[#343039]">
             Province-wide fare estimates and 20% discount guide.
           </p>
         </div>
@@ -157,14 +157,14 @@ export function FareMatrixPage() {
           onClick={handleExportCsv}
           disabled={filteredRows.length === 0}
         >
-          <Download className="h-4 w-4" />
+          <Download className="h-4 w-4 text-[#C9182B]" />
           Export CSV
         </GlassButton>
       </GlassCard>
 
       {/* Filter Bar */}
       <GlassCard variant="surface" className="p-4 sm:p-5 space-y-3">
-        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#DC2626]">
+        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#C9182B]">
           <Filter className="h-3.5 w-3.5" />
           Filter Fare Matrix
         </div>
@@ -250,7 +250,7 @@ export function FareMatrixPage() {
 
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
           <div className="flex items-center gap-2">
-            <label className="font-semibold text-[#78716C]">Updated since:</label>
+            <label className="font-semibold text-[#777078]">Updated since:</label>
             <input
               type="date"
               value={updatedAfter}
@@ -270,7 +270,7 @@ export function FareMatrixPage() {
               setUpdatedAfter('');
               setSearchText('');
             }}
-            className="font-bold text-[#DC2626] hover:underline"
+            className="font-bold text-[#C9182B] hover:underline"
           >
             Reset All Filters
           </button>
@@ -304,38 +304,38 @@ export function FareMatrixPage() {
               >
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <p className="font-display text-sm font-extrabold text-[#24191D]">
+                    <p className="font-display text-sm font-extrabold text-[#29262B]">
                       {row.originName} → {row.destinationName}
                     </p>
-                    <p className="text-xs font-semibold text-[#4B3B40]">{row.transportTypeName}</p>
+                    <p className="text-xs font-semibold text-[#343039]">{row.transportTypeName}</p>
                   </div>
                   <FareStatusBadge status={row.status} compact />
                 </div>
 
                 <div className="glass-panel grid grid-cols-2 gap-2 rounded-2xl p-2.5 text-xs">
                   <div>
-                    <span className="text-[#78716C]">Regular:</span>{' '}
-                    <strong className="text-[#DC2626]">{formatPhp(row.regularFare)}</strong>
+                    <span className="text-[#777078]">Regular:</span>{' '}
+                    <strong className="text-[#C9182B]">{formatPhp(row.regularFare)}</strong>
                   </div>
                   <div>
-                    <span className="text-[#78716C]">Student:</span>{' '}
-                    <strong className="text-[#24191D]">{formatPhp(row.studentFare)}</strong>
+                    <span className="text-[#777078]">Student:</span>{' '}
+                    <strong className="text-[#29262B]">{formatPhp(row.studentFare)}</strong>
                   </div>
                   <div>
-                    <span className="text-[#78716C]">Senior:</span>{' '}
-                    <strong className="text-[#24191D]">{formatPhp(row.seniorFare)}</strong>
+                    <span className="text-[#777078]">Senior:</span>{' '}
+                    <strong className="text-[#29262B]">{formatPhp(row.seniorFare)}</strong>
                   </div>
                   <div>
-                    <span className="text-[#78716C]">PWD:</span>{' '}
-                    <strong className="text-[#24191D]">{formatPhp(row.pwdFare)}</strong>
+                    <span className="text-[#777078]">PWD:</span>{' '}
+                    <strong className="text-[#29262B]">{formatPhp(row.pwdFare)}</strong>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between text-[11px] text-[#78716C]">
+                <div className="flex items-center justify-between text-[11px] text-[#777078]">
                   <span className="truncate">{row.issuingAuthority || 'Unverified'}</span>
                   <Link
                     to={`/fares/${row.primaryRecordId}`}
-                    className="font-bold text-[#DC2626] hover:underline shrink-0"
+                    className="font-bold text-[#C9182B] hover:underline shrink-0"
                   >
                     Details ({formatDateSafe(row.lastVerifiedAt)}) →
                   </Link>
@@ -347,7 +347,7 @@ export function FareMatrixPage() {
           {/* Desktop/Tablet Table */}
           <div className="hidden md:block overflow-x-auto rounded-t-[28px]">
             <table className="w-full min-w-[980px] text-left text-sm">
-              <thead className="glass-table-head text-[11px] font-bold uppercase tracking-wider text-[#24191D]">
+              <thead className="glass-table-head text-[11px] font-bold uppercase tracking-wider text-[#29262B]">
                 <tr>
                   <th className="px-4 py-3.5">Origin</th>
                   <th className="px-4 py-3.5">Destination</th>
@@ -364,40 +364,40 @@ export function FareMatrixPage() {
               <tbody className="divide-y divide-white/50">
                 {paginatedRows.map((row) => (
                   <tr key={row.key} className="hover:bg-white/35 transition">
-                    <td className="px-4 py-3 font-bold text-[#24191D]">{row.originName}</td>
-                    <td className="px-4 py-3 font-bold text-[#24191D]">{row.destinationName}</td>
-                    <td className="px-4 py-3 font-medium text-[#4B3B40]">{row.transportTypeName}</td>
-                    <td className="px-4 py-3 font-bold text-[#DC2626]">
+                    <td className="px-4 py-3 font-bold text-[#29262B]">{row.originName}</td>
+                    <td className="px-4 py-3 font-bold text-[#29262B]">{row.destinationName}</td>
+                    <td className="px-4 py-3 font-medium text-[#343039]">{row.transportTypeName}</td>
+                    <td className="px-4 py-3 font-bold text-[#C9182B]">
                       {formatPhp(row.regularFare)}
                     </td>
-                    <td className="px-4 py-3 text-[#24191D]">{formatPhp(row.studentFare)}</td>
-                    <td className="px-4 py-3 text-[#24191D]">{formatPhp(row.seniorFare)}</td>
-                    <td className="px-4 py-3 text-[#24191D]">{formatPhp(row.pwdFare)}</td>
+                    <td className="px-4 py-3 text-[#29262B]">{formatPhp(row.studentFare)}</td>
+                    <td className="px-4 py-3 text-[#29262B]">{formatPhp(row.seniorFare)}</td>
+                    <td className="px-4 py-3 text-[#29262B]">{formatPhp(row.pwdFare)}</td>
                     <td className="px-4 py-3">
                       <FareStatusBadge status={row.status} compact />
                     </td>
                     <td className="px-4 py-3 text-xs">
-                      <p className="font-semibold text-[#24191D]">
+                      <p className="font-semibold text-[#29262B]">
                         {row.issuingAuthority || 'Unverified'}
                       </p>
                       {row.officialDocumentReference && (
-                        <p className="text-[#78716C]">{row.officialDocumentReference}</p>
+                        <p className="text-[#777078]">{row.officialDocumentReference}</p>
                       )}
                       {row.sourceUrl && (
                         <a
                           href={row.sourceUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1 text-[#DC2626] hover:underline"
+                          className="inline-flex items-center gap-1 text-[#C9182B] hover:underline"
                         >
                           Source <ExternalLink className="h-3 w-3" />
                         </a>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-xs text-[#78716C]">
+                    <td className="px-4 py-3 text-xs text-[#777078]">
                       <Link
                         to={`/fares/${row.primaryRecordId}`}
-                        className="font-semibold text-[#DC2626] hover:underline"
+                        className="font-semibold text-[#C9182B] hover:underline"
                       >
                         {formatDateSafe(row.lastVerifiedAt)}
                       </Link>
@@ -409,12 +409,12 @@ export function FareMatrixPage() {
           </div>
 
           <div className="glass-table-head flex flex-wrap items-center justify-between gap-2 rounded-b-[28px] border-t border-white/65 px-4 py-3 text-xs">
-            <span className="font-semibold text-[#78716C]">
-              Showing <strong className="text-[#24191D]">{startIdx + 1}</strong>–
-              <strong className="text-[#24191D]">
+            <span className="font-semibold text-[#777078]">
+              Showing <strong className="text-[#29262B]">{startIdx + 1}</strong>–
+              <strong className="text-[#29262B]">
                 {Math.min(startIdx + MATRIX_PAGE_SIZE, filteredRows.length)}
               </strong>{' '}
-              of <strong className="text-[#DC2626]">{filteredRows.length}</strong> corridors
+              of <strong className="text-[#C9182B]">{filteredRows.length}</strong> corridors
             </span>
 
             {totalPages > 1 && (
@@ -430,7 +430,7 @@ export function FareMatrixPage() {
                   <ChevronLeft className="h-3.5 w-3.5" />
                   Prev
                 </GlassButton>
-                <span className="glass-pill-tile rounded-full px-3 py-1 text-[11px] font-bold text-[#24191D] tabular-nums">
+                <span className="glass-pill-tile rounded-full px-3 py-1 text-[11px] font-bold text-[#29262B] tabular-nums">
                   Page {safePage} of {totalPages}
                 </span>
                 <GlassButton

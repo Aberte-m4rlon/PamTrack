@@ -279,7 +279,7 @@ export function FareSearchWidget({
       <GlassCard variant="strong" className={compact ? 'p-4 sm:p-5' : 'p-5 sm:p-6'}>
         <form onSubmit={handleSearch} className="grid grid-cols-1 gap-3.5 md:grid-cols-12 md:items-end">
           <div className="min-w-0 md:col-span-5">
-            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
+            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#777078]">
               Origin
             </label>
             <select
@@ -313,7 +313,7 @@ export function FareSearchWidget({
           </div>
 
           <div className="min-w-0 md:col-span-5 lg:col-span-6">
-            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
+            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#777078]">
               Destination
             </label>
             <select
@@ -335,7 +335,7 @@ export function FareSearchWidget({
           </div>
 
           <div className="min-w-0 md:col-span-4">
-            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
+            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#777078]">
               Transport Type
             </label>
             <select
@@ -354,7 +354,7 @@ export function FareSearchWidget({
           </div>
 
           <div className="min-w-0 md:col-span-5">
-            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#78716C]">
+            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#777078]">
               Passenger
             </label>
             <select
@@ -383,10 +383,10 @@ export function FareSearchWidget({
       {quickAvailableCorridors.length > 0 && (
         <GlassCard variant="surface" className="p-4 space-y-2.5">
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <p className="text-xs font-bold uppercase tracking-wider text-[#DC2626]">
+            <p className="text-xs font-bold uppercase tracking-wider text-[#C9182B]">
               Routes With Available Fare Records (Click to View Price)
             </p>
-            <Link to="/fare-matrix" className="text-xs font-bold text-[#DC2626] hover:underline">
+            <Link to="/fare-matrix" className="text-xs font-bold text-[#C9182B] hover:underline">
               See Full Fare Matrix →
             </Link>
           </div>
@@ -401,14 +401,14 @@ export function FareSearchWidget({
                   setHasSearched(true);
                   onSelectionChange?.(c.originId, c.destinationId);
                 }}
-                className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-bold text-[#24191D] hover:bg-gradient-to-b hover:from-[#EF4444]/85 hover:to-[#B91C1C]/90 hover:text-white transition group"
+                className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-bold text-[#29262B] hover:bg-gradient-to-b hover:from-[#C9182B]/85 hover:to-[#B51224]/90 hover:text-white transition group"
               >
                 <span>
                   {c.originId === c.destinationId
                     ? `${c.originName} (Local)`
                     : `${c.originName} → ${c.destinationName}`}
                 </span>
-                <span className="glass-panel rounded-full px-2 py-0.5 text-[11px] font-extrabold text-[#DC2626] group-hover:bg-white/25 group-hover:text-white">
+                <span className="glass-panel rounded-full px-2 py-0.5 text-[11px] font-extrabold text-[#C9182B] group-hover:bg-white/25 group-hover:text-white">
                   {formatPhp(c.sampleAmount)}
                 </span>
               </button>
@@ -424,29 +424,29 @@ export function FareSearchWidget({
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <p className="text-xs font-bold uppercase tracking-wider text-[#DC2626]">
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#C9182B]">
                     Route Inquiry • {PASSENGER_CATEGORY_LABELS[passengerCategory]}
                   </p>
                   {isOffline && (
-                    <span className="inline-flex items-center gap-1 rounded-full border border-[#FCA5A5]/80 bg-[#FFE4E6]/85 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#B91C1C]">
+                    <span className="inline-flex items-center gap-1 rounded-full border border-[#E9E5E8]/80 bg-[#F8E7EA]/85 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#B51224]">
                       <WifiOff className="h-3 w-3" />
                       Offline Cached Lookup
                     </span>
                   )}
                 </div>
-                <h3 className="font-display text-xl font-extrabold text-[#24191D]">
+                <h3 className="font-display text-xl font-extrabold text-[#29262B]">
                   {originMuni.id === destMuni.id
                     ? `${originMuni.name} (Local / Intra-Municipality Fare)`
                     : `${originMuni.name} → ${destMuni.name}`}
                 </h3>
                 {osrmInfo?.available ? (
-                  <p className="text-xs font-semibold text-[#78716C]">
+                  <p className="text-xs font-semibold text-[#777078]">
                     OSRM Road Distance: {osrmInfo.distanceKm} km • Est. {osrmInfo.durationMin} mins
                     driving
                   </p>
                 ) : (
                   offlineGeodesicKm !== null && (
-                    <p className="text-xs font-semibold text-[#78716C]">
+                    <p className="text-xs font-semibold text-[#777078]">
                       {isOffline
                         ? `Offline Reference Distance: ~${offlineGeodesicKm} km straight-line (live OSRM road route updates online)`
                         : `Straight-line reference: ~${offlineGeodesicKm} km`}
@@ -454,7 +454,7 @@ export function FareSearchWidget({
                   )
                 )}
                 {matchingRoutes.length > 0 && (
-                  <p className="mt-1 text-xs text-[#DC2626] font-semibold">
+                  <p className="mt-1 text-xs text-[#C9182B] font-semibold">
                     {matchingRoutes.length} registered corridor(s) found:{' '}
                     {matchingRoutes.map((r) => r.route_name).join(', ')}
                   </p>
@@ -471,7 +471,7 @@ export function FareSearchWidget({
                     disabled={isOffline || favoriteMutation.isPending}
                     title={isOffline ? 'Reconnect to save favorite routes' : undefined}
                   >
-                    <Heart className="h-4 w-4 text-[#DC2626]" />
+                    <Heart className="h-4 w-4 text-[#C9182B]" />
                     {isOffline ? 'Save Offline Disabled' : 'Save Favorite'}
                   </GlassButton>
                 )}
@@ -521,8 +521,8 @@ export function FareSearchWidget({
               {officialFares.length > 0 && (
                 <div className="space-y-3">
                   <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-4 py-1.5">
-                    <CheckCircle2 className="h-4 w-4 text-[#DC2626]" />
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#24191D]">
+                    <CheckCircle2 className="h-4 w-4 text-[#C9182B]" />
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#29262B]">
                       Verified Fare Records
                     </h4>
                   </div>
@@ -536,10 +536,10 @@ export function FareSearchWidget({
                               <TransportModeIcon code={fare.transport_type?.code} />
                             </div>
                             <div>
-                              <p className="font-bold text-[#24191D]">
+                              <p className="font-bold text-[#29262B]">
                                 {fare.transport_type?.name ?? 'Public Transport'}
                               </p>
-                              <p className="text-xs text-[#78716C]">
+                              <p className="text-xs text-[#777078]">
                                 {PASSENGER_CATEGORY_LABELS[fare.passenger_category]}
                               </p>
                             </div>
@@ -547,31 +547,31 @@ export function FareSearchWidget({
                           <FareStatusBadge status={fare.status} compact />
                         </div>
 
-                        <div className="flex items-baseline justify-between border-y border-[#FCA5A5]/35 py-3">
-                          <span className="text-xs font-semibold uppercase tracking-wider text-[#78716C]">
+                        <div className="flex items-baseline justify-between border-y border-[#E9E5E8]/35 py-3">
+                          <span className="text-xs font-semibold uppercase tracking-wider text-[#777078]">
                             Fare Rate
                           </span>
-                          <span className="font-display text-3xl font-extrabold text-[#DC2626]">
+                          <span className="font-display text-3xl font-extrabold text-[#C9182B]">
                             {formatPhp(fare.fare_amount)}
                           </span>
                         </div>
 
-                        <div className="space-y-1.5 text-xs text-[#78716C]">
+                        <div className="space-y-1.5 text-xs text-[#777078]">
                           <p className="flex items-center gap-1.5">
-                            <FileText className="h-3.5 w-3.5 text-[#DC2626]" />
-                            <span className="font-semibold text-[#24191D]">Source:</span>{' '}
+                            <FileText className="h-3.5 w-3.5 text-[#C9182B]" />
+                            <span className="font-semibold text-[#29262B]">Source:</span>{' '}
                             {fare.issuing_authority || 'Commuter Reference'}
                             {fare.official_document_reference
                               ? ` (${fare.official_document_reference})`
                               : ''}
                           </p>
                           <p className="flex items-center gap-1.5">
-                            <CalendarCheck className="h-3.5 w-3.5 text-[#DC2626]" />
-                            <span className="font-semibold text-[#24191D]">Updated:</span>{' '}
+                            <CalendarCheck className="h-3.5 w-3.5 text-[#C9182B]" />
+                            <span className="font-semibold text-[#29262B]">Updated:</span>{' '}
                             {formatDateSafe(fare.last_verified_at || fare.updated_at)}
                           </p>
                           {fare.passenger_category !== 'regular' && (
-                            <p className="flex items-center gap-1.5 text-[#B91C1C] font-semibold">
+                            <p className="flex items-center gap-1.5 text-[#B51224] font-semibold">
                               <Info className="h-3.5 w-3.5" />
                               Includes 20% discount guideline.
                             </p>
@@ -584,7 +584,7 @@ export function FareSearchWidget({
                               href={fare.source_url}
                               target="_blank"
                               rel="noreferrer"
-                              className="inline-flex items-center gap-1 text-xs font-bold text-[#DC2626] hover:underline"
+                              className="inline-flex items-center gap-1 text-xs font-bold text-[#C9182B] hover:underline"
                             >
                               View Source Link
                               <ExternalLink className="h-3 w-3" />
@@ -594,7 +594,7 @@ export function FareSearchWidget({
                           )}
                           <Link
                             to={`/fares/${fare.id}`}
-                            className="text-xs font-bold text-[#B91C1C] hover:underline"
+                            className="text-xs font-bold text-[#B51224] hover:underline"
                           >
                             Full Fare Details →
                           </Link>
@@ -609,14 +609,14 @@ export function FareSearchWidget({
               {communityEstimates.length > 0 && (
                 <div className="space-y-3">
                   <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-4 py-1.5">
-                    <AlertTriangle className="h-4 w-4 text-[#DC2626]" />
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#24191D]">
+                    <AlertTriangle className="h-4 w-4 text-[#C9182B]" />
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#29262B]">
                       Commuter Fare Guide (Citizen Estimates)
                     </h4>
                   </div>
 
-                  <div className="glass-pill-tile rounded-2xl px-3.5 py-2.5 text-xs text-[#4B3B40]">
-                    <strong className="text-[#24191D]">Citizen Reference Guide:</strong> Confirm
+                  <div className="glass-pill-tile rounded-2xl px-3.5 py-2.5 text-xs text-[#343039]">
+                    <strong className="text-[#29262B]">Citizen Reference Guide:</strong> Confirm
                     posted terminal fares upon boarding.
                   </div>
 
@@ -634,29 +634,29 @@ export function FareSearchWidget({
                               <TransportModeIcon code={est.transport_type?.code} />
                             </div>
                             <div>
-                              <span className="block font-bold text-[#24191D]">
+                              <span className="block font-bold text-[#29262B]">
                                 {est.transport_type?.name}
                               </span>
-                              <span className="text-xs text-[#78716C]">
+                              <span className="text-xs text-[#777078]">
                                 {PASSENGER_CATEGORY_LABELS[est.passenger_category]}
                               </span>
                             </div>
                           </div>
                           <FareStatusBadge status="community_estimate" compact />
                         </div>
-                        <div className="flex items-baseline justify-between border-y border-[#FCA5A5]/35 py-2.5">
-                          <span className="text-xs font-semibold uppercase tracking-wider text-[#78716C]">
+                        <div className="flex items-baseline justify-between border-y border-[#E9E5E8]/35 py-2.5">
+                          <span className="text-xs font-semibold uppercase tracking-wider text-[#777078]">
                             Estimated Fare
                           </span>
-                          <p className="font-display text-3xl font-extrabold text-[#DC2626]">
+                          <p className="font-display text-3xl font-extrabold text-[#C9182B]">
                             {formatPhp(est.fare_amount)}
                           </p>
                         </div>
-                        <p className="text-xs text-[#78716C]">
+                        <p className="text-xs text-[#777078]">
                           Updated: {formatDateSafe(est.last_verified_at || est.updated_at)}
                         </p>
                         {est.notes && (
-                          <p className="text-xs italic text-[#78716C]">{est.notes}</p>
+                          <p className="text-xs italic text-[#777078]">{est.notes}</p>
                         )}
                       </GlassCard>
                     ))}

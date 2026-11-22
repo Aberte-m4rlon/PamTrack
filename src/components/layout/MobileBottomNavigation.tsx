@@ -53,10 +53,10 @@ export function MobileBottomNavigation() {
             end={tab.end}
             className={({ isActive }) =>
               cn(
-                'flex min-h-[50px] flex-col items-center justify-center gap-0.5 rounded-2xl px-1 py-1 text-[11px] font-bold transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DC2626]',
+                'flex min-h-[50px] flex-col items-center justify-center gap-0.5 rounded-2xl px-1 py-1 text-[11px] font-bold transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9182B]',
                 isActive
-                  ? 'text-[#B91C1C] font-extrabold'
-                  : 'text-[#4B3B40] hover:text-[#DC2626]'
+                  ? 'text-[#B51224] font-extrabold'
+                  : 'text-[#343039] hover:text-[#C9182B]'
               )
             }
           >
@@ -72,14 +72,14 @@ export function MobileBottomNavigation() {
                   {offlineLocked ? (
                     <span
                       aria-hidden="true"
-                      className="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#FFE4E6] text-[#B91C1C] ring-1 ring-white"
+                      className="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#F8E7EA] text-[#B51224] ring-1 ring-white"
                     >
                       <WifiOff className="h-2 w-2" />
                     </span>
                   ) : authLocked ? (
                     <span
                       aria-hidden="true"
-                      className="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#FFE4E6] text-[#B91C1C] ring-1 ring-white"
+                      className="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#F8E7EA] text-[#B51224] ring-1 ring-white"
                     >
                       <Lock className="h-2 w-2" />
                     </span>

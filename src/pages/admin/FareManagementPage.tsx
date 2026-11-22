@@ -96,13 +96,13 @@ export function FareManagementPage() {
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
           Official Tariff Registry
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
+        <h1 className="font-display text-2xl font-extrabold text-[#29262B]">
           Fare Management
         </h1>
-        <p className="text-sm text-[#78716C]">
+        <p className="text-sm text-[#777078]">
           Publish verified official fare records backed by authentic LTFRB orders, LGU ordinances,
           or authorized operator tariffs, and archive outdated entries.
         </p>
@@ -110,8 +110,8 @@ export function FareManagementPage() {
 
       <div className="grid gap-6 lg:grid-cols-12">
         <GlassCard variant="strong" className="p-6 lg:col-span-5 space-y-4 h-fit">
-          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
-            <PlusCircle className="h-5 w-5 text-[#DC2626]" />
+          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#29262B]">
+            <PlusCircle className="h-5 w-5 text-[#C9182B]" />
             Publish Official Fare Record
           </h2>
 
@@ -266,7 +266,7 @@ export function FareManagementPage() {
         </GlassCard>
 
         <GlassCard variant="strong" className="p-6 lg:col-span-7 space-y-4">
-          <h2 className="font-display text-lg font-bold text-[#24191D]">
+          <h2 className="font-display text-lg font-bold text-[#29262B]">
             All Fare Records ({fareRecords?.length ?? 0})
           </h2>
           <div className="space-y-2.5 max-h-[600px] overflow-y-auto pr-1">
@@ -276,15 +276,15 @@ export function FareManagementPage() {
                 className="glass-pill-tile flex flex-wrap items-center justify-between gap-3 rounded-[20px] p-3.5 text-xs"
               >
                 <div className="space-y-0.5">
-                  <p className="font-bold text-sm text-[#24191D]">
+                  <p className="font-bold text-sm text-[#29262B]">
                     {rec.origin?.name} → {rec.destination?.name}
                   </p>
-                  <p className="text-[#78716C]">
+                  <p className="text-[#777078]">
                     {rec.transport_type?.name} •{' '}
                     {PASSENGER_CATEGORY_LABELS[rec.passenger_category]} •{' '}
-                    <strong className="text-[#DC2626]">{formatPhp(rec.fare_amount)}</strong>
+                    <strong className="text-[#C9182B]">{formatPhp(rec.fare_amount)}</strong>
                   </p>
-                  <p className="text-[#A8A29E]">
+                  <p className="text-[#777078]">
                     {rec.issuing_authority} ({rec.official_document_reference || 'Community'}) •{' '}
                     {formatDateSafe(rec.last_verified_at || rec.updated_at)}
                   </p>

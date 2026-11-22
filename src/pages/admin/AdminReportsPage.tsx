@@ -18,8 +18,8 @@ export function AdminReportsPage() {
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">Moderation</p>
-          <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">Moderation</p>
+          <h1 className="font-display text-2xl font-extrabold text-[#29262B]">
             Community Fare Reports
           </h1>
         </div>
@@ -47,10 +47,10 @@ export function AdminReportsPage() {
               <div key={rep.id} className="glass-pill-tile rounded-[22px] p-4 space-y-2.5 text-xs">
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <p className="font-display text-sm font-extrabold text-[#24191D]">
+                    <p className="font-display text-sm font-extrabold text-[#29262B]">
                       {rep.origin?.name} → {rep.destination?.name}
                     </p>
-                    <p className="text-[#78716C]">
+                    <p className="text-[#777078]">
                       {rep.transport_type?.name} •{' '}
                       {PASSENGER_CATEGORY_LABELS[rep.passenger_category]}
                     </p>
@@ -58,13 +58,13 @@ export function AdminReportsPage() {
                   <ReportStatusBadge status={rep.status} />
                 </div>
                 <div className="flex items-center justify-between border-y border-white/75 py-2">
-                  <span className="font-display text-lg font-extrabold text-[#DC2626] tabular-nums">
+                  <span className="font-display text-lg font-extrabold text-[#C9182B] tabular-nums">
                     {formatPhp(rep.fare_paid)}
                   </span>
-                  <span className="text-[#78716C]">{formatDateSafe(rep.travel_date)}</span>
+                  <span className="text-[#777078]">{formatDateSafe(rep.travel_date)}</span>
                 </div>
                 <div className="flex items-center justify-between gap-2">
-                  <span className="truncate text-[#78716C]">
+                  <span className="truncate text-[#777078]">
                     {rep.reporter?.full_name || rep.reporter?.email}
                   </span>
                   <Link
@@ -81,7 +81,7 @@ export function AdminReportsPage() {
           {/* Desktop/Tablet Table (>= 768px) */}
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full min-w-[820px] text-left text-xs">
-              <thead className="glass-table-head font-bold uppercase tracking-wider text-[#24191D]">
+              <thead className="glass-table-head font-bold uppercase tracking-wider text-[#29262B]">
                 <tr>
                   <th className="px-4 py-3">Corridor</th>
                   <th className="px-4 py-3">Mode &amp; Category</th>
@@ -95,27 +95,27 @@ export function AdminReportsPage() {
               <tbody className="divide-y divide-white/60">
                 {reports.map((rep) => (
                   <tr key={rep.id} className="hover:bg-white/55 transition">
-                    <td className="px-4 py-3 font-bold text-[#24191D]">
+                    <td className="px-4 py-3 font-bold text-[#29262B]">
                       {rep.origin?.name} → {rep.destination?.name}
                     </td>
-                    <td className="px-4 py-3 text-[#78716C]">
+                    <td className="px-4 py-3 text-[#777078]">
                       {rep.transport_type?.name} •{' '}
                       {PASSENGER_CATEGORY_LABELS[rep.passenger_category]}
                     </td>
-                    <td className="px-4 py-3 font-bold text-[#DC2626]">
+                    <td className="px-4 py-3 font-bold text-[#C9182B]">
                       {formatPhp(rep.fare_paid)}
                     </td>
-                    <td className="px-4 py-3 text-[#24191D]">
+                    <td className="px-4 py-3 text-[#29262B]">
                       {rep.reporter?.full_name || rep.reporter?.email}
                     </td>
-                    <td className="px-4 py-3 text-[#78716C]">{formatDateSafe(rep.travel_date)}</td>
+                    <td className="px-4 py-3 text-[#777078]">{formatDateSafe(rep.travel_date)}</td>
                     <td className="px-4 py-3">
                       <ReportStatusBadge status={rep.status} />
                     </td>
                     <td className="px-4 py-3">
                       <Link
                         to="/admin/verification"
-                        className="font-bold text-[#DC2626] hover:underline"
+                        className="font-bold text-[#C9182B] hover:underline"
                       >
                         Review →
                       </Link>

@@ -53,13 +53,13 @@ export function NearbyTransportPage() {
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6 space-y-2">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
           Verified Real-World Terminals
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#24191D] sm:text-3xl">
+        <h1 className="font-display text-2xl font-extrabold text-[#29262B] sm:text-3xl">
           Nearby Transportation Finder
         </h1>
-        <p className="text-sm text-[#78716C]">
+        <p className="text-sm text-[#777078]">
           Discover verified ports, multicab stops, bus terminals, UV Express hubs, and tricycle
           terminals sorted by distance from your current GPS location (or selected municipality).
         </p>
@@ -79,7 +79,7 @@ export function NearbyTransportPage() {
                 className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
                   categoryFilter === cat
                     ? 'liquid-nav-active text-white'
-                    : 'liquid-btn-glass text-[#24191D] hover:text-[#DC2626]'
+                    : 'liquid-btn-glass text-[#29262B] hover:text-[#C9182B]'
                 }`}
               >
                 {cat === 'all' ? 'All Categories' : STOP_CATEGORY_LABELS[cat]}
@@ -90,7 +90,7 @@ export function NearbyTransportPage() {
 
         {!currentPosition && (
           <div className="flex items-center gap-2 text-xs">
-            <span className="font-semibold text-[#78716C]">Reference LGU:</span>
+            <span className="font-semibold text-[#777078]">Reference LGU:</span>
             <select
               value={fallbackMuniId}
               onChange={(e) => setFallbackMuniId(e.target.value)}
@@ -106,8 +106,8 @@ export function NearbyTransportPage() {
         )}
       </GlassCard>
 
-      <p className="px-1 text-xs font-semibold text-[#78716C]">
-        Sorting distance relative to: <strong className="text-[#24191D]">{referencePoint.label}</strong>
+      <p className="px-1 text-xs font-semibold text-[#777078]">
+        Sorting distance relative to: <strong className="text-[#29262B]">{referencePoint.label}</strong>
       </p>
 
       {isLoading ? (
@@ -124,10 +124,10 @@ export function NearbyTransportPage() {
             <GlassCard key={stop.id} variant="strong" hoverable className="p-5 space-y-3">
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <span className="glass-pill-tile inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase text-[#DC2626]">
+                  <span className="glass-pill-tile inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase text-[#C9182B]">
                     {STOP_CATEGORY_LABELS[stop.stop_category]}
                   </span>
-                  <h2 className="mt-1.5 font-display text-lg font-bold text-[#24191D]">
+                  <h2 className="mt-1.5 font-display text-lg font-bold text-[#29262B]">
                     {stop.stop_name}
                   </h2>
                 </div>
@@ -140,18 +140,18 @@ export function NearbyTransportPage() {
               </div>
 
               {stop.address_or_landmark && (
-                <p className="flex items-center gap-1.5 text-xs font-semibold text-[#B91C1C]">
+                <p className="flex items-center gap-1.5 text-xs font-semibold text-[#B51224]">
                   <MapPin className="h-3.5 w-3.5 shrink-0" />
                   {stop.address_or_landmark}
                 </p>
               )}
 
               {stop.operating_notes && (
-                <p className="text-xs leading-relaxed text-[#78716C]">{stop.operating_notes}</p>
+                <p className="text-xs leading-relaxed text-[#777078]">{stop.operating_notes}</p>
               )}
 
               <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs">
-                <span className="text-[11px] text-[#A8A29E]">
+                <span className="text-[11px] text-[#777078]">
                   Source: {stop.source_reference || 'Verified Registry'}
                 </span>
                 <div className="flex gap-2">

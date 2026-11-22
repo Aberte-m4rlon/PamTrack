@@ -32,10 +32,10 @@ export function MunicipalityManagementPage() {
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
           Geospatial Master Registry
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
+        <h1 className="font-display text-2xl font-extrabold text-[#29262B]">
           Municipality Management (15 LGUs)
         </h1>
       </GlassCard>
@@ -47,22 +47,22 @@ export function MunicipalityManagementPage() {
             <div key={m.id} className="glass-pill-tile rounded-[22px] p-4 space-y-2.5 text-xs">
               <div className="flex items-start justify-between gap-2">
                 <div className="flex items-center gap-2 min-w-0">
-                  <Building2 className="h-4 w-4 shrink-0 text-[#DC2626]" />
-                  <p className="truncate font-display text-sm font-extrabold text-[#24191D]">
+                  <Building2 className="h-4 w-4 shrink-0 text-[#C9182B]" />
+                  <p className="truncate font-display text-sm font-extrabold text-[#29262B]">
                     {m.name} {m.is_capital && '(Capital)'}
                   </p>
                 </div>
                 <span
                   className={`shrink-0 rounded-full border border-white/80 px-2.5 py-0.5 font-bold backdrop-blur-md ${
                     m.is_active
-                      ? 'bg-[#FFE4E6]/90 text-[#B91C1C]'
-                      : 'bg-white/75 text-[#4B3B40]'
+                      ? 'bg-[#F8E7EA]/90 text-[#B51224]'
+                      : 'bg-white/75 text-[#343039]'
                   }`}
                 >
                   {m.is_active ? 'Active' : 'Inactive'}
                 </span>
               </div>
-              <div className="flex flex-wrap items-center justify-between gap-1 text-[#78716C]">
+              <div className="flex flex-wrap items-center justify-between gap-1 text-[#777078]">
                 <span>{m.district}</span>
                 <span className="font-mono">
                   {m.latitude.toFixed(4)}°N, {m.longitude.toFixed(4)}°E
@@ -85,7 +85,7 @@ export function MunicipalityManagementPage() {
         {/* Desktop/Tablet Table (>= 768px) */}
         <div className="hidden md:block overflow-x-auto">
           <table className="w-full min-w-[760px] text-left text-xs">
-            <thead className="glass-table-head font-bold uppercase tracking-wider text-[#24191D]">
+            <thead className="glass-table-head font-bold uppercase tracking-wider text-[#29262B]">
               <tr>
                 <th className="px-4 py-3">LGU Name</th>
                 <th className="px-4 py-3">District</th>
@@ -97,20 +97,20 @@ export function MunicipalityManagementPage() {
             <tbody className="divide-y divide-white/60">
               {municipalities.map((m) => (
                 <tr key={m.id} className="hover:bg-white/55 transition">
-                  <td className="px-4 py-3 font-bold text-sm flex items-center gap-2 text-[#24191D]">
-                    <Building2 className="h-4 w-4 text-[#DC2626]" />
+                  <td className="px-4 py-3 font-bold text-sm flex items-center gap-2 text-[#29262B]">
+                    <Building2 className="h-4 w-4 text-[#C9182B]" />
                     {m.name} {m.is_capital && '(Capital)'}
                   </td>
-                  <td className="px-4 py-3 text-[#78716C]">{m.district}</td>
-                  <td className="px-4 py-3 font-mono text-[#78716C]">
+                  <td className="px-4 py-3 text-[#777078]">{m.district}</td>
+                  <td className="px-4 py-3 font-mono text-[#777078]">
                     {m.latitude.toFixed(4)}°N, {m.longitude.toFixed(4)}°E
                   </td>
                   <td className="px-4 py-3">
                     <span
                       className={`rounded-full border border-white/80 px-2.5 py-0.5 font-bold backdrop-blur-md ${
                         m.is_active
-                          ? 'bg-[#FFE4E6]/90 text-[#B91C1C]'
-                          : 'bg-white/75 text-[#4B3B40]'
+                          ? 'bg-[#F8E7EA]/90 text-[#B51224]'
+                          : 'bg-white/75 text-[#343039]'
                       }`}
                     >
                       {m.is_active ? 'Active' : 'Inactive'}

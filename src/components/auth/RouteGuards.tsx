@@ -74,40 +74,40 @@ export function OfflineFeatureGate({
 
       <GlassCard variant="strong" className="p-6 sm:p-8 space-y-5">
         <div className="flex flex-col sm:flex-row items-start gap-4">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#FFE4E6]/90 text-[#DC2626] border border-[#FCA5A5]/60">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#F8E7EA]/90 text-[#C9182B] border border-[#E9E5E8]/60">
             <WifiOff className="h-6 w-6" />
           </div>
           <div className="space-y-1.5">
-            <h2 className="font-display text-xl font-extrabold text-[#24191D]">
+            <h2 className="font-display text-xl font-extrabold text-[#29262B]">
               Internet Connection Required for {featureTitle}
             </h2>
-            <p className="text-sm text-[#4B3B40] max-w-2xl">
+            <p className="text-sm text-[#343039] max-w-2xl">
               Connect to Wi-Fi or mobile data to use{' '}
-              <strong className="text-[#24191D]">{featureTitle}</strong>.
+              <strong className="text-[#29262B]">{featureTitle}</strong>.
             </p>
           </div>
         </div>
 
         <div className="rounded-2xl border border-white/85 bg-white/50 backdrop-blur-md p-4 space-y-3">
-          <p className="text-xs font-bold uppercase tracking-wider text-[#DC2626]">
+          <p className="text-xs font-bold uppercase tracking-wider text-[#C9182B]">
             Features Available Right Now in Offline Mode
           </p>
           <div className="grid gap-2.5 sm:grid-cols-3">
             <Link to="/fare-search">
-              <div className="glass-pill-tile rounded-2xl p-3 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#24191D]">
-                <Compass className="h-4 w-4 text-[#DC2626] shrink-0" />
+              <div className="glass-pill-tile rounded-2xl p-3 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#29262B]">
+                <Compass className="h-4 w-4 text-[#C9182B] shrink-0" />
                 <span>Cached Fare Finder</span>
               </div>
             </Link>
             <Link to="/fare-matrix">
-              <div className="glass-pill-tile rounded-2xl p-3 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#24191D]">
-                <Table2 className="h-4 w-4 text-[#DC2626] shrink-0" />
+              <div className="glass-pill-tile rounded-2xl p-3 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#29262B]">
+                <Table2 className="h-4 w-4 text-[#C9182B] shrink-0" />
                 <span>Cached Fare Matrix</span>
               </div>
             </Link>
             <Link to="/municipalities">
-              <div className="glass-pill-tile rounded-2xl p-3 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#24191D]">
-                <MapPin className="h-4 w-4 text-[#DC2626] shrink-0" />
+              <div className="glass-pill-tile rounded-2xl p-3 hover:border-white transition flex items-center gap-2.5 text-xs font-bold text-[#29262B]">
+                <MapPin className="h-4 w-4 text-[#C9182B] shrink-0" />
                 <span>15 LGUs Directory</span>
               </div>
             </Link>
@@ -160,18 +160,18 @@ export function RequireAccountAccess({
 
       <GlassCard variant="strong" className="p-6 sm:p-8 space-y-5">
         <div className="flex flex-col sm:flex-row items-start gap-4">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#DC2626] to-[#B91C1C] text-white shadow-md shadow-[#DC2626]/25">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#C9182B] to-[#B51224] text-white shadow-md shadow-[#C9182B]/25">
             <Lock className="h-5 w-5" />
           </div>
           <div className="space-y-2 flex-1">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-[#FFE4E6]/90 px-3 py-0.5 text-[11px] font-bold uppercase tracking-wider text-[#B91C1C] border border-[#FCA5A5]/60">
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F8E7EA]/90 px-3 py-0.5 text-[11px] font-bold uppercase tracking-wider text-[#B51224] border border-[#E9E5E8]/60">
               Sign In Required
             </div>
-            <h2 className="font-display text-xl font-extrabold text-[#24191D]">
+            <h2 className="font-display text-xl font-extrabold text-[#29262B]">
               Account Access Locked While Logged Out
             </h2>
-            <p className="text-sm text-[#4B3B40] max-w-2xl">
-              Sign in to unlock <strong className="text-[#24191D]">{featureTitle}</strong>. Public
+            <p className="text-sm text-[#343039] max-w-2xl">
+              Sign in to unlock <strong className="text-[#29262B]">{featureTitle}</strong>. Public
               fare lookup and matrix remain open to guests.
             </p>
           </div>
@@ -179,13 +179,13 @@ export function RequireAccountAccess({
 
         {unlocks && unlocks.length > 0 && (
           <div className="rounded-2xl border border-white/85 bg-white/50 backdrop-blur-md p-4">
-            <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[#DC2626]">
+            <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[#C9182B]">
               Unlocked With Your Commuter Account
             </p>
-            <ul className="grid gap-1.5 sm:grid-cols-2 text-xs font-medium text-[#24191D]">
+            <ul className="grid gap-1.5 sm:grid-cols-2 text-xs font-medium text-[#29262B]">
               {unlocks.map((item) => (
                 <li key={item} className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#DC2626] shrink-0" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#C9182B] shrink-0" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -208,7 +208,7 @@ export function RequireAccountAccess({
           </Link>
           <Link to="/fare-search">
             <GlassButton variant="glass">
-              <Compass className="h-4 w-4 text-[#DC2626]" />
+              <Compass className="h-4 w-4 text-[#C9182B]" />
               Use Public Fare Finder
             </GlassButton>
           </Link>

@@ -99,18 +99,18 @@ export function RouteManagementPage() {
   return (
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
           Corridor Administration
         </p>
-        <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
+        <h1 className="font-display text-2xl font-extrabold text-[#29262B]">
           Route Management
         </h1>
       </GlassCard>
 
       <div className="grid gap-6 lg:grid-cols-12">
         <GlassCard variant="strong" className="p-6 lg:col-span-5 space-y-4 h-fit">
-          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
-            <PlusCircle className="h-5 w-5 text-[#DC2626]" />
+          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#29262B]">
+            <PlusCircle className="h-5 w-5 text-[#C9182B]" />
             Register Verified Corridor
           </h2>
 
@@ -222,8 +222,8 @@ export function RouteManagementPage() {
         </GlassCard>
 
         <GlassCard variant="strong" className="p-6 lg:col-span-7 space-y-3">
-          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
-            <RouteIcon className="h-5 w-5 text-[#DC2626]" />
+          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#29262B]">
+            <RouteIcon className="h-5 w-5 text-[#C9182B]" />
             Registered Routes ({routes?.length ?? 0})
           </h2>
           <div className="space-y-2.5 max-h-[540px] overflow-y-auto pr-1">
@@ -233,13 +233,13 @@ export function RouteManagementPage() {
                 className="glass-pill-tile flex flex-wrap items-center justify-between gap-2 rounded-[20px] p-3.5 text-xs"
               >
                 <div>
-                  <p className="font-bold text-sm text-[#24191D]">{r.route_name}</p>
-                  <p className="text-[#78716C]">
+                  <p className="font-bold text-sm text-[#29262B]">{r.route_name}</p>
+                  <p className="text-[#777078]">
                     {r.route_code} • {r.origin?.name} → {r.destination?.name} (
                     {r.transport_type?.name})
                   </p>
                 </div>
-                <span className="font-bold text-[#DC2626]">
+                <span className="font-bold text-[#C9182B]">
                   {r.distance_km ? `${r.distance_km} km` : 'Distance unmeasured'}
                 </span>
               </div>

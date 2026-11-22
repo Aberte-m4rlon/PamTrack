@@ -81,13 +81,13 @@ export function OperatorPortalPage() {
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
             Transport Operator Portal
           </p>
-          <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
+          <h1 className="font-display text-2xl font-extrabold text-[#29262B]">
             Authorized Operator &amp; Tariff Documentation
           </h1>
-          <p className="text-sm text-[#78716C]">
+          <p className="text-sm text-[#777078]">
             Manage authorized fleet registration, submit supporting fare order documentation, and
             monitor commuter reports tied to your organization.
           </p>
@@ -101,8 +101,8 @@ export function OperatorPortalPage() {
 
       <div className="grid gap-6 lg:grid-cols-12">
         <GlassCard variant="strong" className="p-6 lg:col-span-5 space-y-4 h-fit">
-          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
-            <Truck className="h-5 w-5 text-[#DC2626]" />
+          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#29262B]">
+            <Truck className="h-5 w-5 text-[#C9182B]" />
             Register / Update Operator Record
           </h2>
 
@@ -183,11 +183,11 @@ export function OperatorPortalPage() {
 
         <div className="lg:col-span-7 space-y-5">
           <GlassCard variant="strong" className="p-5 space-y-3">
-            <h2 className="font-display text-lg font-bold text-[#24191D]">
+            <h2 className="font-display text-lg font-bold text-[#29262B]">
               My Authorized Operator Records ({myOperators.length})
             </h2>
             {myOperators.length === 0 ? (
-              <p className="text-xs text-[#78716C]">
+              <p className="text-xs text-[#777078]">
                 No operator profiles registered under your account yet.
               </p>
             ) : (
@@ -198,13 +198,13 @@ export function OperatorPortalPage() {
                     className="glass-pill-tile flex flex-wrap items-center justify-between gap-2 rounded-[20px] p-3.5 text-xs"
                   >
                     <div>
-                      <p className="font-bold text-sm text-[#24191D]">{op.operator_name}</p>
-                      <p className="text-[#4B3B40]">
+                      <p className="font-bold text-sm text-[#29262B]">{op.operator_name}</p>
+                      <p className="text-[#343039]">
                         Franchise: {op.franchise_or_permit_number || 'Pending'} •{' '}
                         {op.office_address || 'No terminal address'}
                       </p>
                     </div>
-                    <span className="glass-panel rounded-full px-3 py-1 font-bold uppercase text-[#DC2626]">
+                    <span className="glass-panel rounded-full px-3 py-1 font-bold uppercase text-[#C9182B]">
                       {op.verification_status}
                     </span>
                   </div>
@@ -214,7 +214,7 @@ export function OperatorPortalPage() {
           </GlassCard>
 
           <GlassCard variant="strong" className="p-5 space-y-3">
-            <h2 className="font-display text-lg font-bold text-[#24191D]">
+            <h2 className="font-display text-lg font-bold text-[#29262B]">
               Relevant Commuter Reports ({relevantReports.length})
             </h2>
             {relevantReports.length === 0 ? (
@@ -231,10 +231,10 @@ export function OperatorPortalPage() {
                     className="glass-pill-tile flex items-center justify-between rounded-[20px] p-3 text-xs"
                   >
                     <div>
-                      <p className="font-bold text-[#24191D]">
+                      <p className="font-bold text-[#29262B]">
                         {rep.origin?.name} → {rep.destination?.name} • {formatPhp(rep.fare_paid)}
                       </p>
-                      <p className="text-[#78716C]">{formatDateSafe(rep.travel_date)}</p>
+                      <p className="text-[#777078]">{formatDateSafe(rep.travel_date)}</p>
                     </div>
                     <ReportStatusBadge status={rep.status} />
                   </div>

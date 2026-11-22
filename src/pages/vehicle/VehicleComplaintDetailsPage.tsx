@@ -141,29 +141,29 @@ export function VehicleComplaintDetailsPage() {
     <div className="space-y-6">
       <Link
         to="/dashboard/vehicle-reports"
-        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#DC2626] hover:underline"
+        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#C9182B] hover:underline"
       >
         <ArrowLeft className="h-4 w-4" />
         Back to My Vehicle Reports
       </Link>
 
       <GlassCard variant="strong" className="p-6 space-y-5">
-        <div className="flex flex-wrap items-start justify-between gap-4 border-b border-[#FCA5A5]/35 pb-4">
+        <div className="flex flex-wrap items-start justify-between gap-4 border-b border-[#E9E5E8]/35 pb-4">
           <div className="space-y-1">
-            <p className="font-mono text-sm font-extrabold text-[#DC2626]">
+            <p className="font-mono text-sm font-extrabold text-[#C9182B]">
               {report.reference_number}
             </p>
-            <h1 className="font-display text-2xl font-extrabold text-[#24191D]">
+            <h1 className="font-display text-2xl font-extrabold text-[#29262B]">
               Reported {report.vehicle_type} Incident
             </h1>
-            <p className="text-xs text-[#78716C]">
+            <p className="text-xs text-[#777078]">
               Plate:{' '}
-              <strong className="text-[#24191D]">
+              <strong className="text-[#29262B]">
                 {report.plate_not_available
                   ? 'Plate Number Not Available'
                   : report.plate_number || 'Unlisted'}
               </strong>{' '}
-              • Municipality: <strong className="text-[#24191D]">{report.municipality?.name}</strong> • Date:{' '}
+              • Municipality: <strong className="text-[#29262B]">{report.municipality?.name}</strong> • Date:{' '}
               {formatDateSafe(report.incident_date)}
             </p>
           </div>
@@ -188,7 +188,7 @@ export function VehicleComplaintDetailsPage() {
           </div>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 text-xs text-[#24191D]">
+        <div className="grid gap-4 sm:grid-cols-2 text-xs text-[#29262B]">
           <div className="space-y-1.5">
             <p>
               <strong>Specific Location:</strong> {report.incident_location}
@@ -222,14 +222,14 @@ export function VehicleComplaintDetailsPage() {
         </div>
 
         <div className="space-y-1.5">
-          <p className="text-xs font-bold uppercase text-[#DC2626]">
+          <p className="text-xs font-bold uppercase text-[#C9182B]">
             Alleged Violation Categories
           </p>
           <div className="flex flex-wrap gap-1.5">
             {(report.categories ?? []).map((c) => (
               <span
                 key={c.id}
-                className="rounded-full bg-[#FFE4E6] px-3 py-1 text-xs font-bold text-[#B91C1C]"
+                className="rounded-full bg-[#F8E7EA] px-3 py-1 text-xs font-bold text-[#B51224]"
               >
                 {c.category}
               </span>
@@ -238,22 +238,22 @@ export function VehicleComplaintDetailsPage() {
         </div>
 
         <div className="glass-pill-tile rounded-[22px] p-4 text-xs space-y-1.5">
-          <p className="font-bold text-[#24191D]">Reported Incident Description</p>
-          <p className="whitespace-pre-line text-[#24191D]/90">{report.description}</p>
+          <p className="font-bold text-[#29262B]">Reported Incident Description</p>
+          <p className="whitespace-pre-line text-[#29262B]/90">{report.description}</p>
           {report.additional_remarks && (
-            <p className="pt-2 text-[#78716C] whitespace-pre-line">
-              <strong className="text-[#24191D]">Remarks:</strong> {report.additional_remarks}
+            <p className="pt-2 text-[#777078] whitespace-pre-line">
+              <strong className="text-[#29262B]">Remarks:</strong> {report.additional_remarks}
             </p>
           )}
         </div>
 
         {/* Private Evidence Viewer */}
         <div className="space-y-2">
-          <p className="text-xs font-bold uppercase text-[#DC2626]">
+          <p className="text-xs font-bold uppercase text-[#C9182B]">
             Uploaded Supporting Evidence ({report.evidence?.length ?? 0})
           </p>
           {(report.evidence ?? []).length === 0 ? (
-            <p className="text-xs text-[#78716C]">No media attached.</p>
+            <p className="text-xs text-[#777078]">No media attached.</p>
           ) : (
             <div className="flex flex-wrap gap-2">
               {report.evidence?.map((ev) => (
@@ -266,7 +266,7 @@ export function VehicleComplaintDetailsPage() {
                     handleOpenEvidence(ev.storage_path, ev.file_type, ev.original_filename)
                   }
                 >
-                  <Eye className="h-3.5 w-3.5 text-[#DC2626]" />
+                  <Eye className="h-3.5 w-3.5 text-[#C9182B]" />
                   {ev.original_filename} ({VEHICLE_EVIDENCE_TYPE_LABELS[ev.evidence_type]})
                 </GlassButton>
               ))}
@@ -275,12 +275,12 @@ export function VehicleComplaintDetailsPage() {
 
           {signedPreview && (
             <div className="glass-card-strong rounded-[22px] p-3 space-y-2">
-              <div className="flex items-center justify-between text-xs font-bold text-[#24191D]">
+              <div className="flex items-center justify-between text-xs font-bold text-[#29262B]">
                 <span>{signedPreview.name}</span>
                 <button
                   type="button"
                   onClick={() => setSignedPreview(null)}
-                  className="text-[#DC2626] hover:underline"
+                  className="text-[#C9182B] hover:underline"
                 >
                   Close Preview
                 </button>
@@ -305,7 +305,7 @@ export function VehicleComplaintDetailsPage() {
         {/* Supplement Evidence / Info if still eligible */}
         {canSupplement && (
           <div className="glass-pill-tile rounded-[22px] p-4 space-y-3 text-xs">
-            <p className="font-bold text-[#DC2626]">
+            <p className="font-bold text-[#C9182B]">
               Add Additional Information or Supporting Evidence
             </p>
             <textarea
@@ -349,7 +349,7 @@ export function VehicleComplaintDetailsPage() {
 
       {/* Recommended Authorities & Manual Submission Instructions */}
       <GlassCard variant="surface" className="p-6 space-y-3">
-        <h2 className="font-display text-lg font-bold text-[#24191D]">
+        <h2 className="font-display text-lg font-bold text-[#29262B]">
           Recommended Authorities &amp; Agency Referral Status
         </h2>
         {(report.referrals ?? []).length > 0 && (
@@ -359,7 +359,7 @@ export function VehicleComplaintDetailsPage() {
                 key={ref.id}
                 className="glass-pill-tile rounded-[20px] p-3 text-xs space-y-1"
               >
-                <div className="flex justify-between font-bold text-[#B91C1C]">
+                <div className="flex justify-between font-bold text-[#B51224]">
                   <span>{ref.agency?.agency_name}</span>
                   <span>{ref.referral_status}</span>
                 </div>
@@ -375,16 +375,16 @@ export function VehicleComplaintDetailsPage() {
         <div className="grid gap-3 md:grid-cols-2">
           {recommendedAgencies.map((rec) => (
             <div key={rec.agency.id} className="glass-pill-tile rounded-[22px] p-4 text-xs space-y-1.5">
-              <p className="font-bold text-sm text-[#24191D]">{rec.agency.agency_name}</p>
-              <p className="text-[#78716C]">{rec.agency.submission_instructions}</p>
-              <p className="font-semibold text-[#DC2626]">
+              <p className="font-bold text-sm text-[#29262B]">{rec.agency.agency_name}</p>
+              <p className="text-[#777078]">{rec.agency.submission_instructions}</p>
+              <p className="font-semibold text-[#C9182B]">
                 {rec.agency.verified_contact_information}
               </p>
               <a
                 href={rec.agency.official_complaint_url || rec.agency.official_website}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 font-bold text-[#B91C1C] hover:underline"
+                className="inline-flex items-center gap-1 font-bold text-[#B51224] hover:underline"
               >
                 Official Portal <ExternalLink className="h-3 w-3" />
               </a>
@@ -395,24 +395,24 @@ export function VehicleComplaintDetailsPage() {
 
       {/* Status Timeline */}
       <GlassCard variant="strong" className="p-6 space-y-3">
-        <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
-          <History className="h-4 w-4 text-[#DC2626]" />
+        <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#29262B]">
+          <History className="h-4 w-4 text-[#C9182B]" />
           Complaint Status History
         </h2>
         <div className="space-y-2">
           {(report.status_logs ?? []).map((log) => (
             <div
               key={log.id}
-              className="flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-white/85 border border-[#FFE4E6] p-3 text-xs"
+              className="flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-white/85 border border-[#F8E7EA] p-3 text-xs"
             >
               <div>
-                <p className="font-bold text-[#24191D]">
+                <p className="font-bold text-[#29262B]">
                   {log.previous_status ? `${log.previous_status} → ` : ''}
                   {log.new_status}
                 </p>
-                {log.remarks && <p className="text-[#78716C]">{log.remarks}</p>}
+                {log.remarks && <p className="text-[#777078]">{log.remarks}</p>}
               </div>
-              <span className="font-semibold text-[#DC2626]">
+              <span className="font-semibold text-[#C9182B]">
                 {formatDateTimeSafe(log.created_at)}
               </span>
             </div>

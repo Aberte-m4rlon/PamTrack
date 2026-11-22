@@ -21,12 +21,12 @@ import { GlassButton, GlassCard } from '@/components/glass/GlassPrimitives';
 function createPinIcon(variant: 'default' | 'capital' | 'origin' | 'destination') {
   const bg =
     variant === 'origin'
-      ? '#EF4444'
+      ? '#C9182B'
       : variant === 'destination'
-        ? '#B91C1C'
+        ? '#B51224'
         : variant === 'capital'
-          ? '#991B1B'
-          : '#DC2626';
+          ? '#B51224'
+          : '#C9182B';
 
   const ring =
     variant === 'origin' || variant === 'destination'
@@ -181,7 +181,7 @@ export function OrientalMindoroMap({
               className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
                 districtFilter === dist
                   ? 'liquid-nav-active text-white'
-                  : 'liquid-btn-glass text-[#24191D] hover:text-[#DC2626]'
+                  : 'liquid-btn-glass text-[#29262B] hover:text-[#C9182B]'
               }`}
             >
               {dist === 'all' ? `All 15 LGUs (${municipalities.length})` : dist}
@@ -241,22 +241,22 @@ export function OrientalMindoroMap({
                 icon={createPinIcon(variant)}
               >
                 <Popup>
-                  <div className="min-w-[190px] space-y-2 p-0.5 text-[#24191D]">
+                  <div className="min-w-[190px] space-y-2 p-0.5 text-[#29262B]">
                     <div>
                       <div className="flex items-center justify-between gap-2">
                         <h4 className="font-bold text-sm">{muni.name}</h4>
                         {muni.is_capital && (
-                          <span className="rounded-full bg-[#FFE4E6] px-2 py-0.5 text-[10px] font-bold text-[#DC2626]">
+                          <span className="rounded-full bg-[#F8E7EA] px-2 py-0.5 text-[10px] font-bold text-[#C9182B]">
                             Capital
                           </span>
                         )}
                       </div>
-                      <p className="text-[11px] text-[#78716C]">
+                      <p className="text-[11px] text-[#777078]">
                         {muni.district} • {muni.latitude.toFixed(4)}°N, {muni.longitude.toFixed(4)}°E
                       </p>
                     </div>
                     {muni.description && (
-                      <p className="text-xs leading-snug text-[#78716C]">{muni.description}</p>
+                      <p className="text-xs leading-snug text-[#777078]">{muni.description}</p>
                     )}
                     {(onSelectOrigin || onSelectDestination) && (
                       <div className="flex gap-1.5 pt-1">
@@ -290,7 +290,7 @@ export function OrientalMindoroMap({
             <Polyline
               positions={polylinePositions}
               pathOptions={{
-                color: '#DC2626',
+                color: '#C9182B',
                 weight: 5,
                 opacity: 0.88,
               }}
@@ -300,15 +300,15 @@ export function OrientalMindoroMap({
 
         {/* Legend Overlay */}
         <div className="pointer-events-none absolute bottom-3 left-3 z-[400] hidden sm:block">
-          <div className="glass-card-strong flex items-center gap-3 rounded-2xl px-3 py-2 text-[11px] font-semibold text-[#24191D]">
+          <div className="glass-card-strong flex items-center gap-3 rounded-2xl px-3 py-2 text-[11px] font-semibold text-[#29262B]">
             <span className="inline-flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#EF4444]" /> Origin
+              <span className="h-2.5 w-2.5 rounded-full bg-[#C9182B]" /> Origin
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#B91C1C]" /> Destination
+              <span className="h-2.5 w-2.5 rounded-full bg-[#B51224]" /> Destination
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#991B1B]" /> Calapan Capital
+              <span className="h-2.5 w-2.5 rounded-full bg-[#B51224]" /> Calapan Capital
             </span>
           </div>
         </div>
@@ -319,32 +319,32 @@ export function OrientalMindoroMap({
         <GlassCard variant="strong" className="p-3.5">
           <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
             <div className="flex items-center gap-2.5">
-              <div className="glass-pill-tile rounded-xl p-2 text-[#DC2626]">
+              <div className="glass-pill-tile rounded-xl p-2 text-[#C9182B]">
                 <RouteIcon className="h-4 w-4" />
               </div>
               <div>
-                <p className="font-bold text-[#24191D]">
+                <p className="font-bold text-[#29262B]">
                   {origin.name} → {destination.name}
                 </p>
                 {routingLoading ? (
-                  <p className="text-xs text-[#78716C]">
+                  <p className="text-xs text-[#777078]">
                     Calculating road geometry via OpenStreetMap / OSRM...
                   </p>
                 ) : osrmRoute?.available ? (
-                  <p className="text-xs text-[#DC2626] font-semibold">
+                  <p className="text-xs text-[#C9182B] font-semibold">
                     Verified OSRM road distance: {osrmRoute.distanceKm} km (approx.{' '}
                     {osrmRoute.durationMin} mins driving)
                   </p>
                 ) : (
-                  <p className="text-xs text-[#B91C1C]">
+                  <p className="text-xs text-[#B51224]">
                     Road routing unavailable ({osrmRoute?.error ?? 'offline'}). Straight-line: ~
                     {straightLineRefKm} km.
                   </p>
                 )}
               </div>
             </div>
-            <div className="glass-pill-tile flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[11px] font-semibold text-[#78716C]">
-              <Compass className="h-3.5 w-3.5 text-[#DC2626]" />
+            <div className="glass-pill-tile flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[11px] font-semibold text-[#777078]">
+              <Compass className="h-3.5 w-3.5 text-[#C9182B]" />
               <span>Distance is never used to invent an official fare</span>
             </div>
           </div>
@@ -352,8 +352,8 @@ export function OrientalMindoroMap({
       )}
 
       {(!origin || !destination) && (
-        <div className="flex items-center gap-2 text-xs text-[#78716C] px-1">
-          <Navigation className="h-3.5 w-3.5 text-[#DC2626]" />
+        <div className="flex items-center gap-2 text-xs text-[#777078] px-1">
+          <Navigation className="h-3.5 w-3.5 text-[#C9182B]" />
           <span>
             Click any municipality marker on the map to inspect details or choose Origin &amp;
             Destination.

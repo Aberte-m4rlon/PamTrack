@@ -41,16 +41,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, [isOnline, user?.id, queryClient, pushToast]);
 
   return (
-    <div className="pamasahe-scenic-bg relative min-h-screen text-[#24191D] flex flex-col mobile-safe-content-pad">
+    <div className="pamasahe-scenic-bg relative min-h-screen text-[#29262B] flex flex-col mobile-safe-content-pad">
       {/* Fixed Frosted Scenic Backdrop + Subtle Blush Ambient Light */}
       <div aria-hidden="true" className="pamasahe-backdrop-canvas" />
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 overflow-hidden z-0"
       >
-        <div className="absolute -left-24 -top-20 h-96 w-96 rounded-full bg-[#FCA5A5]/24 blur-3xl" />
+        <div className="absolute -left-24 -top-20 h-96 w-96 rounded-full bg-[#E9E5E8]/24 blur-3xl" />
         <div className="absolute right-[-6%] top-20 h-80 w-80 rounded-full bg-white/55 blur-3xl" />
-        <div className="absolute bottom-[-8%] left-1/3 h-96 w-96 rounded-full bg-[#DC2626]/10 blur-3xl" />
+        <div className="absolute bottom-[-8%] left-1/3 h-96 w-96 rounded-full bg-[#C9182B]/10 blur-3xl" />
       </div>
 
       {/* Top Floating Liquid Glass Header */}
@@ -68,17 +68,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <div
               role="status"
               aria-live="polite"
-              className="glass-card-strong liquid-glass-sheen flex flex-col gap-2 rounded-[24px] px-4 py-3 text-xs text-[#24191D] sm:flex-row sm:items-center sm:justify-between"
+              className="glass-card-strong liquid-glass-sheen flex flex-col gap-2 rounded-[24px] px-4 py-3 text-xs text-[#29262B] sm:flex-row sm:items-center sm:justify-between"
             >
               <div className="flex items-start gap-2.5">
-                <div className="mt-0.5 rounded-full border border-white/90 bg-[#FFE4E6]/90 p-1.5 text-[#DC2626] shadow-sm">
+                <div className="mt-0.5 rounded-full border border-white/90 bg-[#F8E7EA]/90 p-1.5 text-[#C9182B] shadow-sm">
                   <WifiOff className="h-4 w-4" />
                 </div>
                 <div>
-                  <p className="font-bold text-[#B91C1C]">
+                  <p className="font-bold text-[#B51224]">
                     Offline Mode Active — Limited Features Available
                   </p>
-                  <p className="text-[#4B3B40]">
+                  <p className="text-[#343039]">
                     Cached <strong>Fare Finder</strong>, <strong>Fare Matrix</strong>,{' '}
                     <strong>15 LGUs</strong>, <strong>Live Trip Monitor</strong> &amp; alerts work
                     offline.
@@ -86,7 +86,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 </div>
               </div>
               {lastSyncedAt && (
-                <span className="shrink-0 rounded-full border border-white/90 bg-white/75 px-3 py-1 text-[11px] font-semibold text-[#78716C]">
+                <span className="shrink-0 rounded-full border border-white/90 bg-white/75 px-3 py-1 text-[11px] font-semibold text-[#777078]">
                   Synced {formatDateTimeSafe(lastSyncedAt)}
                 </span>
               )}
@@ -100,7 +100,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       {/* Consistent Liquid Glass Footer */}
       <footer className="glass-footer relative z-10 mt-auto">
-        <div className="mx-auto flex max-w-[1480px] flex-col gap-4 px-4 py-6 text-xs text-[#78716C] sm:px-6 md:flex-row md:items-center md:justify-between">
+        <div className="mx-auto flex max-w-[1480px] flex-col gap-4 px-4 py-6 text-xs text-[#777078] sm:px-6 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-3">
             <img
               src="/assets/pamasahe-tracker-icon.png"
@@ -108,42 +108,42 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               className="h-8 w-8 rounded-full ring-2 ring-white/95 shadow-sm"
             />
             <div>
-              <p className="font-bold text-[#24191D]">Pamasahe Tracker – Oriental Mindoro</p>
+              <p className="font-bold text-[#29262B]">Pamasahe Tracker – Oriental Mindoro</p>
               <p>Tamang Pamasahe. Ligtas na Biyahe. • Serving Calapan City &amp; 14 Municipalities</p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 font-semibold text-[#24191D]/85">
-            <Link to="/about" className="hover:text-[#DC2626] transition-colors">
+          <div className="flex flex-wrap items-center gap-4 font-semibold text-[#29262B]/85">
+            <Link to="/about" className="hover:text-[#C9182B] transition-colors">
               About
             </Link>
-            <Link to="/fare-matrix" className="hover:text-[#DC2626] transition-colors">
+            <Link to="/fare-matrix" className="hover:text-[#C9182B] transition-colors">
               Official Sources
             </Link>
-            <Link to="/municipalities" className="hover:text-[#DC2626] transition-colors">
+            <Link to="/municipalities" className="hover:text-[#C9182B] transition-colors">
               15 LGUs
             </Link>
             {user && (
               <>
-                <Link to="/authorities" className="hover:text-[#DC2626] transition-colors">
+                <Link to="/authorities" className="hover:text-[#C9182B] transition-colors">
                   Authority Directory
                 </Link>
-                <Link to="/safety" className="hover:text-[#DC2626] transition-colors">
+                <Link to="/safety" className="hover:text-[#C9182B] transition-colors">
                   Safety Center
                 </Link>
               </>
             )}
-            <Link to="/privacy" className="hover:text-[#DC2626] transition-colors">
+            <Link to="/privacy" className="hover:text-[#C9182B] transition-colors">
               Privacy Policy
             </Link>
-            <Link to="/terms" className="hover:text-[#DC2626] transition-colors">
+            <Link to="/terms" className="hover:text-[#C9182B] transition-colors">
               Terms &amp; Conditions
             </Link>
             <a
               href="https://ltfrb.gov.ph/"
               target="_blank"
               rel="noreferrer"
-              className="font-bold text-[#DC2626] underline underline-offset-2 hover:text-[#B91C1C]"
+              className="font-bold text-[#C9182B] underline underline-offset-2 hover:text-[#B51224]"
             >
               LTFRB Official Portal ↗
             </a>

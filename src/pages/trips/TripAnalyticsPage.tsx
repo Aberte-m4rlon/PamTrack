@@ -113,13 +113,13 @@ export function TripAnalyticsPage() {
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#C9182B]">
             Personal Travel Insights
           </p>
-          <h1 className="font-display text-2xl font-extrabold text-[#24191D] sm:text-3xl">
+          <h1 className="font-display text-2xl font-extrabold text-[#29262B] sm:text-3xl">
             Trip History &amp; Analytics
           </h1>
-          <p className="text-sm text-[#78716C]">
+          <p className="text-sm text-[#777078]">
             Track daily, weekly, and monthly trips, distances, and strictly separated recorded vs.
             estimated fare expenses.
           </p>
@@ -147,43 +147,43 @@ export function TripAnalyticsPage() {
       {/* Summary KPIs */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <GlassCard variant="strong" className="p-4">
-          <p className="text-[11px] font-bold uppercase text-[#78716C]">Daily / Weekly / Monthly</p>
-          <p className="mt-1 font-display text-xl font-extrabold text-[#DC2626]">
+          <p className="text-[11px] font-bold uppercase text-[#777078]">Daily / Weekly / Monthly</p>
+          <p className="mt-1 font-display text-xl font-extrabold text-[#C9182B]">
             {stats.dailyCount} / {stats.weeklyCount} / {stats.monthlyCount}
           </p>
-          <p className="text-[11px] text-[#78716C]">Trips recorded</p>
+          <p className="text-[11px] text-[#777078]">Trips recorded</p>
         </GlassCard>
 
         <GlassCard variant="strong" className="p-4">
-          <p className="text-[11px] font-bold uppercase text-[#78716C]">Total Distance</p>
-          <p className="mt-1 font-display text-2xl font-extrabold text-[#DC2626]">
+          <p className="text-[11px] font-bold uppercase text-[#777078]">Total Distance</p>
+          <p className="mt-1 font-display text-2xl font-extrabold text-[#C9182B]">
             {stats.totalDistanceKm} km
           </p>
         </GlassCard>
 
         <GlassCard variant="strong" className="p-4">
-          <p className="text-[11px] font-bold uppercase text-[#78716C]">
+          <p className="text-[11px] font-bold uppercase text-[#777078]">
             Recorded Expenses
           </p>
-          <p className="mt-1 font-display text-2xl font-extrabold text-[#DC2626]">
+          <p className="mt-1 font-display text-2xl font-extrabold text-[#C9182B]">
             {formatPhp(stats.recordedExpensePhp)}
           </p>
-          <p className="text-[11px] text-[#78716C]">Official / exact paid</p>
+          <p className="text-[11px] text-[#777078]">Official / exact paid</p>
         </GlassCard>
 
         <GlassCard variant="strong" className="p-4">
-          <p className="text-[11px] font-bold uppercase text-[#78716C]">
+          <p className="text-[11px] font-bold uppercase text-[#777078]">
             Estimated Expenses
           </p>
-          <p className="mt-1 font-display text-2xl font-extrabold text-[#B91C1C]">
+          <p className="mt-1 font-display text-2xl font-extrabold text-[#B51224]">
             {formatPhp(stats.estimatedExpensePhp)}
           </p>
-          <p className="text-[11px] text-[#78716C]">Community reference only</p>
+          <p className="text-[11px] text-[#777078]">Community reference only</p>
         </GlassCard>
 
         <GlassCard variant="strong" className="p-4">
-          <p className="text-[11px] font-bold uppercase text-[#78716C]">Top Destination</p>
-          <p className="mt-1 font-display text-lg font-extrabold text-[#24191D]">
+          <p className="text-[11px] font-bold uppercase text-[#777078]">Top Destination</p>
+          <p className="mt-1 font-display text-lg font-extrabold text-[#29262B]">
             {stats.topDestinations[0]?.[0] ?? 'None yet'}
           </p>
         </GlassCard>
@@ -192,21 +192,21 @@ export function TripAnalyticsPage() {
       {/* Mode Breakdown Chart + Frequent Locations */}
       <div className="grid gap-6 lg:grid-cols-12">
         <GlassCard variant="strong" className="p-5 lg:col-span-7 space-y-3">
-          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#24191D]">
-            <BarChart3 className="h-4 w-4 text-[#DC2626]" />
+          <h2 className="flex items-center gap-2 font-display text-lg font-bold text-[#29262B]">
+            <BarChart3 className="h-4 w-4 text-[#C9182B]" />
             Frequently Used Transport Modes
           </h2>
           {stats.modeChart.length === 0 ? (
-            <p className="text-xs text-[#78716C]">Complete a trip to visualize mode breakdown.</p>
+            <p className="text-xs text-[#777078]">Complete a trip to visualize mode breakdown.</p>
           ) : (
             <div className="h-56 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={stats.modeChart}>
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(120,113,108,0.16)" />
-                  <XAxis dataKey="name" tick={{ fill: '#24191D', fontSize: 11 }} />
-                  <YAxis allowDecimals={false} tick={{ fill: '#24191D', fontSize: 11 }} />
+                  <XAxis dataKey="name" tick={{ fill: '#29262B', fontSize: 11 }} />
+                  <YAxis allowDecimals={false} tick={{ fill: '#29262B', fontSize: 11 }} />
                   <Tooltip contentStyle={LIGHT_RED_THEME.charts.tooltipStyle} />
-                  <Bar dataKey="trips" fill="#DC2626" radius={[12, 12, 0, 0]} />
+                  <Bar dataKey="trips" fill="#C9182B" radius={[12, 12, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -214,11 +214,11 @@ export function TripAnalyticsPage() {
         </GlassCard>
 
         <GlassCard variant="strong" className="p-5 lg:col-span-5 space-y-3">
-          <h2 className="font-display text-lg font-bold text-[#24191D]">
+          <h2 className="font-display text-lg font-bold text-[#29262B]">
             Frequently Visited Destinations
           </h2>
           {stats.topDestinations.length === 0 ? (
-            <p className="text-xs text-[#78716C]">No destination history yet.</p>
+            <p className="text-xs text-[#777078]">No destination history yet.</p>
           ) : (
             <div className="space-y-2">
               {stats.topDestinations.map(([name, count]) => (
@@ -226,8 +226,8 @@ export function TripAnalyticsPage() {
                   key={name}
                   className="glass-pill-tile flex items-center justify-between rounded-full px-4 py-2.5 text-xs font-bold"
                 >
-                  <span className="text-[#24191D]">{name}</span>
-                  <span className="rounded-full bg-[#FFE4E6] px-2.5 py-0.5 text-[#DC2626]">
+                  <span className="text-[#29262B]">{name}</span>
+                  <span className="rounded-full bg-[#F8E7EA] px-2.5 py-0.5 text-[#C9182B]">
                     {count} trip(s)
                   </span>
                 </div>
@@ -239,7 +239,7 @@ export function TripAnalyticsPage() {
 
       {/* Trip History List */}
       <div className="space-y-3">
-        <h2 className="font-display text-lg font-bold text-[#24191D] px-1">
+        <h2 className="font-display text-lg font-bold text-[#29262B] px-1">
           Trip History ({trips?.length ?? 0})
         </h2>
         {isLoading ? (
@@ -260,22 +260,22 @@ export function TripAnalyticsPage() {
             {trips.map((t) => (
               <GlassCard key={t.id} variant="strong" className="p-4 flex flex-wrap items-center justify-between gap-3 text-xs">
                 <div className="space-y-1">
-                  <p className="font-display text-base font-bold text-[#24191D]">
+                  <p className="font-display text-base font-bold text-[#29262B]">
                     {t.origin?.name ?? 'Origin'} → {t.destination?.name ?? 'Destination'}
                   </p>
-                  <p className="text-[#78716C]">
+                  <p className="text-[#777078]">
                     {t.transport_type?.name ?? 'Transit'} • {formatDateTimeSafe(t.started_at)} •{' '}
                     {t.distance_km} km • {formatDurationSeconds(t.duration_seconds)}
                   </p>
                 </div>
                 <div className="text-right space-y-1">
-                  <span className="inline-block rounded-full bg-[#FFE4E6] px-2.5 py-0.5 font-bold uppercase text-[#DC2626]">
+                  <span className="inline-block rounded-full bg-[#F8E7EA] px-2.5 py-0.5 font-bold uppercase text-[#C9182B]">
                     {t.status}
                   </span>
                   {t.recorded_fare_amount !== null && (
-                    <p className="font-bold text-[#24191D]">
+                    <p className="font-bold text-[#29262B]">
                       {formatPhp(t.recorded_fare_amount)}{' '}
-                      <span className="text-[10px] uppercase text-[#B91C1C]">
+                      <span className="text-[10px] uppercase text-[#B51224]">
                         ({t.fare_expense_type})
                       </span>
                     </p>

@@ -20,8 +20,8 @@ export const FARE_STATUS_META: Record<
     label: 'VERIFIED OFFICIAL FARE',
     shortLabel: 'Verified Official',
     badgeClass:
-      'bg-gradient-to-b from-[#EF4444]/85 to-[#B91C1C]/90 text-white border border-white/65 shadow-[inset_0_1px_1px_rgba(255,255,255,0.7),0_4px_12px_rgba(185,28,28,0.22)]',
-    dotClass: 'bg-[#DC2626]',
+      'bg-gradient-to-b from-[#C9182B]/90 to-[#B51224]/95 text-white border border-white/65 shadow-[inset_0_1px_1px_rgba(255,255,255,0.72),0_4px_12px_rgba(181,18,36,0.22)]',
+    dotClass: 'bg-[#C9182B]',
     description:
       'Backed by an official LTFRB order, LGU ordinance, or authorized tariff.',
   },
@@ -29,8 +29,8 @@ export const FARE_STATUS_META: Record<
     label: 'COMMUNITY ESTIMATE',
     shortLabel: 'Community Estimate',
     badgeClass:
-      'bg-white/78 text-[#B91C1C] border border-[#FECDD3] shadow-[inset_0_1px_1px_rgba(255,255,255,0.94),0_4px_10px_rgba(185,28,28,0.08)]',
-    dotClass: 'bg-[#DC2626]',
+      'bg-[#F7F3EF]/85 text-[#B51224] border border-[#E9E5E8] shadow-[inset_0_1px_1px_rgba(255,255,255,0.94),0_4px_10px_rgba(41,38,43,0.08)]',
+    dotClass: 'bg-[#C9182B]',
     description:
       'Commuter reference estimate for budgeting only.',
   },
@@ -38,8 +38,8 @@ export const FARE_STATUS_META: Record<
     label: 'PENDING VERIFICATION',
     shortLabel: 'Pending Verification',
     badgeClass:
-      'bg-[#FFE4E6]/85 text-[#4B3B40] border border-white/85 shadow-[inset_0_1px_1px_rgba(255,255,255,0.85)]',
-    dotClass: 'bg-[#B91C1C]',
+      'bg-[#F8E7EA]/88 text-[#343039] border border-white/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.88)]',
+    dotClass: 'bg-[#B51224]',
     description:
       'Awaiting review against transport documents.',
   },
@@ -47,8 +47,8 @@ export const FARE_STATUS_META: Record<
     label: 'REJECTED OR DISPUTED',
     shortLabel: 'Rejected / Disputed',
     badgeClass:
-      'bg-[#991B1B]/90 text-white border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_4px_12px_rgba(185,28,28,0.24)]',
-    dotClass: 'bg-[#991B1B]',
+      'bg-[#B51224]/92 text-white border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_4px_12px_rgba(181,18,36,0.24)]',
+    dotClass: 'bg-[#B51224]',
     description:
       'Flagged or rejected due to conflicting proof.',
   },
@@ -56,8 +56,8 @@ export const FARE_STATUS_META: Record<
     label: 'ARCHIVED',
     shortLabel: 'Archived',
     badgeClass:
-      'bg-white/60 text-[#4B3B40] border border-white/80 shadow-[inset_0_1px_1px_rgba(255,255,255,0.75)]',
-    dotClass: 'bg-[#4B3B40]',
+      'bg-white/60 text-[#343039] border border-white/80 shadow-[inset_0_1px_1px_rgba(255,255,255,0.75)]',
+    dotClass: 'bg-[#343039]',
     description: 'Superseded historical fare record.',
   },
 };
@@ -69,32 +69,32 @@ export const REPORT_STATUS_META: Record<
   pending: {
     label: 'Pending',
     badgeClass:
-      'bg-white/75 text-[#4B3B40] border border-white/85 shadow-[inset_0_1px_1px_rgba(255,255,255,0.85)]',
+      'bg-white/75 text-[#343039] border border-white/85 shadow-[inset_0_1px_1px_rgba(255,255,255,0.85)]',
   },
   under_review: {
     label: 'Under Review',
     badgeClass:
-      'bg-[#FFE4E6]/85 text-[#B91C1C] border border-[#FECDD3] shadow-[inset_0_1px_1px_rgba(255,255,255,0.85)]',
+      'bg-[#F8E7EA]/85 text-[#B51224] border border-[#E9E5E8] shadow-[inset_0_1px_1px_rgba(255,255,255,0.85)]',
   },
   approved_community_estimate: {
     label: 'Approved as Community Estimate',
     badgeClass:
-      'bg-white/80 text-[#B91C1C] border border-[#FECDD3] shadow-[inset_0_1px_1px_rgba(255,255,255,0.92)]',
+      'bg-white/80 text-[#B51224] border border-[#E9E5E8] shadow-[inset_0_1px_1px_rgba(255,255,255,0.92)]',
   },
   verified_official: {
     label: 'Verified Official',
     badgeClass:
-      'bg-gradient-to-b from-[#EF4444]/85 to-[#B91C1C]/90 text-white border border-white/65 shadow-[inset_0_1px_1px_rgba(255,255,255,0.7)]',
+      'bg-gradient-to-b from-[#C9182B]/85 to-[#B51224]/90 text-white border border-white/65 shadow-[inset_0_1px_1px_rgba(255,255,255,0.7)]',
   },
   rejected: {
     label: 'Rejected',
     badgeClass:
-      'bg-[#991B1B]/90 text-white border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]',
+      'bg-[#B51224]/90 text-white border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]',
   },
   disputed: {
     label: 'Disputed',
     badgeClass:
-      'bg-[#B91C1C]/88 text-white border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]',
+      'bg-[#B51224]/88 text-white border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]',
   },
 };
 
