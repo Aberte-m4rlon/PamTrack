@@ -9,10 +9,14 @@ import { ToastProvider } from '@/contexts/ToastContext';
 import { LiveTripPage } from '@/pages/trips/LiveTripPage';
 import { AppRoutes } from '@/App';
 import {
+  isAlertAlarmRinging,
   readOfflineActiveTrip,
   readOfflineAlerts,
   readOfflineCompletedTrips,
+  stopOfflineAlertAlarm,
+  triggerOfflineDeviceAlert,
 } from '@/lib/offlineTripsAndAlerts';
+import { buildPcmWavDataUri } from '@/lib/offlineAlertAudio';
 
 vi.mock('@/contexts/AuthContext', () => ({
   AuthProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
@@ -175,5 +179,32 @@ describe('Offline Live Trip Monitoring & Offline Alerts', () => {
       expect(completed[0].status).toBe('completed');
       expect(completed[0].distance_km).toBeGreaterThan(0);
     });
+  });
+
+  it('builds valid offline WAV siren audio and toggles consecutive loud alarm state cleanly', async () => {
+    const uri = buildPcmWavDataUri([
+      { freqHz: 987, secondaryFreqHz: 1480, durationSec: 0.15, volume: 0.96 },
+    ]);
+    expect(uri.startsWith('data:audio/wav;base64,UklGR')).toBe(true);
+
+    const vibrateMock = vi.fn(() => true);
+    Object.defineProperty(navigator, 'vibrate', {
+      configurable: true,
+      value: vibrateMock,
+    });
+
+    await triggerOfflineDeviceAlert({
+      title: 'Emergency Siren Test',
+      body: 'Consecutive repeating offline alarm',
+      urgent: true,
+      soundEnabled: true,
+      repeatMs: 5000,
+    });
+
+    expect(isAlertAlarmRinging()).toBe(true);
+    expect(vibrateMock).toHaveBeenCalledWith([450, 110, 450, 110, 450, 160, 650]);
+
+    stopOfflineAlertAlarm();
+    expect(isAlertAlarmRinging()).toBe(false);
   });
 });

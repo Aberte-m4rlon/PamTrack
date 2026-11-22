@@ -44,6 +44,7 @@ import {
 } from '@/lib/gpsUtils';
 import { isNetworkUnavailableError } from '@/lib/offlineCache';
 import {
+  armBackgroundTripAudio,
   buildLocalTripRecord,
   buildOfflineEmergencySmsHref,
   clearOfflineActiveTrip,
@@ -52,10 +53,13 @@ import {
   queueCompletedOfflineTrip,
   readOfflineActiveTrip,
   readOfflineAlerts,
+  releaseBackgroundTripAudio,
   requestAlertPermission,
   saveOfflineActiveTrip,
   saveOfflineAlert,
   setOfflineAlertSoundEnabled,
+  stopOfflineAlertAlarm,
+  subscribeAlertAlarmState,
   triggerOfflineDeviceAlert,
 } from '@/lib/offlineTripsAndAlerts';
 import { fetchOsrmDrivingRoute, type OsrmRouteResult } from '@/lib/osrm';
@@ -132,6 +136,35 @@ export function LiveTripPage() {
   const [alertLog, setAlertLog] = useState<OfflineAlertRecord[]>(() =>
     readOfflineAlerts(user?.id)
   );
+  const [alarmRinging, setAlarmRinging] = useState(false);
+
+  useEffect(() => {
+    const unsubAlarm = subscribeAlertAlarmState(setAlarmRinging);
+    const onSwMessage = (event: MessageEvent) => {
+      if (event.data?.type === 'PAMTRACK_NOTIFICATION_CLICKED') {
+        stopOfflineAlertAlarm();
+      }
+    };
+    navigator.serviceWorker?.addEventListener?.('message', onSwMessage);
+    return () => {
+      unsubAlarm();
+      navigator.serviceWorker?.removeEventListener?.('message', onSwMessage);
+      releaseBackgroundTripAudio().catch(() => null);
+      stopOfflineAlertAlarm();
+    };
+  }, []);
+
+  // Re-arm lock-screen/background audio keepalive when returning from background while trip runs
+  useEffect(() => {
+    if (!activeTrip) return;
+    const onVisibility = () => {
+      if (!document.hidden) {
+        armBackgroundTripAudio().catch(() => null);
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => document.removeEventListener('visibilitychange', onVisibility);
+  }, [activeTrip]);
 
   const [recordedFareInput, setRecordedFareInput] = useState('');
   const [shareContactId, setShareContactId] = useState('');
@@ -180,6 +213,7 @@ export function LiveTripPage() {
       title: string;
       message: string;
       urgent?: boolean;
+      repeatMs?: number;
     }) => {
       if (user?.id) {
         const saved = saveOfflineAlert({
@@ -198,6 +232,7 @@ export function LiveTripPage() {
         body: input.message,
         urgent: input.urgent,
         soundEnabled,
+        repeatMs: input.repeatMs,
       });
       pushToast({
         title: input.title,
@@ -442,6 +477,9 @@ export function LiveTripPage() {
       setTrail(initTrail);
       lastPointRef.current = initTrail[0] ?? null;
       saveOfflineActiveTrip(created, initTrail);
+      if (soundEnabled) {
+        armBackgroundTripAudio().catch(() => null);
+      }
       queryClient.invalidateQueries({ queryKey: ['myTrips', user?.id] });
       pushToast({
         title: created.id.startsWith('offline-')
@@ -505,6 +543,8 @@ export function LiveTripPage() {
     },
     onSuccess: (finished) => {
       clearOfflineActiveTrip();
+      releaseBackgroundTripAudio().catch(() => null);
+      stopOfflineAlertAlarm();
       setActiveTrip(null);
       setRecordedFareInput('');
       setCreatedShareToken(null);
@@ -520,6 +560,7 @@ export function LiveTripPage() {
               : 'Trip completed & saved'
             : 'Trip cancelled',
         message: `${distanceTraveledKm.toFixed(2)} km • ${formatDurationSeconds(elapsedSeconds)}`,
+        repeatMs: 3600,
       });
     },
     onError: (err: Error) => {
@@ -964,6 +1005,12 @@ export function LiveTripPage() {
                     const next = !soundEnabled;
                     setSoundEnabled(next);
                     setOfflineAlertSoundEnabled(next);
+                    if (!next) {
+                      stopOfflineAlertAlarm();
+                      releaseBackgroundTripAudio().catch(() => null);
+                    } else {
+                      armBackgroundTripAudio().catch(() => null);
+                    }
                   }}
                   aria-label={soundEnabled ? 'Mute alert sound' : 'Enable alert sound'}
                   className="liquid-btn-glass inline-flex items-center gap-1 rounded-full px-3 py-1 text-[11px] font-bold text-[#29262B]"
@@ -973,7 +1020,7 @@ export function LiveTripPage() {
                   ) : (
                     <VolumeX className="h-3.5 w-3.5 text-[#343039]" />
                   )}
-                  {soundEnabled ? 'Sound On' : 'Muted'}
+                  {soundEnabled ? 'Loud Siren On' : 'Muted'}
                 </button>
 
                 {notifPerm === 'default' && (
@@ -986,11 +1033,39 @@ export function LiveTripPage() {
                       setNotifPerm(perm);
                     }}
                   >
-                    Allow Device Alerts
+                    Allow Lock-Screen Alerts
                   </GlassButton>
                 )}
               </div>
             </div>
+
+            {alarmRinging && (
+              <div
+                role="status"
+                aria-live="assertive"
+                className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-white/80 bg-[#C9182B] px-4 py-3 text-white shadow-lg animate-pulse"
+              >
+                <div className="flex items-center gap-2 text-xs font-extrabold">
+                  <Volume2 className="h-4 w-4 shrink-0" />
+                  <span>Consecutive Alert Siren Ringing — Tap Stop to silence</span>
+                </div>
+                <GlassButton
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => stopOfflineAlertAlarm()}
+                >
+                  <VolumeX className="h-3.5 w-3.5 text-[#C9182B]" />
+                  Stop Alarm Sound
+                </GlassButton>
+              </div>
+            )}
+
+            <p className="text-[11px] leading-snug text-[#777078]">
+              Keep this app open or locked/in background during a live trip with sound &amp; alerts
+              allowed so consecutive sirens sound even when the screen turns off (powered-off devices
+              cannot run browser audio).
+            </p>
 
             <div className="flex flex-wrap gap-2">
               <GlassButton
@@ -1004,6 +1079,7 @@ export function LiveTripPage() {
                     message: currentPosition
                       ? `Checked in at ${currentPosition.latitude.toFixed(4)}°N, ${currentPosition.longitude.toFixed(4)}°E${isOffline ? ' (Offline)' : ''}.`
                       : `Safe arrival recorded${isOffline ? ' offline' : ''}.`,
+                    repeatMs: 6000,
                   })
                 }
               >
@@ -1023,6 +1099,7 @@ export function LiveTripPage() {
                       ? `Emergency alert along ${routeSummaryLabel} at ${currentPosition.latitude.toFixed(4)}°N, ${currentPosition.longitude.toFixed(4)}°E.`
                       : `Emergency alert triggered along ${routeSummaryLabel}.`,
                     urgent: true,
+                    repeatMs: 30000,
                   })
                 }
               >
@@ -1037,13 +1114,15 @@ export function LiveTripPage() {
                 onClick={() =>
                   fireTripAlert({
                     type: 'route_deviation_warning',
-                    title: 'Offline Alert Test Active',
-                    message: 'Local toast, tone, vibration, and alert log verified.',
+                    title: 'Loud Alert Test Active',
+                    message: 'Consecutive repeating siren, vibration, and notification active.',
                     urgent: true,
+                    repeatMs: 8000,
                   })
                 }
               >
-                Test Offline Alert
+                <Volume2 className="h-3.5 w-3.5 text-[#C9182B]" />
+                Test Loud Siren
               </GlassButton>
 
               <a href={smsHref}>

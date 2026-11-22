@@ -1,5 +1,5 @@
 /* Pamasahe Tracker Offline Service Worker */
-const CACHE_NAME = 'pamtrack-offline-v2';
+const CACHE_NAME = 'pamtrack-offline-v3';
 
 const CORE_SHELL_URLS = [
   '/',
@@ -132,4 +132,59 @@ self.addEventListener('fetch', (event) => {
       })()
     );
   }
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(
+    (async () => {
+      const windowClients = await self.clients.matchAll({
+        type: 'window',
+        includeUncontrolled: true,
+      });
+      for (const client of windowClients) {
+        if ('focus' in client) {
+          client.postMessage({ type: 'PAMTRACK_NOTIFICATION_CLICKED' });
+          return client.focus();
+        }
+      }
+      if (self.clients.openWindow) {
+        return self.clients.openWindow('/trips');
+      }
+      return undefined;
+    })()
+  );
+});
+
+self.addEventListener('push', (event) => {
+  let payload = {
+    title: 'Pamasahe Tracker Urgent Alert',
+    body: 'Check your active commuter trip status.',
+  };
+  try {
+    if (event.data) {
+      const parsed = event.data.json();
+      payload = {
+        title: parsed.title || payload.title,
+        body: parsed.body || payload.body,
+      };
+    }
+  } catch {
+    if (event.data) {
+      payload.body = event.data.text();
+    }
+  }
+
+  event.waitUntil(
+    self.registration.showNotification(payload.title, {
+      body: payload.body,
+      icon: '/assets/pamasahe-tracker-icon.png',
+      badge: '/assets/pamasahe-tracker-icon.png',
+      tag: 'pamtrack-alert-urgent',
+      requireInteraction: true,
+      renotify: true,
+      silent: false,
+      vibrate: [450, 110, 450, 110, 450, 160, 650],
+    })
+  );
 });

@@ -6,8 +6,24 @@ import type {
   TripRecord,
 } from '@/types/database';
 import { isBrowserOnline, isNetworkUnavailableError } from '@/lib/offlineCache';
+import {
+  armBackgroundTripAudio,
+  isAlertAlarmRinging,
+  releaseBackgroundTripAudio,
+  startLoudConsecutiveAlertSound,
+  stopOfflineAlertAlarm,
+  subscribeAlertAlarmState,
+} from '@/lib/offlineAlertAudio';
 import { isSupabaseConfigured, supabase } from '@/lib/supabase';
 import { finishTripRecord, startTripRecord } from '@/services/pamasaheApi';
+
+export {
+  armBackgroundTripAudio,
+  isAlertAlarmRinging,
+  releaseBackgroundTripAudio,
+  stopOfflineAlertAlarm,
+  subscribeAlertAlarmState,
+};
 
 const OFFLINE_ACTIVE_TRIP_KEY = 'pamtrack_offline_active_trip_v1';
 const OFFLINE_TRIPS_QUEUE_KEY = 'pamtrack_offline_trips_queue_v1';
@@ -211,69 +227,56 @@ export function mapOfflineAlertsToNotifications(userId: string): NotificationIte
 }
 
 /**
- * Plays a subtle Web Audio chime, vibrates on mobile, and fires an OS
- * notification when permission has been granted—all without network calls.
+ * Plays a loud consecutive repeating alarm, vibrates intensely on mobile,
+ * and fires a high-priority lock-screen notification without network calls.
  */
 export async function triggerOfflineDeviceAlert(input: {
   title: string;
   body: string;
   urgent?: boolean;
   soundEnabled?: boolean;
+  repeatMs?: number;
 }): Promise<void> {
-  if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
+  const mode = input.urgent ? 'urgent' : /approaching/i.test(input.title) ? 'arrival' : 'info';
+
+  if (input.soundEnabled !== false) {
+    startLoudConsecutiveAlertSound({
+      title: input.title,
+      mode,
+      repeatMs: input.repeatMs,
+    });
+  } else if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
     try {
-      navigator.vibrate(input.urgent ? [240, 100, 240, 100, 240] : [140, 80, 140]);
+      navigator.vibrate(
+        input.urgent ? [450, 110, 450, 110, 450, 160, 650] : [260, 90, 260, 90, 420]
+      );
     } catch {
       // Ignore browser vibrate errors
-    }
-  }
-
-  if (input.soundEnabled !== false && typeof window !== 'undefined') {
-    try {
-      const AudioCtx =
-        window.AudioContext ||
-        (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-      if (AudioCtx) {
-        const ctx = new AudioCtx();
-        const now = ctx.currentTime;
-        const freqs = input.urgent ? [880, 660, 880] : [660, 880];
-        freqs.forEach((freq, idx) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = input.urgent ? 'triangle' : 'sine';
-          osc.frequency.setValueAtTime(freq, now + idx * 0.14);
-          gain.gain.setValueAtTime(0.08, now + idx * 0.14);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.14 + 0.13);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(now + idx * 0.14);
-          osc.stop(now + idx * 0.14 + 0.14);
-        });
-        setTimeout(() => {
-          ctx.close().catch(() => null);
-        }, 700);
-      }
-    } catch {
-      // Ignore AudioContext autoplay restrictions cleanly
     }
   }
 
   if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
     try {
       const reg = await navigator.serviceWorker?.getRegistration?.();
-      if (reg && typeof reg.showNotification === 'function') {
-        await reg.showNotification(input.title, {
-          body: input.body,
-          icon: '/assets/pamasahe-tracker-icon.png',
-          badge: '/assets/pamasahe-tracker-icon.png',
-          tag: `pamtrack-alert-${input.urgent ? 'urgent' : 'info'}`,
-        });
-        return;
-      }
-      new Notification(input.title, {
+      const options: NotificationOptions & {
+        renotify?: boolean;
+        vibrate?: number[];
+      } = {
         body: input.body,
         icon: '/assets/pamasahe-tracker-icon.png',
-      });
+        badge: '/assets/pamasahe-tracker-icon.png',
+        tag: `pamtrack-alert-${input.urgent ? 'urgent' : 'info'}`,
+        requireInteraction: Boolean(input.urgent),
+        renotify: true,
+        silent: false,
+        vibrate: input.urgent ? [450, 110, 450, 110, 450, 160, 650] : [260, 90, 260],
+      };
+
+      if (reg && typeof reg.showNotification === 'function') {
+        await reg.showNotification(input.title, options);
+        return;
+      }
+      new Notification(input.title, options);
     } catch {
       // Ignore notification construction errors inside constrained contexts
     }
