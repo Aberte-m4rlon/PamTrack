@@ -597,16 +597,11 @@ export function LiveTripPage() {
             Track moving GPS location, distance, and route/arrival alerts online or offline.
           </p>
         </div>
-        <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap w-full sm:w-auto">
-          <Link to="/trips/analytics" className="w-full sm:w-auto">
-            <GlassButton variant="glass" size="sm" className="w-full">
-              Trip Analytics
-            </GlassButton>
-          </Link>
+        <div className="w-full sm:w-auto">
           <Link to="/safety" className="w-full sm:w-auto">
-            <GlassButton variant="secondary" size="sm" className="w-full">
+            <GlassButton variant="secondary" size="sm" className="w-full sm:w-auto">
               <ShieldAlert className="h-3.5 w-3.5 shrink-0" />
-              Safety Center
+              Safety &amp; Contacts
             </GlassButton>
           </Link>
         </div>

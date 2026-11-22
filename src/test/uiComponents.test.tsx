@@ -9,7 +9,7 @@ import { ToastProvider } from '@/contexts/ToastContext';
 import { LandingPage } from '@/pages/public/LandingPage';
 import { FareSearchWidget } from '@/components/fare/FareSearchWidget';
 import { FareMatrixPage } from '@/pages/public/FareMatrixPage';
-import { RequireAdmin, RequireAuth } from '@/components/auth/RouteGuards';
+import { RequireAuth } from '@/components/auth/RouteGuards';
 
 function renderWithProviders(ui: React.ReactElement, initialEntries = ['/']) {
   const qc = new QueryClient({
@@ -76,33 +76,33 @@ describe('Pamasahe Tracker Core UI & Role Guards', () => {
     });
   });
 
-  it('redirects unauthenticated guests away from protected commuter and admin routes', async () => {
+  it('redirects unauthenticated guests away from protected commuter routes', async () => {
     renderWithProviders(
       <Routes>
         <Route path="/login" element={<div>Login Screen</div>} />
         <Route
-          path="/dashboard"
+          path="/dashboard/reports"
           element={
             <RequireAuth>
-              <div>Secret Commuter Dashboard</div>
+              <div>Secret Commuter Fare Report</div>
             </RequireAuth>
           }
         />
         <Route
-          path="/admin"
+          path="/dashboard/profile"
           element={
-            <RequireAdmin>
-              <div>Secret Admin Portal</div>
-            </RequireAdmin>
+            <RequireAuth>
+              <div>Secret Profile Settings</div>
+            </RequireAuth>
           }
         />
       </Routes>,
-      ['/admin']
+      ['/dashboard/reports']
     );
 
     await waitFor(() => {
       expect(screen.getByText('Login Screen')).toBeInTheDocument();
-      expect(screen.queryByText('Secret Admin Portal')).not.toBeInTheDocument();
+      expect(screen.queryByText('Secret Commuter Fare Report')).not.toBeInTheDocument();
     });
   });
 });

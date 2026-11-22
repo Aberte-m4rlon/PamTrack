@@ -7,7 +7,7 @@ import { supabase } from '@/lib/supabase';
 import { GlassButton, GlassCard } from '@/components/glass/GlassPrimitives';
 
 export function ProfileSettingsPage() {
-  const { user, profile, role, refreshProfile } = useAuth();
+  const { user, profile, refreshProfile } = useAuth();
   const { pushToast } = useToast();
   const { data: muniRes } = useMunicipalities();
   const municipalities = muniRes?.data ?? [];
@@ -79,7 +79,7 @@ export function ProfileSettingsPage() {
             <h2 className="font-display text-lg font-bold text-[#29262B]">Personal Information</h2>
             <span className="inline-flex items-center gap-1 rounded-full bg-[#F8E7EA] px-3 py-1 text-xs font-bold uppercase text-[#C9182B]">
               <Shield className="h-3.5 w-3.5" />
-              {role.replace('_', ' ')}
+              Commuter Account
             </span>
           </div>
 

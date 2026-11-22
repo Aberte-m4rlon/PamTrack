@@ -1,21 +1,15 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  ArrowRight,
   BusFront,
-  CheckCircle2,
   Compass,
   FileCheck2,
   Lock,
   MapPin,
-  MessageSquarePlus,
   Search,
-  ShieldCheck,
   Sparkles,
-  Users,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-import { OFFICIAL_REGULATORY_REFERENCES } from '@/data/orientalMindoro';
 import { useFareRecords, useMunicipalities, useTransportTypes } from '@/hooks/useReferenceData';
 import { partitionFareRecords } from '@/lib/fareIntegrity';
 import { formatDateSafe, formatPhp } from '@/lib/utils';
@@ -26,34 +20,6 @@ import {
   GlassCard,
   TransportModeIcon,
 } from '@/components/glass/GlassPrimitives';
-
-const HOW_IT_WORKS_STEPS = [
-  {
-    step: '01',
-    title: 'Select Origin',
-    description: 'Pick your starting LGU.',
-  },
-  {
-    step: '02',
-    title: 'Select Destination',
-    description: 'Choose your drop-off town.',
-  },
-  {
-    step: '03',
-    title: 'Pick Transport',
-    description: 'Multicab, UV, Bus, or Tricycle.',
-  },
-  {
-    step: '04',
-    title: 'Check Route & Fare',
-    description: 'View prices and road distance.',
-  },
-  {
-    step: '05',
-    title: 'Compare Discounts',
-    description: 'Verify 20% student & senior rates.',
-  },
-];
 
 const SHOWCASE_PAIRS = [
   'bulalacao->bongabong',
@@ -115,12 +81,12 @@ export function LandingPage() {
   })();
 
   return (
-    <div className="space-y-5 sm:space-y-8 pb-4 sm:pb-6">
-      {/* 1. HERO SECTION (Light Red Liquid Glass) */}
+    <div className="space-y-5 sm:space-y-7 pb-4">
+      {/* 1. HERO SECTION */}
       <motion.section
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.32 }}
       >
         <GlassCard variant="surface" className="relative rounded-[24px] sm:rounded-[32px] p-4 sm:p-7 lg:p-10">
           <div className="grid items-center gap-6 lg:gap-8 lg:grid-cols-12">
@@ -145,8 +111,8 @@ export function LandingPage() {
               </h1>
 
               <p className="max-w-xl text-xs min-[375px]:text-sm leading-relaxed text-[#343039] sm:text-base">
-                Compare commuter fares, 20% discounts, and OSRM routes across all{' '}
-                <strong className="text-[#29262B]">15 cities and municipalities of Oriental Mindoro</strong>.
+                Check commuter fares, 20% discounts, and routes across all{' '}
+                <strong className="text-[#29262B]">15 LGUs of Oriental Mindoro</strong>.
               </p>
 
               <div className="grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap sm:gap-3 pt-0.5">
@@ -172,7 +138,7 @@ export function LandingPage() {
                     <Link to="/login" className="inline-flex min-h-[28px] items-center font-bold text-[#C9182B] hover:underline">
                       Sign in
                     </Link>{' '}
-                    for Live GPS &amp; Reporting.
+                    for Live GPS, Trips &amp; Fare Reporting.
                   </span>
                 </div>
               )}
@@ -231,48 +197,12 @@ export function LandingPage() {
         </GlassCard>
       </motion.section>
 
-      {/* 2. ABOUT THE PLATFORM */}
-      <section className="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {[
-          {
-            icon: ShieldCheck,
-            title: 'What Is Pamasahe Tracker?',
-            body: 'Province-wide fare reference built for Oriental Mindoro riders.',
-          },
-          {
-            icon: Users,
-            title: 'Why It Was Created',
-            body: 'Spot overcharging and compare commuter rates at a glance.',
-          },
-          {
-            icon: Compass,
-            title: 'How It Helps Commuters',
-            body: 'View OSRM road routes and 20% discount tables anytime.',
-          },
-          {
-            icon: FileCheck2,
-            title: 'Citizen Fare Estimates',
-            body: 'Real corridor fares shared across all 15 municipalities.',
-          },
-        ].map((item) => (
-          <GlassCard key={item.title} variant="strong" hoverable className="p-4 sm:p-5 space-y-1.5 sm:space-y-2">
-            <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-2xl border border-white/95 bg-gradient-to-br from-white/95 to-[#F8E7EA]/90 text-[#C9182B] shadow-sm">
-              <item.icon className="h-4 w-4 sm:h-5 sm:w-5" />
-            </div>
-            <h2 className="font-display text-sm sm:text-base font-bold text-[#29262B]">{item.title}</h2>
-            <p className="text-xs leading-relaxed text-[#343039]">{item.body}</p>
-          </GlassCard>
-        ))}
-      </section>
-
-      {/* 3. TRANSPORTATION SERVICES */}
+      {/* 2. SUPPORTED TRANSPORTATION MODES */}
       <section className="space-y-3 sm:space-y-4">
         <div className="glass-surface liquid-glass-sheen rounded-[22px] sm:rounded-[26px] px-4 py-3.5 sm:px-5 sm:py-4 flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
-              Public Transport Coverage
-            </p>
-            <h2 className="font-display text-xl sm:text-2xl font-extrabold text-[#29262B]">
+          <div className="flex items-center gap-2.5">
+            <span aria-hidden="true" className="h-5 w-1 rounded-full bg-[#C9182B]" />
+            <h2 className="font-display text-lg sm:text-2xl font-extrabold text-[#29262B]">
               Supported Transportation Services
             </h2>
           </div>
@@ -280,58 +210,30 @@ export function LandingPage() {
             to="/fare-matrix"
             className="inline-flex min-h-[38px] items-center rounded-full px-3 py-1.5 text-xs font-bold text-[#C9182B] hover:underline glass-pill-tile sm:bg-transparent sm:border-0 sm:shadow-none sm:px-0"
           >
-            View Full Fare Matrix →
+            View Fare Matrix →
           </Link>
         </div>
 
         <div className="grid grid-cols-2 gap-2.5 sm:gap-4 lg:grid-cols-4">
           {transportTypes.map((tt) => (
-            <GlassCard key={tt.id} variant="strong" hoverable className="p-3.5 sm:p-5 space-y-1.5 sm:space-y-2">
-              <div className="liquid-nav-active flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-xl sm:rounded-2xl text-white">
+            <GlassCard key={tt.id} variant="strong" hoverable className="p-3.5 sm:p-5 flex items-center gap-3">
+              <div className="liquid-icon-ring flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full text-[#C9182B]">
                 <TransportModeIcon code={tt.code} className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
-              <h3 className="font-display text-sm sm:text-base font-bold text-[#29262B] leading-snug">{tt.name}</h3>
-              <p className="text-[11px] font-semibold text-[#B51224] leading-snug">{tt.regulatory_body}</p>
+              <h3 className="font-display text-sm sm:text-base font-bold text-[#29262B] leading-snug">
+                {tt.name}
+              </h3>
             </GlassCard>
           ))}
         </div>
       </section>
 
-      {/* 4. HOW IT WORKS */}
-      <section className="glass-surface liquid-glass-sheen rounded-[24px] sm:rounded-[30px] p-4 sm:p-6 space-y-3.5 sm:space-y-5">
-        <div>
-          <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
-            5-Step Commuter Guide
-          </p>
-          <h2 className="font-display text-xl sm:text-2xl font-extrabold text-[#29262B]">How It Works</h2>
-        </div>
-
-        <div className="grid grid-cols-2 gap-2.5 sm:gap-4 md:grid-cols-5">
-          {HOW_IT_WORKS_STEPS.map((s, idx) => (
-            <div
-              key={s.step}
-              className={`glass-pill-tile rounded-[18px] sm:rounded-[22px] p-3.5 sm:p-4 space-y-1.5 sm:space-y-2 ${
-                idx === HOW_IT_WORKS_STEPS.length - 1 ? 'col-span-2 md:col-span-1' : ''
-              }`}
-            >
-              <span className="inline-block rounded-full border border-white/95 bg-[#F8E7EA]/90 px-2.5 py-0.5 text-[11px] sm:text-xs font-extrabold text-[#C9182B] shadow-sm">
-                {s.step}
-              </span>
-              <h3 className="font-bold text-xs sm:text-sm text-[#29262B]">{s.title}</h3>
-              <p className="text-[11px] sm:text-xs text-[#777078] leading-snug">{s.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 5. FEATURED CITIZEN ROUTES */}
+      {/* 3. FEATURED CITIZEN ROUTES */}
       <section className="space-y-3 sm:space-y-4">
         <div className="glass-surface liquid-glass-sheen rounded-[22px] sm:rounded-[26px] px-4 py-3.5 sm:px-5 sm:py-4 flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
-              Citizen Commuter Fare Guide
-            </p>
-            <h2 className="font-display text-xl sm:text-2xl font-extrabold text-[#29262B]">
+          <div className="flex items-center gap-2.5">
+            <span aria-hidden="true" className="h-5 w-1 rounded-full bg-[#C9182B]" />
+            <h2 className="font-display text-lg sm:text-2xl font-extrabold text-[#29262B]">
               Featured Oriental Mindoro Routes
             </h2>
           </div>
@@ -347,17 +249,17 @@ export function LandingPage() {
           <EmptyStateCard
             icon={FileCheck2}
             title="No commuter fare guides published yet"
-            description="Browse the interactive 15-LGU route map or search community-submitted commuter fare estimates across Oriental Mindoro."
+            description="Browse the interactive 15-LGU route map or search commuter fare estimates across Oriental Mindoro."
             action={
               <div className="flex flex-wrap justify-center gap-2">
                 <Link to="/fare-matrix">
                   <GlassButton variant="primary" size="sm">
-                    View Full Fare Matrix
+                    View Fare Matrix
                   </GlassButton>
                 </Link>
                 <Link to="/routes">
                   <GlassButton variant="secondary" size="sm">
-                    Explore 15-LGU Route Map
+                    Explore Route Map
                   </GlassButton>
                 </Link>
               </div>
@@ -397,15 +299,13 @@ export function LandingPage() {
         )}
       </section>
 
-      {/* 6. ORIENTAL MINDORO COVERAGE (ALL 15 LGUs) */}
+      {/* 4. ORIENTAL MINDORO COVERAGE (ALL 15 LGUs) */}
       <section className="glass-surface liquid-glass-sheen rounded-[24px] sm:rounded-[30px] p-4 sm:p-6 space-y-3.5 sm:space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
-              Province-Wide Network
-            </p>
-            <h2 className="font-display text-xl sm:text-2xl font-extrabold text-[#29262B]">
-              Oriental Mindoro Coverage (1 City &amp; 14 Municipalities)
+          <div className="flex items-center gap-2.5">
+            <span aria-hidden="true" className="h-5 w-1 rounded-full bg-[#C9182B]" />
+            <h2 className="font-display text-lg sm:text-2xl font-extrabold text-[#29262B]">
+              15 Oriental Mindoro LGUs
             </h2>
           </div>
           <Link
@@ -434,97 +334,6 @@ export function LandingPage() {
           ))}
         </div>
       </section>
-
-      {/* 7. CITIZEN FARE TRANSPARENCY */}
-      <section className="grid gap-4 sm:gap-5 lg:grid-cols-12">
-        <GlassCard variant="strong" className="p-4 sm:p-6 space-y-3.5 sm:space-y-4 lg:col-span-7">
-          <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#C9182B]">
-            Pangmamamayan • Fare Status Guide
-          </p>
-          <h2 className="font-display text-xl sm:text-2xl font-extrabold text-[#29262B]">
-            Transparent Citizen Commuter Estimates
-          </h2>
-          <p className="text-xs sm:text-sm text-[#343039]">
-            Independent commuter guide across all 15 municipalities with clear status labels.
-          </p>
-
-          <div className="grid gap-2.5 sm:gap-3 sm:grid-cols-2">
-            <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-3 sm:p-3.5 space-y-1.5">
-              <FareStatusBadge status="verified_official" />
-              <p className="text-xs text-[#343039]">
-                Backed by LTFRB or LGU fare orders.
-              </p>
-            </div>
-            <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-3 sm:p-3.5 space-y-1.5">
-              <FareStatusBadge status="community_estimate" />
-              <p className="text-xs text-[#343039]">
-                Commuter budget reference along active corridors.
-              </p>
-            </div>
-            <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-3 sm:p-3.5 space-y-1.5">
-              <FareStatusBadge status="pending_verification" />
-              <p className="text-xs text-[#343039]">
-                Queued for verification against transport documents.
-              </p>
-            </div>
-            <div className="glass-pill-tile rounded-[18px] sm:rounded-[22px] p-3 sm:p-3.5 space-y-1.5">
-              <FareStatusBadge status="rejected_or_disputed" />
-              <p className="text-xs text-[#343039]">
-                Flagged due to conflicting reports.
-              </p>
-            </div>
-          </div>
-        </GlassCard>
-
-        <GlassCard variant="rose" className="p-4 sm:p-6 space-y-3.5 sm:space-y-4 lg:col-span-5">
-          <div className="glass-pill-tile inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#C9182B]">
-            <CheckCircle2 className="h-3.5 w-3.5 text-[#C9182B]" />
-            Statutory Discounts
-          </div>
-          <h3 className="font-display text-lg sm:text-xl font-extrabold text-[#29262B]">
-            20% Student, Senior Citizen &amp; PWD Privileges
-          </h3>
-          <p className="text-xs leading-relaxed text-[#343039] font-medium">
-            Discounted fares follow RA 11314, RA 9994, and RA 10754 orders.
-          </p>
-          <ul className="space-y-2 text-xs">
-            {OFFICIAL_REGULATORY_REFERENCES.slice(0, 4).map((ref) => (
-              <li key={ref.authority} className="glass-pill-tile rounded-2xl p-2.5">
-                <p className="font-bold text-[#C9182B]">{ref.authority}</p>
-                <p className="text-[#343039]">{ref.title}</p>
-              </li>
-            ))}
-          </ul>
-        </GlassCard>
-      </section>
-
-      {/* 8. CALL TO ACTION */}
-      <GlassCard variant="rose" className="p-5 sm:p-8">
-        <div className="flex flex-col gap-4 sm:gap-5 md:flex-row md:items-center md:justify-between">
-          <div className="space-y-1.5 max-w-2xl">
-            <h2 className="font-display text-xl font-extrabold sm:text-3xl leading-tight text-[#29262B]">
-              Help Keep Oriental Mindoro Fares Accurate
-            </h2>
-            <p className="text-xs sm:text-sm text-[#343039] font-medium">
-              Sign in to report fares paid and save daily routes.
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2.5 sm:gap-3">
-            <Link to="/register" className="w-full sm:w-auto">
-              <GlassButton variant="primary" size="lg" className="w-full sm:w-auto">
-                Register as Commuter
-                <ArrowRight className="h-4 w-4 text-white" />
-              </GlassButton>
-            </Link>
-            <Link to={user ? '/dashboard/reports' : '/login'} className="w-full sm:w-auto">
-              <GlassButton variant="secondary" size="lg" className="w-full sm:w-auto">
-                <MessageSquarePlus className="h-4 w-4 text-[#C9182B]" />
-                {user ? 'Submit Fare Report' : 'Sign In to Report Fare'}
-              </GlassButton>
-            </Link>
-          </div>
-        </div>
-      </GlassCard>
     </div>
   );
 }

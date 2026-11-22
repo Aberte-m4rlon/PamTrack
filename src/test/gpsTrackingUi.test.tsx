@@ -9,7 +9,7 @@ import { GpsProvider } from '@/contexts/GpsContext';
 import { ToastProvider } from '@/contexts/ToastContext';
 import { AppRoutes } from '@/App';
 import { GpsConsentCard } from '@/components/gps/GpsConsentCard';
-import { NearbyTransportPage } from '@/pages/gps/NearbyTransportPage';
+import { LiveMapPage } from '@/pages/gps/LiveMapPage';
 
 function renderWithAllProviders(ui: React.ReactElement, initialEntries = ['/']) {
   const qc = new QueryClient({
@@ -111,13 +111,12 @@ describe('GPS Permission, Tracking Controls, Nearby Stops & Mobile Bottom Nav', 
     });
   });
 
-  it('renders Nearby Transportation Finder with verified real-world terminals', async () => {
-    renderWithAllProviders(<NearbyTransportPage />);
+  it('renders Live GPS Map & Terminals page with GPS controls cleanly', async () => {
+    renderWithAllProviders(<LiveMapPage />);
 
     await waitFor(() => {
-      expect(screen.getByText('Nearby Transportation Finder')).toBeInTheDocument();
-      expect(screen.getByText('Calapan Port Passenger Terminal')).toBeInTheDocument();
-      expect(screen.getByText('Balatero Port Terminal')).toBeInTheDocument();
+      expect(screen.getByText(/Live GPS Location/i)).toBeInTheDocument();
+      expect(screen.getByText(/Browser GPS Location Control/i)).toBeInTheDocument();
     });
   });
 

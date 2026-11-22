@@ -1,14 +1,7 @@
 import { Link } from 'react-router-dom';
 import {
-  BarChart3,
-  Bell,
-  Building,
-  Car,
   ChevronRight,
   Compass,
-  Heart,
-  Info,
-  LayoutDashboard,
   LocateFixed,
   Lock,
   LogIn,
@@ -16,13 +9,10 @@ import {
   Map as MapIcon,
   MapPin,
   MessageSquarePlus,
-  Navigation,
   Radio,
   Settings,
   ShieldAlert,
-  ShieldCheck,
   Table2,
-  Truck,
   UserPlus,
   WifiOff,
 } from 'lucide-react';
@@ -40,7 +30,7 @@ interface HubLinkItem {
 }
 
 export function ProfileHubPage() {
-  const { user, profile, role, isAdmin, isOperator, signOut } = useAuth();
+  const { user, profile, signOut } = useAuth();
   const { isOffline } = useNetwork();
 
   const publicAvailableLinks: HubLinkItem[] = [
@@ -59,13 +49,6 @@ export function ProfileHubPage() {
       offlineReady: true,
     },
     {
-      to: '/municipalities',
-      label: '15 LGUs Directory',
-      desc: 'Calapan City & 14 municipalities',
-      icon: MapPin,
-      offlineReady: true,
-    },
-    {
       to: '/routes',
       label: 'Route Map',
       desc: '15-LGU OpenStreetMap corridor explorer',
@@ -73,10 +56,10 @@ export function ProfileHubPage() {
       offlineReady: false,
     },
     {
-      to: '/about',
-      label: 'About & Sources',
-      desc: 'Regulatory references & integrity rules',
-      icon: Info,
+      to: '/municipalities',
+      label: '15 LGUs Directory',
+      desc: 'Calapan City & 14 municipalities',
+      icon: MapPin,
       offlineReady: true,
     },
   ];
@@ -90,34 +73,6 @@ export function ProfileHubPage() {
       offlineReady: false,
     },
     {
-      to: '/nearby',
-      label: 'Nearby Stops',
-      desc: 'Verified terminals & ports near you',
-      icon: Navigation,
-      offlineReady: false,
-    },
-    {
-      to: '/report-vehicle',
-      label: 'Report a Vehicle',
-      desc: 'Report plate, driver, or violation',
-      icon: Car,
-      offlineReady: false,
-    },
-    {
-      to: '/authorities',
-      label: 'Authority Directory',
-      desc: 'LTFRB, LTO, LGU & PNP HPG channels',
-      icon: Building,
-      offlineReady: false,
-    },
-    {
-      to: '/dashboard',
-      label: 'Commuter Dashboard',
-      desc: 'Personalized summary & quick search',
-      icon: LayoutDashboard,
-      offlineReady: false,
-    },
-    {
       to: '/trips',
       label: 'Live Trip Monitor',
       desc: 'Moving GPS monitor & offline alerts',
@@ -125,45 +80,17 @@ export function ProfileHubPage() {
       offlineReady: true,
     },
     {
-      to: '/dashboard/vehicle-reports',
-      label: 'My Vehicle Reports',
-      desc: 'Track PT-OM complaint status & referrals',
-      icon: Car,
-      offlineReady: false,
-    },
-    {
-      to: '/trips/analytics',
-      label: 'Trip History & Analytics',
-      desc: 'Daily/weekly/monthly travel stats',
-      icon: BarChart3,
-      offlineReady: false,
-    },
-    {
-      to: '/safety',
-      label: 'Safety Center & Contacts',
-      desc: 'Trusted contacts & live trip sharing',
-      icon: ShieldAlert,
-      offlineReady: false,
-    },
-    {
       to: '/dashboard/reports',
-      label: 'My Fare Reports',
-      desc: 'Submit & track community reports',
+      label: 'Report Fare',
+      desc: 'Submit & track fare observations',
       icon: MessageSquarePlus,
       offlineReady: false,
     },
     {
-      to: '/dashboard/favorites',
-      label: 'Favorite Routes',
-      desc: 'Saved corridors & price alerts',
-      icon: Heart,
-      offlineReady: false,
-    },
-    {
-      to: '/dashboard/notifications',
-      label: 'Notifications',
-      desc: 'Fare & trip alerts',
-      icon: Bell,
+      to: '/safety',
+      label: 'Safety & Contacts',
+      desc: 'Trusted contacts & live trip sharing',
+      icon: ShieldAlert,
       offlineReady: false,
     },
     {
@@ -175,33 +102,8 @@ export function ProfileHubPage() {
     },
   ];
 
-  const roleLinks: HubLinkItem[] = [
-    ...(isOperator
-      ? [
-          {
-            to: '/operator',
-            label: 'Operator Portal',
-            desc: 'Authorized operator records',
-            icon: Truck,
-            offlineReady: false,
-          },
-        ]
-      : []),
-    ...(isAdmin
-      ? [
-          {
-            to: '/admin',
-            label: 'Administrator Portal',
-            desc: 'Verification, analytics & governance',
-            icon: ShieldCheck,
-            offlineReady: false,
-          },
-        ]
-      : []),
-  ];
-
   const unlockedLinks = user
-    ? [...publicAvailableLinks, ...memberLinks, ...roleLinks]
+    ? [...publicAvailableLinks, ...memberLinks]
     : publicAvailableLinks;
 
   return (
@@ -212,7 +114,7 @@ export function ProfileHubPage() {
       >
         <div className="space-y-1.5 min-w-0">
           <p className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.14em] text-[#29262B]/85 leading-snug">
-            {user ? 'Account & Features Hub' : 'Limited Guest Access • Sign In Required for Full Tools'}
+            {user ? 'Commuter Account Hub' : 'Limited Guest Access • Sign In Required for Full Tools'}
           </p>
           <h1 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-[#29262B]">
             {user
@@ -221,8 +123,8 @@ export function ProfileHubPage() {
           </h1>
           <p className="text-xs sm:text-sm leading-relaxed text-[#343039] font-medium">
             {user
-              ? `${user.email} • ${role.replace('_', ' ').toUpperCase()}`
-              : 'While logged out, you have access to public fare lookup, fare matrix, and 15 LGUs. Sign in to unlock GPS, trips, safety sharing, and reporting.'}
+              ? `${user.email} • Citizen Commuter`
+              : 'While logged out, you have access to public fare lookup, fare matrix, route map, and 15 LGUs. Sign in to unlock GPS, live trips, safety contacts, and fare reporting.'}
           </p>
         </div>
 
@@ -329,7 +231,7 @@ export function ProfileHubPage() {
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-            {memberLinks.slice(0, 6).map((item) => (
+            {memberLinks.map((item) => (
               <Link key={item.to} to="/login" state={{ from: item.to }} className="block group">
                 <div className="liquid-feature-card liquid-card-enter rounded-[26px] sm:rounded-[28px] p-3.5 sm:p-4 flex items-center justify-between gap-3 h-full">
                   <div className="flex items-center gap-3.5 min-w-0">

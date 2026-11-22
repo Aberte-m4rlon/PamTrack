@@ -7,13 +7,11 @@ import {
   CheckCircle2,
   ExternalLink,
   FileText,
-  Heart,
   Info,
   Search,
   ShieldAlert,
   WifiOff,
 } from 'lucide-react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNetwork } from '@/contexts/NetworkContext';
 import { useToast } from '@/contexts/ToastContext';
@@ -21,7 +19,6 @@ import { useFareRecords, useMunicipalities, useRoutes, useTransportTypes } from 
 import { partitionFareRecords, PASSENGER_CATEGORY_LABELS } from '@/lib/fareIntegrity';
 import { fetchOsrmDrivingRoute, type OsrmRouteResult } from '@/lib/osrm';
 import { formatDateSafe, formatPhp, haversineDistanceKm } from '@/lib/utils';
-import { addFavoriteRoute } from '@/services/pamasaheApi';
 import type { PassengerCategory } from '@/types/database';
 import {
   EmptyStateCard,
@@ -81,10 +78,9 @@ export function FareSearchWidget({
   onSelectionChange?: (originId: string, destinationId: string) => void;
   compact?: boolean;
 }) {
-  const { user, isConfigured } = useAuth();
+  const { user } = useAuth();
   const { isOffline } = useNetwork();
   const { pushToast } = useToast();
-  const queryClient = useQueryClient();
 
   const { data: muniRes } = useMunicipalities();
   const { data: transportRes } = useTransportTypes();
@@ -122,31 +118,6 @@ export function FareSearchWidget({
       ).toFixed(1)
     );
   }, [originMuni, destMuni]);
-
-  const favoriteMutation = useMutation({
-    mutationFn: async () => {
-      if (!user) throw new Error('Sign in to save favorite routes.');
-      if (!originId || !destinationId) throw new Error('Select origin and destination first.');
-      return addFavoriteRoute({
-        userId: user.id,
-        originMunicipalityId: originId,
-        destinationMunicipalityId: destinationId,
-        transportTypeId: transportTypeId === 'all' ? null : transportTypeId,
-        label: `${originMuni?.name ?? 'Origin'} → ${destMuni?.name ?? 'Destination'}`,
-      });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['favorites', user?.id] });
-      pushToast({
-        title: 'Route saved to Favorites',
-        description: `${originMuni?.name} → ${destMuni?.name}`,
-        variant: 'success',
-      });
-    },
-    onError: (err: Error) => {
-      pushToast({ title: 'Could not save favorite', description: err.message, variant: 'error' });
-    },
-  });
 
   const handleSwap = () => {
     setOriginId(destinationId);
@@ -467,19 +438,6 @@ export function FareSearchWidget({
               </div>
 
               <div className="flex flex-wrap gap-2">
-                {user && isConfigured && (
-                  <GlassButton
-                    type="button"
-                    variant="glass"
-                    size="sm"
-                    onClick={() => favoriteMutation.mutate()}
-                    disabled={isOffline || favoriteMutation.isPending}
-                    title={isOffline ? 'Reconnect to save favorite routes' : undefined}
-                  >
-                    <Heart className="h-4 w-4 text-[#C9182B]" />
-                    {isOffline ? 'Save Offline Disabled' : 'Save Favorite'}
-                  </GlassButton>
-                )}
                 {isOffline ? (
                   <GlassButton
                     type="button"

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { WifiOff } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -8,13 +8,12 @@ import { useToast } from '@/contexts/ToastContext';
 import { syncPendingOfflineTripData } from '@/lib/offlineTripsAndAlerts';
 import { formatDateTimeSafe } from '@/lib/utils';
 import { AmbientLiquidBackdrop } from '@/components/glass/AmbientLiquidBackdrop';
-import { SupabaseSetupBanner } from '@/components/glass/GlassPrimitives';
 import { AppHeader } from '@/components/layout/AppHeader';
 import { AppSidebar } from '@/components/layout/AppSidebar';
 import { MobileBottomNavigation } from '@/components/layout/MobileBottomNavigation';
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const { user, isConfigured } = useAuth();
+  const { user } = useAuth();
   const { isOnline, isOffline, lastSyncedAt } = useNetwork();
   const { pushToast } = useToast();
   const queryClient = useQueryClient();
@@ -88,63 +87,25 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </div>
           )}
 
-          {!isConfigured && <SupabaseSetupBanner compact />}
           {children}
         </main>
       </div>
 
-      {/* Consistent Liquid Glass Footer */}
-      <footer className="glass-footer relative z-10 mt-auto">
-        <div className="mx-auto flex max-w-[1480px] flex-col gap-3 px-4 py-4 sm:py-6 text-xs text-[#777078] sm:px-6 md:flex-row md:items-center md:justify-between">
+      {/* Minimal Commuter Branding Strip (Desktop/Tablet) */}
+      <footer className="hidden md:block glass-footer relative z-10 mt-auto">
+        <div className="mx-auto flex max-w-[1480px] items-center justify-between gap-4 px-6 py-4 text-xs text-[#777078]">
           <div className="flex items-center gap-3">
             <img
               src="/assets/pamasahe-tracker-icon.png"
               alt="Pamasahe Tracker Icon"
-              className="h-8 w-8 rounded-full ring-2 ring-white/95 shadow-sm shrink-0"
+              className="h-7 w-7 rounded-full ring-2 ring-white/95 shadow-sm shrink-0"
             />
-            <div className="min-w-0">
-              <p className="font-bold text-[#29262B]">Pamasahe Tracker – Oriental Mindoro</p>
-              <p className="leading-snug">
-                Tamang Pamasahe. Ligtas na Biyahe. • Calapan City &amp; 14 Municipalities
-              </p>
-            </div>
+            <p>
+              <strong className="text-[#29262B]">Pamasahe Tracker – Oriental Mindoro</strong> •
+              Tamang Pamasahe. Ligtas na Biyahe.
+            </p>
           </div>
-
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 font-semibold text-[#29262B]/85">
-            <Link to="/about" className="inline-flex min-h-[38px] items-center hover:text-[#C9182B] transition-colors">
-              About
-            </Link>
-            <Link to="/fare-matrix" className="inline-flex min-h-[38px] items-center hover:text-[#C9182B] transition-colors">
-              Official Sources
-            </Link>
-            <Link to="/municipalities" className="inline-flex min-h-[38px] items-center hover:text-[#C9182B] transition-colors">
-              15 LGUs
-            </Link>
-            {user && (
-              <>
-                <Link to="/authorities" className="inline-flex min-h-[38px] items-center hover:text-[#C9182B] transition-colors">
-                  Authority Directory
-                </Link>
-                <Link to="/safety" className="inline-flex min-h-[38px] items-center hover:text-[#C9182B] transition-colors">
-                  Safety Center
-                </Link>
-              </>
-            )}
-            <Link to="/privacy" className="inline-flex min-h-[38px] items-center hover:text-[#C9182B] transition-colors">
-              Privacy Policy
-            </Link>
-            <Link to="/terms" className="inline-flex min-h-[38px] items-center hover:text-[#C9182B] transition-colors">
-              Terms &amp; Conditions
-            </Link>
-            <a
-              href="https://ltfrb.gov.ph/"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex min-h-[38px] items-center font-bold text-[#C9182B] underline underline-offset-2 hover:text-[#B51224]"
-            >
-              LTFRB Official Portal ↗
-            </a>
-          </div>
+          <p className="font-semibold text-[#C9182B]">Calapan City &amp; 14 Municipalities</p>
         </div>
       </footer>
 

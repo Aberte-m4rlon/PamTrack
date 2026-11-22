@@ -10,7 +10,7 @@ import {
   useMap,
 } from 'react-leaflet';
 import L from 'leaflet';
-import { Compass, Navigation, Route as RouteIcon } from 'lucide-react';
+import { Compass, Route as RouteIcon } from 'lucide-react';
 import { useGps } from '@/contexts/GpsContext';
 import {
   ORIENTAL_MINDORO_DEFAULT_ZOOM,
@@ -128,15 +128,9 @@ export function LiveMapPage() {
               View your live position, nearby stops, and OSRM directions across Oriental Mindoro.
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap w-full sm:w-auto">
-            <Link to="/nearby" className="w-full sm:w-auto">
-              <GlassButton variant="secondary" size="sm" className="w-full">
-                <Navigation className="h-3.5 w-3.5" />
-                Nearby Stops
-              </GlassButton>
-            </Link>
+          <div className="w-full sm:w-auto">
             <Link to="/trips" className="w-full sm:w-auto">
-              <GlassButton variant="primary" size="sm" className="w-full">
+              <GlassButton variant="primary" size="sm" className="w-full sm:w-auto">
                 Start Live Trip
               </GlassButton>
             </Link>

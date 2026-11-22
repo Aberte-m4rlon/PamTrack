@@ -71,7 +71,7 @@ describe('Light Red Glassmorphism Design System & Shared Components', () => {
           breadcrumbs={[{ label: 'Home', to: '/' }, { label: 'Fare Verification' }]}
           actions={<PrimaryButton>Publish</PrimaryButton>}
         />
-        <StatCard label="Vehicle Complaints" value={12} icon={Car} to="/report-vehicle" />
+        <StatCard label="Routes Tracked" value={12} icon={Car} to="/fare-search" />
         <StatusBadge tone="red">Priority</StatusBadge>
         <SecondaryButton>Secondary Action</SecondaryButton>
         <GlassTabs
@@ -96,7 +96,7 @@ describe('Light Red Glassmorphism Design System & Shared Components', () => {
 
     expect(screen.getByRole('heading', { name: 'Fare Verification' })).toBeInTheDocument();
     expect(screen.getByRole('navigation', { name: 'Breadcrumb' })).toBeInTheDocument();
-    expect(screen.getByText('Vehicle Complaints')).toBeInTheDocument();
+    expect(screen.getByText('Routes Tracked')).toBeInTheDocument();
     expect(screen.getByText('12')).toBeInTheDocument();
     expect(screen.getByText('Priority')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Publish' })).toBeInTheDocument();

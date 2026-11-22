@@ -5,7 +5,6 @@ import {
   Lock,
   LogIn,
   MapPin,
-  ShieldAlert,
   Table2,
   UserPlus,
   WifiOff,
@@ -13,7 +12,6 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 import { useNetwork } from '@/contexts/NetworkContext';
 import {
-  EmptyStateCard,
   GlassButton,
   GlassCard,
   GlassSkeleton,
@@ -216,64 +214,4 @@ export function RequireAccountAccess({
       </GlassCard>
     </div>
   );
-}
-
-export function RequireOperator({ children }: { children: React.ReactNode }) {
-  const { user, loading, isOperator } = useAuth();
-  const location = useLocation();
-
-  if (loading) {
-    return <GlassSkeleton className="h-48 w-full" />;
-  }
-
-  if (!user) {
-    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
-  }
-
-  if (!isOperator) {
-    return (
-      <EmptyStateCard
-        icon={ShieldAlert}
-        title="Transport Operator Access Required"
-        description="This area is reserved for authorized Transport Operators and Administrators. Database Row Level Security enforces these permissions on the backend."
-        action={
-          <Link to="/dashboard">
-            <GlassButton variant="primary">Return to Commuter Dashboard</GlassButton>
-          </Link>
-        }
-      />
-    );
-  }
-
-  return <>{children}</>;
-}
-
-export function RequireAdmin({ children }: { children: React.ReactNode }) {
-  const { user, loading, isAdmin } = useAuth();
-  const location = useLocation();
-
-  if (loading) {
-    return <GlassSkeleton className="h-48 w-full" />;
-  }
-
-  if (!user) {
-    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
-  }
-
-  if (!isAdmin) {
-    return (
-      <EmptyStateCard
-        icon={ShieldAlert}
-        title="Administrator Privileges Required"
-        description="Your account does not hold an Administrator or Super Administrator role. All administrative mutations are also strictly guarded by PostgreSQL Row Level Security."
-        action={
-          <Link to="/dashboard">
-            <GlassButton variant="primary">Go to Commuter Dashboard</GlassButton>
-          </Link>
-        }
-      />
-    );
-  }
-
-  return <>{children}</>;
 }

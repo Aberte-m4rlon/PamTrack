@@ -119,11 +119,10 @@ describe('Offline Mode & Logged-Out Feature Access Restrictions', () => {
     });
     third.unmount();
 
-    renderApp(['/report-vehicle']);
+    renderApp(['/safety']);
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: /Report a Vehicle/i })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /Safety & Trusted Contacts/i })).toBeInTheDocument();
       expect(screen.getByText(/Account Access Locked While Logged Out/i)).toBeInTheDocument();
-      expect(screen.queryByPlaceholderText(/ABC 1234/i)).not.toBeInTheDocument();
     });
   });
 

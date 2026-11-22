@@ -19,7 +19,7 @@ export function LoginPage() {
   const { pushToast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = (location.state as { from?: string } | null)?.from || '/dashboard';
+  const from = (location.state as { from?: string } | null)?.from || '/profile';
 
   const {
     register,
@@ -54,7 +54,7 @@ export function LoginPage() {
             Sign In to Pamasahe Tracker
           </h1>
           <p className="text-xs text-[#777078]">
-            Access commuter reports, favorite routes, operator tools, or admin verification.
+            Track live trips, use the GPS map, manage trusted contacts, and report fares.
           </p>
         </div>
 
@@ -161,7 +161,7 @@ export function RegisterPage() {
       description: 'Welcome to Pamasahe Tracker – Oriental Mindoro!',
       variant: 'success',
     });
-    navigate('/dashboard');
+    navigate('/profile');
   };
 
   if (confirmationSent) {
@@ -295,15 +295,7 @@ export function RegisterPage() {
               className="mt-0.5 h-5 w-5 shrink-0 rounded border-[#E9E5E8] accent-[#C9182B]"
             />
             <span className="leading-relaxed">
-              I agree to the{' '}
-              <Link to="/terms" className="inline-flex min-h-[32px] items-center font-bold text-[#C9182B] underline">
-                Terms and Conditions
-              </Link>{' '}
-              and{' '}
-              <Link to="/privacy" className="inline-flex min-h-[32px] items-center font-bold text-[#C9182B] underline">
-                Privacy Policy
-              </Link>
-              .
+              I confirm my registration details are accurate and truthful for commuter fare tracking.
             </span>
           </label>
           {errors.acceptTerms && (
@@ -413,7 +405,7 @@ export function ResetPasswordPage() {
       return;
     }
     pushToast({ title: 'Password updated', description: 'You may now sign in.', variant: 'success' });
-    navigate('/dashboard');
+    navigate('/profile');
   };
 
   return (
