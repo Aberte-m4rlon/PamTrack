@@ -40,7 +40,7 @@ const HOW_IT_WORKS_STEPS = [
   {
     step: '03',
     title: 'Choose Transport Mode',
-    description: 'Filter by Jeepney, Tricycle, UV Express, Provincial Bus, or Multicab.',
+    description: 'Filter by Multicab, UV Express, Provincial Bus, or Tricycle.',
   },
   {
     step: '04',
@@ -49,9 +49,20 @@ const HOW_IT_WORKS_STEPS = [
   },
   {
     step: '05',
-    title: 'Verify Source Status',
-    description: 'Check clearly whether a price is an Official Verified Fare or a Community Estimate.',
+    title: 'Compare Citizen Rates',
+    description: 'Check community fare estimates and 20% student, senior, or PWD discounts before boarding.',
   },
+];
+
+const SHOWCASE_PAIRS = [
+  'bulalacao->bongabong',
+  'bulalacao->roxas',
+  'roxas->bongabong',
+  'bongabong->gloria',
+  'calapan-city->puerto-galera',
+  'calapan-city->pinamalayan',
+  'calapan-city->bulalacao',
+  'calapan-city->calapan-city',
 ];
 
 export function LandingPage() {
@@ -62,8 +73,45 @@ export function LandingPage() {
 
   const municipalities = muniRes?.data ?? [];
   const transportTypes = transportRes?.data ?? [];
-  const { officialFares, communityEstimates } = partitionFareRecords(fareRecords ?? []);
-  const featuredOfficial = officialFares.slice(0, 4);
+  const activeRecords = (fareRecords ?? []).filter(
+    (f) => !f.is_archived && !f.is_test_fixture && f.transport_type?.is_active !== false
+  );
+  const { officialFares, communityEstimates } = partitionFareRecords(activeRecords);
+
+  const regularGuides = [...officialFares, ...communityEstimates].filter(
+    (f) => f.passenger_category === 'regular'
+  );
+  const coveredPairsCount = new Set(
+    activeRecords.map((f) => `${f.origin_municipality_id}::${f.destination_municipality_id}`)
+  ).size;
+
+  const featuredGuides = (() => {
+    const picked: typeof regularGuides = [];
+    const seenPairs = new Set<string>();
+    for (const slugKey of SHOWCASE_PAIRS) {
+      const match = regularGuides.find(
+        (f) =>
+          `${f.origin?.slug ?? ''}->${f.destination?.slug ?? ''}` === slugKey &&
+          !seenPairs.has(`${f.origin_municipality_id}->${f.destination_municipality_id}`)
+      );
+      if (match) {
+        seenPairs.add(`${match.origin_municipality_id}->${match.destination_municipality_id}`);
+        picked.push(match);
+      }
+      if (picked.length >= 4) break;
+    }
+    if (picked.length < 4) {
+      for (const item of regularGuides) {
+        const pairKey = `${item.origin_municipality_id}->${item.destination_municipality_id}`;
+        if (!seenPairs.has(pairKey)) {
+          seenPairs.add(pairKey);
+          picked.push(item);
+        }
+        if (picked.length >= 4) break;
+      }
+    }
+    return picked;
+  })();
 
   return (
     <div className="space-y-8 pb-6">
@@ -87,11 +135,9 @@ export function LandingPage() {
               </h1>
 
               <p className="max-w-2xl text-sm leading-relaxed text-[#78716C] sm:text-base">
-                The transparent public transportation fare monitoring platform for commuters,
-                drivers, operators, and local transport administrators across all{' '}
-                <strong className="text-[#24191D]">15 cities and municipalities of Oriental Mindoro</strong>. Check official
-                LTFRB &amp; LGU fares, inspect community reports, and explore real OpenStreetMap
-                corridors.
+                The citizen-powered public transportation fare guide for everyday Mindoreño
+                commuters across all{' '}
+                <strong className="text-[#24191D]">15 cities and municipalities of Oriental Mindoro</strong>. Check crowd-sourced commuter fares, statutory 20% discount rates, and real OpenStreetMap routes across Tricycle, Multicab, UV Express, and Provincial Bus corridors.
               </p>
 
               <div className="flex flex-wrap gap-3 pt-1">
@@ -129,20 +175,22 @@ export function LandingPage() {
                   <p className="text-[11px] font-semibold text-[#78716C]">LGUs Covered</p>
                 </div>
                 <div className="rounded-2xl border border-white/85 bg-white/55 backdrop-blur-lg p-3 text-center shadow-sm">
-                  <p className="font-display text-xl font-extrabold text-[#DC2626]">5</p>
+                  <p className="font-display text-xl font-extrabold text-[#DC2626]">
+                    {transportTypes.length || 4}
+                  </p>
                   <p className="text-[11px] font-semibold text-[#78716C]">Transport Modes</p>
                 </div>
                 <div className="rounded-2xl border border-white/85 bg-white/55 backdrop-blur-lg p-3 text-center shadow-sm">
-                  <p className="font-display text-xl font-extrabold text-[#16A34A]">
-                    {officialFares.length}
+                  <p className="font-display text-xl font-extrabold text-[#DC2626]">
+                    {officialFares.length + communityEstimates.length}
                   </p>
-                  <p className="text-[11px] font-semibold text-[#78716C]">Verified Fares</p>
+                  <p className="text-[11px] font-semibold text-[#78716C]">Published Fares</p>
                 </div>
                 <div className="rounded-2xl border border-white/85 bg-white/55 backdrop-blur-lg p-3 text-center shadow-sm">
-                  <p className="font-display text-xl font-extrabold text-amber-600">
-                    {communityEstimates.length}
+                  <p className="font-display text-xl font-extrabold text-[#16A34A]">
+                    {coveredPairsCount}
                   </p>
-                  <p className="text-[11px] font-semibold text-[#78716C]">Community Ref.</p>
+                  <p className="text-[11px] font-semibold text-[#78716C]">Covered Pairs</p>
                 </div>
               </div>
             </div>
@@ -181,8 +229,8 @@ export function LandingPage() {
           },
           {
             icon: FileCheck2,
-            title: 'How Verification Works',
-            body: 'Every official fare requires an LTFRB order, LGU ordinance, or authorized operator tariff verified by an administrator.',
+            title: 'Citizen Fare Estimates',
+            body: 'Everyday riders share real terminal and highway fares across all 15 municipalities, helping fellow commuters spot overcharging immediately.',
           },
         ].map((item) => (
           <GlassCard key={item.title} variant="strong" hoverable className="p-5 space-y-2.5">
@@ -250,32 +298,32 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* 5. FEATURED ROUTES (VERIFIED OFFICIAL FARES ONLY) */}
+      {/* 5. FEATURED CITIZEN ROUTES */}
       <section className="space-y-4">
         <div className="glass-surface rounded-3xl px-5 py-4 flex flex-wrap items-end justify-between gap-2">
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
-              Official Records Only
+              Citizen Commuter Fare Guide
             </p>
             <h2 className="font-display text-2xl font-extrabold text-[#24191D]">
-              Featured Verified Routes
+              Featured Oriental Mindoro Routes
             </h2>
           </div>
           <Link to="/fare-search" className="text-xs font-bold text-[#DC2626] hover:underline">
-            Search All Routes →
+            Search Any Route →
           </Link>
         </div>
 
-        {featuredOfficial.length === 0 ? (
+        {featuredGuides.length === 0 ? (
           <EmptyStateCard
             icon={FileCheck2}
-            title="No verified official fare records published yet"
-            description="In compliance with strict fare data integrity rules, featured routes only display administrator-verified official fares backed by LTFRB orders or LGU ordinances—never fabricated placeholder prices."
+            title="No commuter fare guides published yet"
+            description="Browse the interactive 15-LGU route map or search community-submitted commuter fare estimates across Oriental Mindoro."
             action={
               <div className="flex flex-wrap justify-center gap-2">
                 <Link to="/fare-matrix">
                   <GlassButton variant="primary" size="sm">
-                    View Fare Matrix ({communityEstimates.length} Community Reference)
+                    View Full Fare Matrix
                   </GlassButton>
                 </Link>
                 <Link to="/routes">
@@ -288,25 +336,33 @@ export function LandingPage() {
           />
         ) : (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {featuredOfficial.map((fare) => (
-              <GlassCard key={fare.id} variant="strong" hoverable className="p-5 space-y-3">
-                <FareStatusBadge status="verified_official" compact />
-                <div>
-                  <p className="text-xs font-semibold text-[#B91C1C]">
-                    {fare.transport_type?.name} • {fare.passenger_category}
+            {featuredGuides.map((fare) => (
+              <Link
+                key={fare.id}
+                to={`/fare-search?origin=${encodeURIComponent(fare.origin_municipality_id)}&destination=${encodeURIComponent(fare.destination_municipality_id)}`}
+                className="block"
+              >
+                <GlassCard variant="strong" hoverable className="p-5 space-y-3 h-full">
+                  <FareStatusBadge status={fare.status} compact />
+                  <div>
+                    <p className="text-xs font-semibold text-[#B91C1C]">
+                      {fare.transport_type?.name} • {fare.passenger_category}
+                    </p>
+                    <h3 className="font-display text-base font-bold text-[#24191D]">
+                      {fare.origin_municipality_id === fare.destination_municipality_id
+                        ? `${fare.origin?.name} (Local Base)`
+                        : `${fare.origin?.name} → ${fare.destination?.name}`}
+                    </h3>
+                  </div>
+                  <p className="font-display text-2xl font-extrabold text-[#DC2626]">
+                    {formatPhp(fare.fare_amount)}
                   </p>
-                  <h3 className="font-display text-base font-bold text-[#24191D]">
-                    {fare.origin?.name} → {fare.destination?.name}
-                  </h3>
-                </div>
-                <p className="font-display text-2xl font-extrabold text-[#DC2626]">
-                  {formatPhp(fare.fare_amount)}
-                </p>
-                <p className="text-[11px] text-[#78716C]">
-                  Ref: {fare.official_document_reference} • Verified{' '}
-                  {formatDateSafe(fare.last_verified_at)}
-                </p>
-              </GlassCard>
+                  <p className="text-[11px] text-[#78716C]">
+                    {fare.issuing_authority || 'Citizen Commuter Guide'} •{' '}
+                    {formatDateSafe(fare.last_verified_at || fare.updated_at)}
+                  </p>
+                </GlassCard>
+              </Link>
             ))}
           </div>
         )}
@@ -347,19 +403,19 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* 7. FARE TRANSPARENCY */}
+      {/* 7. CITIZEN FARE TRANSPARENCY */}
       <section className="grid gap-5 lg:grid-cols-12">
         <GlassCard variant="strong" className="p-6 space-y-4 lg:col-span-7">
           <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
-            Data Integrity Guarantee
+            Pangmamamayan • Citizen Commuter Guide
           </p>
           <h2 className="font-display text-2xl font-extrabold text-[#24191D]">
-            Official Fares vs. Community Estimates
+            Transparent Citizen Commuter Estimates
           </h2>
           <p className="text-sm text-[#78716C]">
-            Community reports never overwrite or masquerade as government-issued rates. Every row
-            in our Fare Matrix displays an explicit verification badge, regulatory document
-            reference, and last verified timestamp.
+            Pamasahe Tracker is an independent citizen-led commuter guide across all 15
+            municipalities of Oriental Mindoro—built for everyday riders without relying on
+            government official logins. Every fare row clearly states its source and update date.
           </p>
 
           <div className="grid gap-3 sm:grid-cols-2">

@@ -8,14 +8,14 @@ import type {
 } from '@/types/database';
 
 export const VEHICLE_TYPE_OPTIONS: VehicleTypeOption[] = [
-  'Jeepney',
-  'Modern Jeepney',
-  'Tricycle',
-  'Bus',
-  'UV Express',
   'Multicab',
+  'UV Express',
+  'Bus',
+  'Tricycle',
+  'Modern Jeepney',
   'Taxi',
   'Other Public Utility Vehicle',
+  'Jeepney',
 ];
 
 export const VIOLATION_CATEGORIES: Array<{

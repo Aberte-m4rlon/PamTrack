@@ -59,26 +59,26 @@ const SAMPLE_OFFICIAL_FARE: FareRecord = {
   route_id: null,
   origin_municipality_id: 'lgu-calapan-city',
   destination_municipality_id: 'lgu-puerto-galera',
-  transport_type_id: 'tt-jeepney',
+  transport_type_id: 'tt-multicab',
   passenger_category: 'regular',
   fare_amount: 120,
   currency: 'PHP',
-  status: 'verified_official',
+  status: 'community_estimate',
   fare_source_id: null,
-  issuing_authority: 'LTFRB Region IV-B',
-  official_document_reference: 'MC-2026-041',
+  issuing_authority: 'Citizen Commuter Fare Guide',
+  official_document_reference: null,
   source_url: null,
   effective_date: '2026-02-01',
   last_verified_at: '2026-02-15T00:00:00Z',
-  verified_by: 'admin-1',
+  verified_by: null,
   is_archived: false,
   is_test_fixture: false,
-  notes: null,
+  notes: 'Citizen estimate MC-2026-041 reference',
   created_at: '2026-02-01T00:00:00Z',
   updated_at: '2026-02-15T00:00:00Z',
   origin: ORIENTAL_MINDORO_MUNICIPALITIES.find((m) => m.id === 'lgu-calapan-city'),
   destination: ORIENTAL_MINDORO_MUNICIPALITIES.find((m) => m.id === 'lgu-puerto-galera'),
-  transport_type: DEFAULT_TRANSPORT_TYPES.find((t) => t.id === 'tt-jeepney'),
+  transport_type: DEFAULT_TRANSPORT_TYPES.find((t) => t.id === 'tt-multicab'),
 };
 
 describe('Offline Mode & Logged-Out Feature Access Restrictions', () => {
@@ -166,7 +166,7 @@ describe('Offline Mode & Logged-Out Feature Access Restrictions', () => {
     await user.click(screen.getByRole('button', { name: /^search$/i }));
     await waitFor(() => {
       expect(
-        screen.getByText('No verified official fare is currently available for this route.')
+        screen.getByText('No commuter fare estimate found for this route yet.')
       ).toBeInTheDocument();
     });
     first.unmount();
@@ -226,7 +226,6 @@ describe('Offline Mode & Logged-Out Feature Access Restrictions', () => {
     await waitFor(() => {
       expect(screen.getByLabelText('Selected route fare prices')).toBeInTheDocument();
       expect(screen.getAllByText(/₱120\.00/).length).toBeGreaterThanOrEqual(1);
-      expect(screen.getByText(/MC-2026-041/)).toBeInTheDocument();
     });
   });
 });

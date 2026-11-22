@@ -54,7 +54,10 @@ export function RouteExplorerPage() {
   const [originId, setOriginId] = useState('');
   const [destinationId, setDestinationId] = useState('');
 
-  const allFares = fareRecords ?? [];
+  const allFares = useMemo(
+    () => (fareRecords ?? []).filter((f) => f.transport_type?.is_active !== false),
+    [fareRecords]
+  );
 
   const quickFareCorridors = useMemo(() => {
     const seen = new Map<
@@ -84,7 +87,26 @@ export function RouteExplorerPage() {
         });
       }
     }
-    return Array.from(seen.values()).slice(0, 16);
+    const preferred = [
+      'Bulalacao::Bongabong',
+      'Bulalacao::Roxas',
+      'Roxas::Bongabong',
+      'Bongabong::Gloria',
+      'Calapan City::Puerto Galera',
+      'Calapan City::Pinamalayan',
+      'Calapan City::Bulalacao',
+      'Calapan City::Naujan',
+    ];
+    const list = Array.from(seen.values());
+    list.sort((a, b) => {
+      const ia = preferred.indexOf(`${a.originName}::${a.destinationName}`);
+      const ib = preferred.indexOf(`${b.originName}::${b.destinationName}`);
+      if (ia !== -1 && ib !== -1) return ia - ib;
+      if (ia !== -1) return -1;
+      if (ib !== -1) return 1;
+      return 0;
+    });
+    return list.slice(0, 12);
   }, [allFares]);
 
   const selectedCorridorFares = useMemo(() => {
@@ -241,19 +263,20 @@ export function RouteExplorerPage() {
               <GlassSkeleton className="h-32" />
               <GlassSkeleton className="h-32" />
             </div>
+          ) : selectedCorridorFares.officialFares.length === 0 &&
+            selectedCorridorFares.communityEstimates.length === 0 ? (
+            <EmptyStateCard
+              icon={ShieldAlert}
+              title="No commuter fare estimate found for this route yet."
+              description="Browse available estimates in the Fare Matrix or check back after syncing online."
+            />
           ) : (
             <div className="space-y-4">
-              {selectedCorridorFares.officialFares.length === 0 ? (
-                <EmptyStateCard
-                  icon={ShieldAlert}
-                  title="No verified official fare is currently available for this route."
-                  description="Distance shown on the map never fabricates an official price. Official fares appear once an administrator verifies an LTFRB order, LGU ordinance, or authorized tariff."
-                />
-              ) : (
+              {selectedCorridorFares.officialFares.length > 0 && (
                 <div className="space-y-2.5">
                   <div className="inline-flex items-center gap-2 rounded-full border border-green-300/80 bg-white/70 backdrop-blur-md px-3.5 py-1 text-xs font-bold text-[#24191D]">
                     <CheckCircle2 className="h-4 w-4 text-[#16A34A]" />
-                    <span>Official Verified Fares</span>
+                    <span>Verified Fare Records</span>
                   </div>
                   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {selectedCorridorFares.officialFares.map((fare) => (
@@ -287,7 +310,7 @@ export function RouteExplorerPage() {
                           to={`/fares/${fare.id}`}
                           className="inline-block text-xs font-bold text-[#B91C1C] hover:underline"
                         >
-                          View Official Verification →
+                          View Details →
                         </Link>
                       </GlassCard>
                     ))}
@@ -297,34 +320,39 @@ export function RouteExplorerPage() {
 
               {selectedCorridorFares.communityEstimates.length > 0 && (
                 <div className="space-y-2.5">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-50/85 backdrop-blur-md px-3.5 py-1 text-xs font-bold text-amber-900">
-                    <AlertTriangle className="h-4 w-4 text-amber-600" />
-                    <span>Community Estimates (Unverified Reference Only)</span>
+                  <div className="inline-flex items-center gap-2 rounded-full border border-[#FCA5A5]/70 bg-white/75 backdrop-blur-md px-3.5 py-1 text-xs font-bold text-[#24191D]">
+                    <AlertTriangle className="h-4 w-4 text-[#DC2626]" />
+                    <span>Commuter Fare Guide (Citizen Estimates)</span>
                   </div>
                   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {selectedCorridorFares.communityEstimates.map((est) => (
                       <GlassCard
                         key={est.id}
                         variant="strong"
-                        className="border-amber-300/80 p-4 space-y-2"
+                        className="p-4 space-y-2"
                       >
                         <div className="flex items-start justify-between gap-2">
-                          <div>
-                            <p className="font-bold text-sm text-[#24191D]">
-                              {est.transport_type?.name ?? 'Public Transport'}
-                            </p>
-                            <p className="text-[11px] font-semibold text-[#78716C]">
-                              {PASSENGER_CATEGORY_LABELS[est.passenger_category]}
-                            </p>
+                          <div className="flex items-center gap-2">
+                            <span className="rounded-xl bg-[#FFE4E6] p-2 text-[#DC2626]">
+                              <TransportModeIcon code={est.transport_type?.code} className="h-4 w-4" />
+                            </span>
+                            <div>
+                              <p className="font-bold text-sm text-[#24191D]">
+                                {est.transport_type?.name ?? 'Public Transport'}
+                              </p>
+                              <p className="text-[11px] font-semibold text-[#78716C]">
+                                {PASSENGER_CATEGORY_LABELS[est.passenger_category]}
+                              </p>
+                            </div>
                           </div>
                           <FareStatusBadge status="community_estimate" compact />
                         </div>
-                        <p className="font-display text-2xl font-extrabold text-amber-800">
+                        <p className="font-display text-2xl font-extrabold text-[#DC2626]">
                           {formatPhp(est.fare_amount)}
                         </p>
                         <p className="text-[11px] text-[#78716C]">
-                          Reviewed {formatDateSafe(est.last_verified_at || est.updated_at)} • Not an
-                          official government tariff
+                          Updated {formatDateSafe(est.last_verified_at || est.updated_at)} • Citizen
+                          commuter reference
                         </p>
                       </GlassCard>
                     ))}

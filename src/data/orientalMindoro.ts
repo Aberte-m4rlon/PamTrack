@@ -230,11 +230,11 @@ export const DEFAULT_TRANSPORT_TYPES: TransportType[] = [
     code: 'jeepney',
     name: 'Jeepney',
     description:
-      'Traditional and modern Public Utility Jeepneys (PUJ) operating municipal and inter-town corridors.',
+      'Traditional PUJ Jeepneys are currently inactive across active Oriental Mindoro corridors; commuters now ride Multicab, UV Express, Bus, or Tricycle.',
     regulatory_body: 'LTFRB Region IV-B (MIMAROPA)',
     supports_statutory_discount: true,
     icon_name: 'BusFront',
-    is_active: true,
+    is_active: false,
     sort_order: 1,
   },
   {
@@ -341,7 +341,7 @@ export const VERIFIED_TRANSPORT_STOPS_FALLBACK: TransportStop[] = [
     longitude: 121.1967,
     address_or_landmark: 'Port of Calapan, San Antonio, Calapan City',
     operating_notes:
-      'Primary RoRo/Fastcraft maritime gateway linking Batangas Port with connecting jeepney, tricycle, and UV Express land transit.',
+      'Primary RoRo/Fastcraft maritime gateway linking Batangas Port with connecting multicab, tricycle, and UV Express land transit.',
     source_reference: 'Philippine Ports Authority / Wikipedia verified port coordinates',
     is_verified: true,
     is_active: true,
@@ -349,14 +349,14 @@ export const VERIFIED_TRANSPORT_STOPS_FALLBACK: TransportStop[] = [
   {
     id: 'stop-calapan-proper',
     municipality_id: 'lgu-calapan-city',
-    transport_type_id: 'tt-jeepney',
-    stop_name: 'Calapan City Proper Jeepney & Van Terminal (Citimart / Market Area)',
+    transport_type_id: 'tt-multicab',
+    stop_name: 'Calapan City Proper Multicab & Van Terminal (Citimart / Market Area)',
     stop_category: 'jeepney_stop',
     latitude: 13.41287,
     longitude: 121.17921,
     address_or_landmark: 'Near Citimart Island Mall & Calapan Cathedral, Calapan City',
     operating_notes:
-      'Verified downtown dispatch point for jeepneys & UV Express vans bound for Puerto Galera and inter-town corridors.',
+      'Verified downtown dispatch point for multicabs & UV Express vans bound for Puerto Galera and inter-town corridors.',
     source_reference: 'OpenStreetMap / Mapcarta verified coordinates',
     is_verified: true,
     is_active: true,
@@ -364,14 +364,14 @@ export const VERIFIED_TRANSPORT_STOPS_FALLBACK: TransportStop[] = [
   {
     id: 'stop-balatero-port',
     municipality_id: 'lgu-puerto-galera',
-    transport_type_id: 'tt-jeepney',
+    transport_type_id: 'tt-multicab',
     stop_name: 'Balatero Port Terminal',
     stop_category: 'port_hub',
     latitude: 13.5046,
     longitude: 120.9323,
     address_or_landmark: 'Brgy. Balatero, Puerto Galera, Oriental Mindoro',
     operating_notes:
-      'Main RoRo & passenger port of Puerto Galera with tricycle and jeepney connections to Poblacion and White Beach.',
+      'Main RoRo & passenger port of Puerto Galera with tricycle and multicab connections to Poblacion and White Beach.',
     source_reference: 'Mapcarta / OpenStreetMap verified coordinates',
     is_verified: true,
     is_active: true,

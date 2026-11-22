@@ -60,7 +60,7 @@ export function NearbyTransportPage() {
           Nearby Transportation Finder
         </h1>
         <p className="text-sm text-[#78716C]">
-          Discover verified ports, jeepney stops, bus terminals, UV Express hubs, and tricycle
+          Discover verified ports, multicab stops, bus terminals, UV Express hubs, and tricycle
           terminals sorted by distance from your current GPS location (or selected municipality).
         </p>
       </GlassCard>

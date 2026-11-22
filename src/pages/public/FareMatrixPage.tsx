@@ -33,7 +33,13 @@ export function FareMatrixPage() {
   const [updatedAfter, setUpdatedAfter] = useState('');
   const [searchText, setSearchText] = useState('');
 
-  const allRows = useMemo(() => buildFareMatrixRows(records ?? []), [records]);
+  const allRows = useMemo(
+    () =>
+      buildFareMatrixRows(
+        (records ?? []).filter((r) => !r.transport_type || r.transport_type.is_active !== false)
+      ),
+    [records]
+  );
 
   const filteredRows = useMemo(() => {
     return allRows.filter((row) => {
@@ -113,14 +119,14 @@ export function FareMatrixPage() {
       <GlassCard variant="strong" className="p-6 flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
-            Province-Wide Transparent Fare Table
+            Province-Wide Citizen Commuter Fare Table
           </p>
           <h1 className="font-display text-2xl font-extrabold text-[#24191D] sm:text-3xl">
             Oriental Mindoro Fare Matrix
           </h1>
           <p className="text-sm text-[#78716C]">
-            Strictly separates Official Verified Fares (Green) from Community Estimates (Yellow),
-            Pending Records (Gray), and Disputed/Rejected entries (Red).
+            Browse and compare commuter fare estimates and 20% student, senior citizen, and PWD
+            discounted guides across Tricycle, Multicab, UV Express, and Bus corridors.
           </p>
         </div>
 

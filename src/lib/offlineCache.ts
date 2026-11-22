@@ -13,8 +13,8 @@ export type OfflineCacheKey =
   | 'fare_sources'
   | 'routes';
 
-const CACHE_KEY_PREFIX = 'pamtrack_offline_v1_';
-const LAST_SYNCED_KEY = 'pamtrack_offline_last_synced_v1';
+const CACHE_KEY_PREFIX = 'pamtrack_offline_v2_';
+const LAST_SYNCED_KEY = 'pamtrack_offline_last_synced_v2';
 
 interface CachedEnvelope<T> {
   cachedAt: string;

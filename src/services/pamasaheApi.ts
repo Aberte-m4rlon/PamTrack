@@ -142,12 +142,8 @@ export async function fetchTransportTypes(includeInactive = false): Promise<{
   fromDatabase: boolean;
 }> {
   const cached = readOfflineTransportTypes();
-  const offlineFallback =
-    cached.length > 0
-      ? includeInactive
-        ? cached
-        : cached.filter((t) => t.is_active)
-      : DEFAULT_TRANSPORT_TYPES;
+  const baseList = cached.length > 0 ? cached : DEFAULT_TRANSPORT_TYPES;
+  const offlineFallback = includeInactive ? baseList : baseList.filter((t) => t.is_active);
 
   if (!isSupabaseConfigured || !supabase || !isBrowserOnline()) {
     return { data: offlineFallback, fromDatabase: false };
@@ -200,48 +196,65 @@ export async function fetchFareRecords(options?: {
   }
 
   try {
-    let query = supabase
-      .from('fare_records')
-      .select(
-        `
-      *,
-      origin:municipalities!fare_records_origin_municipality_id_fkey(*),
-      destination:municipalities!fare_records_destination_municipality_id_fkey(*),
-      transport_type:transport_types!fare_records_transport_type_id_fkey(*),
-      fare_source:fare_sources(*)
-    `
-      )
-      .eq('is_test_fixture', false)
-      .order('updated_at', { ascending: false });
+    const pageSize = 1000;
+    let from = 0;
+    // Paginate through PostgREST rows so full 15x15 province coverage loads cleanly
+    const allRaw: unknown[] = [];
 
-    if (!options?.includeArchived) {
-      query = query.eq('is_archived', false);
-    }
-    if (options?.originId) {
-      query = query.eq('origin_municipality_id', options.originId);
-    }
-    if (options?.destinationId) {
-      query = query.eq('destination_municipality_id', options.destinationId);
-    }
-    if (options?.transportTypeId) {
-      query = query.eq('transport_type_id', options.transportTypeId);
-    }
-    if (options?.passengerCategory) {
-      query = query.eq('passenger_category', options.passengerCategory);
-    }
+    while (true) {
+      let query = supabase
+        .from('fare_records')
+        .select(
+          `
+        *,
+        origin:municipalities!fare_records_origin_municipality_id_fkey(*),
+        destination:municipalities!fare_records_destination_municipality_id_fkey(*),
+        transport_type:transport_types!fare_records_transport_type_id_fkey(*),
+        fare_source:fare_sources(*)
+      `
+        )
+        .eq('is_test_fixture', false)
+        .order('updated_at', { ascending: false })
+        .range(from, from + pageSize - 1);
 
-    const { data, error } = await query;
-    if (error) {
-      if (isNetworkUnavailableError(new Error(error.message))) {
-        return offlineRecords;
+      if (!options?.includeArchived) {
+        query = query.eq('is_archived', false);
       }
-      throw new Error(error.message);
+      if (options?.originId) {
+        query = query.eq('origin_municipality_id', options.originId);
+      }
+      if (options?.destinationId) {
+        query = query.eq('destination_municipality_id', options.destinationId);
+      }
+      if (options?.transportTypeId) {
+        query = query.eq('transport_type_id', options.transportTypeId);
+      }
+      if (options?.passengerCategory) {
+        query = query.eq('passenger_category', options.passengerCategory);
+      }
+
+      const { data, error } = await query;
+      if (error) {
+        if (isNetworkUnavailableError(new Error(error.message))) {
+          return offlineRecords;
+        }
+        throw new Error(error.message);
+      }
+
+      const batch = data ?? [];
+      allRaw.push(...batch);
+      if (batch.length < pageSize || from >= 4000) {
+        break;
+      }
+      from += pageSize;
     }
 
-    const normalized = (data ?? []).map((row) => ({
-      ...row,
-      fare_amount: Number(row.fare_amount),
-    })) as FareRecord[];
+    const normalized = (allRaw as FareRecord[])
+      .map((row) => ({
+        ...row,
+        fare_amount: Number(row.fare_amount),
+      }))
+      .filter((row) => options?.includeArchived || row.transport_type?.is_active !== false);
 
     // Save unfiltered snapshot so Fare Search and Fare Matrix work offline
     if (

@@ -160,7 +160,7 @@ export function FareSearchWidget({
       pushToast({
         title: 'Select origin and destination',
         description:
-          'Choose your origin and destination (you may select the same LGU for local tricycle/jeepney fares).',
+          'Choose your origin and destination (you may select the same LGU for local tricycle/multicab fares).',
         variant: 'error',
       });
       return;
@@ -208,6 +208,7 @@ export function FareSearchWidget({
     >();
     for (const f of allFares ?? []) {
       if (f.is_archived || f.is_test_fixture) continue;
+      if (f.transport_type?.is_active === false) continue;
       if (f.status !== 'verified_official' && f.status !== 'community_estimate') continue;
       if (f.passenger_category !== 'regular') continue;
       const k = `${f.origin_municipality_id}::${f.destination_municipality_id}`;
@@ -222,12 +223,32 @@ export function FareSearchWidget({
         });
       }
     }
-    return Array.from(seen.values()).slice(0, 6);
+    const preferred = [
+      'Bulalacao::Bongabong',
+      'Bulalacao::Roxas',
+      'Roxas::Bongabong',
+      'Bongabong::Gloria',
+      'Calapan City::Puerto Galera',
+      'Calapan City::Pinamalayan',
+      'Calapan City::Bulalacao',
+      'Calapan City::Naujan',
+    ];
+    const items = Array.from(seen.values());
+    items.sort((a, b) => {
+      const ia = preferred.indexOf(`${a.originName}::${a.destinationName}`);
+      const ib = preferred.indexOf(`${b.originName}::${b.destinationName}`);
+      if (ia !== -1 && ib !== -1) return ia - ib;
+      if (ia !== -1) return -1;
+      if (ib !== -1) return 1;
+      return 0;
+    });
+    return items.slice(0, 10);
   }, [allFares]);
 
   const matchingFares = useMemo(() => {
     if (!originId || !destinationId) return [];
     return (allFares ?? []).filter((f) => {
+      if (f.transport_type?.is_active === false) return false;
       const sameCorridor =
         f.origin_municipality_id === originId &&
         f.destination_municipality_id === destinationId;
@@ -481,31 +502,31 @@ export function FareSearchWidget({
               <GlassSkeleton className="h-40" />
               <GlassSkeleton className="h-40" />
             </div>
+          ) : officialFares.length === 0 && communityEstimates.length === 0 ? (
+            <EmptyStateCard
+              icon={ShieldAlert}
+              title="No commuter fare estimate found for this route yet."
+              description="Browse our full 15-LGU Fare Matrix or sign in to share the actual fare you paid along this Oriental Mindoro corridor."
+              action={
+                <Link to="/fare-matrix">
+                  <GlassButton variant="secondary" size="sm">
+                    Browse Complete Fare Matrix
+                  </GlassButton>
+                </Link>
+              }
+            />
           ) : (
-            <>
-              {/* Official Verified Fares Section */}
-              <div className="space-y-3">
-                <div className="inline-flex items-center gap-2 rounded-full border border-green-300/80 bg-white/85 px-3.5 py-1.5 backdrop-blur-md shadow-sm">
-                  <CheckCircle2 className="h-4 w-4 text-[#16A34A]" />
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#24191D]">
-                    Official Verified Fare Records
-                  </h4>
-                </div>
+            <div className="space-y-5">
+              {/* Official Fare Records (shown only when published) */}
+              {officialFares.length > 0 && (
+                <div className="space-y-3">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-green-300/80 bg-white/85 px-3.5 py-1.5 backdrop-blur-md shadow-sm">
+                    <CheckCircle2 className="h-4 w-4 text-[#16A34A]" />
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#24191D]">
+                      Verified Fare Records
+                    </h4>
+                  </div>
 
-                {officialFares.length === 0 ? (
-                  <EmptyStateCard
-                    icon={ShieldAlert}
-                    title="No verified official fare is currently available for this route."
-                    description="Pamasahe Tracker never invents official fares or calculates official prices from map distance. An authorized administrator must first verify and publish an official LTFRB order, LGU ordinance, or operator tariff."
-                    action={
-                      <Link to="/fare-matrix">
-                        <GlassButton variant="secondary" size="sm">
-                          Browse Complete Fare Matrix
-                        </GlassButton>
-                      </Link>
-                    }
-                  />
-                ) : (
                   <div className="grid gap-4 md:grid-cols-2">
                     {officialFares.map((fare) => (
                       <GlassCard key={fare.id} variant="strong" hoverable className="p-5 space-y-3">
@@ -528,7 +549,7 @@ export function FareSearchWidget({
 
                         <div className="flex items-baseline justify-between border-y border-[#FCA5A5]/35 py-3">
                           <span className="text-xs font-semibold uppercase tracking-wider text-[#78716C]">
-                            Verified Fare
+                            Fare Rate
                           </span>
                           <span className="font-display text-3xl font-extrabold text-[#DC2626]">
                             {formatPhp(fare.fare_amount)}
@@ -539,17 +560,20 @@ export function FareSearchWidget({
                           <p className="flex items-center gap-1.5">
                             <FileText className="h-3.5 w-3.5 text-[#DC2626]" />
                             <span className="font-semibold text-[#24191D]">Source:</span>{' '}
-                            {fare.issuing_authority} ({fare.official_document_reference})
+                            {fare.issuing_authority || 'Commuter Reference'}
+                            {fare.official_document_reference
+                              ? ` (${fare.official_document_reference})`
+                              : ''}
                           </p>
                           <p className="flex items-center gap-1.5">
                             <CalendarCheck className="h-3.5 w-3.5 text-[#DC2626]" />
-                            <span className="font-semibold text-[#24191D]">Last verified:</span>{' '}
-                            {formatDateSafe(fare.last_verified_at)}
+                            <span className="font-semibold text-[#24191D]">Updated:</span>{' '}
+                            {formatDateSafe(fare.last_verified_at || fare.updated_at)}
                           </p>
                           {fare.passenger_category !== 'regular' && (
                             <p className="flex items-center gap-1.5 text-[#16A34A] font-semibold">
                               <Info className="h-3.5 w-3.5" />
-                              Statutory 20% discount category verified against official tariff.
+                              Includes statutory 20% discount guideline.
                             </p>
                           )}
                         </div>
@@ -562,7 +586,7 @@ export function FareSearchWidget({
                               rel="noreferrer"
                               className="inline-flex items-center gap-1 text-xs font-bold text-[#DC2626] hover:underline"
                             >
-                              View Official Reference
+                              View Source Link
                               <ExternalLink className="h-3 w-3" />
                             </a>
                           ) : (
@@ -578,22 +602,23 @@ export function FareSearchWidget({
                       </GlassCard>
                     ))}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
 
-              {/* Separate Community Estimates Section */}
+              {/* Citizen Commuter Fare Estimates Section */}
               {communityEstimates.length > 0 && (
                 <div className="space-y-3">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-50/90 px-3.5 py-1.5 backdrop-blur-md shadow-sm">
-                    <AlertTriangle className="h-4 w-4 text-amber-600" />
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-amber-900">
-                      Community Estimates (Unverified Reference Only)
+                  <div className="inline-flex items-center gap-2 rounded-full border border-[#FCA5A5]/70 bg-white/75 px-3.5 py-1.5 backdrop-blur-md shadow-sm">
+                    <AlertTriangle className="h-4 w-4 text-[#DC2626]" />
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#24191D]">
+                      Commuter Fare Guide (Citizen Estimates)
                     </h4>
                   </div>
 
-                  <div className="rounded-2xl border border-amber-300 bg-amber-50/85 p-3 text-xs text-amber-950">
-                    <strong>Transparency Notice:</strong> The figures below come from reviewed
-                    commuter reports and are <strong>NOT</strong> official government-approved fares.
+                  <div className="rounded-2xl border border-white/85 bg-white/55 backdrop-blur-md p-3 text-xs text-[#78716C]">
+                    <strong className="text-[#24191D]">Citizen Reference Guide:</strong> Shared by
+                    Mindoreño commuters across active Multicab, UV Express, Bus, and Tricycle
+                    corridors—always confirm posted terminal fares upon boarding.
                   </div>
 
                   <div className="grid gap-4 md:grid-cols-2">
@@ -601,20 +626,35 @@ export function FareSearchWidget({
                       <GlassCard
                         key={est.id}
                         variant="strong"
-                        className="border-amber-300/80 p-5 space-y-2.5"
+                        hoverable
+                        className="p-5 space-y-3"
                       >
                         <div className="flex items-center justify-between gap-2">
-                          <span className="font-bold text-[#24191D]">
-                            {est.transport_type?.name} •{' '}
-                            {PASSENGER_CATEGORY_LABELS[est.passenger_category]}
-                          </span>
+                          <div className="flex items-center gap-2.5">
+                            <div className="rounded-2xl bg-[#FFE4E6] p-2.5 text-[#DC2626]">
+                              <TransportModeIcon code={est.transport_type?.code} />
+                            </div>
+                            <div>
+                              <span className="block font-bold text-[#24191D]">
+                                {est.transport_type?.name}
+                              </span>
+                              <span className="text-xs text-[#78716C]">
+                                {PASSENGER_CATEGORY_LABELS[est.passenger_category]}
+                              </span>
+                            </div>
+                          </div>
                           <FareStatusBadge status="community_estimate" compact />
                         </div>
-                        <p className="font-display text-2xl font-extrabold text-amber-800">
-                          {formatPhp(est.fare_amount)}
-                        </p>
+                        <div className="flex items-baseline justify-between border-y border-[#FCA5A5]/35 py-2.5">
+                          <span className="text-xs font-semibold uppercase tracking-wider text-[#78716C]">
+                            Estimated Fare
+                          </span>
+                          <p className="font-display text-3xl font-extrabold text-[#DC2626]">
+                            {formatPhp(est.fare_amount)}
+                          </p>
+                        </div>
                         <p className="text-xs text-[#78716C]">
-                          Reviewed: {formatDateSafe(est.last_verified_at || est.updated_at)}
+                          Updated: {formatDateSafe(est.last_verified_at || est.updated_at)}
                         </p>
                         {est.notes && (
                           <p className="text-xs italic text-[#78716C]">{est.notes}</p>
@@ -624,7 +664,7 @@ export function FareSearchWidget({
                   </div>
                 </div>
               )}
-            </>
+            </div>
           )}
         </div>
       )}

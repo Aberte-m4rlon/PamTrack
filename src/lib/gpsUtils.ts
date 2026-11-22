@@ -2,7 +2,7 @@ import { haversineDistanceKm } from '@/lib/utils';
 import type { Municipality, StopCategory, TransportStop } from '@/types/database';
 
 export const STOP_CATEGORY_LABELS: Record<StopCategory, string> = {
-  jeepney_stop: 'Jeepney Stop / Terminal',
+  jeepney_stop: 'PUV & Multicab Stop',
   tricycle_terminal: 'Tricycle Terminal',
   bus_terminal: 'Bus Terminal',
   uv_express_terminal: 'UV Express Terminal',

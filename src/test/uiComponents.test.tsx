@@ -27,12 +27,13 @@ function renderWithProviders(ui: React.ReactElement, initialEntries = ['/']) {
 }
 
 describe('Pamasahe Tracker Core UI & Role Guards', () => {
-  it('renders the Landing Page with brand slogan, 15 LGUs, and safe unfabricated featured routes state', async () => {
+  it('renders the Landing Page with brand slogan, 15 LGUs, and safe citizen featured routes state', async () => {
     renderWithProviders(<LandingPage />);
 
     expect(screen.getByText(/Know Your Route\./i)).toBeInTheDocument();
     expect(screen.getByText(/Tamang Pamasahe\. Ligtas na Biyahe\./i)).toBeInTheDocument();
-    expect(screen.getByText(/No verified official fare records published yet/i)).toBeInTheDocument();
+    expect(screen.getByText(/Featured Oriental Mindoro Routes/i)).toBeInTheDocument();
+    expect(screen.getByText(/Published Fares/i)).toBeInTheDocument();
 
     await waitFor(() => {
       expect(screen.getByText('Calapan City')).toBeInTheDocument();
@@ -41,7 +42,7 @@ describe('Pamasahe Tracker Core UI & Role Guards', () => {
     });
   });
 
-  it('displays explicit unavailable official fare notice when searching a route with no official fare', async () => {
+  it('displays explicit empty notice when searching a route with no cached or published fare estimate', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(
       new Response(JSON.stringify({ routes: [] }), { status: 404 })
     );
@@ -59,7 +60,7 @@ describe('Pamasahe Tracker Core UI & Role Guards', () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText('No verified official fare is currently available for this route.')
+        screen.getByText('No commuter fare estimate found for this route yet.')
       ).toBeInTheDocument();
     });
   });

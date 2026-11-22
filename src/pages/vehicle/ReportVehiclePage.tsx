@@ -100,7 +100,7 @@ export function ReportVehiclePage({
     resolver: zodResolver(vehicleReportSchema),
     defaultValues: {
       plateNotAvailable: false,
-      vehicleType: 'Jeepney',
+      vehicleType: 'Multicab',
       incidentDate: new Date().toISOString().slice(0, 10),
       isConfidentialIdentity: false,
       externalShareConsent: false,

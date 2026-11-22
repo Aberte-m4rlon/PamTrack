@@ -7,16 +7,16 @@ export function AboutPage() {
     <div className="space-y-6">
       <GlassCard variant="strong" className="p-6 sm:p-8 space-y-3">
         <p className="text-xs font-bold uppercase tracking-widest text-[#DC2626]">
-          About Pamasahe Tracker
+          Pangmamamayan • About Pamasahe Tracker
         </p>
         <h1 className="font-display text-3xl font-extrabold text-[#24191D]">
-          Transparent Transportation Fare Monitoring for Oriental Mindoro
+          Citizen-Driven Fare Monitoring for Oriental Mindoro
         </h1>
         <p className="text-sm leading-relaxed text-[#78716C] max-w-3xl">
           <strong className="text-[#24191D]">Pamasahe Tracker – Oriental Mindoro</strong> (&ldquo;Tamang Pamasahe. Ligtas na
-          Biyahe.&rdquo;) empowers commuters, transport operators, and local authorities across
-          Calapan City and all 14 municipalities to view verified fare matrices, submit fare
-          observations with supporting evidence, and audit official tariff updates.
+          Biyahe.&rdquo;) is built directly for everyday Mindoreño commuters across Calapan City
+          and all 14 municipalities—providing crowd-sourced fare references across Multicab, UV
+          Express, Bus, and Tricycle corridors with real OpenStreetMap routing and safety tools.
         </p>
       </GlassCard>
 

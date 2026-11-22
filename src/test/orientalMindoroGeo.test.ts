@@ -3,6 +3,7 @@ import {
   DEFAULT_TRANSPORT_TYPES,
   ORIENTAL_MINDORO_MUNICIPALITIES,
 } from '@/data/orientalMindoro';
+import { fetchTransportTypes } from '@/services/pamasaheApi';
 import { haversineDistanceKm } from '@/lib/utils';
 
 const REQUIRED_15_LGUS = [
@@ -40,9 +41,12 @@ describe('Oriental Mindoro Geospatial Reference Integrity', () => {
     }
   });
 
-  it('includes all 5 required transportation modes', () => {
-    const modes = DEFAULT_TRANSPORT_TYPES.map((t) => t.name);
-    expect(modes).toEqual(['Jeepney', 'Tricycle', 'UV Express', 'Bus', 'Multicab']);
+  it('includes all 5 schema modes with Jeepney deactivated across active public modes', async () => {
+    const allModes = DEFAULT_TRANSPORT_TYPES.map((t) => t.name);
+    expect(allModes).toEqual(['Jeepney', 'Tricycle', 'UV Express', 'Bus', 'Multicab']);
+
+    const { data: activeModes } = await fetchTransportTypes(false);
+    expect(activeModes.map((t) => t.name)).toEqual(['Tricycle', 'UV Express', 'Bus', 'Multicab']);
   });
 
   it('computes accurate geodesic distance reference between Calapan City and Bulalacao', () => {
