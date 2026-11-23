@@ -197,10 +197,11 @@ export function FareSearchWidget({
       }
     }
     const preferred = [
+      'Bongabong::Pinamalayan',
+      'Bongabong::Gloria',
+      'Bongabong::Roxas',
       'Bulalacao::Bongabong',
       'Bulalacao::Roxas',
-      'Roxas::Bongabong',
-      'Bongabong::Gloria',
       'Calapan City::Puerto Galera',
       'Calapan City::Pinamalayan',
       'Calapan City::Bulalacao',

@@ -22,10 +22,11 @@ import {
 } from '@/components/glass/GlassPrimitives';
 
 const SHOWCASE_PAIRS = [
+  'bongabong->pinamalayan',
+  'bongabong->gloria',
+  'bongabong->roxas',
   'bulalacao->bongabong',
   'bulalacao->roxas',
-  'roxas->bongabong',
-  'bongabong->gloria',
   'calapan-city->puerto-galera',
   'calapan-city->pinamalayan',
   'calapan-city->bulalacao',
