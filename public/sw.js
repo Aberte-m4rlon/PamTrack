@@ -1,5 +1,5 @@
 /* Pamasahe Tracker Offline Service Worker */
-const CACHE_NAME = 'pamtrack-offline-v3';
+const CACHE_NAME = 'pamtrack-offline-v4';
 
 const CORE_SHELL_URLS = [
   '/',

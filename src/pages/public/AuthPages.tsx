@@ -43,11 +43,11 @@ export function LoginPage() {
     <div className="mx-auto max-w-md min-h-[calc(100vh-14rem)] flex flex-col justify-center py-2 sm:py-6">
       <GlassCard variant="strong" className="p-5 sm:p-8 space-y-5 sm:space-y-6">
         <div className="text-center space-y-1.5 sm:space-y-2">
-          <div className="mx-auto flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full border-2 border-white/95 bg-white/75 p-1 shadow-md backdrop-blur-md">
+          <div className="mx-auto flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl border-2 border-white/95 bg-white/75 p-0.5 shadow-md backdrop-blur-md">
             <img
               src="/assets/pamasahe-tracker-icon.png"
               alt="Pamasahe Tracker Logo"
-              className="h-full w-full rounded-full object-contain"
+              className="h-full w-full rounded-[13px] object-contain"
             />
           </div>
           <h1 className="font-display text-xl sm:text-2xl font-extrabold text-[#29262B]">
@@ -190,11 +190,11 @@ export function RegisterPage() {
     <div className="mx-auto max-w-lg py-2 sm:py-4">
       <GlassCard variant="strong" className="p-5 sm:p-8 space-y-5 sm:space-y-6">
         <div className="text-center space-y-1.5 sm:space-y-2">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border-2 border-white/95 bg-white/50 p-1 shadow-md backdrop-blur-md">
+          <div className="mx-auto flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl border-2 border-white/95 bg-white/60 p-0.5 shadow-md backdrop-blur-md">
             <img
               src="/assets/pamasahe-tracker-icon.png"
               alt="Pamasahe Tracker Logo"
-              className="h-full w-full rounded-full object-contain"
+              className="h-full w-full rounded-[13px] object-contain"
             />
           </div>
           <h1 className="font-display text-xl sm:text-2xl font-extrabold text-[#29262B]">

@@ -77,11 +77,11 @@ export function AppHeader({
           </button>
 
           <Link to="/" className="flex items-center gap-2 sm:gap-2.5 group min-w-0">
-            <div className="relative flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full border border-white/95 bg-white/75 p-0.5 shadow-sm transition-transform duration-200 group-hover:scale-105">
+            <div className="relative flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl border border-white/95 bg-white/75 p-0.5 shadow-sm transition-transform duration-200 group-hover:scale-105">
               <img
                 src="/assets/pamasahe-tracker-icon.png"
                 alt="Pamasahe Tracker Logo"
-                className="h-full w-full rounded-full object-contain"
+                className="h-full w-full rounded-[10px] object-contain"
               />
             </div>
             <div className="min-w-0">

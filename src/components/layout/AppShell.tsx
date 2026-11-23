@@ -112,7 +112,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <img
               src="/assets/pamasahe-tracker-icon.png"
               alt="Pamasahe Tracker Icon"
-              className="h-7 w-7 rounded-full ring-2 ring-white/95 shadow-sm shrink-0"
+              className="h-8 w-8 rounded-lg ring-1 ring-white/95 shadow-sm shrink-0 object-contain"
             />
             <p>
               <strong className="text-[#29262B]">Pamasahe Tracker – Oriental Mindoro</strong> •

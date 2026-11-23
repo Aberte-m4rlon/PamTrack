@@ -97,11 +97,11 @@ export function LandingPage() {
                   <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0 text-[#C9182B]" />
                   <span className="min-w-0">Tamang Pamasahe. Ligtas na Biyahe.</span>
                 </div>
-                <div className="glass-panel relative flex h-12 w-12 min-[380px]:h-14 min-[380px]:w-14 shrink-0 items-center justify-center rounded-full p-1 ring-1 ring-white/95 shadow-sm lg:hidden">
+                <div className="glass-panel relative flex h-12 w-12 min-[380px]:h-14 min-[380px]:w-14 shrink-0 items-center justify-center rounded-2xl p-0.5 ring-1 ring-white/95 shadow-sm lg:hidden">
                   <img
                     src="/assets/pamasahe-tracker-icon.png"
                     alt="Pamasahe Tracker Oriental Mindoro Emblem"
-                    className="h-full w-full rounded-full object-contain"
+                    className="h-full w-full rounded-[13px] object-contain"
                   />
                 </div>
               </div>
@@ -184,12 +184,12 @@ export function LandingPage() {
 
             <div className="hidden lg:flex flex-col items-center justify-center lg:col-span-5">
               <div className="relative flex items-center justify-center">
-                <div className="absolute -inset-6 rounded-full bg-gradient-to-tr from-[#F8E7EA]/70 via-white/75 to-[#E9E5E8]/60 blur-2xl" />
-                <div className="glass-panel liquid-glass-sheen relative rounded-full p-2.5 ring-1 ring-white/90 shadow-[0_24px_60px_-14px_rgba(181,18,36,0.26)] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.02]">
+                <div className="absolute -inset-6 rounded-[64px] bg-gradient-to-tr from-[#F8E7EA]/70 via-white/75 to-[#E9E5E8]/60 blur-2xl" />
+                <div className="glass-panel liquid-glass-sheen relative rounded-[56px] p-2.5 ring-1 ring-white/90 shadow-[0_24px_60px_-14px_rgba(181,18,36,0.26)] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.02]">
                   <img
                     src="/assets/pamasahe-tracker-logo.png"
                     alt="Pamasahe Tracker Oriental Mindoro Emblem"
-                    className="h-72 w-72 rounded-full object-contain drop-shadow-xl"
+                    className="h-72 w-72 rounded-[48px] object-contain drop-shadow-xl"
                   />
                 </div>
               </div>
